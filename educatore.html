@@ -3,43 +3,30 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SDQ — Area Educatore</title>
+<title>SDQ — Area valutatore</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f3;color:#1a1a1a;font-size:15px;}
 .container{max-width:740px;margin:0 auto;padding:1.5rem 1rem 4rem;}
-h1{font-size:22px;font-weight:600;margin-bottom:4px;}
-h2{font-size:18px;font-weight:600;margin-bottom:12px;}
-h3{font-size:15px;font-weight:600;margin-bottom:8px;}
-.sub{font-size:14px;color:#666;margin-bottom:1.5rem;}
+h1{font-size:20px;font-weight:600;margin-bottom:4px;}
+h2{font-size:17px;font-weight:600;margin-bottom:12px;}
 .card{background:#fff;border-radius:12px;padding:1.25rem;margin-bottom:1rem;border:1px solid #e8e8e6;}
-.field{display:flex;flex-direction:column;gap:5px;}
-.field label{font-size:13px;color:#666;font-weight:500;}
-.field input{border:1px solid #d0d0ce;border-radius:8px;padding:10px 12px;font-size:15px;background:#fff;color:#1a1a1a;width:100%;}
-.field input:focus{outline:none;border-color:#1D9E75;}
-.btn{padding:11px 20px;font-size:14px;font-weight:600;border-radius:9px;border:none;cursor:pointer;display:inline-block;}
-.btn-full{width:100%;display:block;margin-top:.75rem;}
+.field{display:flex;flex-direction:column;gap:4px;}
+.field label{font-size:13px;color:#666;}
+.field input{border:1px solid #d0d0ce;border-radius:8px;padding:9px 12px;font-size:14px;background:#fff;color:#1a1a1a;}
+.btn{padding:10px 18px;font-size:14px;font-weight:600;border-radius:9px;border:none;cursor:pointer;}
 .btn-primary{background:#1D9E75;color:#fff;}
 .btn-primary:hover{background:#0F6E56;}
-.btn-secondary{background:#f0f0ee;color:#444;}
-.btn-secondary:hover{background:#e4e4e2;}
-.btn-danger{background:#fdf0ef;color:#c0392b;border:1px solid #f5c6c2;}
-.btn-sm{padding:6px 14px;font-size:12px;}
-.warn{font-size:13px;color:#c0392b;padding:10px 12px;background:#fdf0ef;border-radius:8px;display:none;margin-top:8px;}
-.lock-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;gap:1rem;text-align:center;}
-.lock-icon{width:64px;height:64px;border-radius:50%;background:#E1F5EE;display:flex;align-items:center;justify-content:center;font-size:30px;}
-.pin-input{text-align:center;font-size:24px;letter-spacing:10px;width:180px;border:1px solid #d0d0ce;border-radius:10px;padding:12px;background:#fff;color:#1a1a1a;}
-.pin-input:focus{outline:none;border-color:#1D9E75;}
-.nav-tabs{display:flex;gap:6px;margin-bottom:1.5rem;border-bottom:1px solid #e8e8e6;padding-bottom:1rem;flex-wrap:wrap;}
-.tab-btn{padding:7px 16px;font-size:13px;font-weight:500;border-radius:8px;border:1px solid #e0e0de;background:transparent;color:#666;cursor:pointer;}
-.tab-btn.act{background:#f0faf6;color:#0F6E56;border-color:#1D9E75;}
+.btn-sm{padding:5px 12px;font-size:12px;background:#f0f0ee;color:#444;border-radius:7px;border:1px solid #e0e0de;cursor:pointer;}
+.btn-danger{background:#fdf0ef;color:#c0392b;border:1px solid #f5c6c2;border-radius:7px;padding:6px 14px;font-size:12px;cursor:pointer;}
+.nav-bar{display:flex;gap:8px;margin-bottom:1.5rem;border-bottom:1px solid #e8e8e6;padding-bottom:1rem;}
+.nav-btn{padding:6px 14px;font-size:13px;border-radius:8px;border:1px solid #e0e0de;background:transparent;color:#666;cursor:pointer;}
+.nav-btn.act{background:#f0faf6;color:#0F6E56;border-color:#1D9E75;font-weight:600;}
 .tab-pane{display:none;}
 .tab-pane.act{display:block;}
-.entry-card{background:#fff;border-radius:10px;padding:12px 16px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;border:1px solid #e8e8e6;transition:border-color .15s;}
+.entry-card{background:#fff;border-radius:10px;padding:12px 16px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;border:1px solid #e8e8e6;}
 .entry-card:hover{border-color:#1D9E75;}
-.entry-name{font-size:15px;font-weight:600;color:#1a1a1a;}
-.entry-meta{font-size:12px;color:#888;margin-top:3px;}
-.badge{display:inline-block;font-size:11px;font-weight:600;padding:2px 9px;border-radius:20px;}
+.badge{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;}
 .bn{background:#E1F5EE;color:#085041;}
 .bb{background:#FAC775;color:#633806;}
 .be{background:#FCEBEB;color:#791F1F;}
@@ -48,85 +35,81 @@ h3{font-size:15px;font-weight:600;margin-bottom:8px;}
 .b-EC{background:#F5C4B3;color:#712B13;}
 .b-C{background:#B5D4F4;color:#0C447C;}
 .b-PR{background:#EEEDFE;color:#3C3489;}
+.lock-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;gap:1rem;text-align:center;}
+.pin-input{text-align:center;font-size:22px;letter-spacing:8px;width:170px;border:1px solid #d0d0ce;border-radius:10px;padding:11px;background:#fff;color:#1a1a1a;}
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.4);display:flex;align-items:flex-start;justify-content:center;padding:1.5rem 1rem;overflow-y:auto;z-index:100;}
 .modal{background:#fff;border-radius:16px;padding:1.5rem;max-width:680px;width:100%;margin-bottom:2rem;}
 .modal-tabs{display:flex;gap:6px;margin-bottom:1rem;border-bottom:1px solid #e8e8e6;padding-bottom:.75rem;flex-wrap:wrap;}
-.modal-tab{padding:6px 14px;font-size:13px;font-weight:500;border-radius:8px;border:1px solid #e0e0de;background:transparent;color:#666;cursor:pointer;}
-.modal-tab.act{background:#f0faf6;color:#0F6E56;border-color:#1D9E75;}
+.modal-tab{padding:6px 14px;font-size:13px;border-radius:8px;border:1px solid #e0e0de;background:transparent;color:#666;cursor:pointer;}
+.modal-tab.act{background:#f0faf6;color:#0F6E56;border-color:#1D9E75;font-weight:600;}
 .det-pane{display:none;}
 .det-pane.act{display:block;}
 .scale-row{display:grid;grid-template-columns:150px 1fr 55px 95px;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #f0f0ee;}
 .scale-row:last-child{border-bottom:none;}
 .bar-bg{background:#f0f0ee;border-radius:4px;height:8px;overflow:hidden;}
 .bar-fill{height:8px;border-radius:4px;}
+.lbl{font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.06em;margin:1.25rem 0 .5rem;}
+.lbl:first-child{margin-top:0;}
+.interp-block{margin-bottom:.85rem;padding:12px;border-radius:9px;border-left:3px solid #ccc;background:#f8f8f7;}
+.interp-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;}
 .rel-section{margin-bottom:1.25rem;}
 .rel-section h4{font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:6px;padding-bottom:4px;border-bottom:1px solid #f0f0ee;}
 .rel-section p{font-size:13px;color:#555;line-height:1.7;}
-.interp-block{margin-bottom:.85rem;padding:12px;border-radius:9px;border-left:3px solid #ccc;background:#f8f8f7;}
-.interp-block .interp-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;}
-.interp-block p{font-size:13px;color:#555;line-height:1.65;}
 .impact-table td{padding:7px 0;font-size:13px;border-bottom:1px solid #f0f0ee;}
 .impact-table td:first-child{color:#888;width:55%;}
 .impact-table td:last-child{font-weight:600;text-align:right;}
 .impact-table tr:last-child td{border-bottom:none;}
-.lbl{font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.07em;margin:1.25rem 0 .5rem;}
-.lbl:first-child{margin-top:0;}
 .empty{text-align:center;padding:2.5rem;color:#999;font-size:14px;}
 .spinner{display:inline-block;width:18px;height:18px;border:2px solid #1D9E75;border-top-color:transparent;border-radius:50%;animation:spin .7s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
 .loading-center{display:flex;justify-content:center;padding:2rem;}
-.divider{height:1px;background:#f0f0ee;margin:1rem 0;}
+.warn{font-size:12px;color:#A32D2D;display:none;margin-top:6px;}
 </style>
 </head>
 <body>
 <div class="container">
-
   <div id="screen-login">
     <div class="lock-screen">
-      <div class="lock-icon">🔒</div>
+      <div style="width:52px;height:52px;border-radius:50%;background:#E1F5EE;display:flex;align-items:center;justify-content:center;font-size:26px;">&#128274;</div>
       <h2>Area valutatore</h2>
-      <p class="sub">Inserisci il PIN per accedere ai risultati</p>
-      <input class="pin-input" type="password" id="pin-in" maxlength="6" placeholder="••••••" inputmode="numeric">
+      <p style="font-size:14px;color:#666;">Inserisci il PIN per accedere ai risultati</p>
+      <input class="pin-input" type="password" id="pin-in" maxlength="6" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" inputmode="numeric">
       <p class="warn" id="pin-warn">PIN errato. Riprova.</p>
       <button class="btn btn-primary" style="max-width:220px;width:100%;" onclick="checkPin()">Accedi</button>
       <p style="font-size:12px;color:#aaa;margin-top:.5rem;">PIN predefinito: <strong style="color:#444;">1234</strong></p>
     </div>
   </div>
-
   <div id="screen-dash" style="display:none;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
-      <h1>SDQ — Area valutatore</h1>
-      <button class="btn btn-secondary btn-sm" onclick="logout()">Esci</button>
+      <h1>SDQ &#8212; Area valutatore</h1>
+      <button class="btn-sm" onclick="logout()">Esci</button>
     </div>
-    <div class="nav-tabs">
-      <button class="tab-btn act" onclick="switchTab(this,'tab-list')">Questionari</button>
-      <button class="tab-btn" onclick="switchTab(this,'tab-settings')">Impostazioni</button>
+    <div class="nav-bar">
+      <button class="nav-btn act" onclick="switchTab(this,'tab-list')">Questionari</button>
+      <button class="nav-btn" onclick="switchTab(this,'tab-settings')">Impostazioni</button>
     </div>
-
     <div id="tab-list" class="tab-pane act">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
         <h2 style="margin:0;">Compilazioni ricevute</h2>
-        <button class="btn btn-secondary btn-sm" onclick="loadEntries()">↻ Aggiorna</button>
+        <button class="btn-sm" onclick="loadEntries()">&#8635; Aggiorna</button>
       </div>
       <div id="entries-list"><div class="loading-center"><div class="spinner"></div></div></div>
     </div>
-
     <div id="tab-settings" class="tab-pane">
       <h2>Impostazioni</h2>
       <div class="card">
         <p class="lbl">Cambia PIN</p>
         <div style="display:flex;flex-direction:column;gap:8px;max-width:260px;">
           <div class="field"><label>PIN attuale</label><input type="password" id="old-pin" maxlength="6" inputmode="numeric"></div>
-          <div class="field"><label>Nuovo PIN (min. 4 cifre)</label><input type="password" id="new-pin" maxlength="6" inputmode="numeric"></div>
+          <div class="field"><label>Nuovo PIN</label><input type="password" id="new-pin" maxlength="6" inputmode="numeric"></div>
           <div class="field"><label>Conferma nuovo PIN</label><input type="password" id="conf-pin" maxlength="6" inputmode="numeric"></div>
         </div>
-        <p class="warn" id="pin-ch-warn"></p>
+        <p class="warn" id="pin-ch-warn" style="display:none;"></p>
         <p id="pin-ch-ok" style="font-size:12px;color:#0F6E56;display:none;margin-top:6px;">PIN aggiornato!</p>
         <button class="btn btn-primary" style="margin-top:12px;" onclick="changePin()">Aggiorna PIN</button>
       </div>
     </div>
   </div>
-
 </div>
 
 <div id="modal-wrap" style="display:none;">
@@ -134,7 +117,7 @@ h3{font-size:15px;font-weight:600;margin-bottom:8px;}
     <div class="modal">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;">
         <div id="det-header"></div>
-        <button onclick="closeModal()" style="font-size:24px;cursor:pointer;color:#aaa;background:none;border:none;line-height:1;padding:0 0 0 12px;">×</button>
+        <button onclick="closeModal()" style="font-size:24px;cursor:pointer;color:#aaa;background:none;border:none;line-height:1;padding:0 0 0 12px;">&#215;</button>
       </div>
       <div class="modal-tabs">
         <button class="modal-tab act" onclick="detTab(this,'dp-scale')">Scale SDQ</button>
@@ -142,16 +125,16 @@ h3{font-size:15px;font-weight:600;margin-bottom:8px;}
         <button class="modal-tab" onclick="detTab(this,'dp-interp')">Interpretazione</button>
         <button class="modal-tab" onclick="detTab(this,'dp-rel')">Relazione</button>
         <button class="modal-tab" onclick="detTab(this,'dp-impact')">Impatto</button>
-        <button class="modal-tab" id="tab-sintesi-btn" onclick="detTab(this,'dp-sintesi')" style="display:none;background:#FFF8E6;border-color:#FAC775;color:#633806;">Sintesi</button>
+        <button class="modal-tab" id="tab-sint-btn" onclick="detTab(this,'dp-sint')" style="display:none;background:#FFF8E6;border-color:#FAC775;color:#633806;">&#9889; Sintesi</button>
       </div>
       <div id="dp-scale" class="det-pane act"></div>
       <div id="dp-radar" class="det-pane"><div style="position:relative;width:100%;height:300px;"><canvas id="radar-canvas"></canvas></div></div>
       <div id="dp-interp" class="det-pane"></div>
       <div id="dp-rel" class="det-pane"></div>
       <div id="dp-impact" class="det-pane"></div>
-      <div id="dp-sintesi" class="det-pane"></div>
+      <div id="dp-sint" class="det-pane"></div>
       <div style="margin-top:1.25rem;border-top:1px solid #f0f0ee;padding-top:1rem;">
-        <button class="btn btn-danger btn-sm" onclick="deleteEntry()">Elimina compilazione</button>
+        <button class="btn-danger" onclick="deleteEntry()">Elimina compilazione</button>
       </div>
     </div>
   </div>
@@ -162,7 +145,7 @@ h3{font-size:15px;font-weight:600;margin-bottom:8px;}
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, collection, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-const firebaseConfig = {
+const FB = {
   apiKey: "AIzaSyBmsHeTkQMJVQyav3rF8VPMhLeIB45t3Io",
   authDomain: "sdq-questionario.firebaseapp.com",
   projectId: "sdq-questionario",
@@ -170,443 +153,468 @@ const firebaseConfig = {
   messagingSenderId: "601788476480",
   appId: "1:601788476480:web:766d7dd791fa44acbd83a5"
 };
-
-const app = initializeApp(firebaseConfig);
+const app = initializeApp(FB);
 const db = getFirestore(app);
 
-const SLBL={ES:"Sintomi Emotivi",IP:"Iperattività",EC:"Prob. Condotta",C:"Prob. Relazioni",PR:"Prosociale",TOT:"Tot. Difficoltà",INT:"Internalizzazione",EST:"Esternalizzazione"};
-const BAR_COL={ES:"#1D9E75",IP:"#BA7517",EC:"#993C1D",C:"#185FA5",PR:"#534AB7"};
-const SC_COL={ES:"b-ES",IP:"b-IP",EC:"b-EC",C:"b-C",PR:"b-PR"};
+const SLBL = {ES:"Sintomi Emotivi",IP:"Iperattivita",EC:"Prob. Condotta",C:"Prob. Relazioni",PR:"Prosociale",TOT:"Tot. Difficolta",INT:"Internalizzazione",EST:"Esternalizzazione"};
+const BAR = {ES:"#1D9E75",IP:"#BA7517",EC:"#993C1D",C:"#185FA5",PR:"#534AB7"};
+const SCOL = {ES:"b-ES",IP:"b-IP",EC:"b-EC",C:"b-C",PR:"b-PR"};
 
-function getBand(s,v){
+function band(s,v) {
   if(s==="PR"){if(v>=6)return"adeguato";if(v===5)return"borderline";return"basso";}
   if(s==="TOT"){if(v<=15)return"normale";if(v<=19)return"borderline";return"elevato";}
   if(s==="INT"){if(v<=5)return"normale";if(v<=7)return"borderline";return"elevato";}
   if(s==="EST"){if(v<=5)return"normale";if(v<=7)return"borderline";return"elevato";}
-  const r={ES:[3,5],IP:[5,7],EC:[2,3],C:[2,3]}[s];
+  var r={ES:[3,5],IP:[5,7],EC:[2,3],C:[2,3]}[s];
   if(v<=r[0])return"normale";if(v<=r[1])return"borderline";return"elevato";
 }
-function bClass(b){return b==="normale"||b==="adeguato"?"bn":b==="borderline"?"bb":"be";}
-function bLabel(b){return{normale:"Nella norma",adeguato:"Adeguato",borderline:"Borderline",basso:"Basso",elevato:"Elevato"}[b];}
-function getPin(){return localStorage.getItem("sdq_edu_pin")||"1234";}
+function bc(b){return b==="normale"||b==="adeguato"?"bn":b==="borderline"?"bb":"be";}
+function bl(b){var m={normale:"Nella norma",adeguato:"Adeguato",borderline:"Borderline",basso:"Basso",elevato:"Elevato"};return m[b]||b;}
+function getPin(){return localStorage.getItem("sdq_pin2")||"1234";}
 
-window.checkPin=function(){
-  const v=document.getElementById("pin-in").value;
-  if(v===getPin()){
-    document.getElementById("pin-warn").style.display="none";
-    document.getElementById("pin-in").value="";
-    document.getElementById("screen-login").style.display="none";
-    document.getElementById("screen-dash").style.display="block";
+window.checkPin = function() {
+  var v = document.getElementById("pin-in").value;
+  if(v === getPin()) {
+    document.getElementById("pin-warn").style.display = "none";
+    document.getElementById("pin-in").value = "";
+    document.getElementById("screen-login").style.display = "none";
+    document.getElementById("screen-dash").style.display = "block";
     loadEntries();
-  } else {document.getElementById("pin-warn").style.display="block";}
-};
-document.getElementById("pin-in").addEventListener("keydown",e=>{if(e.key==="Enter")window.checkPin();});
-
-window.logout=function(){document.getElementById("screen-dash").style.display="none";document.getElementById("screen-login").style.display="block";};
-
-window.switchTab=function(btn,id){
-  document.querySelectorAll(".tab-btn").forEach(b=>b.classList.remove("act"));
-  btn.classList.add("act");
-  document.querySelectorAll(".tab-pane").forEach(p=>p.classList.remove("act"));
-  document.getElementById(id).classList.add("act");
-};
-
-let allEntries=[];
-window.loadEntries=async function(){
-  const el=document.getElementById("entries-list");
-  el.innerHTML='<div class="loading-center"><div class="spinner"></div></div>';
-  try {
-    const q=collection(db,"risposte");
-    const snap=await getDocs(q);
-    allEntries=[];
-    snap.forEach(d=>allEntries.push({id:d.id,...d.data()}));
-    renderList();
-  } catch(e){
-    el.innerHTML='<div class="empty">Errore nel caricamento. Riprova.</div>';
-  }
-};
-
-function renderList(){
-  const el=document.getElementById("entries-list");
-  if(!allEntries.length){el.innerHTML='<div class="empty">Nessun questionario compilato ancora.</div>';return;}
-  el.innerHTML=allEntries.map(e=>{
-    const bd=getBand("TOT",e.tot);
-    const tipoTag=e.tipo==="educatore"
-      ?'<span style="background:#EEEDFE;color:#3C3489;font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;margin-left:6px;">Educatore</span>'
-      :'<span style="background:#E1F5EE;color:#085041;font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;margin-left:6px;">Auto-report</span>';
-    const kk=e.nome.trim().toLowerCase();
-    const hasS=allEntries.some(x=>x.nome.trim().toLowerCase()===kk&&x.id!==e.id&&((e.tipo==="educatore"&&x.tipo!=="educatore")||(e.tipo!=="educatore"&&x.tipo==="educatore")));
-    const sintTag=hasS?'<span style="background:#FAC775;color:#633806;font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;margin-left:6px;">Sintesi disponibile</span>':'';
-    return`<div class="entry-card" onclick="openDetail('${e.id}')">
-      <div>
-        <div class="entry-name">${e.nome}${tipoTag}${sintTag}</div>
-        <div class="entry-meta">${e.data}${e.sesso?" · "+e.sesso:""} · Tot. difficoltà: <strong>${e.tot}</strong> <span class="badge ${bClass(bd)}">${bLabel(bd)}</span>${e.compilatore?" · "+e.compilatore:""}</div>
-      </div>
-      <span style="color:#ccc;font-size:20px;">›</span>
-    </div>`;
-  }).join("");
-}
-
-let currentEntry=null;let radarChart=null;
-
-window.openDetail=function(id){
-  currentEntry=allEntries.find(e=>e.id===id);
-  if(!currentEntry)return;
-  document.getElementById("det-header").innerHTML=`<div style="font-size:17px;font-weight:600;">${currentEntry.nome}</div><div style="font-size:12px;color:#888;margin-top:2px;">${currentEntry.data}${currentEntry.sesso?" · "+currentEntry.sesso:""}${currentEntry.ddn?" · Nato/a: "+currentEntry.ddn:""}</div>`;
-  renderScale();renderInterp();renderRelazione();renderImpact();
-  if(radarChart){radarChart.destroy();radarChart=null;}
-  ["dp-scale","dp-radar","dp-interp","dp-rel","dp-impact"].forEach(t=>document.getElementById(t).classList.remove("act"));
-  document.getElementById("dp-scale").classList.add("act");
-  document.querySelectorAll(".modal-tab").forEach((b,i)=>{b.classList.remove("act");if(i===0)b.classList.add("act");});
-  // check sintesi availability
-  var kN=currentEntry.nome.trim().toLowerCase();
-  var paired=allEntries.filter(function(x){return x.nome.trim().toLowerCase()===kN&&x.id!==currentEntry.id;});
-  var hasSint=paired.length>0&&(paired.some(function(x){return x.tipo==="educatore";})||paired.some(function(x){return !x.tipo||x.tipo!=="educatore";}));
-  document.getElementById("tab-sintesi-btn").style.display=hasSint?"inline-block":"none";
-  if(hasSint){
-    var partner=paired.find(function(x){return (currentEntry.tipo==="educatore"&&x.tipo!=="educatore")||(currentEntry.tipo!=="educatore"&&x.tipo==="educatore");})||paired[0];
-    renderSintesi(currentEntry,partner);
-  }
-  document.getElementById("modal-wrap").style.display="block";
-  document.body.style.overflow="hidden";
-};
-
-window.detTab=function(btn,id){
-  document.querySelectorAll(".modal-tab").forEach(b=>b.classList.remove("act"));
-  btn.classList.add("act");
-  ["dp-scale","dp-radar","dp-interp","dp-rel","dp-impact","dp-sintesi"].forEach(t=>document.getElementById(t).classList.remove("act"));
-  document.getElementById(id).classList.add("act");
-  if(id==="dp-radar")renderRadar();
-};
-
-window.closeModal=function(){document.getElementById("modal-wrap").style.display="none";document.body.style.overflow="";if(radarChart){radarChart.destroy();radarChart=null;}};
-window.closeModalBg=function(e){if(e.target===e.currentTarget)window.closeModal();};
-
-function renderScale(){
-  const e=currentEntry;
-  let html='<p class="lbl">Punteggi per scala</p>';
-  ["ES","IP","EC","C","PR"].forEach(s=>{
-    const v=e.scores[s];const pct=Math.round(v/10*100);const bd=getBand(s,v);
-    html+=`<div class="scale-row"><div><span class="badge ${SC_COL[s]}">${s}</span><div style="font-size:12px;color:#888;margin-top:3px;">${SLBL[s]}</div></div><div class="bar-bg"><div class="bar-fill" style="width:${pct}%;background:${BAR_COL[s]};"></div></div><div style="font-size:16px;font-weight:600;text-align:center;">${v}<span style="font-size:11px;color:#aaa;">/10</span></div><div style="text-align:right;"><span class="badge ${bClass(bd)}">${bLabel(bd)}</span></div></div>`;
-  });
-  const totBd=getBand("TOT",e.tot);
-  const intV=e.scores.ES+e.scores.C; const estV=e.scores.EC+e.scores.IP;
-  const intBd=getBand("INT",intV); const estBd=getBand("EST",estV);
-  html+=`<div style="margin-top:1rem;padding:12px;background:#f8f8f7;border-radius:9px;display:flex;justify-content:space-between;align-items:center;"><div style="font-size:13px;font-weight:600;color:#666;">Punteggio totale difficoltà (ES+IP+EC+C)</div><div style="display:flex;align-items:center;gap:10px;"><span style="font-size:26px;font-weight:700;">${e.tot}<span style="font-size:13px;color:#aaa;font-weight:400;">/40</span></span><span class="badge ${bClass(totBd)}">${bLabel(totBd)}</span></div></div>`;
-  html+=`<div style="margin-top:8px;display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-    <div style="padding:12px;background:#f0faf6;border-radius:9px;border-left:3px solid #1D9E75;">
-      <div style="font-size:11px;font-weight:600;color:#0F6E56;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">Internalizzazione</div>
-      <div style="font-size:11px;color:#555;margin-bottom:6px;">Sintomi Emotivi + Prob. Relazioni</div>
-      <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:22px;font-weight:700;">${intV}<span style="font-size:11px;color:#aaa;font-weight:400;">/20</span></span><span class="badge ${bClass(intBd)}">${bLabel(intBd)}</span></div>
-    </div>
-    <div style="padding:12px;background:#fff8f0;border-radius:9px;border-left:3px solid #BA7517;">
-      <div style="font-size:11px;font-weight:600;color:#854F0B;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">Esternalizzazione</div>
-      <div style="font-size:11px;color:#555;margin-bottom:6px;">Prob. Condotta + Iperattività</div>
-      <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:22px;font-weight:700;">${estV}<span style="font-size:11px;color:#aaa;font-weight:400;">/20</span></span><span class="badge ${bClass(estBd)}">${bLabel(estBd)}</span></div>
-    </div>
-  </div>`;
-  // commento internalizzazione/esternalizzazione
-  let commINT_EST="";
-  if(intBd==="normale"&&estBd==="normale"){
-    commINT_EST="Il profilo non mostra difficoltà significative né sul versante internalizzante né su quello esternalizzante. Il funzionamento psicologico e comportamentale risulta complessivamente adeguato all'età.";
-  } else if(intBd!=="normale"&&(estBd==="normale")){
-    commINT_EST="Il profilo mostra una prevalenza di difficoltà internalizzanti, con un disagio che si esprime soprattutto attraverso sintomi emotivi e difficoltà relazionali piuttosto che attraverso comportamenti agiti verso l'esterno. Questo pattern richiede interventi focalizzati sull'ascolto emotivo e sul sostegno alla regolazione interna.";
-  } else if(estBd!=="normale"&&(intBd==="normale")){
-    commINT_EST="Il profilo mostra una prevalenza di difficoltà esternalizzanti, suggerendo una maggiore espressione del disagio attraverso il comportamento piuttosto che attraverso sintomi emotivi interni. Le difficoltà tendono a manifestarsi nelle relazioni e nei contesti strutturati, richiedendo interventi centrati sulla regolazione comportamentale.";
-  } else if(intBd!=="normale"&&estBd!=="normale"){
-    if(intV>=estV){
-      commINT_EST="Il profilo evidenzia difficoltà sia sul versante internalizzante che esternalizzante, con una lieve prevalenza della componente interna. La compresenza di disagio emotivo e difficoltà comportamentali suggerisce un quadro complesso che richiede un approccio integrato, attento sia alla sofferenza interiore che alle manifestazioni comportamentali.";
-    } else {
-      commINT_EST="Il profilo evidenzia difficoltà sia sul versante esternalizzante che internalizzante, con una lieve prevalenza della componente comportamentale. La compresenza di difficoltà emotive e agite richiede un intervento che lavori simultaneamente sulla regolazione emotiva e sul comportamento, evitando di affrontare solo la parte più visibile del disagio.";
-    }
-  } else if(intBd==="borderline"||estBd==="borderline"){
-    commINT_EST="Uno o entrambi gli indicatori compositi si collocano in area borderline. Il quadro merita monitoraggio nel tempo per verificare se le difficoltà tendano a stabilizzarsi, ridursi o aggravarsi.";
-  }
-  html+=`<div style="margin-top:10px;padding:12px 14px;background:#f8f8f7;border-radius:9px;font-size:13px;color:#444;line-height:1.7;border-left:3px solid #e8e8e6;">${commINT_EST}</div>`;
-  html+=`<div style="margin-top:8px;padding:9px 12px;background:#f8f8f7;border-radius:8px;font-size:12px;color:#888;line-height:1.5;">Nota: per la scala Prosociale punteggi alti (6–10) = adeguato; punteggi bassi (0–4) = difficoltà.</div>`;
-  document.getElementById("dp-scale").innerHTML=html;
-}
-
-function renderRadar(){
-  if(!currentEntry||!window.Chart)return;
-  if(radarChart){radarChart.destroy();}
-  const canvas=document.getElementById("radar-canvas");
-  if(!canvas)return;
-  const e=currentEntry;
-  radarChart=new Chart(canvas,{type:"radar",data:{labels:["Sintomi Emotivi","Iperattività","Prob. Condotta","Prob. Relazioni","Prosociale"],datasets:[{label:"Punteggio",data:[e.scores.ES,e.scores.IP,e.scores.EC,e.scores.C,e.scores.PR],backgroundColor:"rgba(29,158,117,0.15)",borderColor:"#1D9E75",borderWidth:2,pointBackgroundColor:"#1D9E75",pointRadius:5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{r:{min:0,max:10,ticks:{stepSize:2,font:{size:10},color:"#aaa"},pointLabels:{font:{size:11},color:"#555"},grid:{color:"rgba(0,0,0,0.07)"},angleLines:{color:"rgba(0,0,0,0.07)"}}}}});
-}
-
-const INTERP={
-  ES:{normale:"Il livello di sintomatologia emotiva rientra nella fascia normativa attesa per la fascia d'età.",borderline:"Sono presenti alcuni indicatori di disagio emotivo che meritano monitoraggio. Il ragazzo/a mostra livelli di ansia o vissuti depressivi leggermente al di sopra della media.",elevato:"Il punteggio indica una presenza significativa di sintomi emotivi. Il ragazzo/a riferisce preoccupazioni ricorrenti, vissuti di tristezza e/o manifestazioni somatiche che suggeriscono una sofferenza emotiva degna di approfondimento clinico."},
-  IP:{normale:"Il livello di attenzione e controllo motorio è adeguato all'età. Non emergono difficoltà significative nella regolazione del comportamento.",borderline:"Sono presenti alcune difficoltà nel mantenere l'attenzione e nel regolare l'attività motoria. Il quadro è da monitorare.",elevato:"Il punteggio evidenzia difficoltà marcate nell'autoregolazione, nella concentrazione e nel controllo dell'impulsività, con possibili ricadute sull'apprendimento e le relazioni."},
-  EC:{normale:"Il comportamento del ragazzo/a è generalmente adeguato alle regole sociali. Non emergono pattern problematici di condotta.",borderline:"Sono presenti alcune condotte problematiche in area borderline. È opportuno osservare frequenza e contesto.",elevato:"Il punteggio segnala la presenza di comportamenti aggressivi, oppositivi o antisociali che superano la norma attesa. Questo pattern richiede attenzione educativa strutturata."},
-  C:{normale:"Il ragazzo/a mostra un buon inserimento nel gruppo dei pari e relazioni soddisfacenti con i coetanei.",borderline:"Sono presenti alcune difficoltà nelle relazioni con i pari. Il ragazzo/a potrebbe avere una rete sociale limitata.",elevato:"Il punteggio indica difficoltà significative nel costruire e mantenere relazioni con i coetanei, con possibili vissuti di isolamento o vittimizzazione."},
-  PR:{adeguato:"Il ragazzo/a mostra un buon livello di comportamento prosociale: empatia, disponibilità ad aiutare e attenzione ai bisogni degli altri sono caratteristiche ben sviluppate.",borderline:"Il comportamento prosociale risulta parzialmente sviluppato. Sono presenti alcune difficoltà nel cooperare o nel rispondere ai bisogni degli altri.",basso:"Il punteggio prosociale è basso, indicando scarse manifestazioni di comportamento d'aiuto, empatia e cooperazione. Questo aspetto è importante nel progetto educativo."},
-  TOT:{normale:"Il punteggio totale di difficoltà rientra nella fascia normativa. Non emergono aree di preoccupazione clinica significativa.",borderline:"Il punteggio totale si colloca in area borderline, suggerendo una condizione di rischio che merita monitoraggio sistematico.",elevato:"Il punteggio totale è clinicamente significativo e indica difficoltà psicologiche e comportamentali in più domini. Si raccomanda un approfondimento valutativo professionale."}
-};
-
-function renderInterp(){
-  const e=currentEntry;const allSc={...e.scores,TOT:e.tot};
-  let html='<p class="lbl">Interpretazione clinica per scala</p>';
-  ["ES","IP","EC","C","PR","TOT"].forEach(s=>{
-    const v=allSc[s];const bd=getBand(s,v);
-    const col=bd==="normale"||bd==="adeguato"?"#1D9E75":bd==="borderline"?"#BA7517":"#A32D2D";
-    html+=`<div class="interp-block" style="border-left-color:${col};">
-      <div class="interp-header"><span style="font-size:13px;font-weight:600;">${SLBL[s]}</span><div style="display:flex;align-items:center;gap:6px;"><span style="font-size:14px;font-weight:700;">${v}</span><span class="badge ${bClass(bd)}">${bLabel(bd)}</span></div></div>
-      <p>${INTERP[s][bd]||""}</p>
-    </div>`;
-  });
-  const intV=e.scores.ES+e.scores.C; const estV=e.scores.EC+e.scores.IP;
-  const intBd=getBand("INT",intV); const estBd=getBand("EST",estV);
-  const interpINT={normale:"Il punteggio di internalizzazione (sintomi emotivi + difficoltà relazionali) rientra nella norma. Non emergono segnali significativi di sofferenza interiore o ritiro sociale.",borderline:"Il punteggio di internalizzazione si colloca in area borderline. Il ragazzo/a mostra una tendenza a rivolgersi verso l'interno con vissuti di ansia, tristezza o isolamento che meritano attenzione.",elevato:"Il punteggio di internalizzazione è clinicamente significativo. La combinazione di sintomi emotivi e difficoltà relazionali suggerisce una sofferenza interiore rilevante, con possibile ritiro sociale e disagio psicologico da approfondire."};
-  const interpEST={normale:"Il punteggio di esternalizzazione (problemi di condotta + iperattività) rientra nella norma. Non emergono pattern problematici di comportamento agito.",borderline:"Il punteggio di esternalizzazione si colloca in area borderline. Il ragazzo/a mostra alcune difficoltà nell'autoregolazione e nel comportamento che meritano monitoraggio.",elevato:"Il punteggio di esternalizzazione è clinicamente significativo. La combinazione di problemi di condotta e iperattività indica difficoltà marcate nell'autoregolazione emotiva e comportamentale, con ricadute sul contesto scolastico e relazionale."};
-  html+=`<div style="margin-top:1rem;border-top:1px solid #f0f0ee;padding-top:1rem;"><p style="font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.75rem;">Indicatori compositi</p>`;
-  html+=`<div class="interp-block" style="border-left-color:${intBd==="normale"?"#1D9E75":intBd==="borderline"?"#BA7517":"#A32D2D"};">
-    <div class="interp-header"><span style="font-size:13px;font-weight:600;">Internalizzazione (ES+C)</span><div style="display:flex;align-items:center;gap:6px;"><span style="font-size:14px;font-weight:700;">${intV}/20</span><span class="badge ${bClass(intBd)}">${bLabel(intBd)}</span></div></div>
-    <p>${interpINT[intBd]}</p>
-  </div>`;
-  html+=`<div class="interp-block" style="border-left-color:${estBd==="normale"?"#1D9E75":estBd==="borderline"?"#BA7517":"#A32D2D"};">
-    <div class="interp-header"><span style="font-size:13px;font-weight:600;">Esternalizzazione (EC+IP)</span><div style="display:flex;align-items:center;gap:6px;"><span style="font-size:14px;font-weight:700;">${estV}/20</span><span class="badge ${bClass(estBd)}">${bLabel(estBd)}</span></div></div>
-    <p>${interpEST[estBd]}</p>
-  </div></div>`;
-  document.getElementById("dp-interp").innerHTML=html;
-}
-
-function renderRelazione(){
-  const e=currentEntry;
-  const nome=e.nome||"Il ragazzo/la ragazza";
-  function s(sc){return{v:e.scores[sc]||e.tot,bd:getBand(sc,e.scores[sc]||e.tot)};}
-  const ES=s("ES"),IP=s("IP"),EC=s("EC"),C=s("C"),PR={v:e.scores.PR,bd:getBand("PR",e.scores.PR)},TOT={v:e.tot,bd:getBand("TOT",e.tot)};
-  const intV=e.scores.ES+e.scores.C; const estV=e.scores.EC+e.scores.IP;
-  const intBd=getBand("INT",intV); const estBd=getBand("EST",estV);
-  const livTot=TOT.bd==="normale"?"nella norma":TOT.bd==="borderline"?"in area borderline":"clinicamente significativo";
-  let rec=[];
-  if(ES.bd!=="normale")rec.push("un approfondimento della dimensione emotiva e dei vissuti ansiosi");
-  if(IP.bd!=="normale")rec.push("una valutazione delle capacità attentive e dell'autoregolazione");
-  if(EC.bd!=="normale")rec.push("un intervento strutturato sulla gestione del comportamento");
-  if(C.bd!=="normale")rec.push("un supporto alle abilità sociali e al senso di appartenenza al gruppo");
-  if(PR.bd==="basso")rec.push("un potenziamento delle competenze empatiche e prosociali");
-  const recStr=rec.length?rec.join(", ")+".":"un monitoraggio periodico nel tempo per verificare la stabilità del profilo.";
-
-  let analisi=[];
-  const aree=[];
-  if(ES.bd!=="normale")aree.push("emotiva");if(IP.bd!=="normale")aree.push("dell'autoregolazione");if(EC.bd!=="normale")aree.push("comportamentale");if(C.bd!=="normale")aree.push("relazionale");
-  if(TOT.bd==="normale"){analisi.push(`Il profilo complessivo di ${nome} non evidenzia aree di difficoltà clinicamente significative. I punteggi si collocano entro i valori normativi.`);}
-  else if(TOT.bd==="borderline"){analisi.push(`Il profilo di ${nome} presenta alcune aree di vulnerabilità in zona borderline.`);if(aree.length)analisi.push(`Le aree di maggiore attenzione riguardano la dimensione ${aree.join(", ")}.`);}
-  else{analisi.push(`Il profilo di ${nome} evidenzia difficoltà significative in più domini.`);if(aree.length)analisi.push(`Le dimensioni più critiche sono quella ${aree.join(", ")}.`);}
-  if(PR.bd==="adeguato")analisi.push("Il comportamento prosociale è un punto di forza su cui fare leva nel progetto educativo.");
-  else if(PR.bd==="basso")analisi.push("Il comportamento prosociale è poco sviluppato, con possibili difficoltà nell'empatia e cooperazione.");
-  if(ES.bd==="elevato"&&C.bd==="elevato")analisi.push("La compresenza di sintomi emotivi e difficoltà relazionali suggerisce un circolo disfunzionale tra sofferenza interiore e isolamento.");
-  if(IP.bd==="elevato"&&EC.bd==="elevato")analisi.push("L'associazione tra iperattività e problemi di condotta può indicare difficoltà di autoregolazione con ricadute sul comportamento agito.");
-
-  let impl=[];
-  if(ES.bd!=="normale")impl.push("Sul piano emotivo, si raccomanda di creare spazi di ascolto strutturati. Tecniche di psicoeducazione emotiva e gestione dell'ansia possono risultare efficaci.");
-  if(IP.bd!=="normale")impl.push("Per l'autoregolazione, è utile strutturare l'ambiente con routine chiare e tempi definiti. Strategie metacognitive e pause strutturate possono migliorare la concentrazione.");
-  if(EC.bd!=="normale")impl.push("Per la gestione del comportamento, si raccomanda un approccio basato su regole chiare, conseguenze prevedibili e rinforzo positivo.");
-  if(C.bd!=="normale")impl.push("Per l'integrazione sociale, possono essere utili attività di gruppo strutturate e training sulle abilità sociali.");
-  if(PR.bd==="basso")impl.push("Il potenziamento prosociale può avvenire tramite cooperative learning, role-playing e valorizzazione degli episodi di aiuto e cooperazione.");
-  if(!impl.length)impl.push("Il profilo non evidenzia aree critiche. Si suggerisce di valorizzare i punti di forza e mantenere un monitoraggio periodico del benessere.");
-
-  document.getElementById("dp-rel").innerHTML=`<p class="lbl">Relazione psicoeducativa</p>
-  <div style="border:1px solid #e8e8e6;border-radius:12px;padding:1.25rem;">
-    <div class="rel-section"><h4>Dati identificativi</h4><p>Nome: <strong>${nome}</strong>${e.ddn?" · Nato/a: "+e.ddn:""}${e.sesso?" · "+e.sesso:""}.<br>Data somministrazione: ${e.data}. Strumento: SDQ auto-report 11–17 anni, standardizzazione italiana.</p></div>
-    <div class="rel-section"><h4>Presentazione dello strumento</h4><p>L'SDQ (Goodman, 1997) è un questionario di screening psicologico validato internazionalmente. Valuta cinque dimensioni: sintomi emotivi, iperattività/disattenzione, problemi di condotta, difficoltà nelle relazioni con i pari e comportamento prosociale. Il punteggio totale di difficoltà (range 0–40) somma le prime quattro scale. Per la scala Prosociale, a differenza delle altre, punteggi più alti indicano funzionamento migliore.</p></div>
-    <div class="rel-section"><h4>Profilo dei punteggi</h4><p>Il punteggio totale di difficoltà è <strong>${TOT.v}/40</strong>, collocandosi <strong>${livTot}</strong> secondo le norme italiane.</p>
-    <ul style="margin-top:8px;padding-left:16px;font-size:13px;color:#555;line-height:2;">
-      <li><strong>Sintomi Emotivi (ES):</strong> ${ES.v}/10 — <span class="badge ${bClass(ES.bd)}">${bLabel(ES.bd)}</span></li>
-      <li><strong>Iperattività/Disattenzione (IP):</strong> ${IP.v}/10 — <span class="badge ${bClass(IP.bd)}">${bLabel(IP.bd)}</span></li>
-      <li><strong>Problemi di Condotta (EC):</strong> ${EC.v}/10 — <span class="badge ${bClass(EC.bd)}">${bLabel(EC.bd)}</span></li>
-      <li><strong>Difficoltà Relazioni con i Pari (C):</strong> ${C.v}/10 — <span class="badge ${bClass(C.bd)}">${bLabel(C.bd)}</span></li>
-      <li><strong>Comportamento Prosociale (PR):</strong> ${PR.v}/10 — <span class="badge ${bClass(PR.bd)}">${bLabel(PR.bd)}</span></li>
-    </ul>
-    <p style="margin-top:10px;">Gli indicatori compositi mostrano: <strong>Internalizzazione</strong> (ES+C) = ${intV}/20 <span class="badge ${bClass(intBd)}">${bLabel(intBd)}</span> e <strong>Esternalizzazione</strong> (EC+IP) = ${estV}/20 <span class="badge ${bClass(estBd)}">${bLabel(estBd)}</span>.</p>
-    </div>
-    <div class="rel-section"><h4>Analisi del profilo</h4><p>${analisi.join(" ")}</p></div>
-    <div class="rel-section"><h4>Implicazioni psicoeducative</h4><p>${impl.join(" ")}</p></div>
-    <div class="rel-section"><h4>Raccomandazioni</h4><p>Sulla base del profilo emerso, si suggerisce ${recStr}</p><p style="margin-top:8px;">L'SDQ è uno strumento di screening e non consente diagnosi. I risultati vanno contestualizzati in una valutazione globale del ragazzo/a nel suo contesto familiare, scolastico e relazionale.</p></div>
-    <div class="rel-section" style="margin-bottom:0;"><h4>Note conclusive</h4><p>La presente relazione è redatta a scopo informativo e di supporto alla programmazione educativa. Non sostituisce una valutazione psicologica condotta da professionisti abilitati. Si raccomanda la massima riservatezza nel trattamento dei dati.</p></div>
-  </div>`;
-}
-
-function renderImpact(){
-  const e=currentEntry;
-  const imp=e.impact||{};
-  const dgMap={0:"No",1:"Sì, piccole difficoltà",2:"Sì, difficoltà importanti",3:"Sì, difficoltà molto grandi"};
-  const durMap={1:"Meno di 1 mese",2:"1–5 mesi",3:"6–12 mesi",4:"Più di 1 anno"};
-  const lvlMap={0:"Per niente",1:"Solo un pò",2:"Abbastanza",3:"Molto"};
-  const rows=[["Difficoltà percepita",imp.diff_gen!=null?dgMap[imp.diff_gen]:"—"],["Durata",imp.durata!=null?durMap[imp.durata]:"—"],["Sofferenza soggettiva",imp.soff!=null?lvlMap[imp.soff]:"—"],["Vita familiare",imp.i_fam!=null?lvlMap[imp.i_fam]:"—"],["Amicizie",imp.i_ami!=null?lvlMap[imp.i_ami]:"—"],["Scuola",imp.i_scu!=null?lvlMap[imp.i_scu]:"—"],["Tempo libero",imp.i_lib!=null?lvlMap[imp.i_lib]:"—"],["Carico sugli altri",imp.i_altri!=null?lvlMap[imp.i_altri]:"—"]];
-
-  const nome=e.nome||"Il ragazzo/la ragazza";
-  const isEst=(getBand("EC",e.scores.EC)!=="normale"||getBand("IP",e.scores.IP)!=="normale");
-  const isInt=(getBand("ES",e.scores.ES)!=="normale"||getBand("C",e.scores.C)!=="normale");
-
-  let c=`<p style="font-size:13px;color:#555;line-height:1.75;margin-bottom:1rem;">La sezione Impatto (Impact Supplement) non misura la gravità delle scale, ma quanto le difficoltà incidono concretamente nella vita quotidiana di ${nome}. Permette di capire <em>dove</em> e <em>come</em> il disagio si manifesta nel reale.</p>`;
-
-  function bloc(titolo,badge,badgeBg,badgeCol,borderCol,testo){
-    return `<div class="interp-block" style="border-left-color:${borderCol};"><div class="interp-header"><span style="font-size:13px;font-weight:600;">${titolo}</span><span class="badge" style="background:${badgeBg};color:${badgeCol};">${badge}</span></div><p style="font-size:13px;color:#555;line-height:1.65;">${testo}</p></div>`;
-  }
-
-  if(imp.diff_gen!=null){
-    const tt=[
-      `${nome} non riconosce difficoltà significative. Può indicare scarsa consapevolezza del disagio o un funzionamento realmente adeguato nel quotidiano.`,
-      `${nome} riconosce piccole difficoltà. La consapevolezza è parziale: il problema è percepito ma non vissuto come fonte importante di disagio.${isEst?" Questo è frequente nei profili esternalizzanti, dove il comportamento problematico non genera necessariamente sofferenza soggettiva.":""}`,
-      `${nome} riconosce difficoltà importanti. Il livello di consapevolezza è significativo e le difficoltà vengono vissute con un certo peso personale.`,
-      `${nome} riconosce difficoltà molto grandi. Il disagio è avvertito con chiarezza e intensità, il che può facilitare la motivazione al cambiamento ma richiede un supporto adeguato.`
-    ];
-    c+=bloc("Difficoltà percepita",dgMap[imp.diff_gen],"#E6F1FB","#0C447C","#378ADD",tt[imp.diff_gen]);
-  }
-
-  if(imp.durata!=null){
-    const tt=[null,
-      "La durata inferiore a un mese suggerisce un disagio acuto e recente. Potrebbe trattarsi di una reazione a un evento specifico piuttosto che di un pattern strutturato.",
-      "Una durata di 1–5 mesi indica un disagio persistente ma relativamente recente. È importante capire se vi sia stato un evento scatenante o se si tratti di una tendenza in consolidamento.",
-      "Una durata di 6–12 mesi indica che il pattern non è episodico. Le difficoltà si sono stabilizzate e necessitano di un intervento strutturato.",
-      "Una durata superiore a un anno indica un pattern comportamentale o emotivo stabile, non una fase momentanea. Richiede interventi mirati e continuativi."
-    ];
-    c+=bloc("Durata",durMap[imp.durata],"#E6F1FB","#0C447C","#378ADD",tt[imp.durata]);
-  }
-
-  if(imp.soff!=null){
-    const tt=[
-      `${nome} non riferisce sofferenza personale. ${isEst?"Questo è frequente nei profili con difficoltà comportamentali: il disagio è percepito più dall'ambiente che dal soggetto stesso. Non implica assenza di problema, ma orienta l'intervento verso strategie esterne.":"È utile esplorare se questa assenza di sofferenza rifletta un reale equilibrio o una difficoltà nel riconoscere le proprie emozioni."}`,
-      `${nome} riferisce una lieve sofferenza soggettiva. Il disagio è presente ma contenuto.`,
-      `${nome} riferisce una sofferenza abbastanza significativa. Il peso emotivo delle difficoltà è percepito e va considerato nella progettazione dell'intervento educativo.`,
-      `${nome} riferisce una sofferenza intensa. Questo livello di disagio richiede attenzione prioritaria e, se non già presente, l'attivazione di un supporto psicologico professionale.`
-    ];
-    c+=bloc("Sofferenza soggettiva",lvlMap[imp.soff],"#E6F1FB","#0C447C","#378ADD",tt[imp.soff]);
-  }
-
-  c+=`<p style="font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.06em;margin:1rem 0 .5rem;">Aree di impatto nella vita quotidiana</p>`;
-
-  const aree=[
-    {k:"i_fam",n:"Vita familiare",tt:[
-      "Il contesto familiare non risulta impattato. Le relazioni in famiglia sembrano funzionare adeguatamente.",
-      "Il contesto familiare mostra un impatto lieve. Qualche tensione è presente ma non compromette il funzionamento quotidiano.",
-      `Il contesto familiare è abbastanza impattato. ${isEst?"In molti profili con condotta elevata è proprio la famiglia il luogo dove la regolazione comportamentale è più difficile, perché i legami affettivi intensificano le reazioni emotive.":"Le dinamiche familiari sembrano amplificare il disagio. È utile coinvolgere la famiglia nel progetto educativo."}`,
-      `Il contesto familiare è fortemente impattato. ${isEst?"I conflitti emergono soprattutto nel contesto domestico: il ragazzo/a fatica a regolare il comportamento laddove il legame affettivo è più intenso.":"Le difficoltà ricadono pesantemente sulla vita familiare. È fondamentale il coinvolgimento attivo della famiglia nel percorso di supporto."}`
-    ]},
-    {k:"i_ami",n:"Amicizie",tt:[
-      "Le amicizie non sembrano influenzate. Il ragazzo/a mantiene relazioni sociali soddisfacenti.",
-      "Le amicizie sono lievemente influenzate. Qualche attrito relazionale è presente ma non compromette i legami.",
-      `Le amicizie sono abbastanza influenzate. ${isEst?"Le relazioni possono essere turbolente pur mantenendosi. L'impulsività o la tendenza al conflitto emergono anche in questo contesto.":"Le difficoltà cominciano a incidere sui rapporti con i pari. È un segnale da monitorare."}`,
-      "Le amicizie sono fortemente influenzate. Le difficoltà relazionali impattano significativamente sulla rete sociale, con rischio di isolamento o conflitti ripetuti."
-    ]},
-    {k:"i_scu",n:"Scuola",tt:[
-      "Il contesto scolastico non è percepito come area critica. Questo può indicare che il ragazzo/a riesce a regolare meglio il comportamento in ambienti strutturati con regole chiare.",
-      "L'impatto a scuola è lieve. Le difficoltà non compromettono significativamente il funzionamento scolastico.",
-      "L'impatto a scuola è abbastanza significativo. Le difficoltà cominciano a interferire con l'apprendimento o con le relazioni nel contesto scolastico.",
-      "L'impatto a scuola è molto elevato. È necessario un coordinamento tra équipe educativa e istituzione scolastica."
-    ]},
-    {k:"i_lib",n:"Tempo libero",tt:[
-      "Il tempo libero non è influenzato. Il ragazzo/a riesce a gestire autonomamente i momenti non strutturati.",
-      "L'impatto sul tempo libero è lieve. Qualche difficoltà emerge ma non compromette le attività.",
-      `Il tempo libero è abbastanza influenzato. ${isEst?"Nei contesti meno strutturati emergono più facilmente impulsività e conflitti, perché le regole sono meno chiare e il controllo esterno è ridotto.":"Le difficoltà si manifestano anche nei momenti di svago, limitando il benessere del ragazzo/a."}`,
-      `Il tempo libero è fortemente influenzato. ${isEst?"L'assenza di struttura amplifica le difficoltà di autoregolazione: è il luogo dove emergono di più impulsività e conflitti tra pari.":"Le difficoltà pervadono anche i momenti di svago, riducendo significativamente la qualità di vita percepita."}`
-    ]},
-    {k:"i_altri",n:"Carico sugli altri",tt:[
-      "Le difficoltà non sembrano pesare sulle persone vicine. L'impatto sull'ambiente circostante è minimo.",
-      "Le difficoltà pesano lievemente sugli altri. Chi è vicino avverte qualche tensione ma riesce a gestirla.",
-      "Le difficoltà pesano abbastanza sugli altri. Familiari, insegnanti e amici avvertono il peso del comportamento o del disagio del ragazzo/a.",
-      `Le difficoltà pesano molto sugli altri. ${imp.soff===0?"Anche se il ragazzo/a non percepisce sofferenza personale, riconosce che il suo comportamento pesa sull'ambiente: è una forma embrionale di consapevolezza sociale da valorizzare nel percorso educativo.":"Il carico sugli altri è elevato. È importante prevenire dinamiche di esaurimento o conflitto cronico nell'ambiente circostante."}`
-    ]}
-  ];
-
-  aree.forEach(({k,n,tt})=>{
-    const v=imp[k];
-    if(v==null)return;
-    const cols=["#1D9E75","#888780","#BA7517","#A32D2D"];
-    const bgs=["#E1F5EE","#F1EFE8","#FAEEDA","#FCEBEB"];
-    const txts=["#085041","#444441","#633806","#791F1F"];
-    c+=bloc(n,lvlMap[v],bgs[v],txts[v],cols[v],tt[v]);
-  });
-
-  const areeAlte=[];
-  if(imp.i_fam>=2)areeAlte.push("vita familiare");
-  if(imp.i_ami>=2)areeAlte.push("amicizie");
-  if(imp.i_scu>=2)areeAlte.push("scuola");
-  if(imp.i_lib>=2)areeAlte.push("tempo libero");
-  if(imp.i_altri>=2)areeAlte.push("carico sugli altri");
-
-  let sint=`<div style="margin-top:1rem;padding:14px;background:#f8f8f7;border-radius:9px;border-top:2px solid #e8e8e6;"><p style="font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;">Sintesi interpretativa</p><p style="font-size:13px;color:#444;line-height:1.75;">`;
-  if(areeAlte.length===0){
-    sint+=`Il profilo di impatto non mostra aree di interferenza significativa. Le difficoltà emerse nelle scale SDQ sembrano avere un peso contenuto sul funzionamento reale di ${nome}.`;
   } else {
-    sint+=`Le aree di maggiore interferenza nella vita di ${nome} sono: <strong>${areeAlte.join(", ")}</strong>. `;
-    if(isEst&&!isInt) sint+=`Il profilo è coerente con un pattern prevalentemente esternalizzante: le difficoltà non generano sofferenza interna marcata, ma si manifestano nei contesti relazionali e nelle situazioni meno strutturate. Gli interventi centrati su regole chiare, struttura ambientale e rinforzo positivo tendono a essere i più efficaci.`;
-    else if(isInt&&!isEst) sint+=`Il profilo è coerente con un pattern prevalentemente internalizzante: il disagio si manifesta soprattutto sul piano emotivo e relazionale. È importante creare spazi di ascolto sicuri e intervenire sulla dimensione emotiva prima ancora che su quella comportamentale.`;
-    else if(isInt&&isEst) sint+=`Il profilo mostra sia componenti internalizzanti che esternalizzanti. Questo richiede un approccio integrato che lavori simultaneamente sulla regolazione emotiva e sul comportamento agito.`;
-    else sint+=`È utile considerare questi ambiti come prioritari nella progettazione dell'intervento educativo e nel dialogo con la famiglia.`;
+    document.getElementById("pin-warn").style.display = "block";
   }
-  sint+=`</p></div>`;
-  c+=sint;
+};
+document.getElementById("pin-in").addEventListener("keydown", function(e){if(e.key==="Enter")window.checkPin();});
 
-  var tblRows=rows.map(function(r){return "<tr><td>"+r[0]+"</td><td>"+r[1]+"</td></tr>";}).join("");
-  document.getElementById("dp-impact").innerHTML="<p class=\"lbl\">Sezione impatto</p><div class=\"card\"><table class=\"impact-table\" style=\"width:100%;\">"+tblRows+"</table></div><p class=\"lbl\" style=\"margin-top:1.25rem;\">Lettura interpretativa</p><div>"+c+"</div>";
-}
+window.logout = function(){
+  document.getElementById("screen-dash").style.display = "none";
+  document.getElementById("screen-login").style.display = "block";
+};
 
-function renderSintesi(eA,eB){
-  var auto=eA.tipo==="educatore"?eB:eA;
-  var edu=eA.tipo==="educatore"?eA:eB;
-  var nome=auto.nome||edu.nome||"";
-  var scales=["ES","IP","EC","C","PR"];
-  var slbl={ES:"Sintomi Emotivi",IP:"Iperattività",EC:"Prob. Condotta",C:"Prob. Relazioni",PR:"Prosociale"};
-  var html='<p class="lbl" style="margin-top:0;">Confronto auto-report vs osservazione educatore</p>';
-  var bdA=getBand("TOT",auto.tot);
-  var bdE=getBand("TOT",edu.tot);
-  html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1rem;">';
-  html+='<div style="padding:12px;background:#E1F5EE;border-radius:9px;border-left:3px solid #1D9E75;"><div style="font-size:10px;font-weight:600;color:#085041;text-transform:uppercase;letter-spacing:.06em;">Auto-report (ragazzo)</div><div style="font-size:11px;color:#555;margin-top:2px;">'+auto.data+(auto.sesso?" · "+auto.sesso:"")+</div><div style="font-size:22px;font-weight:700;margin-top:4px;">'+auto.tot+'<span style="font-size:12px;color:#aaa;font-weight:400;">/40</span> <span class="badge '+bClass(bdA)+'">'+bLabel(bdA)+'</span></div></div>';
-  html+='<div style="padding:12px;background:#EEEDFE;border-radius:9px;border-left:3px solid #534AB7;"><div style="font-size:10px;font-weight:600;color:#3C3489;text-transform:uppercase;letter-spacing:.06em;">Osservazione educatore</div><div style="font-size:11px;color:#555;margin-top:2px;">'+(edu.compilatore||"")+(edu.ruolo?" · "+edu.ruolo:"")+</div><div style="font-size:22px;font-weight:700;margin-top:4px;">'+edu.tot+'<span style="font-size:12px;color:#aaa;font-weight:400;">/40</span> <span class="badge '+bClass(bdE)+'">'+bLabel(bdE)+'</span></div></div>';
-  html+='</div>';
-  html+='<p class="lbl">Confronto per scala</p>';
-  scales.forEach(function(s){
-    var va=auto.scores[s];
-    var ve=edu.scores[s];
-    var ba=getBand(s,va);
-    var be=getBand(s,ve);
-    var diff=Math.abs(va-ve);
-    var conLabel,conCol;
-    if(ba===be){conLabel="Concordante";conCol="#1D9E75";}
-    else if(diff<=2){conLabel="Lieve discrepanza";conCol="#BA7517";}
-    else{conLabel="Discrepanza significativa";conCol="#A32D2D";}
-    var conTxt=ba===be?"I due profili concordano su questa scala.":diff<=2?"Lieve differenza tra auto-report ("+va+") e osservazione educatore ("+ve+").":"Differenza marcata: il ragazzo riferisce "+va+" ("+bLabel(ba)+"), l'educatore osserva "+ve+" ("+bLabel(be)+"). Questo scarto merita un approfondimento nel colloquio educativo.";
-    var bgCol=ba===be?"#E1F5EE":diff<=2?"#FAEEDA":"#FCEBEB";
-    html+='<div style="padding:10px 12px;background:'+bgCol+';border-radius:9px;border-left:3px solid '+conCol+';margin-bottom:8px;">';
-    html+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;"><span style="font-size:13px;font-weight:600;">'+slbl[s]+'</span><span style="font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;background:'+conCol+'20;color:'+conCol+';">'+conLabel+'</span></div>';
-    html+='<div style="display:flex;gap:12px;margin-bottom:6px;">';
-    html+='<div style="flex:1;"><div style="font-size:11px;color:#666;margin-bottom:3px;">Auto-report: <strong>'+va+'/10</strong> <span class="badge '+bClass(ba)+'">'+bLabel(ba)+'</span></div><div style="background:rgba(0,0,0,0.08);border-radius:4px;height:6px;overflow:hidden;"><div style="height:6px;border-radius:4px;background:#1D9E75;width:'+(va/10*100)+'%;"></div></div></div>';
-    html+='<div style="flex:1;"><div style="font-size:11px;color:#666;margin-bottom:3px;">Educatore: <strong>'+ve+'/10</strong> <span class="badge '+bClass(be)+'">'+bLabel(be)+'</span></div><div style="background:rgba(0,0,0,0.08);border-radius:4px;height:6px;overflow:hidden;"><div style="height:6px;border-radius:4px;background:#534AB7;width:'+(ve/10*100)+'%;"></div></div></div>';
-    html+='</div><p style="font-size:12px;color:#555;line-height:1.5;">'+conTxt+'</p></div>';
+window.switchTab = function(btn, id) {
+  document.querySelectorAll(".nav-btn").forEach(function(b){b.classList.remove("act");});
+  btn.classList.add("act");
+  document.querySelectorAll(".tab-pane").forEach(function(p){p.classList.remove("act");});
+  document.getElementById(id).classList.add("act");
+};
+
+var allEntries = [];
+
+window.loadEntries = async function() {
+  var el = document.getElementById("entries-list");
+  el.innerHTML = '<div class="loading-center"><div class="spinner"></div></div>';
+  try {
+    var snap = await getDocs(collection(db,"risposte"));
+    allEntries = [];
+    snap.forEach(function(d){allEntries.push(Object.assign({id:d.id},d.data()));});
+    allEntries.sort(function(a,b){return (b.timestamp&&a.timestamp)?(b.timestamp.seconds||0)-(a.timestamp.seconds||0):0;});
+    renderList();
+  } catch(e) {
+    el.innerHTML = '<div class="empty">Errore nel caricamento. Riprova.</div>';
+  }
+};
+
+function renderList() {
+  var el = document.getElementById("entries-list");
+  if(!allEntries.length){el.innerHTML='<div class="empty">Nessun questionario compilato ancora.</div>';return;}
+  var html = "";
+  allEntries.forEach(function(e) {
+    var bd = band("TOT",e.tot);
+    var tipoTag = e.tipo==="educatore"
+      ? '<span style="background:#EEEDFE;color:#3C3489;font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;margin-left:6px;">Educatore</span>'
+      : '<span style="background:#E1F5EE;color:#085041;font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;margin-left:6px;">Auto-report</span>';
+    var kk = e.nome.trim().toLowerCase();
+    var hasS = allEntries.some(function(x){
+      return x.nome.trim().toLowerCase()===kk && x.id!==e.id &&
+        ((e.tipo==="educatore"&&x.tipo!=="educatore")||(e.tipo!=="educatore"&&x.tipo==="educatore"));
+    });
+    var sintTag = hasS ? '<span style="background:#FAC775;color:#633806;font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;margin-left:6px;">Sintesi disponibile</span>' : '';
+    var comp = e.compilatore ? ' &middot; '+e.compilatore : '';
+    html += '<div class="entry-card" onclick="openDetail(\''+e.id+'\')">'
+      + '<div>'
+      + '<div style="font-size:15px;font-weight:600;">'+e.nome+tipoTag+sintTag+'</div>'
+      + '<div style="font-size:12px;color:#888;margin-top:3px;">'+e.data+(e.sesso?' &middot; '+e.sesso:'')+' &middot; Tot. difficolta: <strong>'+e.tot+'</strong> <span class="badge '+bc(bd)+'">'+bl(bd)+'</span>'+comp+'</div>'
+      + '</div>'
+      + '<span style="color:#ccc;font-size:20px;">&#8250;</span>'
+      + '</div>';
   });
-  var totDiff=Math.abs(auto.tot-edu.tot);
-  var discr=scales.filter(function(s){return Math.abs(auto.scores[s]-edu.scores[s])>=3;});
-  html+='<p class="lbl">Interpretazione integrata</p>';
-  var interp='';
-  if(totDiff<=4){interp="I due profili sono sostanzialmente concordanti (differenza totale: "+totDiff+" punti). La percezione di "+nome+" su sé stesso e l'osservazione dell'educatore descrivono un quadro coerente, il che aumenta l'attendibilità complessiva della valutazione.";}
-  else if(totDiff>8){interp="I due profili mostrano una discrepanza rilevante nel punteggio totale (auto-report: "+auto.tot+", educatore: "+edu.tot+", differenza: "+totDiff+" punti). Questo scarto può indicare differenze nella percezione del disagio e merita un approfondimento attraverso un colloquio diretto.";}
-  else{interp="I due profili mostrano una concordanza parziale (differenza totale: "+totDiff+" punti). Alcune scale convergono, altre mostrano differenze utili da esplorare nel contesto educativo.";}
-  if(discr.length>0){interp+=" Le scale con maggiore discrepanza sono: <strong>"+discr.map(function(s){return slbl[s];}).join(", ")+"</strong>. In queste aree il vissuto soggettivo e il comportamento osservato non coincidono.";}
-  html+='<div style="padding:14px;background:#f8f8f7;border-radius:9px;border-left:3px solid #e8e8e6;margin-bottom:8px;"><p style="font-size:13px;color:#444;line-height:1.75;">'+interp+'</p></div>';
-  html+='<div style="padding:14px;background:#FFF8E6;border-radius:9px;border-left:3px solid #FAC775;"><p style="font-size:11px;font-weight:600;color:#854F0B;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">Raccomandazioni operative</p><p style="font-size:13px;color:#444;line-height:1.75;">'+(discr.length===0?"La coerenza tra i due profili permette di progettare interventi mirati. Si raccomanda di condividere i risultati in équipe e pianificare obiettivi educativi per le aree critiche in entrambe le valutazioni.":"La presenza di discrepanze suggerisce di avviare un colloquio diretto con "+nome+" per comprendere la sua percezione. È utile condividere i risultati in équipe e costruire una lettura condivisa del profilo.")+</p></div>';
-  document.getElementById("dp-sintesi").innerHTML=html;
+  el.innerHTML = html;
 }
 
-window.deleteEntry=async function(){
-  if(!currentEntry||!confirm("Eliminare questa compilazione definitivamente?"))return;
-  try{
+var currentEntry = null;
+var radarChart = null;
+
+window.openDetail = function(id) {
+  currentEntry = allEntries.find(function(e){return e.id===id;});
+  if(!currentEntry) return;
+  document.getElementById("det-header").innerHTML =
+    '<div style="font-size:16px;font-weight:600;">'+currentEntry.nome+'</div>'
+    +'<div style="font-size:12px;color:#888;margin-top:2px;">'+currentEntry.data
+    +(currentEntry.sesso?' &middot; '+currentEntry.sesso:'')
+    +(currentEntry.ddn?' &middot; Nato/a: '+currentEntry.ddn:'')+'</div>';
+
+  renderScale();
+  renderInterp();
+  renderRelazione();
+  renderImpact();
+
+  if(radarChart){radarChart.destroy();radarChart=null;}
+  document.getElementById("dp-radar").innerHTML = '<div style="position:relative;width:100%;height:300px;"><canvas id="radar-canvas"></canvas></div>';
+
+  ["dp-scale","dp-radar","dp-interp","dp-rel","dp-impact","dp-sint"].forEach(function(t){
+    document.getElementById(t).classList.remove("act");
+  });
+  document.getElementById("dp-scale").classList.add("act");
+  document.querySelectorAll(".modal-tab").forEach(function(b,i){b.classList.remove("act");if(i===0)b.classList.add("act");});
+
+  var kN = currentEntry.nome.trim().toLowerCase();
+  var paired = allEntries.filter(function(x){
+    return x.nome.trim().toLowerCase()===kN && x.id!==currentEntry.id;
+  });
+  var hasSint = paired.some(function(x){return x.tipo==="educatore";}) && paired.some(function(x){return x.tipo!=="educatore";});
+  hasSint = hasSint || (paired.length>0 && ((currentEntry.tipo==="educatore"&&paired.some(function(x){return x.tipo!=="educatore";})) || (currentEntry.tipo!=="educatore"&&paired.some(function(x){return x.tipo==="educatore";}))));
+  document.getElementById("tab-sint-btn").style.display = hasSint ? "inline-block" : "none";
+  if(hasSint) {
+    var partner = paired.find(function(x){
+      return (currentEntry.tipo==="educatore"&&x.tipo!=="educatore") || (currentEntry.tipo!=="educatore"&&x.tipo==="educatore");
+    }) || paired[0];
+    renderSint(currentEntry, partner);
+  }
+
+  document.getElementById("modal-wrap").style.display = "block";
+  document.body.style.overflow = "hidden";
+};
+
+window.detTab = function(btn, id) {
+  document.querySelectorAll(".modal-tab").forEach(function(b){b.classList.remove("act");});
+  btn.classList.add("act");
+  ["dp-scale","dp-radar","dp-interp","dp-rel","dp-impact","dp-sint"].forEach(function(t){
+    document.getElementById(t).classList.remove("act");
+  });
+  document.getElementById(id).classList.add("act");
+  if(id==="dp-radar") renderRadar();
+};
+
+window.closeModal = function() {
+  document.getElementById("modal-wrap").style.display = "none";
+  document.body.style.overflow = "";
+  if(radarChart){radarChart.destroy();radarChart=null;}
+};
+window.closeModalBg = function(e) {if(e.target===e.currentTarget)window.closeModal();};
+
+function renderScale() {
+  var e = currentEntry;
+  var html = '<p class="lbl">Punteggi per scala</p>';
+  ["ES","IP","EC","C","PR"].forEach(function(s) {
+    var v = e.scores[s];
+    var pct = Math.round(v/10*100);
+    var bd = band(s,v);
+    html += '<div class="scale-row">'
+      + '<div><span class="badge '+SCOL[s]+'">'+s+'</span><div style="font-size:12px;color:#888;margin-top:3px;">'+SLBL[s]+'</div></div>'
+      + '<div class="bar-bg"><div class="bar-fill" style="width:'+pct+'%;background:'+BAR[s]+';"></div></div>'
+      + '<div style="font-size:15px;font-weight:600;text-align:center;">'+v+'<span style="font-size:11px;color:#aaa;">/10</span></div>'
+      + '<div style="text-align:right;"><span class="badge '+bc(bd)+'">'+bl(bd)+'</span></div>'
+      + '</div>';
+  });
+  var totBd = band("TOT",e.tot);
+  var intV = e.scores.ES+e.scores.C;
+  var estV = e.scores.EC+e.scores.IP;
+  var intBd = band("INT",intV);
+  var estBd = band("EST",estV);
+  html += '<div style="margin-top:1rem;padding:12px;background:#f8f8f7;border-radius:9px;display:flex;justify-content:space-between;align-items:center;">'
+    + '<div style="font-size:13px;font-weight:600;color:#666;">Punteggio totale difficolta (ES+IP+EC+C)</div>'
+    + '<div style="display:flex;align-items:center;gap:10px;"><span style="font-size:24px;font-weight:700;">'+e.tot+'<span style="font-size:12px;color:#aaa;font-weight:400;">/40</span></span><span class="badge '+bc(totBd)+'">'+bl(totBd)+'</span></div>'
+    + '</div>';
+  html += '<div style="margin-top:8px;display:grid;grid-template-columns:1fr 1fr;gap:8px;">';
+  html += '<div style="padding:12px;background:#f0faf6;border-radius:9px;border-left:3px solid #1D9E75;">'
+    + '<div style="font-size:11px;font-weight:600;color:#0F6E56;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">Internalizzazione</div>'
+    + '<div style="font-size:11px;color:#555;margin-bottom:6px;">Sintomi Emotivi + Prob. Relazioni</div>'
+    + '<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:20px;font-weight:700;">'+intV+'<span style="font-size:11px;color:#aaa;font-weight:400;">/20</span></span><span class="badge '+bc(intBd)+'">'+bl(intBd)+'</span></div>'
+    + '</div>';
+  html += '<div style="padding:12px;background:#fff8f0;border-radius:9px;border-left:3px solid #BA7517;">'
+    + '<div style="font-size:11px;font-weight:600;color:#854F0B;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">Esternalizzazione</div>'
+    + '<div style="font-size:11px;color:#555;margin-bottom:6px;">Prob. Condotta + Iperattivita</div>'
+    + '<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:20px;font-weight:700;">'+estV+'<span style="font-size:11px;color:#aaa;font-weight:400;">/20</span></span><span class="badge '+bc(estBd)+'">'+bl(estBd)+'</span></div>'
+    + '</div>';
+  html += '</div>';
+  var commINTEST = "";
+  if(intBd==="normale"&&estBd==="normale") {
+    commINTEST = "Il profilo non mostra difficolta significative ne sul versante internalizzante ne su quello esternalizzante. Il funzionamento psicologico e comportamentale risulta complessivamente adeguato.";
+  } else if(intBd!=="normale"&&estBd==="normale") {
+    commINTEST = "Il profilo mostra una prevalenza di difficolta internalizzanti: il disagio si esprime principalmente attraverso sintomi emotivi e difficolta relazionali. Richiede interventi focalizzati sull'ascolto emotivo e sul sostegno alla regolazione interna.";
+  } else if(estBd!=="normale"&&intBd==="normale") {
+    commINTEST = "Il profilo mostra una prevalenza di difficolta esternalizzanti: il disagio si esprime principalmente attraverso il comportamento. Richiede interventi centrati sulla regolazione comportamentale e sulla struttura ambientale.";
+  } else if(intBd!=="normale"&&estBd!=="normale") {
+    commINTEST = "Il profilo evidenzia difficolta sia sul versante internalizzante che esternalizzante. La compresenza richiede un approccio integrato che lavori simultaneamente sulla regolazione emotiva e sul comportamento agito.";
+  }
+  if(commINTEST) {
+    html += '<div style="margin-top:10px;padding:12px 14px;background:#f8f8f7;border-radius:9px;font-size:13px;color:#444;line-height:1.7;border-left:3px solid #e8e8e6;">'+commINTEST+'</div>';
+  }
+  html += '<div style="margin-top:8px;padding:9px 12px;background:#f8f8f7;border-radius:8px;font-size:12px;color:#888;line-height:1.5;">Nota: per la scala Prosociale punteggi alti (6-10) = adeguato; punteggi bassi (0-4) = difficolta.</div>';
+  document.getElementById("dp-scale").innerHTML = html;
+}
+
+function renderRadar() {
+  if(!currentEntry||!window.Chart) return;
+  if(radarChart){radarChart.destroy();}
+  var canvas = document.getElementById("radar-canvas");
+  if(!canvas) return;
+  var e = currentEntry;
+  radarChart = new Chart(canvas, {
+    type:"radar",
+    data:{
+      labels:["Sintomi Emotivi","Iperattivita","Prob. Condotta","Prob. Relazioni","Prosociale"],
+      datasets:[{label:"Punteggio",data:[e.scores.ES,e.scores.IP,e.scores.EC,e.scores.C,e.scores.PR],backgroundColor:"rgba(29,158,117,0.15)",borderColor:"#1D9E75",borderWidth:2,pointBackgroundColor:"#1D9E75",pointRadius:5}]
+    },
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{r:{min:0,max:10,ticks:{stepSize:2,font:{size:10},color:"#aaa"},pointLabels:{font:{size:11},color:"#555"},grid:{color:"rgba(0,0,0,0.07)"},angleLines:{color:"rgba(0,0,0,0.07)"}}}}
+  });
+}
+
+var INTERP = {
+  ES:{
+    normale:"Il livello di sintomatologia emotiva rientra nella fascia normativa attesa per la fascia di eta.",
+    borderline:"Sono presenti alcuni indicatori di disagio emotivo che meritano monitoraggio. Il ragazzo/a mostra livelli di ansia o vissuti depressivi leggermente al di sopra della media.",
+    elevato:"Il punteggio indica una presenza significativa di sintomi emotivi. Riferisce preoccupazioni ricorrenti, vissuti di tristezza o manifestazioni somatiche che suggeriscono una sofferenza emotiva degna di approfondimento."
+  },
+  IP:{
+    normale:"Il livello di attenzione e controllo motorio e adeguato. Non emergono difficolta significative nella regolazione del comportamento.",
+    borderline:"Sono presenti alcune difficolta nel mantenere l'attenzione e nel regolare l'attivita motoria. Il quadro e da monitorare.",
+    elevato:"Il punteggio evidenzia difficolta marcate nell'autoregolazione, nella concentrazione e nel controllo dell'impulsivita, con possibili ricadute sull'apprendimento."
+  },
+  EC:{
+    normale:"Il comportamento e generalmente adeguato alle regole sociali. Non emergono pattern problematici di condotta.",
+    borderline:"Sono presenti alcune condotte problematiche in area borderline. E opportuno osservare frequenza e contesto.",
+    elevato:"Il punteggio segnala la presenza di comportamenti aggressivi, oppositivi o antisociali che superano la norma attesa. Richiede attenzione educativa strutturata."
+  },
+  C:{
+    normale:"Il ragazzo/a mostra un buon inserimento nel gruppo dei pari e relazioni soddisfacenti con i coetanei.",
+    borderline:"Sono presenti alcune difficolta nelle relazioni con i pari. Il ragazzo/a potrebbe avere una rete sociale limitata.",
+    elevato:"Il punteggio indica difficolta significative nel costruire e mantenere relazioni con i coetanei, con possibili vissuti di isolamento."
+  },
+  PR:{
+    adeguato:"Il ragazzo/a mostra un buon livello di comportamento prosociale: empatia, disponibilita ad aiutare e attenzione ai bisogni degli altri.",
+    borderline:"Il comportamento prosociale risulta parzialmente sviluppato. Presenti alcune difficolta nel cooperare o rispondere ai bisogni degli altri.",
+    basso:"Il punteggio prosociale e basso, indicando scarse manifestazioni di comportamento d'aiuto, empatia e cooperazione. Aspetto importante nel progetto educativo."
+  },
+  TOT:{
+    normale:"Il punteggio totale di difficolta rientra nella fascia normativa. Non emergono aree di preoccupazione clinica significativa.",
+    borderline:"Il punteggio totale si colloca in area borderline, suggerendo una condizione di rischio che merita un monitoraggio sistematico.",
+    elevato:"Il punteggio totale e clinicamente significativo e indica difficolta in piu domini. Si raccomanda un approfondimento valutativo professionale."
+  },
+  INT:{
+    normale:"Il punteggio di internalizzazione rientra nella norma. Non emergono segnali significativi di sofferenza interiore o ritiro sociale.",
+    borderline:"Il punteggio di internalizzazione si colloca in area borderline. Il ragazzo/a mostra una tendenza a rivolgersi verso l'interno con vissuti di ansia o isolamento.",
+    elevato:"Il punteggio di internalizzazione e clinicamente significativo. La combinazione di sintomi emotivi e difficolta relazionali suggerisce una sofferenza interiore rilevante da approfondire."
+  },
+  EST:{
+    normale:"Il punteggio di esternalizzazione rientra nella norma. Non emergono pattern problematici di comportamento agito.",
+    borderline:"Il punteggio di esternalizzazione si colloca in area borderline. Presenti alcune difficolta nell'autoregolazione e nel comportamento.",
+    elevato:"Il punteggio di esternalizzazione e clinicamente significativo. La combinazione di problemi di condotta e iperattivita indica difficolta marcate nell'autoregolazione con ricadute sul contesto scolastico e relazionale."
+  }
+};
+
+function renderInterp() {
+  var e = currentEntry;
+  var allSc = {ES:e.scores.ES,IP:e.scores.IP,EC:e.scores.EC,C:e.scores.C,PR:e.scores.PR,TOT:e.tot,INT:e.scores.ES+e.scores.C,EST:e.scores.EC+e.scores.IP};
+  var html = '<p class="lbl">Interpretazione clinica per scala</p>';
+  ["ES","IP","EC","C","PR","TOT","INT","EST"].forEach(function(s) {
+    var v = allSc[s];
+    var bd = band(s,v);
+    var col = bd==="normale"||bd==="adeguato" ? "#1D9E75" : bd==="borderline" ? "#BA7517" : "#A32D2D";
+    var txt = INTERP[s][bd] || "";
+    html += '<div class="interp-block" style="border-left-color:'+col+';">'
+      + '<div class="interp-header"><span style="font-size:13px;font-weight:600;">'+SLBL[s]+'</span>'
+      + '<div style="display:flex;align-items:center;gap:6px;"><span style="font-size:13px;font-weight:700;">'+v+'</span><span class="badge '+bc(bd)+'">'+bl(bd)+'</span></div></div>'
+      + '<p style="font-size:13px;color:#555;line-height:1.65;">'+txt+'</p>'
+      + '</div>';
+  });
+  document.getElementById("dp-interp").innerHTML = html;
+}
+
+function renderRelazione() {
+  var e = currentEntry;
+  var nome = e.nome || "Il ragazzo/la ragazza";
+  var ES = {v:e.scores.ES,bd:band("ES",e.scores.ES)};
+  var IP = {v:e.scores.IP,bd:band("IP",e.scores.IP)};
+  var EC = {v:e.scores.EC,bd:band("EC",e.scores.EC)};
+  var C  = {v:e.scores.C, bd:band("C", e.scores.C)};
+  var PR = {v:e.scores.PR,bd:band("PR",e.scores.PR)};
+  var TOT= {v:e.tot,      bd:band("TOT",e.tot)};
+  var intV = e.scores.ES+e.scores.C;
+  var estV = e.scores.EC+e.scores.IP;
+  var intBd = band("INT",intV);
+  var estBd = band("EST",estV);
+  var livTot = TOT.bd==="normale"?"nella norma":TOT.bd==="borderline"?"in area borderline":"clinicamente significativo";
+  var rec = [];
+  if(ES.bd!=="normale") rec.push("un approfondimento della dimensione emotiva e dei vissuti ansiosi");
+  if(IP.bd!=="normale") rec.push("una valutazione delle capacita attentive e dell'autoregolazione");
+  if(EC.bd!=="normale") rec.push("un intervento strutturato sulla gestione del comportamento");
+  if(C.bd!=="normale")  rec.push("un supporto alle abilita sociali e al senso di appartenenza al gruppo");
+  if(PR.bd==="basso")   rec.push("un potenziamento delle competenze empatiche e prosociali");
+  var recStr = rec.length ? rec.join(", ")+"." : "un monitoraggio periodico nel tempo per verificare la stabilita del profilo.";
+  var aree = [];
+  if(ES.bd!=="normale") aree.push("emotiva");
+  if(IP.bd!=="normale") aree.push("dell'autoregolazione");
+  if(EC.bd!=="normale") aree.push("comportamentale");
+  if(C.bd!=="normale")  aree.push("relazionale");
+  var analisi = [];
+  if(TOT.bd==="normale") {
+    analisi.push("Il profilo complessivo di "+nome+" non evidenzia aree di difficolta clinicamente significative. I punteggi si collocano entro i valori normativi.");
+  } else if(TOT.bd==="borderline") {
+    analisi.push("Il profilo di "+nome+" presenta alcune aree di vulnerabilita in zona borderline.");
+    if(aree.length) analisi.push("Le aree di maggiore attenzione riguardano la dimensione "+aree.join(", ")+".");
+  } else {
+    analisi.push("Il profilo di "+nome+" evidenzia difficolta significative in piu domini.");
+    if(aree.length) analisi.push("Le dimensioni piu critiche sono quella "+aree.join(", ")+".");
+  }
+  if(PR.bd==="adeguato") analisi.push("Il comportamento prosociale e un punto di forza su cui fare leva nel progetto educativo.");
+  else if(PR.bd==="basso") analisi.push("Il comportamento prosociale risulta poco sviluppato, con possibili difficolta nell'empatia e cooperazione.");
+  if(ES.bd==="elevato"&&C.bd==="elevato") analisi.push("La compresenza di sintomi emotivi e difficolta relazionali suggerisce un circolo disfunzionale tra sofferenza interiore e isolamento.");
+  if(IP.bd==="elevato"&&EC.bd==="elevato") analisi.push("L'associazione tra iperattivita e problemi di condotta puo indicare difficolta di autoregolazione con ricadute sul comportamento agito.");
+  var impl = [];
+  if(ES.bd!=="normale") impl.push("Sul piano emotivo, si raccomanda di creare spazi di ascolto strutturati. Tecniche di psicoeducazione emotiva e di gestione dell'ansia possono risultare efficaci.");
+  if(IP.bd!=="normale") impl.push("Per l'autoregolazione, e utile strutturare l'ambiente con routine chiare e tempi definiti. Strategie metacognitive e pause strutturate possono migliorare la concentrazione.");
+  if(EC.bd!=="normale") impl.push("Per la gestione del comportamento, si raccomanda un approccio basato su regole chiare, conseguenze prevedibili e rinforzo positivo.");
+  if(C.bd!=="normale")  impl.push("Per l'integrazione sociale, possono essere utili attivita di gruppo strutturate e training sulle abilita sociali.");
+  if(PR.bd==="basso")   impl.push("Il potenziamento prosociale puo avvenire tramite cooperative learning, role-playing e valorizzazione esplicita degli episodi di aiuto.");
+  if(!impl.length) impl.push("Il profilo non evidenzia aree critiche. Si suggerisce di valorizzare i punti di forza e mantenere un monitoraggio periodico.");
+  var html = '<p class="lbl">Relazione psicoeducativa</p>'
+    + '<div style="border:1px solid #e8e8e6;border-radius:12px;padding:1.25rem;">'
+    + '<div class="rel-section"><h4>Dati identificativi</h4><p>Nome: <strong>'+nome+'</strong>'+(e.ddn?' &middot; Nato/a: '+e.ddn:'')+(e.sesso?' &middot; '+e.sesso:'')+'.<br>Data somministrazione: '+e.data+'. Strumento: SDQ auto-report 11-17 anni, standardizzazione italiana.</p></div>'
+    + '<div class="rel-section"><h4>Presentazione dello strumento</h4><p>L\'SDQ (Goodman, 1997) e un questionario di screening psicologico validato internazionalmente. Valuta cinque dimensioni: sintomi emotivi, iperattivita/disattenzione, problemi di condotta, difficolta nelle relazioni con i pari e comportamento prosociale. Per la scala Prosociale, punteggi piu alti indicano funzionamento migliore.</p></div>'
+    + '<div class="rel-section"><h4>Profilo dei punteggi</h4>'
+    + '<p>Il punteggio totale di difficolta e <strong>'+TOT.v+'/40</strong>, collocandosi <strong>'+livTot+'</strong> secondo le norme italiane.</p>'
+    + '<ul style="margin-top:8px;padding-left:16px;font-size:13px;color:#555;line-height:2;">'
+    + '<li><strong>Sintomi Emotivi (ES):</strong> '+ES.v+'/10 &mdash; <span class="badge '+bc(ES.bd)+'">'+bl(ES.bd)+'</span></li>'
+    + '<li><strong>Iperattivita/Disattenzione (IP):</strong> '+IP.v+'/10 &mdash; <span class="badge '+bc(IP.bd)+'">'+bl(IP.bd)+'</span></li>'
+    + '<li><strong>Problemi di Condotta (EC):</strong> '+EC.v+'/10 &mdash; <span class="badge '+bc(EC.bd)+'">'+bl(EC.bd)+'</span></li>'
+    + '<li><strong>Difficolta Relazioni con i Pari (C):</strong> '+C.v+'/10 &mdash; <span class="badge '+bc(C.bd)+'">'+bl(C.bd)+'</span></li>'
+    + '<li><strong>Comportamento Prosociale (PR):</strong> '+PR.v+'/10 &mdash; <span class="badge '+bc(PR.bd)+'">'+bl(PR.bd)+'</span></li>'
+    + '</ul>'
+    + '<p style="margin-top:8px;">Indicatori compositi: <strong>Internalizzazione</strong> = '+intV+'/20 <span class="badge '+bc(intBd)+'">'+bl(intBd)+'</span> &nbsp; <strong>Esternalizzazione</strong> = '+estV+'/20 <span class="badge '+bc(estBd)+'">'+bl(estBd)+'</span></p>'
+    + '</div>'
+    + '<div class="rel-section"><h4>Analisi del profilo</h4><p>'+analisi.join(" ")+'</p></div>'
+    + '<div class="rel-section"><h4>Implicazioni psicoeducative</h4><p>'+impl.join(" ")+'</p></div>'
+    + '<div class="rel-section"><h4>Raccomandazioni</h4><p>Sulla base del profilo emerso, si suggerisce '+recStr+'</p><p style="margin-top:8px;">L\'SDQ e uno strumento di screening e non consente diagnosi. I risultati vanno contestualizzati in una valutazione globale del ragazzo/a nel suo contesto familiare, scolastico e relazionale.</p></div>'
+    + '<div class="rel-section" style="margin-bottom:0;"><h4>Note conclusive</h4><p>La presente relazione e redatta a scopo informativo e di supporto alla programmazione educativa. Non sostituisce una valutazione psicologica condotta da professionisti abilitati. Si raccomanda la massima riservatezza nel trattamento dei dati.</p></div>'
+    + '</div>';
+  document.getElementById("dp-rel").innerHTML = html;
+}
+
+function renderImpact() {
+  var e = currentEntry;
+  var imp = e.impact || {};
+  var dgMap = {0:"No",1:"Si, piccole difficolta",2:"Si, difficolta importanti",3:"Si, difficolta molto grandi"};
+  var durMap = {1:"Meno di 1 mese",2:"1-5 mesi",3:"6-12 mesi",4:"Piu di 1 anno"};
+  var lvlMap = {0:"Per niente",1:"Solo un po",2:"Abbastanza",3:"Molto"};
+  var rows = [
+    ["Difficolta percepita", imp.diff_gen!=null ? dgMap[imp.diff_gen] : "Non risposto"],
+    ["Durata", imp.durata!=null ? durMap[imp.durata] : "Non risposto"],
+    ["Sofferenza soggettiva", imp.soff!=null ? lvlMap[imp.soff] : "Non risposto"],
+    ["Vita familiare", imp.i_fam!=null ? lvlMap[imp.i_fam] : "Non risposto"],
+    ["Amicizie", imp.i_ami!=null ? lvlMap[imp.i_ami] : "Non risposto"],
+    ["Scuola", imp.i_scu!=null ? lvlMap[imp.i_scu] : "Non risposto"],
+    ["Tempo libero", imp.i_lib!=null ? lvlMap[imp.i_lib] : "Non risposto"],
+    ["Carico sugli altri", imp.i_altri!=null ? lvlMap[imp.i_altri] : "Non risposto"]
+  ];
+  var tbl = rows.map(function(r){return "<tr><td>"+r[0]+"</td><td>"+r[1]+"</td></tr>";}).join("");
+  var html = '<p class="lbl">Sezione impatto</p>'
+    + '<div class="card"><table class="impact-table" style="width:100%;">'+tbl+'</table></div>';
+  document.getElementById("dp-impact").innerHTML = html;
+}
+
+function renderSint(eA, eB) {
+  var auto = eA.tipo==="educatore" ? eB : eA;
+  var edu  = eA.tipo==="educatore" ? eA : eB;
+  var nome = auto.nome || edu.nome || "";
+  var scales = ["ES","IP","EC","C","PR"];
+  var slbl = {ES:"Sintomi Emotivi",IP:"Iperattivita",EC:"Prob. Condotta",C:"Prob. Relazioni",PR:"Prosociale"};
+  var bdA = band("TOT",auto.tot);
+  var bdE = band("TOT",edu.tot);
+  var html = '<p class="lbl" style="margin-top:0;">Confronto auto-report vs osservazione educatore</p>';
+  html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1rem;">';
+  html += '<div style="padding:12px;background:#E1F5EE;border-radius:9px;border-left:3px solid #1D9E75;">'
+    + '<div style="font-size:10px;font-weight:600;color:#085041;text-transform:uppercase;letter-spacing:.06em;">Auto-report (ragazzo)</div>'
+    + '<div style="font-size:11px;color:#555;margin-top:2px;">'+auto.data+(auto.sesso?" &middot; "+auto.sesso:"")+'</div>'
+    + '<div style="font-size:20px;font-weight:700;margin-top:4px;">'+auto.tot+'<span style="font-size:12px;color:#aaa;font-weight:400;">/40</span> <span class="badge '+bc(bdA)+'">'+bl(bdA)+'</span></div>'
+    + '</div>';
+  html += '<div style="padding:12px;background:#EEEDFE;border-radius:9px;border-left:3px solid #534AB7;">'
+    + '<div style="font-size:10px;font-weight:600;color:#3C3489;text-transform:uppercase;letter-spacing:.06em;">Osservazione educatore</div>'
+    + '<div style="font-size:11px;color:#555;margin-top:2px;">'+(edu.compilatore||"")+(edu.ruolo?" &middot; "+edu.ruolo:"")+'</div>'
+    + '<div style="font-size:20px;font-weight:700;margin-top:4px;">'+edu.tot+'<span style="font-size:12px;color:#aaa;font-weight:400;">/40</span> <span class="badge '+bc(bdE)+'">'+bl(bdE)+'</span></div>'
+    + '</div>';
+  html += '</div>';
+  html += '<p class="lbl">Confronto per scala</p>';
+  scales.forEach(function(s) {
+    var va = auto.scores[s];
+    var ve = edu.scores[s];
+    var ba = band(s,va);
+    var be = band(s,ve);
+    var diff = Math.abs(va-ve);
+    var conLabel, conCol, bgCol;
+    if(ba===be){conLabel="Concordante";conCol="#1D9E75";bgCol="#E1F5EE";}
+    else if(diff<=2){conLabel="Lieve discrepanza";conCol="#BA7517";bgCol="#FAEEDA";}
+    else{conLabel="Discrepanza significativa";conCol="#A32D2D";bgCol="#FCEBEB";}
+    var conTxt;
+    if(ba===be) conTxt="I due profili concordano su questa scala.";
+    else if(diff<=2) conTxt="Lieve differenza: auto-report "+va+", educatore "+ve+".";
+    else conTxt="Differenza marcata: il ragazzo riferisce "+va+" ("+bl(ba)+"), l'educatore osserva "+ve+" ("+bl(be)+"). Questo scarto merita un approfondimento nel colloquio educativo.";
+    html += '<div style="padding:10px 12px;background:'+bgCol+';border-radius:9px;border-left:3px solid '+conCol+';margin-bottom:8px;">'
+      + '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">'
+      + '<span style="font-size:13px;font-weight:600;">'+slbl[s]+'</span>'
+      + '<span style="font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;background:rgba(0,0,0,0.08);color:'+conCol+';">'+conLabel+'</span></div>'
+      + '<div style="display:flex;gap:12px;margin-bottom:6px;">'
+      + '<div style="flex:1;"><div style="font-size:11px;color:#666;margin-bottom:3px;">Auto-report: <strong>'+va+'/10</strong> <span class="badge '+bc(ba)+'">'+bl(ba)+'</span></div><div style="background:rgba(0,0,0,0.08);border-radius:4px;height:6px;overflow:hidden;"><div style="height:6px;border-radius:4px;background:#1D9E75;width:'+(va/10*100)+'%;"></div></div></div>'
+      + '<div style="flex:1;"><div style="font-size:11px;color:#666;margin-bottom:3px;">Educatore: <strong>'+ve+'/10</strong> <span class="badge '+bc(be)+'">'+bl(be)+'</span></div><div style="background:rgba(0,0,0,0.08);border-radius:4px;height:6px;overflow:hidden;"><div style="height:6px;border-radius:4px;background:#534AB7;width:'+(ve/10*100)+'%;"></div></div></div>'
+      + '</div>'
+      + '<p style="font-size:12px;color:#555;line-height:1.5;">'+conTxt+'</p></div>';
+  });
+  var totDiff = Math.abs(auto.tot-edu.tot);
+  var discr = scales.filter(function(s){return Math.abs(auto.scores[s]-edu.scores[s])>=3;});
+  var interp;
+  if(totDiff<=4) interp="I due profili sono sostanzialmente concordanti (differenza totale: "+totDiff+" punti). La percezione di "+nome+" su se stesso e l'osservazione dell'educatore descrivono un quadro coerente, aumentando l'attendibilita della valutazione.";
+  else if(totDiff>8) interp="I due profili mostrano una discrepanza rilevante nel punteggio totale (auto-report: "+auto.tot+", educatore: "+edu.tot+", differenza: "+totDiff+" punti). Questo scarto merita un approfondimento attraverso un colloquio diretto.";
+  else interp="I due profili mostrano una concordanza parziale (differenza totale: "+totDiff+" punti). Alcune scale convergono, altre mostrano differenze utili da esplorare.";
+  if(discr.length>0) interp+=" Le scale con maggiore discrepanza sono: <strong>"+discr.map(function(s){return slbl[s];}).join(", ")+"</strong>.";
+  html += '<p class="lbl">Interpretazione integrata</p>';
+  html += '<div style="padding:14px;background:#f8f8f7;border-radius:9px;margin-bottom:8px;"><p style="font-size:13px;color:#444;line-height:1.75;">'+interp+'</p></div>';
+  var raccomandazione;
+  if(discr.length===0) raccomandazione="La coerenza tra i due profili permette di progettare interventi mirati. Si raccomanda di condividere i risultati in equipe e pianificare obiettivi educativi per le aree critiche in entrambe le valutazioni.";
+  else raccomandazione="La presenza di discrepanze suggerisce di avviare un colloquio diretto con "+nome+" per comprendere la sua percezione. E utile condividere i risultati in equipe e costruire una lettura condivisa del profilo.";
+  html += '<div style="padding:14px;background:#FFF8E6;border-radius:9px;border-left:3px solid #FAC775;">'
+    + '<p style="font-size:11px;font-weight:600;color:#854F0B;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">Raccomandazioni operative</p>'
+    + '<p style="font-size:13px;color:#444;line-height:1.75;">'+raccomandazione+'</p></div>';
+  document.getElementById("dp-sint").innerHTML = html;
+}
+
+window.deleteEntry = async function() {
+  if(!currentEntry||!confirm("Eliminare questa compilazione definitivamente?")) return;
+  try {
     await deleteDoc(doc(db,"risposte",currentEntry.id));
-    allEntries=allEntries.filter(e=>e.id!==currentEntry.id);
+    allEntries = allEntries.filter(function(e){return e.id!==currentEntry.id;});
     renderList();
     window.closeModal();
-  }catch(e){alert("Errore nell'eliminazione.");}
+  } catch(e) {
+    alert("Errore nell'eliminazione.");
+  }
 };
 
-window.changePin=function(){
-  const old=document.getElementById("old-pin").value,nw=document.getElementById("new-pin").value,cf=document.getElementById("conf-pin").value;
-  const w=document.getElementById("pin-ch-warn"),ok=document.getElementById("pin-ch-ok");
-  w.style.display="none";ok.style.display="none";
+window.changePin = function() {
+  var old = document.getElementById("old-pin").value;
+  var nw  = document.getElementById("new-pin").value;
+  var cf  = document.getElementById("conf-pin").value;
+  var w   = document.getElementById("pin-ch-warn");
+  var ok  = document.getElementById("pin-ch-ok");
+  w.style.display="none"; ok.style.display="none";
   if(old!==getPin()){w.textContent="PIN attuale errato.";w.style.display="block";return;}
   if(nw.length<4){w.textContent="Almeno 4 cifre.";w.style.display="block";return;}
   if(nw!==cf){w.textContent="I PIN non coincidono.";w.style.display="block";return;}
-  localStorage.setItem("sdq_edu_pin",nw);
-  document.getElementById("old-pin").value="";document.getElementById("new-pin").value="";document.getElementById("conf-pin").value="";
-  ok.style.display
+  localStorage.setItem("sdq_pin2",nw);
+  document.getElementById("old-pin").value="";
+  document.getElementById("new-pin").value="";
+  document.getElementById("conf-pin").value="";
+  ok.style.display="block";
+};
+</script>
+</body>
+</html>
