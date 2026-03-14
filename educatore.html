@@ -518,10 +518,130 @@ function renderImpact() {
     ["Carico sugli altri", imp.i_altri!=null ? lvlMap[imp.i_altri] : "Non risposto"]
   ];
   var tbl = rows.map(function(r){return "<tr><td>"+r[0]+"</td><td>"+r[1]+"</td></tr>";}).join("");
-  var html = '<p class="lbl">Sezione impatto</p>'
-    + '<div class="card"><table class="impact-table" style="width:100%;">'+tbl+'</table></div>';
+  var nome = e.nome || "Il ragazzo/la ragazza";
+  var isEst = getBand_local("EC",e.scores.EC)!=="normale" || getBand_local("IP",e.scores.IP)!=="normale";
+  var isInt = getBand_local("ES",e.scores.ES)!=="normale" || getBand_local("C",e.scores.C)!=="normale";
+  function getBand_local(s,v){return band(s,v);}
+
+  function bloc(titolo, valore, borderCol, bgCol, txtCol, commento) {
+    return "<div style=\"padding:11px 13px;background:"+bgCol+";border-radius:9px;border-left:3px solid "+borderCol+";margin-bottom:8px;\">"
+      +"<div style=\"display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;\">"
+      +"<span style=\"font-size:13px;font-weight:600;color:#1a1a1a;\">"+titolo+"</span>"
+      +"<span style=\"font-size:12px;font-weight:600;padding:2px 9px;border-radius:20px;background:"+borderCol+";color:#fff;\">"+valore+"</span>"
+      +"</div>"
+      +"<p style=\"font-size:12px;color:#555;line-height:1.6;margin:0;\">"+commento+"</p>"
+      +"</div>";
+  }
+
+  var html = "<p class=\"lbl\">Sezione impatto</p>"
+    +"<div class=\"card\"><table class=\"impact-table\" style=\"width:100%;\">"+tbl+"</table></div>"
+    +"<p class=\"lbl\" style=\"margin-top:1.25rem;\">Lettura interpretativa</p>"
+    +"<p style=\"font-size:13px;color:#555;line-height:1.75;margin-bottom:1rem;\">La sezione Impatto (Impact Supplement) non misura la gravita delle scale, ma quanto le difficolta incidono concretamente nella vita quotidiana di "+nome+". Permette di capire dove e come il disagio si manifesta nel reale.</p>";
+
+  if(imp.diff_gen != null) {
+    var dg = imp.diff_gen;
+    var dgTxt = ["",
+      nome+" non riconosce difficolta significative nelle aree indagate. Questo puo indicare scarsa consapevolezza del disagio oppure un funzionamento effettivamente adeguato nel contesto quotidiano.",
+      nome+" riconosce la presenza di piccole difficolta. La consapevolezza e parziale: il problema viene percepito ma non vissuto come fonte importante di disagio."+(isEst?" Questo e frequente nei profili esternalizzanti, dove il comportamento problematico non genera necessariamente sofferenza soggettiva.":""),
+      nome+" riconosce difficolta importanti nella propria quotidianita. Il livello di consapevolezza e significativo e suggerisce che le difficolta vengono vissute con un certo peso personale.",
+      nome+" riconosce difficolta molto grandi. Il disagio e avvertito con chiarezza e intensita, il che puo facilitare la motivazione al cambiamento ma richiede anche un supporto adeguato."
+    ][dg+1];
+    var dgCol = dg===0?"#1D9E75":dg===1?"#BA7517":dg===2?"#A32D2D":"#791F1F";
+    html += bloc("Difficolta percepita", dgMap[dg], dgCol, dg===0?"#E1F5EE":dg===1?"#FAEEDA":"#FCEBEB", "#fff", dgTxt);
+  }
+
+  if(imp.durata != null) {
+    var dur = imp.durata;
+    var durTxt = [null,
+      "La durata inferiore a un mese suggerisce un disagio acuto e recente. Potrebbe trattarsi di una reazione a un evento specifico piuttosto che di un pattern strutturato.",
+      "Una durata di 1-5 mesi indica un disagio persistente ma relativamente recente. E importante capire se vi sia stato un evento scatenante o se si tratti di una tendenza in consolidamento.",
+      "Una durata di 6-12 mesi indica che il pattern non e episodico. Le difficolta si sono stabilizzate nel tempo e probabilmente necessitano di un intervento strutturato.",
+      "Una durata superiore a un anno indica un pattern comportamentale o emotivo stabile. Non si tratta di una fase momentanea, ma di una modalita di funzionamento consolidata che richiede interventi mirati e continuativi."
+    ][dur];
+    var durCol = dur<=2?"#BA7517":"#A32D2D";
+    html += bloc("Durata", durMap[dur], durCol, dur<=2?"#FAEEDA":"#FCEBEB", "#fff", durTxt);
+  }
+
+  if(imp.soff != null) {
+    var soff = imp.soff;
+    var soffTxt = [
+      nome+" non riferisce sofferenza personale. "+(isEst?"Questo e frequente nei profili con difficolta comportamentali: il disagio e percepito piu dall'ambiente che dal soggetto stesso. Non implica assenza di problema, ma orienta l'intervento verso strategie esterne.":"E utile esplorare se questa assenza di sofferenza rifletta un reale equilibrio o una difficolta nel riconoscere le proprie emozioni."),
+      nome+" riferisce una lieve sofferenza soggettiva. Il disagio e presente ma contenuto.",
+      nome+" riferisce una sofferenza abbastanza significativa. Il peso emotivo delle difficolta e percepito e va considerato nella progettazione dell'intervento educativo.",
+      nome+" riferisce una sofferenza intensa. Questo livello di disagio richiede attenzione prioritaria e, se non gia presente, l'attivazione di un supporto psicologico professionale."
+    ][soff];
+    var soffCol = soff===0?"#1D9E75":soff===1?"#BA7517":soff===2?"#BA7517":"#A32D2D";
+    html += bloc("Sofferenza soggettiva", lvlMap[soff], soffCol, soff===0?"#E1F5EE":soff<=2?"#FAEEDA":"#FCEBEB", "#fff", soffTxt);
+  }
+
+  html += "<p style=\"font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.06em;margin:1rem 0 .5rem;\">Aree di impatto nella vita quotidiana</p>";
+
+  var aree = [
+    {k:"i_fam", n:"Vita familiare", t:[
+      "Il contesto familiare non risulta impattato. Le relazioni in famiglia sembrano funzionare adeguatamente.",
+      "Il contesto familiare mostra un impatto lieve. Qualche tensione e presente ma non compromette il funzionamento quotidiano.",
+      "Il contesto familiare e abbastanza impattato. "+(isEst?"In molti profili con condotta elevata e proprio la famiglia il luogo dove la regolazione comportamentale e piu difficile, perche i legami affettivi intensificano le reazioni emotive.":"Le dinamiche familiari sembrano amplificare il disagio. E utile coinvolgere la famiglia nel progetto educativo."),
+      "Il contesto familiare e fortemente impattato. "+(isEst?"I conflitti emergono soprattutto nel contesto domestico: il ragazzo/a fatica a regolare il comportamento laddove il legame affettivo e piu intenso.":"Le difficolta ricadono pesantemente sulla vita familiare. E fondamentale il coinvolgimento attivo della famiglia nel percorso di supporto.")
+    ]},
+    {k:"i_ami", n:"Amicizie", t:[
+      "Le amicizie non sembrano influenzate. Il ragazzo/a mantiene relazioni sociali soddisfacenti.",
+      "Le amicizie sono lievemente influenzate. Qualche attrito relazionale e presente ma non compromette i legami.",
+      "Le amicizie sono abbastanza influenzate. "+(isEst?"Le relazioni possono essere turbolente pur mantenendosi. L'impulsivita o la tendenza al conflitto emergono anche in questo contesto.":"Le difficolta cominciano a incidere sui rapporti con i pari. E un segnale da monitorare."),
+      "Le amicizie sono fortemente influenzate. Le difficolta relazionali impattano significativamente sulla rete sociale, con rischio di isolamento o conflitti ripetuti."
+    ]},
+    {k:"i_scu", n:"Scuola", t:[
+      "Il contesto scolastico non e percepito come area critica. Questo puo indicare che il ragazzo/a riesce a regolare meglio il comportamento in ambienti strutturati con regole chiare.",
+      "L'impatto a scuola e lieve. Le difficolta non compromettono significativamente il funzionamento scolastico.",
+      "L'impatto a scuola e abbastanza significativo. Le difficolta cominciano a interferire con l'apprendimento o con le relazioni nel contesto scolastico.",
+      "L'impatto a scuola e molto elevato. E necessario un coordinamento tra equipe educativa e istituzione scolastica."
+    ]},
+    {k:"i_lib", n:"Tempo libero", t:[
+      "Il tempo libero non e influenzato. Il ragazzo/a riesce a gestire autonomamente i momenti non strutturati.",
+      "L'impatto sul tempo libero e lieve. Qualche difficolta emerge ma non compromette le attivita.",
+      "Il tempo libero e abbastanza influenzato. "+(isEst?"Nei contesti meno strutturati emergono piu facilmente impulsivita e conflitti, perche le regole sono meno chiare e il controllo esterno e ridotto.":"Le difficolta si manifestano anche nei momenti di svago, limitando il benessere del ragazzo/a."),
+      "Il tempo libero e fortemente influenzato. "+(isEst?"L'assenza di struttura amplifica le difficolta di autoregolazione: e il luogo dove emergono di piu impulsivita e conflitti tra pari.":"Le difficolta pervadono anche i momenti di svago, riducendo significativamente la qualita di vita percepita.")
+    ]},
+    {k:"i_altri", n:"Carico sugli altri", t:[
+      "Le difficolta non sembrano pesare sulle persone vicine. L'impatto sull'ambiente circostante e minimo.",
+      "Le difficolta pesano lievemente sugli altri. Chi e vicino avverte qualche tensione ma riesce a gestirla.",
+      "Le difficolta pesano abbastanza sugli altri. Familiari, insegnanti e amici avvertono il peso del comportamento o del disagio del ragazzo/a.",
+      (imp.soff===0?"Anche se il ragazzo/a non percepisce sofferenza personale, riconosce che il suo comportamento pesa sull'ambiente: e una forma embrionale di consapevolezza sociale da valorizzare nel percorso educativo.":"Il carico sugli altri e elevato. E importante prevenire dinamiche di esaurimento o conflitto cronico nell'ambiente circostante.")
+    ]}
+  ];
+
+  aree.forEach(function(a) {
+    var v = imp[a.k];
+    if(v == null) return;
+    var cols = ["#1D9E75","#888780","#BA7517","#A32D2D"];
+    var bgs  = ["#E1F5EE","#F1EFE8","#FAEEDA","#FCEBEB"];
+    html += bloc(a.n, lvlMap[v], cols[v], bgs[v], "#fff", a.t[v]);
+  });
+
+  var areeAlte = [];
+  if(imp.i_fam>=2) areeAlte.push("vita familiare");
+  if(imp.i_ami>=2) areeAlte.push("amicizie");
+  if(imp.i_scu>=2) areeAlte.push("scuola");
+  if(imp.i_lib>=2) areeAlte.push("tempo libero");
+  if(imp.i_altri>=2) areeAlte.push("carico sugli altri");
+
+  var sint = "<div style=\"margin-top:1rem;padding:14px;background:#f8f8f7;border-radius:9px;border-top:2px solid #e8e8e6;\">"
+    +"<p style=\"font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;\">Sintesi interpretativa</p>"
+    +"<p style=\"font-size:13px;color:#444;line-height:1.75;\">";
+  if(areeAlte.length===0){
+    sint += "Il profilo di impatto non mostra aree di interferenza significativa nella vita quotidiana di "+nome+". Le difficolta emerse nelle scale SDQ sembrano avere un peso contenuto sul funzionamento reale.";
+  } else {
+    sint += "Le aree di maggiore interferenza nella vita di "+nome+" sono: <strong>"+areeAlte.join(", ")+"</strong>. ";
+    if(isEst&&!isInt) sint += "Il profilo e coerente con un pattern prevalentemente esternalizzante: le difficolta non generano sofferenza interna marcata, ma si manifestano nei contesti relazionali e nelle situazioni meno strutturate. Gli interventi centrati su regole chiare, struttura ambientale e rinforzo positivo tendono a essere i piu efficaci.";
+    else if(isInt&&!isEst) sint += "Il profilo e coerente con un pattern prevalentemente internalizzante: il disagio si manifesta soprattutto sul piano emotivo e relazionale. E importante creare spazi di ascolto sicuri e intervenire sulla dimensione emotiva prima ancora che su quella comportamentale.";
+    else if(isInt&&isEst) sint += "Il profilo mostra sia componenti internalizzanti che esternalizzanti. Questo richiede un approccio integrato che lavori simultaneamente sulla regolazione emotiva e sul comportamento agito.";
+    else sint += "E utile considerare questi ambiti come prioritari nella progettazione dell'intervento educativo e nel dialogo con la famiglia.";
+  }
+  sint += "</p></div>";
+  html += sint;
+
   document.getElementById("dp-impact").innerHTML = html;
 }
+
 
 function renderSint(eA, eB) {
   var auto = eA.tipo==="educatore" ? eB : eA;
@@ -624,78 +744,4 @@ function renderSint(eA, eB) {
     var cT;
     if(ba===be) cT="I due profili concordano su questa scala.";
     else if(diff<=2) cT="Lieve differenza: auto-report "+va+", educatore "+ve+".";
-    else cT="Differenza marcata: il ragazzo riferisce "+va+" ("+bl(ba)+"), l'educatore osserva "+ve+" ("+bl(be)+"). Questo scarto merita un approfondimento nel colloquio educativo.";
-    html+='<div style="padding:10px 12px;background:'+bgC+';border-radius:9px;border-left:3px solid '+cC+';margin-bottom:8px;">'
-      +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">'
-      +'<span style="font-size:13px;font-weight:600;">'+slbl[s]+'</span>'
-      +'<span style="font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;background:rgba(0,0,0,0.08);color:'+cC+';">'+cL+'</span></div>'
-      +'<div style="display:flex;gap:12px;margin-bottom:6px;">'
-      +'<div style="flex:1;"><div style="font-size:11px;color:#666;margin-bottom:3px;">Auto-report: <strong>'+va+'/10</strong> <span class="badge '+bc(ba)+'">'+bl(ba)+'</span></div><div style="background:rgba(0,0,0,0.08);border-radius:4px;height:6px;overflow:hidden;"><div style="height:6px;border-radius:4px;background:#1D9E75;width:'+(va/10*100)+'%;"></div></div></div>'
-      +'<div style="flex:1;"><div style="font-size:11px;color:#666;margin-bottom:3px;">Educatore: <strong>'+ve+'/10</strong> <span class="badge '+bc(be)+'">'+bl(be)+'</span></div><div style="background:rgba(0,0,0,0.08);border-radius:4px;height:6px;overflow:hidden;"><div style="height:6px;border-radius:4px;background:#534AB7;width:'+(ve/10*100)+'%;"></div></div></div>'
-      +'</div>'
-      +'<p style="font-size:12px;color:#555;line-height:1.5;">'+cT+'</p></div>';
-  });
-  html+='<p class="lbl">Aree educative prioritarie</p>';
-  if(priorita.length===0){
-    html+='<div style="padding:12px;background:#E1F5EE;border-radius:9px;font-size:13px;color:#085041;">Il profilo non evidenzia aree critiche in nessuna delle due valutazioni. Si raccomanda un monitoraggio periodico e il consolidamento dei punti di forza.</div>';
-  } else {
-    priorita.forEach(function(p,idx){
-      var pC=p.livello==="borderline"?"#BA7517":"#A32D2D";
-      var pB=p.livello==="borderline"?"#FAEEDA":"#FCEBEB";
-      var pT=p.livello==="borderline"?"Monitorare":"Priorita alta";
-      html+='<div style="padding:12px;background:'+pB+';border-radius:9px;border-left:3px solid '+pC+';margin-bottom:8px;">'
-        +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">'
-        +'<span style="font-size:13px;font-weight:600;color:'+pC+';">'+(idx+1)+'. '+p.info.label+'</span>'
-        +'<span style="font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;background:'+pC+';color:#fff;">'+pT+'</span>'
-        +'</div>'
-        +'<p style="font-size:12px;color:#555;line-height:1.55;">'+p.info.desc+'</p>'
-        +'</div>';
-    });
-  }
-  html+='<p class="lbl">Interpretazione integrata</p>';
-  var interp;
-  if(totDiff<=4) interp="I due profili sono sostanzialmente concordanti (differenza totale: "+totDiff+" punti). La percezione di "+nome+" su se stesso e l'osservazione dell'educatore descrivono un quadro coerente, aumentando l'attendibilita della valutazione.";
-  else if(totDiff>8) interp="I due profili mostrano una discrepanza rilevante nel punteggio totale (auto-report: "+auto.tot+", educatore: "+edu.tot+", differenza: "+totDiff+" punti). Questo scarto merita un approfondimento attraverso un colloquio diretto.";
-  else interp="I due profili mostrano una concordanza parziale (differenza totale: "+totDiff+" punti). Alcune scale convergono, altre mostrano differenze utili da esplorare nel contesto educativo.";
-  if(discr.length>0) interp+=" Le scale con maggiore discrepanza sono: <strong>"+discr.map(function(s){return slbl[s];}).join(", ")+"</strong>.";
-  html+='<div style="padding:14px;background:#f8f8f7;border-radius:9px;margin-bottom:8px;"><p style="font-size:13px;color:#444;line-height:1.75;">'+interp+'</p></div>';
-  var racc;
-  if(discr.length===0) racc="La coerenza tra i due profili permette di progettare interventi mirati. Si raccomanda di condividere i risultati in equipe e pianificare obiettivi educativi per le aree prioritarie emerse.";
-  else racc="La presenza di discrepanze suggerisce di avviare un colloquio diretto con "+nome+" per comprendere la sua percezione. E utile costruire una lettura condivisa del profilo in equipe, eventualmente coinvolgendo anche la famiglia.";
-  html+='<div style="padding:14px;background:#FFF8E6;border-radius:9px;border-left:3px solid #FAC775;">'
-    +'<p style="font-size:11px;font-weight:600;color:#854F0B;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">Raccomandazioni operative</p>'
-    +'<p style="font-size:13px;color:#444;line-height:1.75;">'+racc+'</p></div>';
-  document.getElementById("dp-sint").innerHTML=html;
-}
-
-window.deleteEntry = async function() {
-  if(!currentEntry||!confirm("Eliminare questa compilazione definitivamente?")) return;
-  try {
-    await deleteDoc(doc(db,"risposte",currentEntry.id));
-    allEntries = allEntries.filter(function(e){return e.id!==currentEntry.id;});
-    renderList();
-    window.closeModal();
-  } catch(e) {
-    alert("Errore nell'eliminazione.");
-  }
-};
-
-window.changePin = function() {
-  var old = document.getElementById("old-pin").value;
-  var nw  = document.getElementById("new-pin").value;
-  var cf  = document.getElementById("conf-pin").value;
-  var w   = document.getElementById("pin-ch-warn");
-  var ok  = document.getElementById("pin-ch-ok");
-  w.style.display="none"; ok.style.display="none";
-  if(old!==getPin()){w.textContent="PIN attuale errato.";w.style.display="block";return;}
-  if(nw.length<4){w.textContent="Almeno 4 cifre.";w.style.display="block";return;}
-  if(nw!==cf){w.textContent="I PIN non coincidono.";w.style.display="block";return;}
-  localStorage.setItem("sdq_pin2",nw);
-  document.getElementById("old-pin").value="";
-  document.getElementById("new-pin").value="";
-  document.getElementById("conf-pin").value="";
-  ok.style.display="block";
-};
-</script>
-</body>
-</html>
+    else cT="Differenza marcata: il ragazzo riferisce "+va+" ("+bl(ba)+"), l'educatore osserva "+ve+" ("+bl(be)+"). Questo scarto merita un approfondimento ne
