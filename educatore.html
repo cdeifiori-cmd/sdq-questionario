@@ -308,19 +308,19 @@ function renderScale(){
   // commento internalizzazione/esternalizzazione
   let commINT_EST="";
   if(intBd==="normale"&&estBd==="normale"){
-    commINT_EST=`Il profilo non mostra difficoltà significative né sul versante internalizzante né su quello esternalizzante. Il funzionamento psicologico e comportamentale risulta complessivamente adeguato all'età.`;
+    commINT_EST="Il profilo non mostra difficoltà significative né sul versante internalizzante né su quello esternalizzante. Il funzionamento psicologico e comportamentale risulta complessivamente adeguato all'età.";
   } else if(intBd!=="normale"&&(estBd==="normale")){
-    commINT_EST=`Il profilo mostra una prevalenza di difficoltà internalizzanti, con un disagio che si esprime soprattutto attraverso sintomi emotivi e difficoltà relazionali piuttosto che attraverso comportamenti agiti verso l'esterno. Questo pattern richiede interventi focalizzati sull'ascolto emotivo e sul sostegno alla regolazione interna.`;
+    commINT_EST="Il profilo mostra una prevalenza di difficoltà internalizzanti, con un disagio che si esprime soprattutto attraverso sintomi emotivi e difficoltà relazionali piuttosto che attraverso comportamenti agiti verso l'esterno. Questo pattern richiede interventi focalizzati sull'ascolto emotivo e sul sostegno alla regolazione interna.";
   } else if(estBd!=="normale"&&(intBd==="normale")){
-    commINT_EST=`Il profilo mostra una prevalenza di difficoltà esternalizzanti, suggerendo una maggiore espressione del disagio attraverso il comportamento piuttosto che attraverso sintomi emotivi interni. Le difficoltà tendono a manifestarsi nelle relazioni e nei contesti strutturati, richiedendo interventi centrati sulla regolazione comportamentale.`;
+    commINT_EST="Il profilo mostra una prevalenza di difficoltà esternalizzanti, suggerendo una maggiore espressione del disagio attraverso il comportamento piuttosto che attraverso sintomi emotivi interni. Le difficoltà tendono a manifestarsi nelle relazioni e nei contesti strutturati, richiedendo interventi centrati sulla regolazione comportamentale.";
   } else if(intBd!=="normale"&&estBd!=="normale"){
     if(intV>=estV){
-      commINT_EST=`Il profilo evidenzia difficoltà sia sul versante internalizzante che esternalizzante, con una lieve prevalenza della componente interna. La compresenza di disagio emotivo e difficoltà comportamentali suggerisce un quadro complesso che richiede un approccio integrato, attento sia alla sofferenza interiore che alle manifestazioni comportamentali.`;
+      commINT_EST="Il profilo evidenzia difficoltà sia sul versante internalizzante che esternalizzante, con una lieve prevalenza della componente interna. La compresenza di disagio emotivo e difficoltà comportamentali suggerisce un quadro complesso che richiede un approccio integrato, attento sia alla sofferenza interiore che alle manifestazioni comportamentali.";
     } else {
-      commINT_EST=`Il profilo evidenzia difficoltà sia sul versante esternalizzante che internalizzante, con una lieve prevalenza della componente comportamentale. La compresenza di difficoltà emotive e agite richiede un intervento che lavori simultaneamente sulla regolazione emotiva e sul comportamento, evitando di affrontare solo la parte più visibile del disagio.`;
+      commINT_EST="Il profilo evidenzia difficoltà sia sul versante esternalizzante che internalizzante, con una lieve prevalenza della componente comportamentale. La compresenza di difficoltà emotive e agite richiede un intervento che lavori simultaneamente sulla regolazione emotiva e sul comportamento, evitando di affrontare solo la parte più visibile del disagio.";
     }
   } else if(intBd==="borderline"||estBd==="borderline"){
-    commINT_EST=`Uno o entrambi gli indicatori compositi si collocano in area borderline. Il quadro merita monitoraggio nel tempo per verificare se le difficoltà tendano a stabilizzarsi, ridursi o aggravarsi.`;
+    commINT_EST="Uno o entrambi gli indicatori compositi si collocano in area borderline. Il quadro merita monitoraggio nel tempo per verificare se le difficoltà tendano a stabilizzarsi, ridursi o aggravarsi.";
   }
   html+=`<div style="margin-top:10px;padding:12px 14px;background:#f8f8f7;border-radius:9px;font-size:13px;color:#444;line-height:1.7;border-left:3px solid #e8e8e6;">${commINT_EST}</div>`;
   html+=`<div style="margin-top:8px;padding:9px 12px;background:#f8f8f7;border-radius:8px;font-size:12px;color:#888;line-height:1.5;">Nota: per la scala Prosociale punteggi alti (6–10) = adeguato; punteggi bassi (0–4) = difficoltà.</div>`;
@@ -540,10 +540,8 @@ function renderImpact(){
   sint+=`</p></div>`;
   c+=sint;
 
-  document.getElementById("dp-impact").innerHTML=`<p class="lbl">Sezione impatto</p>
-    <div class="card"><table class="impact-table" style="width:100%;">${rows.map(([l,v])=>`<tr><td>${l}</td><td>${v}</td></tr>`).join("")}</table></div>
-    <p class="lbl" style="margin-top:1.25rem;">Lettura interpretativa</p>
-    <div>${c}</div>`;
+  var tblRows=rows.map(function(r){return "<tr><td>"+r[0]+"</td><td>"+r[1]+"</td></tr>";}).join("");
+  document.getElementById("dp-impact").innerHTML="<p class=\"lbl\">Sezione impatto</p><div class=\"card\"><table class=\"impact-table\" style=\"width:100%;\">"+tblRows+"</table></div><p class=\"lbl\" style=\"margin-top:1.25rem;\">Lettura interpretativa</p><div>"+c+"</div>";
 }
 
 function renderSintesi(eA,eB){
@@ -556,8 +554,8 @@ function renderSintesi(eA,eB){
   var bdA=getBand("TOT",auto.tot);
   var bdE=getBand("TOT",edu.tot);
   html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1rem;">';
-  html+='<div style="padding:12px;background:#E1F5EE;border-radius:9px;border-left:3px solid #1D9E75;"><div style="font-size:10px;font-weight:600;color:#085041;text-transform:uppercase;letter-spacing:.06em;">Auto-report (ragazzo)</div><div style="font-size:11px;color:#555;margin-top:2px;">'+auto.data+(auto.sesso?' · '+auto.sesso:'')+'</div><div style="font-size:22px;font-weight:700;margin-top:4px;">'+auto.tot+'<span style="font-size:12px;color:#aaa;font-weight:400;">/40</span> <span class="badge '+bClass(bdA)+'">'+bLabel(bdA)+'</span></div></div>';
-  html+='<div style="padding:12px;background:#EEEDFE;border-radius:9px;border-left:3px solid #534AB7;"><div style="font-size:10px;font-weight:600;color:#3C3489;text-transform:uppercase;letter-spacing:.06em;">Osservazione educatore</div><div style="font-size:11px;color:#555;margin-top:2px;">'+(edu.compilatore||'')+(edu.ruolo?' · '+edu.ruolo:'')+'</div><div style="font-size:22px;font-weight:700;margin-top:4px;">'+edu.tot+'<span style="font-size:12px;color:#aaa;font-weight:400;">/40</span> <span class="badge '+bClass(bdE)+'">'+bLabel(bdE)+'</span></div></div>';
+  html+='<div style="padding:12px;background:#E1F5EE;border-radius:9px;border-left:3px solid #1D9E75;"><div style="font-size:10px;font-weight:600;color:#085041;text-transform:uppercase;letter-spacing:.06em;">Auto-report (ragazzo)</div><div style="font-size:11px;color:#555;margin-top:2px;">'+auto.data+(auto.sesso?" · "+auto.sesso:"")+</div><div style="font-size:22px;font-weight:700;margin-top:4px;">'+auto.tot+'<span style="font-size:12px;color:#aaa;font-weight:400;">/40</span> <span class="badge '+bClass(bdA)+'">'+bLabel(bdA)+'</span></div></div>';
+  html+='<div style="padding:12px;background:#EEEDFE;border-radius:9px;border-left:3px solid #534AB7;"><div style="font-size:10px;font-weight:600;color:#3C3489;text-transform:uppercase;letter-spacing:.06em;">Osservazione educatore</div><div style="font-size:11px;color:#555;margin-top:2px;">'+(edu.compilatore||"")+(edu.ruolo?" · "+edu.ruolo:"")+</div><div style="font-size:22px;font-weight:700;margin-top:4px;">'+edu.tot+'<span style="font-size:12px;color:#aaa;font-weight:400;">/40</span> <span class="badge '+bClass(bdE)+'">'+bLabel(bdE)+'</span></div></div>';
   html+='</div>';
   html+='<p class="lbl">Confronto per scala</p>';
   scales.forEach(function(s){
@@ -583,12 +581,12 @@ function renderSintesi(eA,eB){
   var discr=scales.filter(function(s){return Math.abs(auto.scores[s]-edu.scores[s])>=3;});
   html+='<p class="lbl">Interpretazione integrata</p>';
   var interp='';
-  if(totDiff<=4){interp='I due profili sono sostanzialmente concordanti (differenza totale: '+totDiff+' punti). La percezione di '+nome+' su sé stesso e l'osservazione dell'educatore descrivono un quadro coerente, il che aumenta l'attendibilità complessiva della valutazione.';}
-  else if(totDiff>8){interp='I due profili mostrano una discrepanza rilevante nel punteggio totale (auto-report: '+auto.tot+', educatore: '+edu.tot+', differenza: '+totDiff+' punti). Questo scarto può indicare differenze nella percezione del disagio e merita un approfondimento attraverso un colloquio diretto.';}
-  else{interp='I due profili mostrano una concordanza parziale (differenza totale: '+totDiff+' punti). Alcune scale convergono, altre mostrano differenze utili da esplorare nel contesto educativo.';}
-  if(discr.length>0){interp+=' Le scale con maggiore discrepanza sono: <strong>'+discr.map(function(s){return slbl[s];}).join(', ')+'</strong>. In queste aree il vissuto soggettivo e il comportamento osservato non coincidono.';}
+  if(totDiff<=4){interp="I due profili sono sostanzialmente concordanti (differenza totale: "+totDiff+" punti). La percezione di "+nome+" su sé stesso e l'osservazione dell'educatore descrivono un quadro coerente, il che aumenta l'attendibilità complessiva della valutazione.";}
+  else if(totDiff>8){interp="I due profili mostrano una discrepanza rilevante nel punteggio totale (auto-report: "+auto.tot+", educatore: "+edu.tot+", differenza: "+totDiff+" punti). Questo scarto può indicare differenze nella percezione del disagio e merita un approfondimento attraverso un colloquio diretto.";}
+  else{interp="I due profili mostrano una concordanza parziale (differenza totale: "+totDiff+" punti). Alcune scale convergono, altre mostrano differenze utili da esplorare nel contesto educativo.";}
+  if(discr.length>0){interp+=" Le scale con maggiore discrepanza sono: <strong>"+discr.map(function(s){return slbl[s];}).join(", ")+"</strong>. In queste aree il vissuto soggettivo e il comportamento osservato non coincidono.";}
   html+='<div style="padding:14px;background:#f8f8f7;border-radius:9px;border-left:3px solid #e8e8e6;margin-bottom:8px;"><p style="font-size:13px;color:#444;line-height:1.75;">'+interp+'</p></div>';
-  html+='<div style="padding:14px;background:#FFF8E6;border-radius:9px;border-left:3px solid #FAC775;"><p style="font-size:11px;font-weight:600;color:#854F0B;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">Raccomandazioni operative</p><p style="font-size:13px;color:#444;line-height:1.75;">'+(discr.length===0?'La coerenza tra i due profili permette di progettare interventi mirati. Si raccomanda di condividere i risultati in équipe e pianificare obiettivi educativi per le aree critiche in entrambe le valutazioni.':'La presenza di discrepanze suggerisce di avviare un colloquio diretto con '+nome+' per comprendere la sua percezione. È utile condividere i risultati in équipe e costruire una lettura condivisa del profilo.')+'</p></div>';
+  html+='<div style="padding:14px;background:#FFF8E6;border-radius:9px;border-left:3px solid #FAC775;"><p style="font-size:11px;font-weight:600;color:#854F0B;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">Raccomandazioni operative</p><p style="font-size:13px;color:#444;line-height:1.75;">'+(discr.length===0?"La coerenza tra i due profili permette di progettare interventi mirati. Si raccomanda di condividere i risultati in équipe e pianificare obiettivi educativi per le aree critiche in entrambe le valutazioni.":"La presenza di discrepanze suggerisce di avviare un colloquio diretto con "+nome+" per comprendere la sua percezione. È utile condividere i risultati in équipe e costruire una lettura condivisa del profilo.")+</p></div>';
   document.getElementById("dp-sintesi").innerHTML=html;
 }
 
@@ -611,8 +609,4 @@ window.changePin=function(){
   if(nw!==cf){w.textContent="I PIN non coincidono.";w.style.display="block";return;}
   localStorage.setItem("sdq_edu_pin",nw);
   document.getElementById("old-pin").value="";document.getElementById("new-pin").value="";document.getElementById("conf-pin").value="";
-  ok.style.display="block";
-};
-</script>
-</body>
-</html>
+  ok.style.display
