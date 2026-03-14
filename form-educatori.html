@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Questionario SDQ</title>
+<title>SDQ — Questionario Educatori</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f3;color:#1a1a1a;font-size:15px;}
@@ -16,10 +16,10 @@ h1{font-size:22px;font-weight:600;margin-bottom:4px;}
 .field{display:flex;flex-direction:column;gap:5px;}
 .field label{font-size:13px;color:#666;font-weight:500;}
 .field input,.field select{border:1px solid #d0d0ce;border-radius:8px;padding:10px 12px;font-size:15px;background:#fff;color:#1a1a1a;width:100%;}
-.field input:focus,.field select:focus{outline:none;border-color:#1D9E75;}
+.field input:focus,.field select:focus{outline:none;border-color:#534AB7;}
 .counter-bar{background:#fff;border-radius:8px;padding:10px 14px;margin-bottom:1rem;border:1px solid #e8e8e6;display:flex;align-items:center;gap:12px;}
 .counter-track{flex:1;background:#e8e8e6;border-radius:4px;height:6px;overflow:hidden;}
-.counter-fill{height:6px;background:#1D9E75;border-radius:4px;transition:width .3s;}
+.counter-fill{height:6px;background:#534AB7;border-radius:4px;transition:width .3s;}
 .counter-txt{font-size:12px;color:#666;white-space:nowrap;}
 .item-row{padding:12px 0;border-bottom:1px solid #f0f0ee;}
 .item-row:last-child{border-bottom:none;}
@@ -30,65 +30,50 @@ h1{font-size:22px;font-weight:600;margin-bottom:4px;}
 .radio-group label:last-child{border-right:none;}
 .radio-group input[type="radio"]{display:none;}
 .radio-dot{width:16px;height:16px;border-radius:50%;border:2px solid #d0d0ce;transition:all .15s;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.radio-group label.selected{color:#0F6E56;font-weight:500;background:#f0faf6;}
-.radio-group label.selected .radio-dot{border-color:#1D9E75;background:#1D9E75;}
+.radio-group label.selected{color:#3C3489;font-weight:500;background:#F0EFFE;}
+.radio-group label.selected .radio-dot{border-color:#534AB7;background:#534AB7;}
 .radio-group label.selected .radio-dot::after{content:'';width:6px;height:6px;border-radius:50%;background:#fff;display:block;}
 .impact-q{margin-bottom:1rem;}
 .impact-q p{font-size:14px;color:#1a1a1a;margin-bottom:8px;line-height:1.5;}
 .impact-opts{display:flex;flex-direction:column;gap:6px;}
 .impact-opt{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid #e0e0de;border-radius:8px;cursor:pointer;transition:all .15s;}
-.impact-opt:hover{border-color:#1D9E75;background:#f0faf6;}
-.impact-opt input[type="radio"]{accent-color:#1D9E75;width:16px;height:16px;flex-shrink:0;}
+.impact-opt:hover{border-color:#534AB7;background:#F0EFFE;}
+.impact-opt input[type="radio"]{accent-color:#534AB7;width:16px;height:16px;flex-shrink:0;}
 .impact-opt span{font-size:14px;color:#444;}
-.impact-opt.selected{border-color:#1D9E75;background:#f0faf6;}
+.impact-opt.selected{border-color:#534AB7;background:#F0EFFE;}
 .warn{font-size:13px;color:#c0392b;margin-top:8px;padding:10px 12px;background:#fdf0ef;border-radius:8px;display:none;}
 .btn{width:100%;padding:14px;font-size:16px;font-weight:600;border-radius:10px;border:none;cursor:pointer;margin-top:1rem;}
-.btn-primary{background:#1D9E75;color:#fff;}
-.btn-primary:hover{background:#0F6E56;}
-.btn-primary:disabled{background:#a0cfc2;cursor:not-allowed;}
+.btn-primary{background:#534AB7;color:#fff;}
+.btn-primary:hover{background:#3C3489;}
+.btn-primary:disabled{background:#AFA9EC;cursor:not-allowed;}
 .divider{height:1px;background:#e8e8e6;margin:1.5rem 0;}
 .thanks-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;gap:1rem;text-align:center;padding:2rem;}
-.thanks-icon{width:72px;height:72px;border-radius:50%;background:#E1F5EE;display:flex;align-items:center;justify-content:center;font-size:36px;}
 .spinner{display:inline-block;width:20px;height:20px;border:2px solid #fff;border-top-color:transparent;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:8px;}
 @keyframes spin{to{transform:rotate(360deg);}}
+.tag-edu{display:inline-block;background:#EEEDFE;color:#3C3489;font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px;margin-bottom:1rem;}
 </style>
 </head>
 <body>
 <div class="container">
-
-  <div id="screen-home">
-    <h1>SDQ — Questionario</h1>
-    <p class="sub" style="margin-bottom:1.5rem;">Seleziona chi compila il questionario.</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:.5rem;">
-      <div onclick="document.getElementById('screen-home').style.display='none';document.getElementById('screen-form').style.display='block';"
-        style="background:#fff;border-radius:12px;padding:1.5rem 1.25rem;border:1px solid #e8e8e6;cursor:pointer;text-align:center;transition:border-color .15s;"
-        onmouseover="this.style.borderColor='#1D9E75'" onmouseout="this.style.borderColor='#e8e8e6'">
-        <div style="font-size:32px;margin-bottom:10px;">🧑‍🎓</div>
-        <div style="font-size:15px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Sono un ragazzo/a</div>
-        <div style="font-size:13px;color:#666;">Auto-report 11–17 anni</div>
-      </div>
-      <div onclick="window.location.href='form-educatori.html'"
-        style="background:#fff;border-radius:12px;padding:1.5rem 1.25rem;border:1px solid #e8e8e6;cursor:pointer;text-align:center;transition:border-color .15s;"
-        onmouseover="this.style.borderColor='#534AB7'" onmouseout="this.style.borderColor='#e8e8e6'">
-        <div style="font-size:32px;margin-bottom:10px;">👩‍🏫</div>
-        <div style="font-size:15px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Sono un educatore</div>
-        <div style="font-size:13px;color:#666;">Osservazione adulto 4–17 anni</div>
-      </div>
-    </div>
-  </div>
-
-  <div id="screen-form" style="display:none;">
+  <div id="screen-form">
+    <span class="tag-edu">Versione educatori / insegnanti</span>
     <h1>Questionario SDQ</h1>
-    <p class="sub">Indica quanto ogni affermazione è vera per te negli ultimi sei mesi.</p>
+    <p class="sub">Per ciascuna domanda metta una crocetta su una delle tre caselle. Risponda sulla base del comportamento del bambino negli ultimi sei mesi o durante il presente anno scolastico.</p>
 
     <div class="card">
       <div class="info-grid">
-        <div class="field"><label>Nome e cognome</label><input type="text" id="f-nome" placeholder="Es. Mario Rossi" autocomplete="name"></div>
+        <div class="field"><label>Nome del bambino/ragazzo</label><input type="text" id="f-nome" placeholder="Es. Mario Rossi"></div>
         <div class="field"><label>Data di nascita</label><input type="date" id="f-ddn"></div>
         <div class="field"><label>Sesso</label>
           <select id="f-sesso"><option value="">Seleziona...</option><option>Maschio</option><option>Femmina</option></select>
         </div>
-        <div class="field"><label>Data di oggi</label><input type="date" id="f-data"></div>
+        <div class="field"><label>Data compilazione</label><input type="date" id="f-data"></div>
+      </div>
+      <div class="field"><label>Nome compilatore (educatore/insegnante)</label><input type="text" id="f-compilatore" placeholder="Es. Maria Bianchi"></div>
+      <div style="margin-top:10px;">
+        <div class="field"><label>Ruolo</label>
+          <select id="f-ruolo"><option value="">Seleziona...</option><option>Educatore</option><option>Insegnante</option><option>Altro operatore</option></select>
+        </div>
       </div>
     </div>
 
@@ -100,24 +85,24 @@ h1{font-size:22px;font-weight:600;margin-bottom:4px;}
     <div class="card" id="items-card"></div>
 
     <div class="divider"></div>
-    <p style="font-size:16px;font-weight:600;margin-bottom:4px;">Alcune domande finali</p>
-    <p style="font-size:14px;color:#666;margin-bottom:1rem;">Riguardano eventuali difficoltà che potresti avere.</p>
+    <p style="font-size:16px;font-weight:600;margin-bottom:4px;">Domande sull'impatto</p>
+    <p style="font-size:14px;color:#666;margin-bottom:1rem;">Riguardano l'eventuale impatto delle difficoltà nella vita del bambino/ragazzo.</p>
 
     <div class="card">
       <div class="impact-q">
-        <p>In generale, pensi di avere alcune difficoltà nelle emozioni, nella concentrazione, nel comportamento o nel rapportarti con gli altri?</p>
+        <p>In generale, pensa che il bambino abbia alcune difficoltà nelle emozioni, nella concentrazione, nel comportamento o nella capacità di andare d'accordo con gli altri?</p>
         <div class="impact-opts">
           <label class="impact-opt"><input type="radio" name="diff_gen" value="0"><span>No</span></label>
-          <label class="impact-opt"><input type="radio" name="diff_gen" value="1"><span>Sì, piccole difficoltà</span></label>
+          <label class="impact-opt"><input type="radio" name="diff_gen" value="1"><span>Sì, difficoltà minori</span></label>
           <label class="impact-opt"><input type="radio" name="diff_gen" value="2"><span>Sì, difficoltà importanti</span></label>
-          <label class="impact-opt"><input type="radio" name="diff_gen" value="3"><span>Sì, difficoltà molto grandi</span></label>
+          <label class="impact-opt"><input type="radio" name="diff_gen" value="3"><span>Sì, difficoltà severe</span></label>
         </div>
       </div>
     </div>
 
     <div id="impact-extra" style="display:none;">
       <div class="card">
-        <div class="impact-q"><p>Da quanto tempo hai queste difficoltà?</p>
+        <div class="impact-q"><p>Da quanto tempo il bambino ha queste difficoltà?</p>
           <div class="impact-opts">
             <label class="impact-opt"><input type="radio" name="durata" value="1"><span>Meno di 1 mese</span></label>
             <label class="impact-opt"><input type="radio" name="durata" value="2"><span>1–5 mesi</span></label>
@@ -126,7 +111,7 @@ h1{font-size:22px;font-weight:600;margin-bottom:4px;}
           </div>
         </div>
         <div class="divider"></div>
-        <div class="impact-q"><p>Queste difficoltà ti fanno stare male o ti preoccupano?</p>
+        <div class="impact-q"><p>Queste difficoltà lo turbano o lo fanno soffrire?</p>
           <div class="impact-opts">
             <label class="impact-opt"><input type="radio" name="soff" value="0"><span>Per niente</span></label>
             <label class="impact-opt"><input type="radio" name="soff" value="1"><span>Solo un pò</span></label>
@@ -135,16 +120,7 @@ h1{font-size:22px;font-weight:600;margin-bottom:4px;}
           </div>
         </div>
         <div class="divider"></div>
-        <div class="impact-q"><p>Influenzano la tua vita in famiglia?</p>
-          <div class="impact-opts">
-            <label class="impact-opt"><input type="radio" name="i_fam" value="0"><span>Per niente</span></label>
-            <label class="impact-opt"><input type="radio" name="i_fam" value="1"><span>Solo un pò</span></label>
-            <label class="impact-opt"><input type="radio" name="i_fam" value="2"><span>Abbastanza</span></label>
-            <label class="impact-opt"><input type="radio" name="i_fam" value="3"><span>Molto</span></label>
-          </div>
-        </div>
-        <div class="divider"></div>
-        <div class="impact-q"><p>Influenzano le tue amicizie?</p>
+        <div class="impact-q"><p>Queste difficoltà interferiscono con le sue amicizie?</p>
           <div class="impact-opts">
             <label class="impact-opt"><input type="radio" name="i_ami" value="0"><span>Per niente</span></label>
             <label class="impact-opt"><input type="radio" name="i_ami" value="1"><span>Solo un pò</span></label>
@@ -153,7 +129,7 @@ h1{font-size:22px;font-weight:600;margin-bottom:4px;}
           </div>
         </div>
         <div class="divider"></div>
-        <div class="impact-q"><p>Influenzano il tuo andamento a scuola?</p>
+        <div class="impact-q"><p>Queste difficoltà interferiscono con l'apprendimento a scuola?</p>
           <div class="impact-opts">
             <label class="impact-opt"><input type="radio" name="i_scu" value="0"><span>Per niente</span></label>
             <label class="impact-opt"><input type="radio" name="i_scu" value="1"><span>Solo un pò</span></label>
@@ -162,16 +138,7 @@ h1{font-size:22px;font-weight:600;margin-bottom:4px;}
           </div>
         </div>
         <div class="divider"></div>
-        <div class="impact-q"><p>Influenzano il tuo tempo libero?</p>
-          <div class="impact-opts">
-            <label class="impact-opt"><input type="radio" name="i_lib" value="0"><span>Per niente</span></label>
-            <label class="impact-opt"><input type="radio" name="i_lib" value="1"><span>Solo un pò</span></label>
-            <label class="impact-opt"><input type="radio" name="i_lib" value="2"><span>Abbastanza</span></label>
-            <label class="impact-opt"><input type="radio" name="i_lib" value="3"><span>Molto</span></label>
-          </div>
-        </div>
-        <div class="divider"></div>
-        <div class="impact-q" style="margin-bottom:0;"><p>Rendono le cose difficili anche per chi ti sta vicino?</p>
+        <div class="impact-q" style="margin-bottom:0;"><p>Queste difficoltà hanno creato forte disagio a lei o agli altri studenti?</p>
           <div class="impact-opts">
             <label class="impact-opt"><input type="radio" name="i_altri" value="0"><span>Per niente</span></label>
             <label class="impact-opt"><input type="radio" name="i_altri" value="1"><span>Solo un pò</span></label>
@@ -182,19 +149,17 @@ h1{font-size:22px;font-weight:600;margin-bottom:4px;}
       </div>
     </div>
 
-    <div class="warn" id="form-warn">Rispondi a tutte le 25 affermazioni prima di inviare.</div>
-    <button class="btn btn-primary" id="submit-btn" onclick="submitForm()">Invia le risposte</button>
-    <button onclick="document.getElementById('screen-form').style.display='none';document.getElementById('screen-home').style.display='block';" style="width:100%;padding:11px;font-size:14px;border-radius:10px;border:1px solid #e0e0de;background:transparent;color:#666;cursor:pointer;margin-top:8px;">← Torna alla home</button>
+    <div class="warn" id="form-warn">Risponda a tutte le 25 domande prima di inviare.</div>
+    <button class="btn btn-primary" id="submit-btn" onclick="submitForm()">Invia il questionario</button>
   </div>
 
   <div id="screen-thanks" style="display:none;">
     <div class="thanks-screen">
-      <div class="thanks-icon">✅</div>
-      <div style="font-size:22px;font-weight:600;">Grazie per aver risposto!</div>
-      <div style="font-size:15px;color:#666;max-width:280px;line-height:1.6;">Le tue risposte sono state registrate correttamente. Puoi chiudere questa pagina.</div>
+      <div style="width:72px;height:72px;border-radius:50%;background:#EEEDFE;display:flex;align-items:center;justify-content:center;font-size:36px;">✅</div>
+      <div style="font-size:22px;font-weight:600;">Questionario inviato!</div>
+      <div style="font-size:15px;color:#666;max-width:280px;line-height:1.6;">Le osservazioni sono state registrate correttamente. Può chiudere questa pagina.</div>
     </div>
   </div>
-
 </div>
 
 <script type="module">
@@ -209,43 +174,42 @@ const firebaseConfig = {
   messagingSenderId: "601788476480",
   appId: "1:601788476480:web:766d7dd791fa44acbd83a5"
 };
-
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 const ITEMS=[
-  {t:"Cerco di essere gentile verso gli altri; sono rispettoso dei loro sentimenti",s:"PR",r:false},
-  {t:"Sono agitato/a, non riesco a stare fermo per molto tempo",s:"IP",r:false},
-  {t:"Soffro spesso mal di testa, mal di stomaco o nausea",s:"ES",r:false},
-  {t:"Condivido volentieri con gli altri (dolci, giocattoli, matite ecc.)",s:"PR",r:false},
-  {t:"Spesso ho delle crisi di collera o sono di cattivo umore",s:"EC",r:false},
-  {t:"Sono piuttosto solitario/a, tendo a giocare da solo",s:"C",r:false},
-  {t:"Generalmente sono obbediente e faccio quello che mi è stato detto",s:"EC",r:true},
-  {t:"Ho molte preoccupazioni",s:"ES",r:false},
-  {t:"Sono di aiuto se qualcuno si fa male, è arrabbiato o malato",s:"PR",r:false},
-  {t:"Sono costantemente in movimento; spesso mi sento a disagio",s:"IP",r:false},
-  {t:"Ho almeno un buon amico o una buona amica",s:"C",r:true},
-  {t:"Spesso litigo. Costringo gli altri a fare quello che voglio",s:"EC",r:false},
-  {t:"Sono spesso infelice o triste; piango facilmente",s:"ES",r:false},
-  {t:"Generalmente sono ben accettato/a dalle persone della mia età",s:"C",r:true},
-  {t:"Sono facilmente distratto/a; trovo difficile concentrarmi",s:"IP",r:false},
-  {t:"Le situazioni nuove mi rendono nervoso/a, mi sento poco sicuro di me stesso",s:"ES",r:false},
-  {t:"Sono gentile con i bambini piccoli",s:"PR",r:false},
-  {t:"Sono spesso accusato/a di essere un bugiardo o un ingannatore/trice",s:"EC",r:false},
-  {t:"Sono preso/a di mira e preso/a in giro dalle persone della mia età",s:"C",r:false},
-  {t:"Sono spesso volontario per aiutare gli altri (genitori, insegnanti, bambini)",s:"PR",r:false},
-  {t:"Penso prima di fare qualcosa",s:"IP",r:true},
-  {t:"Ho rubato degli oggetti che non mi appartenevano da casa, da scuola o da altri posti",s:"EC",r:false},
-  {t:"Ho migliori rapporti con gli adulti che con le persone della mia età",s:"C",r:false},
-  {t:"Ho molte paure, mi spavento facilmente",s:"ES",r:false},
-  {t:"Sono in grado di finire ciò che mi viene chiesto; rimango concentrato/a per tutto il tempo necessario",s:"IP",r:true}
+  {t:"È rispettoso/a dei sentimenti degli altri",s:"PR",r:false},
+  {t:"È irrequieto/a, iperattivo/a, incapace di stare fermo per molto tempo",s:"IP",r:false},
+  {t:"Si lamenta spesso per mal di testa, mal di stomaco o nausea",s:"ES",r:false},
+  {t:"Condivide volentieri con gli altri bambini (dolci, giocattoli, matite ecc.)",s:"PR",r:false},
+  {t:"Spesso ha crisi di collera o è di cattivo umore",s:"EC",r:false},
+  {t:"È piuttosto solitario/a, tende a giocare da solo",s:"C",r:false},
+  {t:"Generalmente obbediente, esegue di solito le richieste degli adulti",s:"EC",r:true},
+  {t:"Ha molte preoccupazioni, spesso sembra preoccupato/a",s:"ES",r:false},
+  {t:"È di aiuto se qualcuno si fa male, è arrabbiato o malato",s:"PR",r:false},
+  {t:"È costantemente in movimento o a disagio",s:"IP",r:false},
+  {t:"Ha almeno un buon amico o una buona amica",s:"C",r:true},
+  {t:"Spesso litiga con gli altri bambini o li infastidisce di proposito",s:"EC",r:false},
+  {t:"Spesso infelice, triste o in lacrime",s:"ES",r:false},
+  {t:"Generalmente ben accetto/a dagli altri bambini",s:"C",r:true},
+  {t:"Facilmente distratto/a, incapace di concentrarsi",s:"IP",r:false},
+  {t:"È nervoso/a o a disagio in situazioni nuove, si sente poco sicuro di sé",s:"ES",r:false},
+  {t:"Gentile con i bambini più piccoli",s:"PR",r:false},
+  {t:"Spesso dice bugie o inganna",s:"EC",r:false},
+  {t:"Preso/a di mira e preso/a in giro dagli altri bambini",s:"C",r:false},
+  {t:"Si offre spesso volontario per aiutare gli altri (genitori, insegnanti, altri bambini)",s:"PR",r:false},
+  {t:"Pensa prima di fare qualcosa",s:"IP",r:true},
+  {t:"Ruba a casa, a scuola o in altri posti",s:"EC",r:false},
+  {t:"Ha migliori rapporti con gli adulti che con i bambini",s:"C",r:false},
+  {t:"Ha molte paure, si spaventa facilmente",s:"ES",r:false},
+  {t:"È in grado di portare a termine ciò che gli viene richiesto, rimanendo concentrato per tutto il tempo necessario",s:"IP",r:true}
 ];
 
-const itemsCard = document.getElementById("items-card");
-ITEMS.forEach((item, i) => {
-  const div = document.createElement("div");
-  div.className = "item-row";
-  div.innerHTML = `<div class="item-text"><span class="item-num">${i+1}.</span>${item.t}</div>
+const itemsCard=document.getElementById("items-card");
+ITEMS.forEach((item,i)=>{
+  const div=document.createElement("div");
+  div.className="item-row";
+  div.innerHTML=`<div class="item-text"><span class="item-num">${i+1}.</span>${item.t}</div>
     <div class="radio-group">
       <label id="lbl-${i}-0"><input type="radio" name="q${i}" value="0" onchange="window.onRadio(${i})"><span class="radio-dot"></span>Non vero</label>
       <label id="lbl-${i}-1"><input type="radio" name="q${i}" value="1" onchange="window.onRadio(${i})"><span class="radio-dot"></span>Parz. vero</label>
@@ -254,58 +218,55 @@ ITEMS.forEach((item, i) => {
   itemsCard.appendChild(div);
 });
 
-window.onRadio = function(i) {
-  [0,1,2].forEach(v => {
-    const lbl = document.getElementById(`lbl-${i}-${v}`);
-    lbl.classList.toggle("selected", lbl.querySelector("input").checked);
-  });
-  let c=0; for(let j=0;j<25;j++){if(document.querySelector(`input[name="q${j}"]:checked`))c++;}
+window.onRadio=function(i){
+  [0,1,2].forEach(v=>{const lbl=document.getElementById(`lbl-${i}-${v}`);lbl.classList.toggle("selected",lbl.querySelector("input").checked);});
+  let c=0;for(let j=0;j<25;j++){if(document.querySelector(`input[name="q${j}"]:checked`))c++;}
   document.getElementById("counter-fill").style.width=(c/25*100)+"%";
   document.getElementById("counter-txt").textContent=c+" di 25";
 };
 
-document.querySelectorAll('.impact-opt input[type="radio"]').forEach(r => {
-  r.addEventListener("change", function() {
-    document.querySelectorAll(`.impact-opt input[name="${this.name}"]`).forEach(inp => inp.closest(".impact-opt").classList.remove("selected"));
+document.querySelectorAll('.impact-opt input[type="radio"]').forEach(r=>{
+  r.addEventListener("change",function(){
+    document.querySelectorAll(`.impact-opt input[name="${this.name}"]`).forEach(inp=>inp.closest(".impact-opt").classList.remove("selected"));
     this.closest(".impact-opt").classList.add("selected");
-    if(this.name==="diff_gen") document.getElementById("impact-extra").style.display=parseInt(this.value)>0?"block":"none";
+    if(this.name==="diff_gen")document.getElementById("impact-extra").style.display=parseInt(this.value)>0?"block":"none";
   });
 });
 
 function getRad(name){const r=document.querySelector(`input[name="${name}"]:checked`);return r?parseInt(r.value):null;}
 
-window.submitForm = async function() {
+window.submitForm=async function(){
   const warn=document.getElementById("form-warn");
   for(let i=0;i<25;i++){if(!document.querySelector(`input[name="q${i}"]:checked`)){warn.style.display="block";warn.scrollIntoView({behavior:"smooth",block:"center"});return;}}
   warn.style.display="none";
   const btn=document.getElementById("submit-btn");
-  btn.disabled=true;
-  btn.innerHTML='<span class="spinner"></span>Invio in corso...';
+  btn.disabled=true;btn.innerHTML='<span class="spinner"></span>Invio in corso...';
   const sc={ES:0,IP:0,EC:0,C:0,PR:0};
   ITEMS.forEach((item,i)=>{let v=parseInt(document.querySelector(`input[name="q${i}"]:checked`).value);if(item.r)v=2-v;sc[item.s]+=v;});
   const tot=sc.ES+sc.IP+sc.EC+sc.C;
   const dg=document.querySelector('input[name="diff_gen"]:checked');
   const entry={
+    tipo:"educatore",
     nome:document.getElementById("f-nome").value||"Anonimo",
     ddn:document.getElementById("f-ddn").value,
     sesso:document.getElementById("f-sesso").value,
     data:document.getElementById("f-data").value||new Date().toISOString().split("T")[0],
-    timestamp: new Date(),
-    scores:sc, tot,
-    impact:{diff_gen:dg?parseInt(dg.value):null,durata:getRad("durata"),soff:getRad("soff"),i_fam:getRad("i_fam"),i_ami:getRad("i_ami"),i_scu:getRad("i_scu"),i_lib:getRad("i_lib"),i_altri:getRad("i_altri")}
+    compilatore:document.getElementById("f-compilatore").value||"",
+    ruolo:document.getElementById("f-ruolo").value||"",
+    timestamp:new Date(),
+    scores:sc,tot,
+    impact:{diff_gen:dg?parseInt(dg.value):null,durata:getRad("durata"),soff:getRad("soff"),i_ami:getRad("i_ami"),i_scu:getRad("i_scu"),i_altri:getRad("i_altri")}
   };
-  try {
-    await addDoc(collection(db,"risposte"), entry);
+  try{
+    await addDoc(collection(db,"risposte"),entry);
     document.getElementById("screen-form").style.display="none";
     document.getElementById("screen-thanks").style.display="block";
     window.scrollTo(0,0);
-  } catch(e) {
-    btn.disabled=false;
-    btn.innerHTML="Invia le risposte";
+  }catch(e){
+    btn.disabled=false;btn.innerHTML="Invia il questionario";
     alert("Errore nell'invio. Controlla la connessione e riprova.");
   }
 };
-
 document.getElementById("f-data").value=new Date().toISOString().split("T")[0];
 </script>
 </body>
