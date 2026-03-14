@@ -288,7 +288,25 @@ function renderScale(){
       <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:22px;font-weight:700;">${estV}<span style="font-size:11px;color:#aaa;font-weight:400;">/20</span></span><span class="badge ${bClass(estBd)}">${bLabel(estBd)}</span></div>
     </div>
   </div>`;
-  html+=`<div style="margin-top:10px;padding:9px 12px;background:#f8f8f7;border-radius:8px;font-size:12px;color:#888;line-height:1.5;">Nota: per la scala Prosociale punteggi alti (6–10) = adeguato; punteggi bassi (0–4) = difficoltà.</div>`;
+  // commento internalizzazione/esternalizzazione
+  let commINT_EST="";
+  if(intBd==="normale"&&estBd==="normale"){
+    commINT_EST=`Il profilo non mostra difficoltà significative né sul versante internalizzante né su quello esternalizzante. Il funzionamento psicologico e comportamentale risulta complessivamente adeguato all'età.`;
+  } else if(intBd!=="normale"&&(estBd==="normale")){
+    commINT_EST=`Il profilo mostra una prevalenza di difficoltà internalizzanti, con un disagio che si esprime soprattutto attraverso sintomi emotivi e difficoltà relazionali piuttosto che attraverso comportamenti agiti verso l'esterno. Questo pattern richiede interventi focalizzati sull'ascolto emotivo e sul sostegno alla regolazione interna.`;
+  } else if(estBd!=="normale"&&(intBd==="normale")){
+    commINT_EST=`Il profilo mostra una prevalenza di difficoltà esternalizzanti, suggerendo una maggiore espressione del disagio attraverso il comportamento piuttosto che attraverso sintomi emotivi interni. Le difficoltà tendono a manifestarsi nelle relazioni e nei contesti strutturati, richiedendo interventi centrati sulla regolazione comportamentale.`;
+  } else if(intBd!=="normale"&&estBd!=="normale"){
+    if(intV>=estV){
+      commINT_EST=`Il profilo evidenzia difficoltà sia sul versante internalizzante che esternalizzante, con una lieve prevalenza della componente interna. La compresenza di disagio emotivo e difficoltà comportamentali suggerisce un quadro complesso che richiede un approccio integrato, attento sia alla sofferenza interiore che alle manifestazioni comportamentali.`;
+    } else {
+      commINT_EST=`Il profilo evidenzia difficoltà sia sul versante esternalizzante che internalizzante, con una lieve prevalenza della componente comportamentale. La compresenza di difficoltà emotive e agite richiede un intervento che lavori simultaneamente sulla regolazione emotiva e sul comportamento, evitando di affrontare solo la parte più visibile del disagio.`;
+    }
+  } else if(intBd==="borderline"||estBd==="borderline"){
+    commINT_EST=`Uno o entrambi gli indicatori compositi si collocano in area borderline. Il quadro merita monitoraggio nel tempo per verificare se le difficoltà tendano a stabilizzarsi, ridursi o aggravarsi.`;
+  }
+  html+=`<div style="margin-top:10px;padding:12px 14px;background:#f8f8f7;border-radius:9px;font-size:13px;color:#444;line-height:1.7;border-left:3px solid #e8e8e6;">${commINT_EST}</div>`;
+  html+=`<div style="margin-top:8px;padding:9px 12px;background:#f8f8f7;border-radius:8px;font-size:12px;color:#888;line-height:1.5;">Nota: per la scala Prosociale punteggi alti (6–10) = adeguato; punteggi bassi (0–4) = difficoltà.</div>`;
   document.getElementById("dp-scale").innerHTML=html;
 }
 
