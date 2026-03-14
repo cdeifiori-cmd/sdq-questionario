@@ -172,13 +172,15 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-const SLBL={ES:"Sintomi Emotivi",IP:"Iperattività",EC:"Prob. Condotta",C:"Prob. Relazioni",PR:"Prosociale",TOT:"Tot. Difficoltà"};
+const SLBL={ES:"Sintomi Emotivi",IP:"Iperattività",EC:"Prob. Condotta",C:"Prob. Relazioni",PR:"Prosociale",TOT:"Tot. Difficoltà",INT:"Internalizzazione",EST:"Esternalizzazione"};
 const BAR_COL={ES:"#1D9E75",IP:"#BA7517",EC:"#993C1D",C:"#185FA5",PR:"#534AB7"};
 const SC_COL={ES:"b-ES",IP:"b-IP",EC:"b-EC",C:"b-C",PR:"b-PR"};
 
 function getBand(s,v){
   if(s==="PR"){if(v>=6)return"adeguato";if(v===5)return"borderline";return"basso";}
   if(s==="TOT"){if(v<=15)return"normale";if(v<=19)return"borderline";return"elevato";}
+  if(s==="INT"){if(v<=5)return"normale";if(v<=7)return"borderline";return"elevato";}
+  if(s==="EST"){if(v<=5)return"normale";if(v<=7)return"borderline";return"elevato";}
   const r={ES:[3,5],IP:[5,7],EC:[2,3],C:[2,3]}[s];
   if(v<=r[0])return"normale";if(v<=r[1])return"borderline";return"elevato";
 }
@@ -271,7 +273,21 @@ function renderScale(){
     html+=`<div class="scale-row"><div><span class="badge ${SC_COL[s]}">${s}</span><div style="font-size:12px;color:#888;margin-top:3px;">${SLBL[s]}</div></div><div class="bar-bg"><div class="bar-fill" style="width:${pct}%;background:${BAR_COL[s]};"></div></div><div style="font-size:16px;font-weight:600;text-align:center;">${v}<span style="font-size:11px;color:#aaa;">/10</span></div><div style="text-align:right;"><span class="badge ${bClass(bd)}">${bLabel(bd)}</span></div></div>`;
   });
   const totBd=getBand("TOT",e.tot);
+  const intV=e.scores.ES+e.scores.C; const estV=e.scores.EC+e.scores.IP;
+  const intBd=getBand("INT",intV); const estBd=getBand("EST",estV);
   html+=`<div style="margin-top:1rem;padding:12px;background:#f8f8f7;border-radius:9px;display:flex;justify-content:space-between;align-items:center;"><div style="font-size:13px;font-weight:600;color:#666;">Punteggio totale difficoltà (ES+IP+EC+C)</div><div style="display:flex;align-items:center;gap:10px;"><span style="font-size:26px;font-weight:700;">${e.tot}<span style="font-size:13px;color:#aaa;font-weight:400;">/40</span></span><span class="badge ${bClass(totBd)}">${bLabel(totBd)}</span></div></div>`;
+  html+=`<div style="margin-top:8px;display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+    <div style="padding:12px;background:#f0faf6;border-radius:9px;border-left:3px solid #1D9E75;">
+      <div style="font-size:11px;font-weight:600;color:#0F6E56;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">Internalizzazione</div>
+      <div style="font-size:11px;color:#555;margin-bottom:6px;">Sintomi Emotivi + Prob. Relazioni</div>
+      <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:22px;font-weight:700;">${intV}<span style="font-size:11px;color:#aaa;font-weight:400;">/20</span></span><span class="badge ${bClass(intBd)}">${bLabel(intBd)}</span></div>
+    </div>
+    <div style="padding:12px;background:#fff8f0;border-radius:9px;border-left:3px solid #BA7517;">
+      <div style="font-size:11px;font-weight:600;color:#854F0B;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">Esternalizzazione</div>
+      <div style="font-size:11px;color:#555;margin-bottom:6px;">Prob. Condotta + Iperattività</div>
+      <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:22px;font-weight:700;">${estV}<span style="font-size:11px;color:#aaa;font-weight:400;">/20</span></span><span class="badge ${bClass(estBd)}">${bLabel(estBd)}</span></div>
+    </div>
+  </div>`;
   html+=`<div style="margin-top:10px;padding:9px 12px;background:#f8f8f7;border-radius:8px;font-size:12px;color:#888;line-height:1.5;">Nota: per la scala Prosociale punteggi alti (6–10) = adeguato; punteggi bassi (0–4) = difficoltà.</div>`;
   document.getElementById("dp-scale").innerHTML=html;
 }
@@ -305,6 +321,19 @@ function renderInterp(){
       <p>${INTERP[s][bd]||""}</p>
     </div>`;
   });
+  const intV=e.scores.ES+e.scores.C; const estV=e.scores.EC+e.scores.IP;
+  const intBd=getBand("INT",intV); const estBd=getBand("EST",estV);
+  const interpINT={normale:"Il punteggio di internalizzazione (sintomi emotivi + difficoltà relazionali) rientra nella norma. Non emergono segnali significativi di sofferenza interiore o ritiro sociale.",borderline:"Il punteggio di internalizzazione si colloca in area borderline. Il ragazzo/a mostra una tendenza a rivolgersi verso l'interno con vissuti di ansia, tristezza o isolamento che meritano attenzione.",elevato:"Il punteggio di internalizzazione è clinicamente significativo. La combinazione di sintomi emotivi e difficoltà relazionali suggerisce una sofferenza interiore rilevante, con possibile ritiro sociale e disagio psicologico da approfondire."};
+  const interpEST={normale:"Il punteggio di esternalizzazione (problemi di condotta + iperattività) rientra nella norma. Non emergono pattern problematici di comportamento agito.",borderline:"Il punteggio di esternalizzazione si colloca in area borderline. Il ragazzo/a mostra alcune difficoltà nell'autoregolazione e nel comportamento che meritano monitoraggio.",elevato:"Il punteggio di esternalizzazione è clinicamente significativo. La combinazione di problemi di condotta e iperattività indica difficoltà marcate nell'autoregolazione emotiva e comportamentale, con ricadute sul contesto scolastico e relazionale."};
+  html+=`<div style="margin-top:1rem;border-top:1px solid #f0f0ee;padding-top:1rem;"><p style="font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.75rem;">Indicatori compositi</p>`;
+  html+=`<div class="interp-block" style="border-left-color:${intBd==="normale"?"#1D9E75":intBd==="borderline"?"#BA7517":"#A32D2D"};">
+    <div class="interp-header"><span style="font-size:13px;font-weight:600;">Internalizzazione (ES+C)</span><div style="display:flex;align-items:center;gap:6px;"><span style="font-size:14px;font-weight:700;">${intV}/20</span><span class="badge ${bClass(intBd)}">${bLabel(intBd)}</span></div></div>
+    <p>${interpINT[intBd]}</p>
+  </div>`;
+  html+=`<div class="interp-block" style="border-left-color:${estBd==="normale"?"#1D9E75":estBd==="borderline"?"#BA7517":"#A32D2D"};">
+    <div class="interp-header"><span style="font-size:13px;font-weight:600;">Esternalizzazione (EC+IP)</span><div style="display:flex;align-items:center;gap:6px;"><span style="font-size:14px;font-weight:700;">${estV}/20</span><span class="badge ${bClass(estBd)}">${bLabel(estBd)}</span></div></div>
+    <p>${interpEST[estBd]}</p>
+  </div></div>`;
   document.getElementById("dp-interp").innerHTML=html;
 }
 
@@ -313,6 +342,8 @@ function renderRelazione(){
   const nome=e.nome||"Il ragazzo/la ragazza";
   function s(sc){return{v:e.scores[sc]||e.tot,bd:getBand(sc,e.scores[sc]||e.tot)};}
   const ES=s("ES"),IP=s("IP"),EC=s("EC"),C=s("C"),PR={v:e.scores.PR,bd:getBand("PR",e.scores.PR)},TOT={v:e.tot,bd:getBand("TOT",e.tot)};
+  const intV=e.scores.ES+e.scores.C; const estV=e.scores.EC+e.scores.IP;
+  const intBd=getBand("INT",intV); const estBd=getBand("EST",estV);
   const livTot=TOT.bd==="normale"?"nella norma":TOT.bd==="borderline"?"in area borderline":"clinicamente significativo";
   let rec=[];
   if(ES.bd!=="normale")rec.push("un approfondimento della dimensione emotiva e dei vissuti ansiosi");
@@ -352,7 +383,9 @@ function renderRelazione(){
       <li><strong>Problemi di Condotta (EC):</strong> ${EC.v}/10 — <span class="badge ${bClass(EC.bd)}">${bLabel(EC.bd)}</span></li>
       <li><strong>Difficoltà Relazioni con i Pari (C):</strong> ${C.v}/10 — <span class="badge ${bClass(C.bd)}">${bLabel(C.bd)}</span></li>
       <li><strong>Comportamento Prosociale (PR):</strong> ${PR.v}/10 — <span class="badge ${bClass(PR.bd)}">${bLabel(PR.bd)}</span></li>
-    </ul></div>
+    </ul>
+    <p style="margin-top:10px;">Gli indicatori compositi mostrano: <strong>Internalizzazione</strong> (ES+C) = ${intV}/20 <span class="badge ${bClass(intBd)}">${bLabel(intBd)}</span> e <strong>Esternalizzazione</strong> (EC+IP) = ${estV}/20 <span class="badge ${bClass(estBd)}">${bLabel(estBd)}</span>.</p>
+    </div>
     <div class="rel-section"><h4>Analisi del profilo</h4><p>${analisi.join(" ")}</p></div>
     <div class="rel-section"><h4>Implicazioni psicoeducative</h4><p>${impl.join(" ")}</p></div>
     <div class="rel-section"><h4>Raccomandazioni</h4><p>Sulla base del profilo emerso, si suggerisce ${recStr}</p><p style="margin-top:8px;">L'SDQ è uno strumento di screening e non consente diagnosi. I risultati vanno contestualizzati in una valutazione globale del ragazzo/a nel suo contesto familiare, scolastico e relazionale.</p></div>
@@ -361,12 +394,121 @@ function renderRelazione(){
 }
 
 function renderImpact(){
-  const imp=currentEntry.impact||{};
+  const e=currentEntry;
+  const imp=e.impact||{};
   const dgMap={0:"No",1:"Sì, piccole difficoltà",2:"Sì, difficoltà importanti",3:"Sì, difficoltà molto grandi"};
   const durMap={1:"Meno di 1 mese",2:"1–5 mesi",3:"6–12 mesi",4:"Più di 1 anno"};
   const lvlMap={0:"Per niente",1:"Solo un pò",2:"Abbastanza",3:"Molto"};
   const rows=[["Difficoltà percepita",imp.diff_gen!=null?dgMap[imp.diff_gen]:"—"],["Durata",imp.durata!=null?durMap[imp.durata]:"—"],["Sofferenza soggettiva",imp.soff!=null?lvlMap[imp.soff]:"—"],["Vita familiare",imp.i_fam!=null?lvlMap[imp.i_fam]:"—"],["Amicizie",imp.i_ami!=null?lvlMap[imp.i_ami]:"—"],["Scuola",imp.i_scu!=null?lvlMap[imp.i_scu]:"—"],["Tempo libero",imp.i_lib!=null?lvlMap[imp.i_lib]:"—"],["Carico sugli altri",imp.i_altri!=null?lvlMap[imp.i_altri]:"—"]];
-  document.getElementById("dp-impact").innerHTML=`<p class="lbl">Sezione impatto</p><div class="card"><table class="impact-table" style="width:100%;">${rows.map(([l,v])=>`<tr><td>${l}</td><td>${v}</td></tr>`).join("")}</table></div>`;
+
+  const nome=e.nome||"Il ragazzo/la ragazza";
+  const isEst=(getBand("EC",e.scores.EC)!=="normale"||getBand("IP",e.scores.IP)!=="normale");
+  const isInt=(getBand("ES",e.scores.ES)!=="normale"||getBand("C",e.scores.C)!=="normale");
+
+  let c=`<p style="font-size:13px;color:#555;line-height:1.75;margin-bottom:1rem;">La sezione Impatto (Impact Supplement) non misura la gravità delle scale, ma quanto le difficoltà incidono concretamente nella vita quotidiana di ${nome}. Permette di capire <em>dove</em> e <em>come</em> il disagio si manifesta nel reale.</p>`;
+
+  function bloc(titolo,badge,badgeBg,badgeCol,borderCol,testo){
+    return `<div class="interp-block" style="border-left-color:${borderCol};"><div class="interp-header"><span style="font-size:13px;font-weight:600;">${titolo}</span><span class="badge" style="background:${badgeBg};color:${badgeCol};">${badge}</span></div><p style="font-size:13px;color:#555;line-height:1.65;">${testo}</p></div>`;
+  }
+
+  if(imp.diff_gen!=null){
+    const tt=[
+      `${nome} non riconosce difficoltà significative. Può indicare scarsa consapevolezza del disagio o un funzionamento realmente adeguato nel quotidiano.`,
+      `${nome} riconosce piccole difficoltà. La consapevolezza è parziale: il problema è percepito ma non vissuto come fonte importante di disagio.${isEst?" Questo è frequente nei profili esternalizzanti, dove il comportamento problematico non genera necessariamente sofferenza soggettiva.":""}`,
+      `${nome} riconosce difficoltà importanti. Il livello di consapevolezza è significativo e le difficoltà vengono vissute con un certo peso personale.`,
+      `${nome} riconosce difficoltà molto grandi. Il disagio è avvertito con chiarezza e intensità, il che può facilitare la motivazione al cambiamento ma richiede un supporto adeguato.`
+    ];
+    c+=bloc("Difficoltà percepita",dgMap[imp.diff_gen],"#E6F1FB","#0C447C","#378ADD",tt[imp.diff_gen]);
+  }
+
+  if(imp.durata!=null){
+    const tt=[null,
+      "La durata inferiore a un mese suggerisce un disagio acuto e recente. Potrebbe trattarsi di una reazione a un evento specifico piuttosto che di un pattern strutturato.",
+      "Una durata di 1–5 mesi indica un disagio persistente ma relativamente recente. È importante capire se vi sia stato un evento scatenante o se si tratti di una tendenza in consolidamento.",
+      "Una durata di 6–12 mesi indica che il pattern non è episodico. Le difficoltà si sono stabilizzate e necessitano di un intervento strutturato.",
+      "Una durata superiore a un anno indica un pattern comportamentale o emotivo stabile, non una fase momentanea. Richiede interventi mirati e continuativi."
+    ];
+    c+=bloc("Durata",durMap[imp.durata],"#E6F1FB","#0C447C","#378ADD",tt[imp.durata]);
+  }
+
+  if(imp.soff!=null){
+    const tt=[
+      `${nome} non riferisce sofferenza personale. ${isEst?"Questo è frequente nei profili con difficoltà comportamentali: il disagio è percepito più dall'ambiente che dal soggetto stesso. Non implica assenza di problema, ma orienta l'intervento verso strategie esterne.":"È utile esplorare se questa assenza di sofferenza rifletta un reale equilibrio o una difficoltà nel riconoscere le proprie emozioni."}`,
+      `${nome} riferisce una lieve sofferenza soggettiva. Il disagio è presente ma contenuto.`,
+      `${nome} riferisce una sofferenza abbastanza significativa. Il peso emotivo delle difficoltà è percepito e va considerato nella progettazione dell'intervento educativo.`,
+      `${nome} riferisce una sofferenza intensa. Questo livello di disagio richiede attenzione prioritaria e, se non già presente, l'attivazione di un supporto psicologico professionale.`
+    ];
+    c+=bloc("Sofferenza soggettiva",lvlMap[imp.soff],"#E6F1FB","#0C447C","#378ADD",tt[imp.soff]);
+  }
+
+  c+=`<p style="font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.06em;margin:1rem 0 .5rem;">Aree di impatto nella vita quotidiana</p>`;
+
+  const aree=[
+    {k:"i_fam",n:"Vita familiare",tt:[
+      "Il contesto familiare non risulta impattato. Le relazioni in famiglia sembrano funzionare adeguatamente.",
+      "Il contesto familiare mostra un impatto lieve. Qualche tensione è presente ma non compromette il funzionamento quotidiano.",
+      `Il contesto familiare è abbastanza impattato. ${isEst?"In molti profili con condotta elevata è proprio la famiglia il luogo dove la regolazione comportamentale è più difficile, perché i legami affettivi intensificano le reazioni emotive.":"Le dinamiche familiari sembrano amplificare il disagio. È utile coinvolgere la famiglia nel progetto educativo."}`,
+      `Il contesto familiare è fortemente impattato. ${isEst?"I conflitti emergono soprattutto nel contesto domestico: il ragazzo/a fatica a regolare il comportamento laddove il legame affettivo è più intenso.":"Le difficoltà ricadono pesantemente sulla vita familiare. È fondamentale il coinvolgimento attivo della famiglia nel percorso di supporto."}`
+    ]},
+    {k:"i_ami",n:"Amicizie",tt:[
+      "Le amicizie non sembrano influenzate. Il ragazzo/a mantiene relazioni sociali soddisfacenti.",
+      "Le amicizie sono lievemente influenzate. Qualche attrito relazionale è presente ma non compromette i legami.",
+      `Le amicizie sono abbastanza influenzate. ${isEst?"Le relazioni possono essere turbolente pur mantenendosi. L'impulsività o la tendenza al conflitto emergono anche in questo contesto.":"Le difficoltà cominciano a incidere sui rapporti con i pari. È un segnale da monitorare."}`,
+      "Le amicizie sono fortemente influenzate. Le difficoltà relazionali impattano significativamente sulla rete sociale, con rischio di isolamento o conflitti ripetuti."
+    ]},
+    {k:"i_scu",n:"Scuola",tt:[
+      "Il contesto scolastico non è percepito come area critica. Questo può indicare che il ragazzo/a riesce a regolare meglio il comportamento in ambienti strutturati con regole chiare.",
+      "L'impatto a scuola è lieve. Le difficoltà non compromettono significativamente il funzionamento scolastico.",
+      "L'impatto a scuola è abbastanza significativo. Le difficoltà cominciano a interferire con l'apprendimento o con le relazioni nel contesto scolastico.",
+      "L'impatto a scuola è molto elevato. È necessario un coordinamento tra équipe educativa e istituzione scolastica."
+    ]},
+    {k:"i_lib",n:"Tempo libero",tt:[
+      "Il tempo libero non è influenzato. Il ragazzo/a riesce a gestire autonomamente i momenti non strutturati.",
+      "L'impatto sul tempo libero è lieve. Qualche difficoltà emerge ma non compromette le attività.",
+      `Il tempo libero è abbastanza influenzato. ${isEst?"Nei contesti meno strutturati emergono più facilmente impulsività e conflitti, perché le regole sono meno chiare e il controllo esterno è ridotto.":"Le difficoltà si manifestano anche nei momenti di svago, limitando il benessere del ragazzo/a."}`,
+      `Il tempo libero è fortemente influenzato. ${isEst?"L'assenza di struttura amplifica le difficoltà di autoregolazione: è il luogo dove emergono di più impulsività e conflitti tra pari.":"Le difficoltà pervadono anche i momenti di svago, riducendo significativamente la qualità di vita percepita."}`
+    ]},
+    {k:"i_altri",n:"Carico sugli altri",tt:[
+      "Le difficoltà non sembrano pesare sulle persone vicine. L'impatto sull'ambiente circostante è minimo.",
+      "Le difficoltà pesano lievemente sugli altri. Chi è vicino avverte qualche tensione ma riesce a gestirla.",
+      "Le difficoltà pesano abbastanza sugli altri. Familiari, insegnanti e amici avvertono il peso del comportamento o del disagio del ragazzo/a.",
+      `Le difficoltà pesano molto sugli altri. ${imp.soff===0?"Anche se il ragazzo/a non percepisce sofferenza personale, riconosce che il suo comportamento pesa sull'ambiente: è una forma embrionale di consapevolezza sociale da valorizzare nel percorso educativo.":"Il carico sugli altri è elevato. È importante prevenire dinamiche di esaurimento o conflitto cronico nell'ambiente circostante."}`
+    ]}
+  ];
+
+  aree.forEach(({k,n,tt})=>{
+    const v=imp[k];
+    if(v==null)return;
+    const cols=["#1D9E75","#888780","#BA7517","#A32D2D"];
+    const bgs=["#E1F5EE","#F1EFE8","#FAEEDA","#FCEBEB"];
+    const txts=["#085041","#444441","#633806","#791F1F"];
+    c+=bloc(n,lvlMap[v],bgs[v],txts[v],cols[v],tt[v]);
+  });
+
+  const areeAlte=[];
+  if(imp.i_fam>=2)areeAlte.push("vita familiare");
+  if(imp.i_ami>=2)areeAlte.push("amicizie");
+  if(imp.i_scu>=2)areeAlte.push("scuola");
+  if(imp.i_lib>=2)areeAlte.push("tempo libero");
+  if(imp.i_altri>=2)areeAlte.push("carico sugli altri");
+
+  let sint=`<div style="margin-top:1rem;padding:14px;background:#f8f8f7;border-radius:9px;border-top:2px solid #e8e8e6;"><p style="font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;">Sintesi interpretativa</p><p style="font-size:13px;color:#444;line-height:1.75;">`;
+  if(areeAlte.length===0){
+    sint+=`Il profilo di impatto non mostra aree di interferenza significativa. Le difficoltà emerse nelle scale SDQ sembrano avere un peso contenuto sul funzionamento reale di ${nome}.`;
+  } else {
+    sint+=`Le aree di maggiore interferenza nella vita di ${nome} sono: <strong>${areeAlte.join(", ")}</strong>. `;
+    if(isEst&&!isInt) sint+=`Il profilo è coerente con un pattern prevalentemente esternalizzante: le difficoltà non generano sofferenza interna marcata, ma si manifestano nei contesti relazionali e nelle situazioni meno strutturate. Gli interventi centrati su regole chiare, struttura ambientale e rinforzo positivo tendono a essere i più efficaci.`;
+    else if(isInt&&!isEst) sint+=`Il profilo è coerente con un pattern prevalentemente internalizzante: il disagio si manifesta soprattutto sul piano emotivo e relazionale. È importante creare spazi di ascolto sicuri e intervenire sulla dimensione emotiva prima ancora che su quella comportamentale.`;
+    else if(isInt&&isEst) sint+=`Il profilo mostra sia componenti internalizzanti che esternalizzanti. Questo richiede un approccio integrato che lavori simultaneamente sulla regolazione emotiva e sul comportamento agito.`;
+    else sint+=`È utile considerare questi ambiti come prioritari nella progettazione dell'intervento educativo e nel dialogo con la famiglia.`;
+  }
+  sint+=`</p></div>`;
+  c+=sint;
+
+  document.getElementById("dp-impact").innerHTML=`<p class="lbl">Sezione impatto</p>
+    <div class="card"><table class="impact-table" style="width:100%;">${rows.map(([l,v])=>`<tr><td>${l}</td><td>${v}</td></tr>`).join("")}</table></div>
+    <p class="lbl" style="margin-top:1.25rem;">Lettura interpretativa</p>
+    <div>${c}</div>`;
 }
 
 window.deleteEntry=async function(){
