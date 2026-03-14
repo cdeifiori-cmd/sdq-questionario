@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SDQ — Area Educatore</title>
+<title>SDQ — Area valutatore</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f3;color:#1a1a1a;font-size:15px;}
@@ -148,6 +148,7 @@ h3{font-size:15px;font-weight:600;margin-bottom:8px;}
       <div id="dp-interp" class="det-pane"></div>
       <div id="dp-rel" class="det-pane"></div>
       <div id="dp-impact" class="det-pane"></div>
+      <div id="dp-sintesi" class="det-pane"></div>
       <div style="margin-top:1.25rem;border-top:1px solid #f0f0ee;padding-top:1rem;">
         <button class="btn btn-danger btn-sm" onclick="deleteEntry()">Elimina compilazione</button>
       </div>
@@ -538,151 +539,4 @@ function renderImpact(){
     sint+=`Le aree di maggiore interferenza nella vita di ${nome} sono: <strong>${areeAlte.join(", ")}</strong>. `;
     if(isEst&&!isInt) sint+=`Il profilo è coerente con un pattern prevalentemente esternalizzante: le difficoltà non generano sofferenza interna marcata, ma si manifestano nei contesti relazionali e nelle situazioni meno strutturate. Gli interventi centrati su regole chiare, struttura ambientale e rinforzo positivo tendono a essere i più efficaci.`;
     else if(isInt&&!isEst) sint+=`Il profilo è coerente con un pattern prevalentemente internalizzante: il disagio si manifesta soprattutto sul piano emotivo e relazionale. È importante creare spazi di ascolto sicuri e intervenire sulla dimensione emotiva prima ancora che su quella comportamentale.`;
-    else if(isInt&&isEst) sint+=`Il profilo mostra sia componenti internalizzanti che esternalizzanti. Questo richiede un approccio integrato che lavori simultaneamente sulla regolazione emotiva e sul comportamento agito.`;
-    else sint+=`È utile considerare questi ambiti come prioritari nella progettazione dell'intervento educativo e nel dialogo con la famiglia.`;
-  }
-  sint+=`</p></div>`;
-  c+=sint;
-
-  document.getElementById("dp-impact").innerHTML=`<p class="lbl">Sezione impatto</p>
-    <div class="card"><table class="impact-table" style="width:100%;">${rows.map(([l,v])=>`<tr><td>${l}</td><td>${v}</td></tr>`).join("")}</table></div>
-    <p class="lbl" style="margin-top:1.25rem;">Lettura interpretativa</p>
-    <div>${c}</div>`;
-}
-
-function renderSintesi(eA, eB){
-  // eA = current entry, eB = the paired one
-  const auto = eA.tipo==="educatore" ? eB : eA;
-  const edu = eA.tipo==="educatore" ? eA : eB;
-  const nome = auto.nome || edu.nome || "Il ragazzo/la ragazza";
-  const scales=["ES","IP","EC","C","PR"];
-  const SLBL2={ES:"Sintomi Emotivi",IP:"Iperattività",EC:"Prob. Condotta",C:"Prob. Relazioni",PR:"Prosociale"};
-  const BAR2={ES:"#1D9E75",IP:"#BA7517",EC:"#993C1D",C:"#185FA5",PR:"#534AB7"};
-
-  // concordanza per scala
-  function concordanza(s){
-    const va=auto.scores[s]; const ve=edu.scores[s];
-    const ba=getBand(s,va); const be=getBand(s,ve);
-    if(ba===be)return{tipo:"concordante",label:"Concordante",col:"#1D9E75",bg:"#E1F5EE",txt:"I due profili concordano su questa scala."};
-    const diff=Math.abs(va-ve);
-    if(diff<=2)return{tipo:"lieve",label:"Lieve discrepanza",col:"#BA7517",bg:"#FAEEDA",txt:`Lieve differenza tra auto-report (${va}) e osservazione educatore (${ve}).`};
-    return{tipo:"discrepante",label:"Discrepanza significativa",col:"#A32D2D",bg:"#FCEBEB",txt:`Differenza marcata: il ragazzo riferisce ${va} (${bLabel(ba)}), l'educatore osserva ${ve} (${bLabel(be)}). Questo scarto merita un approfondimento nel colloquio educativo.`};
-  }
-
-  let html=`<p class="lbl" style="margin-top:0;">Confronto auto-report vs osservazione educatore</p>`;
-
-  // header cards
-  html+=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1rem;">
-    <div style="padding:12px;background:#E1F5EE;border-radius:9px;border-left:3px solid #1D9E75;">
-      <div style="font-size:10px;font-weight:600;color:#085041;text-transform:uppercase;letter-spacing:.06em;">Auto-report (ragazzo)</div>
-      <div style="font-size:11px;color:#555;margin-top:2px;">${auto.data}${auto.sesso?" · "+auto.sesso:""}</div>
-      <div style="font-size:22px;font-weight:700;margin-top:4px;">${auto.tot}<span style="font-size:12px;color:#aaa;font-weight:400;">/40</span> <span class="badge ${bClass(getBand("TOT",auto.tot))}">${bLabel(getBand("TOT",auto.tot))}</span></div>
-    </div>
-    <div style="padding:12px;background:#EEEDFE;border-radius:9px;border-left:3px solid #534AB7;">
-      <div style="font-size:10px;font-weight:600;color:#3C3489;text-transform:uppercase;letter-spacing:.06em;">Osservazione educatore</div>
-      <div style="font-size:11px;color:#555;margin-top:2px;">${edu.compilatore||""}${edu.ruolo?" · "+edu.ruolo:""}</div>
-      <div style="font-size:22px;font-weight:700;margin-top:4px;">${edu.tot}<span style="font-size:12px;color:#aaa;font-weight:400;">/40</span> <span class="badge ${bClass(getBand("TOT",edu.tot))}">${bLabel(getBand("TOT",edu.tot))}</span></div>
-    </div>
-  </div>`;
-
-  // scala per scala
-  html+=`<p class="lbl">Confronto per scala</p>`;
-  scales.forEach(s=>{
-    const va=auto.scores[s]; const ve=edu.scores[s];
-    const con=concordanza(s);
-    const maxPct=Math.max(va,ve)/10*100;
-    html+=`<div style="padding:10px 12px;background:${con.bg};border-radius:9px;border-left:3px solid ${con.col};margin-bottom:8px;">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-        <span style="font-size:13px;font-weight:600;">${SLBL2[s]}</span>
-        <span style="font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;background:${con.col}20;color:${con.col};">${con.label}</span>
-      </div>
-      <div style="display:flex;gap:12px;align-items:center;margin-bottom:6px;">
-        <div style="flex:1;">
-          <div style="font-size:11px;color:#666;margin-bottom:3px;">🧑‍🎓 Auto-report: <strong>${va}/10</strong> <span class="badge ${bClass(getBand(s,va))}">${bLabel(getBand(s,va))}</span></div>
-          <div style="background:rgba(0,0,0,0.08);border-radius:4px;height:6px;overflow:hidden;"><div style="height:6px;border-radius:4px;background:#1D9E75;width:${va/10*100}%;"></div></div>
-        </div>
-        <div style="flex:1;">
-          <div style="font-size:11px;color:#666;margin-bottom:3px;">👩‍🏫 Educatore: <strong>${ve}/10</strong> <span class="badge ${bClass(getBand(s,ve))}">${bLabel(getBand(s,ve))}</span></div>
-          <div style="background:rgba(0,0,0,0.08);border-radius:4px;height:6px;overflow:hidden;"><div style="height:6px;border-radius:4px;background:#534AB7;width:${ve/10*100}%;"></div></div>
-        </div>
-      </div>
-      <p style="font-size:12px;color:#555;line-height:1.5;">${con.txt}</p>
-    </div>`;
-  });
-
-  // interpretazione sintetica
-  const discrepanze=scales.filter(s=>{
-    const va=auto.scores[s];const ve=edu.scores[s];
-    return Math.abs(va-ve)>=3;
-  });
-  const concordanti=scales.filter(s=>{
-    const ba=getBand(s,auto.scores[s]);const be=getBand(s,edu.scores[s]);
-    return ba===be;
-  });
-  const totDiff=Math.abs(auto.tot-edu.tot);
-
-  html+=`<p class="lbl">Interpretazione integrata</p>`;
-  html+=`<div style="padding:14px;background:#f8f8f7;border-radius:9px;border-left:3px solid #e8e8e6;margin-bottom:8px;">
-    <p style="font-size:13px;color:#444;line-height:1.75;">`;
-
-  if(totDiff<=4&&concordanti.length>=4){
-    html+=`I due profili sono sostanzialmente concordanti (differenza totale: ${totDiff} punti). La percezione di ${nome} su sé stesso e l'osservazione dell'educatore descrivono un quadro coerente, il che aumenta l'attendibilità complessiva della valutazione.`;
-  } else if(totDiff>8){
-    html+=`I due profili mostrano una discrepanza rilevante nel punteggio totale (auto-report: ${auto.tot}, educatore: ${edu.tot}, differenza: ${totDiff} punti). Questo scarto può indicare differenze nella percezione del disagio tra il ragazzo e l'adulto osservatore, e merita un approfondimento attraverso un colloquio diretto.`;
-  } else {
-    html+=`I due profili mostrano una concordanza parziale (differenza totale: ${totDiff} punti). Alcune scale convergono, altre mostrano differenze che è utile esplorare nel contesto educativo.`;
-  }
-
-  if(discrepanze.length>0){
-    const nomiDisc=discrepanze.map(s=>SLBL2[s]).join(", ");
-    html+=` Le scale con maggiore discrepanza sono: <strong>${nomiDisc}</strong>. In queste aree la lettura del ragazzo e quella dell'educatore divergono significativamente, suggerendo che il vissuto soggettivo e il comportamento osservato non coincidono.`;
-  }
-
-  // pattern internalizzazione/esternalizzazione confronto
-  const intA=auto.scores.ES+auto.scores.C; const intE=edu.scores.ES+edu.scores.C;
-  const estA=auto.scores.EC+auto.scores.IP; const estE=edu.scores.EC+edu.scores.IP;
-  if(Math.abs(intA-intE)>=4||Math.abs(estA-estE)>=4){
-    html+=` Sul versante degli indicatori compositi, l'internalizzazione risulta ${intA} nel auto-report e ${intE} nell'osservazione; l'esternalizzazione risulta ${estA} nel auto-report e ${estE} nell'osservazione. Questo pattern suggerisce che alcune difficoltà potrebbero essere più visibili in un contesto che nell'altro.`;
-  }
-
-  html+=`</p></div>`;
-
-  // raccomandazioni operative
-  html+=`<div style="padding:14px;background:#FFF8E6;border-radius:9px;border-left:3px solid #FAC775;">
-    <p style="font-size:11px;font-weight:600;color:#854F0B;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">Raccomandazioni per la progettazione educativa</p>
-    <p style="font-size:13px;color:#444;line-height:1.75;">`;
-
-  if(discrepanze.length===0){
-    html+=`La coerenza tra i due profili permette di progettare interventi mirati con maggiore sicurezza. Si raccomanda di condividere questi risultati in équipe e di pianificare obiettivi educativi specifici per le aree che risultano critiche in entrambe le valutazioni.`;
-  } else {
-    html+=`La presenza di discrepanze suggerisce di avviare un colloquio diretto con ${nome} per comprendere la sua percezione delle difficoltà. È utile condividere i risultati in équipe, eventualmente coinvolgendo anche la famiglia, per costruire una lettura condivisa del profilo e progettare interventi contestualizzati.`;
-  }
-  html+=`</p></div>`;
-
-  document.getElementById("dp-sintesi").innerHTML=html;
-}
-
-window.deleteEntry=async function(){
-  if(!currentEntry||!confirm("Eliminare questa compilazione definitivamente?"))return;
-  try{
-    await deleteDoc(doc(db,"risposte",currentEntry.id));
-    allEntries=allEntries.filter(e=>e.id!==currentEntry.id);
-    renderList();
-    window.closeModal();
-  }catch(e){alert("Errore nell'eliminazione.");}
-};
-
-window.changePin=function(){
-  const old=document.getElementById("old-pin").value,nw=document.getElementById("new-pin").value,cf=document.getElementById("conf-pin").value;
-  const w=document.getElementById("pin-ch-warn"),ok=document.getElementById("pin-ch-ok");
-  w.style.display="none";ok.style.display="none";
-  if(old!==getPin()){w.textContent="PIN attuale errato.";w.style.display="block";return;}
-  if(nw.length<4){w.textContent="Almeno 4 cifre.";w.style.display="block";return;}
-  if(nw!==cf){w.textContent="I PIN non coincidono.";w.style.display="block";return;}
-  localStorage.setItem("sdq_edu_pin",nw);
-  document.getElementById("old-pin").value="";document.getElementById("new-pin").value="";document.getElementById("conf-pin").value="";
-  ok.style.display="block";
-};
-</script>
-</body>
-</html>
+    else if(isInt&&isEst) sint+=`Il profilo mostra sia componenti internalizzanti che esternalizzanti. Questo richiede un approccio integrato che 
