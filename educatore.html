@@ -445,55 +445,59 @@ function renderImpact(){
   const isEst=(getBand("EC",e.scores.EC)!=="normale"||getBand("IP",e.scores.IP)!=="normale");
   const isInt=(getBand("ES",e.scores.ES)!=="normale"||getBand("C",e.scores.C)!=="normale");
 
-  let c=`<p style="font-size:13px;color:#555;line-height:1.75;margin-bottom:1rem;">La sezione Impatto (Impact Supplement) non misura la gravità delle scale, ma quanto le difficoltà incidono concretamente nella vita quotidiana di ${nome}. Permette di capire <em>dove</em> e <em>come</em> il disagio si manifesta nel reale.</p>`;
-
   function bloc(titolo,badge,badgeBg,badgeCol,borderCol,testo){
-    return `<div class="interp-block" style="border-left-color:${borderCol};"><div class="interp-header"><span style="font-size:13px;font-weight:600;">${titolo}</span><span class="badge" style="background:${badgeBg};color:${badgeCol};">${badge}</span></div><p style="font-size:13px;color:#555;line-height:1.65;">${testo}</p></div>`;
+    return "<div class=\"interp-block\" style=\"border-left-color:"+borderCol+";\">"
+      +"<div class=\"interp-header\"><span style=\"font-size:13px;font-weight:600;\">"+titolo+"</span>"
+      +"<span class=\"badge\" style=\"background:"+badgeBg+";color:"+badgeCol+";">"+badge+"</span></div>"
+      +"<p style=\"font-size:13px;color:#555;line-height:1.65;\">"+testo+"</p></div>";
   }
 
+  let c="<p style=\"font-size:13px;color:#555;line-height:1.75;margin-bottom:1rem;\">La sezione Impatto (Impact Supplement) non misura la gravità delle scale, ma quanto le difficoltà incidono concretamente nella vita quotidiana di "+nome+". Permette di capire <em>dove</em> e <em>come</em> il disagio si manifesta nel reale.</p>";
+
   if(imp.diff_gen!=null){
-    const tt=[
-      `${nome} non riconosce difficoltà significative. Può indicare scarsa consapevolezza del disagio o un funzionamento realmente adeguato nel quotidiano.`,
-      `${nome} riconosce piccole difficoltà. La consapevolezza è parziale: il problema è percepito ma non vissuto come fonte importante di disagio.${isEst?" Questo è frequente nei profili esternalizzanti, dove il comportamento problematico non genera necessariamente sofferenza soggettiva.":""}`,
-      `${nome} riconosce difficoltà importanti. Il livello di consapevolezza è significativo e le difficoltà vengono vissute con un certo peso personale.`,
-      `${nome} riconosce difficoltà molto grandi. Il disagio è avvertito con chiarezza e intensità, il che può facilitare la motivazione al cambiamento ma richiede un supporto adeguato.`
+    var tt0=["",
+      nome+" non riconosce difficoltà significative. Può indicare scarsa consapevolezza del disagio o un funzionamento realmente adeguato nel quotidiano.",
+      nome+" riconosce piccole difficoltà. La consapevolezza è parziale: il problema è percepito ma non vissuto come fonte importante di disagio."+(isEst?" Questo è frequente nei profili esternalizzanti, dove il comportamento problematico non genera necessariamente sofferenza soggettiva.":""),
+      nome+" riconosce difficoltà importanti. Il livello di consapevolezza è significativo e le difficoltà vengono vissute con un certo peso personale.",
+      nome+" riconosce difficoltà molto grandi. Il disagio è avvertito con chiarezza e intensità, il che può facilitare la motivazione al cambiamento ma richiede un supporto adeguato."
     ];
-    c+=bloc("Difficoltà percepita",dgMap[imp.diff_gen],"#E6F1FB","#0C447C","#378ADD",tt[imp.diff_gen]);
+    c+=bloc("Difficoltà percepita",dgMap[imp.diff_gen],"#E6F1FB","#0C447C","#378ADD",tt0[imp.diff_gen+1]);
   }
 
   if(imp.durata!=null){
-    const tt=[null,
+    var tt1=["",
       "La durata inferiore a un mese suggerisce un disagio acuto e recente. Potrebbe trattarsi di una reazione a un evento specifico piuttosto che di un pattern strutturato.",
       "Una durata di 1–5 mesi indica un disagio persistente ma relativamente recente. È importante capire se vi sia stato un evento scatenante o se si tratti di una tendenza in consolidamento.",
       "Una durata di 6–12 mesi indica che il pattern non è episodico. Le difficoltà si sono stabilizzate e necessitano di un intervento strutturato.",
       "Una durata superiore a un anno indica un pattern comportamentale o emotivo stabile, non una fase momentanea. Richiede interventi mirati e continuativi."
     ];
-    c+=bloc("Durata",durMap[imp.durata],"#E6F1FB","#0C447C","#378ADD",tt[imp.durata]);
+    c+=bloc("Durata",durMap[imp.durata],"#E6F1FB","#0C447C","#378ADD",tt1[imp.durata]);
   }
 
   if(imp.soff!=null){
-    const tt=[
-      `${nome} non riferisce sofferenza personale. ${isEst?"Questo è frequente nei profili con difficoltà comportamentali: il disagio è percepito più dall'ambiente che dal soggetto stesso. Non implica assenza di problema, ma orienta l'intervento verso strategie esterne.":"È utile esplorare se questa assenza di sofferenza rifletta un reale equilibrio o una difficoltà nel riconoscere le proprie emozioni."}`,
-      `${nome} riferisce una lieve sofferenza soggettiva. Il disagio è presente ma contenuto.`,
-      `${nome} riferisce una sofferenza abbastanza significativa. Il peso emotivo delle difficoltà è percepito e va considerato nella progettazione dell'intervento educativo.`,
-      `${nome} riferisce una sofferenza intensa. Questo livello di disagio richiede attenzione prioritaria e, se non già presente, l'attivazione di un supporto psicologico professionale.`
+    var soffEst=isEst?"Questo è frequente nei profili con difficoltà comportamentali: il disagio è percepito più dall'ambiente che dal soggetto stesso. Non implica assenza di problema, ma orienta l'intervento verso strategie esterne.":"È utile esplorare se questa assenza di sofferenza rifletta un reale equilibrio o una difficoltà nel riconoscere le proprie emozioni.";
+    var tt2=[
+      nome+" non riferisce sofferenza personale. "+soffEst,
+      nome+" riferisce una lieve sofferenza soggettiva. Il disagio è presente ma contenuto.",
+      nome+" riferisce una sofferenza abbastanza significativa. Il peso emotivo delle difficoltà è percepito e va considerato nella progettazione dell'intervento educativo.",
+      nome+" riferisce una sofferenza intensa. Questo livello di disagio richiede attenzione prioritaria e, se non già presente, l'attivazione di un supporto psicologico professionale."
     ];
-    c+=bloc("Sofferenza soggettiva",lvlMap[imp.soff],"#E6F1FB","#0C447C","#378ADD",tt[imp.soff]);
+    c+=bloc("Sofferenza soggettiva",lvlMap[imp.soff],"#E6F1FB","#0C447C","#378ADD",tt2[imp.soff]);
   }
 
-  c+=`<p style="font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.06em;margin:1rem 0 .5rem;">Aree di impatto nella vita quotidiana</p>`;
+  c+="<p style=\"font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.06em;margin:1rem 0 .5rem;\">Aree di impatto nella vita quotidiana</p>";
 
-  const aree=[
+  var aree=[
     {k:"i_fam",n:"Vita familiare",tt:[
       "Il contesto familiare non risulta impattato. Le relazioni in famiglia sembrano funzionare adeguatamente.",
       "Il contesto familiare mostra un impatto lieve. Qualche tensione è presente ma non compromette il funzionamento quotidiano.",
-      `Il contesto familiare è abbastanza impattato. ${isEst?"In molti profili con condotta elevata è proprio la famiglia il luogo dove la regolazione comportamentale è più difficile, perché i legami affettivi intensificano le reazioni emotive.":"Le dinamiche familiari sembrano amplificare il disagio. È utile coinvolgere la famiglia nel progetto educativo."}`,
-      `Il contesto familiare è fortemente impattato. ${isEst?"I conflitti emergono soprattutto nel contesto domestico: il ragazzo/a fatica a regolare il comportamento laddove il legame affettivo è più intenso.":"Le difficoltà ricadono pesantemente sulla vita familiare. È fondamentale il coinvolgimento attivo della famiglia nel percorso di supporto."}`
+      "Il contesto familiare è abbastanza impattato. "+(isEst?"In molti profili con condotta elevata è proprio la famiglia il luogo dove la regolazione comportamentale è più difficile, perché i legami affettivi intensificano le reazioni emotive.":"Le dinamiche familiari sembrano amplificare il disagio. È utile coinvolgere la famiglia nel progetto educativo."),
+      "Il contesto familiare è fortemente impattato. "+(isEst?"I conflitti emergono soprattutto nel contesto domestico: il ragazzo/a fatica a regolare il comportamento laddove il legame affettivo è più intenso.":"Le difficoltà ricadono pesantemente sulla vita familiare. È fondamentale il coinvolgimento attivo della famiglia nel percorso di supporto.")
     ]},
     {k:"i_ami",n:"Amicizie",tt:[
       "Le amicizie non sembrano influenzate. Il ragazzo/a mantiene relazioni sociali soddisfacenti.",
       "Le amicizie sono lievemente influenzate. Qualche attrito relazionale è presente ma non compromette i legami.",
-      `Le amicizie sono abbastanza influenzate. ${isEst?"Le relazioni possono essere turbolente pur mantenendosi. L'impulsività o la tendenza al conflitto emergono anche in questo contesto.":"Le difficoltà cominciano a incidere sui rapporti con i pari. È un segnale da monitorare."}`,
+      "Le amicizie sono abbastanza influenzate. "+(isEst?"Le relazioni possono essere turbolente pur mantenendosi. L'impulsività o la tendenza al conflitto emergono anche in questo contesto.":"Le difficoltà cominciano a incidere sui rapporti con i pari. È un segnale da monitorare."),
       "Le amicizie sono fortemente influenzate. Le difficoltà relazionali impattano significativamente sulla rete sociale, con rischio di isolamento o conflitti ripetuti."
     ]},
     {k:"i_scu",n:"Scuola",tt:[
@@ -505,38 +509,76 @@ function renderImpact(){
     {k:"i_lib",n:"Tempo libero",tt:[
       "Il tempo libero non è influenzato. Il ragazzo/a riesce a gestire autonomamente i momenti non strutturati.",
       "L'impatto sul tempo libero è lieve. Qualche difficoltà emerge ma non compromette le attività.",
-      `Il tempo libero è abbastanza influenzato. ${isEst?"Nei contesti meno strutturati emergono più facilmente impulsività e conflitti, perché le regole sono meno chiare e il controllo esterno è ridotto.":"Le difficoltà si manifestano anche nei momenti di svago, limitando il benessere del ragazzo/a."}`,
-      `Il tempo libero è fortemente influenzato. ${isEst?"L'assenza di struttura amplifica le difficoltà di autoregolazione: è il luogo dove emergono di più impulsività e conflitti tra pari.":"Le difficoltà pervadono anche i momenti di svago, riducendo significativamente la qualità di vita percepita."}`
+      "Il tempo libero è abbastanza influenzato. "+(isEst?"Nei contesti meno strutturati emergono più facilmente impulsività e conflitti, perché le regole sono meno chiare e il controllo esterno è ridotto.":"Le difficoltà si manifestano anche nei momenti di svago, limitando il benessere del ragazzo/a."),
+      "Il tempo libero è fortemente influenzato. "+(isEst?"L'assenza di struttura amplifica le difficoltà di autoregolazione: è il luogo dove emergono di più impulsività e conflitti tra pari.":"Le difficoltà pervadono anche i momenti di svago, riducendo significativamente la qualità di vita percepita.")
     ]},
     {k:"i_altri",n:"Carico sugli altri",tt:[
       "Le difficoltà non sembrano pesare sulle persone vicine. L'impatto sull'ambiente circostante è minimo.",
       "Le difficoltà pesano lievemente sugli altri. Chi è vicino avverte qualche tensione ma riesce a gestirla.",
       "Le difficoltà pesano abbastanza sugli altri. Familiari, insegnanti e amici avvertono il peso del comportamento o del disagio del ragazzo/a.",
-      `Le difficoltà pesano molto sugli altri. ${imp.soff===0?"Anche se il ragazzo/a non percepisce sofferenza personale, riconosce che il suo comportamento pesa sull'ambiente: è una forma embrionale di consapevolezza sociale da valorizzare nel percorso educativo.":"Il carico sugli altri è elevato. È importante prevenire dinamiche di esaurimento o conflitto cronico nell'ambiente circostante."}`
+      "Le difficoltà pesano molto sugli altri. "+(imp.soff===0?"Anche se il ragazzo/a non percepisce sofferenza personale, riconosce che il suo comportamento pesa sull'ambiente: è una forma embrionale di consapevolezza sociale da valorizzare nel percorso educativo.":"Il carico sugli altri è elevato. È importante prevenire dinamiche di esaurimento o conflitto cronico nell'ambiente circostante.")
     ]}
   ];
 
-  aree.forEach(({k,n,tt})=>{
-    const v=imp[k];
+  aree.forEach(function(a){
+    var v=imp[a.k];
     if(v==null)return;
-    const cols=["#1D9E75","#888780","#BA7517","#A32D2D"];
-    const bgs=["#E1F5EE","#F1EFE8","#FAEEDA","#FCEBEB"];
-    const txts=["#085041","#444441","#633806","#791F1F"];
-    c+=bloc(n,lvlMap[v],bgs[v],txts[v],cols[v],tt[v]);
+    var cols=["#1D9E75","#888780","#BA7517","#A32D2D"];
+    var bgs=["#E1F5EE","#F1EFE8","#FAEEDA","#FCEBEB"];
+    var txts=["#085041","#444441","#633806","#791F1F"];
+    c+=bloc(a.n,lvlMap[v],bgs[v],txts[v],cols[v],a.tt[v]);
   });
 
-  const areeAlte=[];
+  var areeAlte=[];
   if(imp.i_fam>=2)areeAlte.push("vita familiare");
   if(imp.i_ami>=2)areeAlte.push("amicizie");
   if(imp.i_scu>=2)areeAlte.push("scuola");
   if(imp.i_lib>=2)areeAlte.push("tempo libero");
   if(imp.i_altri>=2)areeAlte.push("carico sugli altri");
 
-  let sint=`<div style="margin-top:1rem;padding:14px;background:#f8f8f7;border-radius:9px;border-top:2px solid #e8e8e6;"><p style="font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;">Sintesi interpretativa</p><p style="font-size:13px;color:#444;line-height:1.75;">`;
+  var sint="<div style=\"margin-top:1rem;padding:14px;background:#f8f8f7;border-radius:9px;border-top:2px solid #e8e8e6;\"><p style=\"font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;\">Sintesi interpretativa</p><p style=\"font-size:13px;color:#444;line-height:1.75;\">";
   if(areeAlte.length===0){
-    sint+=`Il profilo di impatto non mostra aree di interferenza significativa. Le difficoltà emerse nelle scale SDQ sembrano avere un peso contenuto sul funzionamento reale di ${nome}.`;
+    sint+="Il profilo di impatto non mostra aree di interferenza significativa. Le difficoltà emerse nelle scale SDQ sembrano avere un peso contenuto sul funzionamento reale di "+nome+".";
   } else {
-    sint+=`Le aree di maggiore interferenza nella vita di ${nome} sono: <strong>${areeAlte.join(", ")}</strong>. `;
-    if(isEst&&!isInt) sint+=`Il profilo è coerente con un pattern prevalentemente esternalizzante: le difficoltà non generano sofferenza interna marcata, ma si manifestano nei contesti relazionali e nelle situazioni meno strutturate. Gli interventi centrati su regole chiare, struttura ambientale e rinforzo positivo tendono a essere i più efficaci.`;
-    else if(isInt&&!isEst) sint+=`Il profilo è coerente con un pattern prevalentemente internalizzante: il disagio si manifesta soprattutto sul piano emotivo e relazionale. È importante creare spazi di ascolto sicuri e intervenire sulla dimensione emotiva prima ancora che su quella comportamentale.`;
-    else if(isInt&&isEst) sint+=`Il profilo mostra sia componenti internalizzanti che esternalizzanti. Questo richiede un approccio integrato che 
+    sint+="Le aree di maggiore interferenza nella vita di "+nome+" sono: <strong>"+areeAlte.join(", ")+"</strong>. ";
+    if(isEst&&!isInt) sint+="Il profilo è coerente con un pattern prevalentemente esternalizzante: le difficoltà non generano sofferenza interna marcata, ma si manifestano nei contesti relazionali e nelle situazioni meno strutturate. Gli interventi centrati su regole chiare, struttura ambientale e rinforzo positivo tendono a essere i più efficaci.";
+    else if(isInt&&!isEst) sint+="Il profilo è coerente con un pattern prevalentemente internalizzante: il disagio si manifesta soprattutto sul piano emotivo e relazionale. È importante creare spazi di ascolto sicuri e intervenire sulla dimensione emotiva prima ancora che su quella comportamentale.";
+    else if(isInt&&isEst) sint+="Il profilo mostra sia componenti internalizzanti che esternalizzanti. Questo richiede un approccio integrato che lavori simultaneamente sulla regolazione emotiva e sul comportamento agito.";
+    else sint+="È utile considerare questi ambiti come prioritari nella progettazione dell'intervento educativo e nel dialogo con la famiglia.";
+  }
+  sint+="</p></div>";
+  c+=sint;
+
+  document.getElementById("dp-impact").innerHTML="<p class=\"lbl\">Sezione impatto</p>"
+    +"<div class=\"card\"><table class=\"impact-table\" style=\"width:100%;\">"
+    +rows.map(function(r){return "<tr><td>"+r[0]+"</td><td>"+r[1]+"</td></tr>";}).join("")
+    +"</table></div>"
+    +"<p class=\"lbl\" style=\"margin-top:1.25rem;\">Lettura interpretativa</p>"
+    +"<div>"+c+"</div>";
+}
+
+
+window.deleteEntry=async function(){
+  if(!currentEntry||!confirm("Eliminare questa compilazione definitivamente?"))return;
+  try{
+    await deleteDoc(doc(db,"risposte",currentEntry.id));
+    allEntries=allEntries.filter(e=>e.id!==currentEntry.id);
+    renderList();
+    window.closeModal();
+  }catch(e){alert("Errore nell'eliminazione.");}
+};
+
+window.changePin=function(){
+  const old=document.getElementById("old-pin").value,nw=document.getElementById("new-pin").value,cf=document.getElementById("conf-pin").value;
+  const w=document.getElementById("pin-ch-warn"),ok=document.getElementById("pin-ch-ok");
+  w.style.display="none";ok.style.display="none";
+  if(old!==getPin()){w.textContent="PIN attuale errato.";w.style.display="block";return;}
+  if(nw.length<4){w.textContent="Almeno 4 cifre.";w.style.display="block";return;}
+  if(nw!==cf){w.textContent="I PIN non coincidono.";w.style.display="block";return;}
+  localStorage.setItem("sdq_edu_pin",nw);
+  document.getElementById("old-pin").value="";document.getElementById("new-pin").value="";document.getElementById("conf-pin").value="";
+  ok.style.display="block";
+};
+</script>
+</body>
+</html>
