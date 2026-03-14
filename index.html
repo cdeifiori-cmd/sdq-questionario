@@ -59,23 +59,31 @@ h1{font-size:22px;font-weight:600;margin-bottom:4px;}
   <div id="screen-home">
     <h1>SDQ — Questionario</h1>
     <p class="sub" style="margin-bottom:1.5rem;">Seleziona chi compila il questionario.</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:.5rem;">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:.5rem;">
       <div onclick="document.getElementById('screen-home').style.display='none';document.getElementById('screen-form').style.display='block';"
-        style="background:#fff;border-radius:12px;padding:1.5rem 1.25rem;border:1px solid #e8e8e6;cursor:pointer;text-align:center;transition:border-color .15s;"
+        style="background:#fff;border-radius:12px;padding:1.25rem .75rem;border:1px solid #e8e8e6;cursor:pointer;text-align:center;"
         onmouseover="this.style.borderColor='#1D9E75'" onmouseout="this.style.borderColor='#e8e8e6'">
-        <div style="font-size:32px;margin-bottom:10px;">🧑‍🎓</div>
-        <div style="font-size:15px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Sono un ragazzo/a</div>
-        <div style="font-size:13px;color:#666;">Auto-report 11–17 anni</div>
+        <div style="font-size:26px;margin-bottom:8px;">&#127891;</div>
+        <div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Sono un ragazzo/a</div>
+        <div style="font-size:12px;color:#666;">Auto-report 11-17 anni</div>
       </div>
       <div onclick="window.location.href='form-educatori.html'"
-        style="background:#fff;border-radius:12px;padding:1.5rem 1.25rem;border:1px solid #e8e8e6;cursor:pointer;text-align:center;transition:border-color .15s;"
+        style="background:#fff;border-radius:12px;padding:1.25rem .75rem;border:1px solid #e8e8e6;cursor:pointer;text-align:center;"
         onmouseover="this.style.borderColor='#534AB7'" onmouseout="this.style.borderColor='#e8e8e6'">
-        <div style="font-size:32px;margin-bottom:10px;">👩‍🏫</div>
-        <div style="font-size:15px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Sono un educatore</div>
-        <div style="font-size:13px;color:#666;">Osservazione adulto 4–17 anni</div>
+        <div style="font-size:26px;margin-bottom:8px;">&#128105;&#8205;&#127979;</div>
+        <div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Sono un educatore</div>
+        <div style="font-size:12px;color:#666;">Versione operatori 4-17 anni</div>
+      </div>
+      <div onclick="window.location.href='form-genitori.html'"
+        style="background:#fff;border-radius:12px;padding:1.25rem .75rem;border:1px solid #e8e8e6;cursor:pointer;text-align:center;"
+        onmouseover="this.style.borderColor='#D85A30'" onmouseout="this.style.borderColor='#e8e8e6'">
+        <div style="font-size:26px;margin-bottom:8px;">&#128106;</div>
+        <div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Sono un genitore</div>
+        <div style="font-size:12px;color:#666;">Versione genitori 4-17 anni</div>
       </div>
     </div>
   </div>
+
 
   <div id="screen-form" style="display:none;">
     <h1>Questionario SDQ</h1>

@@ -223,11 +223,15 @@ function renderList() {
     var bd = band("TOT",e.tot);
     var tipoTag = e.tipo==="educatore"
       ? '<span style="background:#EEEDFE;color:#3C3489;font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;margin-left:6px;">Educatore</span>'
+      : e.tipo==="genitore"
+      ? '<span style="background:#FAECE7;color:#712B13;font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;margin-left:6px;">Genitore</span>'
       : '<span style="background:#E1F5EE;color:#085041;font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;margin-left:6px;">Auto-report</span>';
     var kk = e.nome.trim().toLowerCase();
+    var eAutoReport = !e.tipo || e.tipo==="auto-report";
     var hasS = allEntries.some(function(x){
+      var xAutoReport = !x.tipo || x.tipo==="auto-report";
       return x.nome.trim().toLowerCase()===kk && x.id!==e.id &&
-        ((e.tipo==="educatore"&&x.tipo!=="educatore")||(e.tipo!=="educatore"&&x.tipo==="educatore"));
+        ((eAutoReport && !xAutoReport) || (!eAutoReport && xAutoReport));
     });
     var sintTag = hasS ? '<span style="background:#FAC775;color:#633806;font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;margin-left:6px;">Sintesi disponibile</span>' : '';
     var comp = e.compilatore ? ' &middot; '+e.compilatore : '';
@@ -272,12 +276,16 @@ window.openDetail = function(id) {
   var paired = allEntries.filter(function(x){
     return x.nome.trim().toLowerCase()===kN && x.id!==currentEntry.id;
   });
-  var hasSint = paired.some(function(x){return x.tipo==="educatore";}) && paired.some(function(x){return x.tipo!=="educatore";});
-  hasSint = hasSint || (paired.length>0 && ((currentEntry.tipo==="educatore"&&paired.some(function(x){return x.tipo!=="educatore";})) || (currentEntry.tipo!=="educatore"&&paired.some(function(x){return x.tipo==="educatore";}))));
+  var curIsAuto = !currentEntry.tipo || currentEntry.tipo==="auto-report";
+  var hasSint = paired.some(function(x){
+    var xIsAuto = !x.tipo || x.tipo==="auto-report";
+    return (curIsAuto && !xIsAuto) || (!curIsAuto && xIsAuto);
+  });
   document.getElementById("tab-sint-btn").style.display = hasSint ? "inline-block" : "none";
   if(hasSint) {
     var partner = paired.find(function(x){
-      return (currentEntry.tipo==="educatore"&&x.tipo!=="educatore") || (currentEntry.tipo!=="educatore"&&x.tipo==="educatore");
+      var xIsAuto = !x.tipo || x.tipo==="auto-report";
+      return (curIsAuto && !xIsAuto) || (!curIsAuto && xIsAuto);
     }) || paired[0];
     renderSint(currentEntry, partner);
   }
@@ -706,7 +714,7 @@ function renderSint(eA, eB) {
     +'<div style="margin-top:6px;font-size:11px;font-weight:600;color:#085041;">'+dirA+'</div>'
     +'</div>';
   html+='<div style="padding:12px;background:#EEEDFE;border-radius:9px;border-left:3px solid #534AB7;">'
-    +'<div style="font-size:10px;font-weight:600;color:#3C3489;text-transform:uppercase;letter-spacing:.06em;">Osservazione educatore</div>'
+    +'<div style="font-size:10px;font-weight:600;color:#3C3489;text-transform:uppercase;letter-spacing:.06em;">'+(edu.tipo==="genitore"?"Osservazione genitore":"Osservazione educatore")+'</div>'
     +'<div style="font-size:11px;color:#555;margin-top:2px;">'+(edu.compilatore||"")+(edu.ruolo?" &middot; "+edu.ruolo:"")+'</div>'
     +'<div style="font-size:20px;font-weight:700;margin-top:4px;">'+edu.tot+'<span style="font-size:12px;color:#aaa;font-weight:400;">/40</span> <span class="badge '+bc(bdE)+'">'+bl(bdE)+'</span></div>'
     +'<div style="margin-top:6px;font-size:11px;font-weight:600;color:#3C3489;">'+dirE+'</div>'
