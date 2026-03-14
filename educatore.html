@@ -515,4 +515,41 @@ function renderImpact(){
     sint+=`Il profilo di impatto non mostra aree di interferenza significativa. Le difficoltà emerse nelle scale SDQ sembrano avere un peso contenuto sul funzionamento reale di ${nome}.`;
   } else {
     sint+=`Le aree di maggiore interferenza nella vita di ${nome} sono: <strong>${areeAlte.join(", ")}</strong>. `;
-    if(isEst&&!isInt) sint+=`Il profilo è coerente con un pattern prevalentemente esternalizzante: le difficoltà
+    if(isEst&&!isInt) sint+=`Il profilo è coerente con un pattern prevalentemente esternalizzante: le difficoltà non generano sofferenza interna marcata, ma si manifestano nei contesti relazionali e nelle situazioni meno strutturate. Gli interventi centrati su regole chiare, struttura ambientale e rinforzo positivo tendono a essere i più efficaci.`;
+    else if(isInt&&!isEst) sint+=`Il profilo è coerente con un pattern prevalentemente internalizzante: il disagio si manifesta soprattutto sul piano emotivo e relazionale. È importante creare spazi di ascolto sicuri e intervenire sulla dimensione emotiva prima ancora che su quella comportamentale.`;
+    else if(isInt&&isEst) sint+=`Il profilo mostra sia componenti internalizzanti che esternalizzanti. Questo richiede un approccio integrato che lavori simultaneamente sulla regolazione emotiva e sul comportamento agito.`;
+    else sint+=`È utile considerare questi ambiti come prioritari nella progettazione dell'intervento educativo e nel dialogo con la famiglia.`;
+  }
+  sint+=`</p></div>`;
+  c+=sint;
+
+  document.getElementById("dp-impact").innerHTML=`<p class="lbl">Sezione impatto</p>
+    <div class="card"><table class="impact-table" style="width:100%;">${rows.map(([l,v])=>`<tr><td>${l}</td><td>${v}</td></tr>`).join("")}</table></div>
+    <p class="lbl" style="margin-top:1.25rem;">Lettura interpretativa</p>
+    <div>${c}</div>`;
+}
+
+window.deleteEntry=async function(){
+  if(!currentEntry||!confirm("Eliminare questa compilazione definitivamente?"))return;
+  try{
+    await deleteDoc(doc(db,"risposte",currentEntry.id));
+    allEntries=allEntries.filter(e=>e.id!==currentEntry.id);
+    renderList();
+    window.closeModal();
+  }catch(e){alert("Errore nell'eliminazione.");}
+};
+
+window.changePin=function(){
+  const old=document.getElementById("old-pin").value,nw=document.getElementById("new-pin").value,cf=document.getElementById("conf-pin").value;
+  const w=document.getElementById("pin-ch-warn"),ok=document.getElementById("pin-ch-ok");
+  w.style.display="none";ok.style.display="none";
+  if(old!==getPin()){w.textContent="PIN attuale errato.";w.style.display="block";return;}
+  if(nw.length<4){w.textContent="Almeno 4 cifre.";w.style.display="block";return;}
+  if(nw!==cf){w.textContent="I PIN non coincidono.";w.style.display="block";return;}
+  localStorage.setItem("sdq_edu_pin",nw);
+  document.getElementById("old-pin").value="";document.getElementById("new-pin").value="";document.getElementById("conf-pin").value="";
+  ok.style.display="block";
+};
+</script>
+</body>
+</html>
