@@ -92,7 +92,22 @@ h2{font-size:17px;font-weight:600;margin-bottom:12px;}
     <div id="tab-list" class="tab-pane act">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
         <h2 style="margin:0;">Compilazioni ricevute</h2>
-        <button class="btn-sm" onclick="loadEntries()">&#8635; Aggiorna</button>
+        <div style="display:flex;gap:8px;">
+          <button class="btn-sm" style="background:#1D9E75;color:#fff;border-color:#1D9E75;" onclick="nuovaPratica()">+ Nuova pratica</button>
+          <button class="btn-sm" onclick="loadEntries()">&#8635; Aggiorna</button>
+        </div>
+      </div>
+      <div id="nuova-pratica-panel" style="display:none;margin-bottom:1rem;padding:1rem;background:#f0faf6;border-radius:10px;border:1px solid #1D9E75;">
+        <p style="font-size:13px;font-weight:600;color:#0F6E56;margin-bottom:8px;">Nuova pratica creata</p>
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+          <div>
+            <div style="font-size:11px;color:#666;margin-bottom:2px;">Codice da consegnare a ragazzo, educatore e genitore</div>
+            <div id="nuovo-codice-display" style="font-size:36px;font-weight:700;color:#1D9E75;letter-spacing:6px;"></div>
+          </div>
+          <button class="btn-sm" onclick="copiaCodicePratica()" id="copy-btn">Copia codice</button>
+          <button class="btn-sm" onclick="document.getElementById('nuova-pratica-panel').style.display='none'">Chiudi</button>
+        </div>
+        <p style="font-size:12px;color:#666;margin-top:8px;">Comunica questo codice al ragazzo/a prima che compili il questionario. Educatore e genitore lo inseriranno nei loro form.</p>
       </div>
       <div id="entries-list"><div class="loading-center"><div class="spinner"></div></div></div>
     </div>
@@ -146,7 +161,7 @@ h2{font-size:17px;font-weight:600;margin-bottom:12px;}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, getDocs, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, collection, getDocs, deleteDoc, doc, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const FB = {
   apiKey: "AIzaSyBmsHeTkQMJVQyav3rF8VPMhLeIB45t3Io",
@@ -203,6 +218,50 @@ window.switchTab = function(btn, id) {
 };
 
 var allEntries = [];
+
+window.nuovaPratica = async function() {
+  try {
+    var snap = await getDocs(collection(db,"risposte"));
+    var maxN = 0;
+    snap.forEach(function(d){
+      var dd = d.data();
+      var n = parseInt(dd.codice||"0");
+      if(n > maxN) maxN = n;
+    });
+    // Also check codici_pratiche collection
+    try {
+      var snap2 = await getDocs(collection(db,"pratiche"));
+      snap2.forEach(function(d){
+        var n = parseInt(d.data().codice||"0");
+        if(n > maxN) maxN = n;
+      });
+    } catch(e2){}
+    var newCodice = String(maxN+1).padStart(2,"0");
+    // Save the new pratica
+    await addDoc(collection(db,"pratiche"), {
+      codice: newCodice,
+      creato: new Date(),
+      creatoIl: new Date().toISOString().split("T")[0]
+    });
+    document.getElementById("nuovo-codice-display").textContent = "#"+newCodice;
+    document.getElementById("nuova-pratica-panel").style.display = "block";
+    document.getElementById("copy-btn").textContent = "Copia codice";
+    window.lastNewCodice = newCodice;
+  } catch(e) {
+    alert("Errore nella creazione della pratica: "+e.message);
+  }
+};
+
+window.copiaCodicePratica = function() {
+  if(window.lastNewCodice) {
+    navigator.clipboard.writeText(window.lastNewCodice).then(function(){
+      document.getElementById("copy-btn").textContent = "Copiato!";
+      setTimeout(function(){document.getElementById("copy-btn").textContent="Copia codice";},2000);
+    }).catch(function(){
+      prompt("Copia questo codice:", window.lastNewCodice);
+    });
+  }
+};
 
 window.loadEntries = async function() {
   var el = document.getElementById("entries-list");
