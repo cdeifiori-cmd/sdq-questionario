@@ -1,17 +1,14 @@
 <!DOCTYPE html>
-<!-- SDQ valutatore v3.1 -->
 <html lang="it">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SDQ — Area valutatore v3.1</title>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<title>SDQ — Area valutatore</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f3;color:#1a1a1a;font-size:15px;}
-.container{max-width:740px;margin:0 auto;padding:1.5rem 1rem 4rem;}
+.container{max-width:760px;margin:0 auto;padding:1.5rem 1rem 4rem;}
 h1{font-size:20px;font-weight:600;margin-bottom:4px;}
 h2{font-size:17px;font-weight:600;margin-bottom:12px;}
 .card{background:#fff;border-radius:12px;padding:1.25rem;margin-bottom:1rem;border:1px solid #e8e8e6;}
@@ -28,26 +25,38 @@ h2{font-size:17px;font-weight:600;margin-bottom:12px;}
 .nav-btn.act{background:#f0faf6;color:#0F6E56;border-color:#1D9E75;font-weight:600;}
 .tab-pane{display:none;}
 .tab-pane.act{display:block;}
-.entry-card{background:#fff;border-radius:10px;padding:12px 16px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;cursor:pointer;border:1px solid #e8e8e6;}
-.entry-card:hover{border-color:#1D9E75;}
+/* Minore card nella lista */
+.minore-card{background:#fff;border-radius:12px;padding:14px 16px;margin-bottom:10px;border:1px solid #e8e8e6;cursor:pointer;transition:border-color .15s,box-shadow .15s;}
+.minore-card:hover{border-color:#1D9E75;box-shadow:0 2px 8px rgba(29,158,117,.1);}
+.minore-nome{font-size:15px;font-weight:600;margin-bottom:6px;}
+.minore-badges{display:flex;gap:6px;flex-wrap:wrap;}
 .badge{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;}
 .bn{background:#E1F5EE;color:#085041;}
 .bb{background:#FAC775;color:#633806;}
 .be{background:#FCEBEB;color:#791F1F;}
-.b-ES{background:#E1F5EE;color:#085041;}
-.b-IP{background:#FAC775;color:#633806;}
-.b-EC{background:#F5C4B3;color:#712B13;}
-.b-C{background:#B5D4F4;color:#0C447C;}
-.b-PR{background:#EEEDFE;color:#3C3489;}
-.lock-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;gap:1rem;text-align:center;}
-.pin-input{text-align:center;font-size:22px;letter-spacing:8px;width:170px;border:1px solid #d0d0ce;border-radius:10px;padding:11px;background:#fff;color:#1a1a1a;}
+.b-auto{background:#E1F5EE;color:#085041;}
+.b-edu{background:#EEEDFE;color:#3C3489;}
+.b-gen{background:#FAECE7;color:#712B13;}
+.b-attesa{background:#f0f0ee;color:#888;}
+/* Modal */
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.4);display:flex;align-items:flex-start;justify-content:center;padding:1.5rem 1rem;overflow-y:auto;z-index:100;}
-.modal{background:#fff;border-radius:16px;padding:1.5rem;max-width:680px;width:100%;margin-bottom:2rem;}
-.modal-tabs{display:flex;gap:6px;margin-bottom:1rem;border-bottom:1px solid #e8e8e6;padding-bottom:.75rem;flex-wrap:wrap;}
-.modal-tab{padding:6px 14px;font-size:13px;border-radius:8px;border:1px solid #e0e0de;background:transparent;color:#666;cursor:pointer;}
-.modal-tab.act{background:#f0faf6;color:#0F6E56;border-color:#1D9E75;font-weight:600;}
-.det-pane{display:none;}
-.det-pane.act{display:block;}
+.modal{background:#fff;border-radius:16px;padding:1.5rem;max-width:720px;width:100%;margin-bottom:2rem;}
+/* Tabs del minore: Auto-report | Educatore | Genitore | Report */
+.fonte-tabs{display:flex;gap:0;margin-bottom:1.25rem;border-bottom:2px solid #e8e8e6;}
+.fonte-tab{padding:10px 18px;font-size:13px;font-weight:600;border:none;background:transparent;color:#888;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .15s;}
+.fonte-tab.act{color:#1D9E75;border-bottom-color:#1D9E75;}
+.fonte-tab.t-edu.act{color:#534AB7;border-bottom-color:#534AB7;}
+.fonte-tab.t-gen.act{color:#D85A30;border-bottom-color:#D85A30;}
+.fonte-tab.t-report.act{color:#1a1a1a;border-bottom-color:#1a1a1a;}
+.fonte-pane{display:none;}
+.fonte-pane.act{display:block;}
+/* Sub-tabs dentro ogni fonte */
+.sub-tabs{display:flex;gap:6px;margin-bottom:1rem;flex-wrap:wrap;padding-bottom:.5rem;border-bottom:1px solid #f0f0ee;}
+.sub-tab{padding:5px 12px;font-size:12px;border-radius:8px;border:1px solid #e0e0de;background:transparent;color:#666;cursor:pointer;}
+.sub-tab.act{background:#f0faf6;color:#0F6E56;border-color:#1D9E75;font-weight:600;}
+.sub-pane{display:none;}
+.sub-pane.act{display:block;}
+/* Scale */
 .scale-row{display:grid;grid-template-columns:150px 1fr 55px 95px;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #f0f0ee;}
 .scale-row:last-child{border-bottom:none;}
 .bar-bg{background:#f0f0ee;border-radius:4px;height:8px;overflow:hidden;}
@@ -68,56 +77,85 @@ h2{font-size:17px;font-weight:600;margin-bottom:12px;}
 @keyframes spin{to{transform:rotate(360deg);}}
 .loading-center{display:flex;justify-content:center;padding:2rem;}
 .warn{font-size:12px;color:#A32D2D;display:none;margin-top:6px;}
-
-@media print {
-  body { background: #fff !important; font-size: 13px; }
-  .container { padding: 0; max-width: 100%; }
-  #screen-dash { display: none !important; }
-  #screen-login { display: none !important; }
-  #legenda-stampa { display: block !important; }
-  .modal-bg { position: static !important; background: none !important; padding: 0 !important; }
-  .modal { box-shadow: none !important; border-radius: 0 !important; padding: 0 !important; max-width: 100% !important; }
-  #modal-wrap { display: block !important; }
-  .det-pane { display: block !important; margin-bottom: 2rem; border-bottom: 1px solid #ccc; padding-bottom: 1rem; }
-  #legenda-stampa + #modal-wrap .modal { page-break-before: always; }
-  .det-pane + .det-pane { page-break-before: always; }
-  canvas { max-width: 400px !important; }
-  .print-hide { display: none !important; }
-  .print-header { display: block !important; }
-  .modal-tabs, .btn-sm, .btn-danger, #tab-sint-btn { display: none !important; }
-}
-.print-header { display: none; margin-bottom: 1rem; }
-@media screen {
-  .print-btn { background: #f8f8f7; border: 1px solid #e0e0de; border-radius: 7px; padding: 5px 12px; font-size: 12px; cursor: pointer; color: #444; }
-  .print-btn:hover { background: #f0f0ee; }
+.print-btn{background:#f8f8f7;border:1px solid #e0e0de;border-radius:7px;padding:5px 12px;font-size:12px;cursor:pointer;color:#444;}
+.print-btn:hover{background:#f0f0ee;}
+@media print{
+  body{background:#fff !important;}
+  #screen-dash{display:none !important;}
+  #screen-login{display:none !important;}
+  #legenda-stampa{display:block !important;}
+  .modal-bg{position:static !important;background:none !important;padding:0 !important;}
+  .modal{box-shadow:none !important;border-radius:0 !important;padding:0 !important;max-width:100% !important;}
+  #modal-wrap{display:block !important;}
+  .fonte-tabs,.sub-tabs,.btn-sm,.btn-danger,.print-btn{display:none !important;}
+  .fonte-pane{display:block !important;}
+  .sub-pane{display:block !important; margin-bottom:1.5rem; border-bottom:1px solid #ddd; padding-bottom:1rem;}
+  .fonte-pane + .fonte-pane{page-break-before:always;}
 }
 </style>
 </head>
 <body>
+
+<!-- LEGENDA STAMPA (nascosta a schermo) -->
+<div id="legenda-stampa" style="display:none;">
+  <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:720px;margin:0 auto;padding:2rem;font-size:13px;color:#1a1a1a;line-height:1.7;">
+    <div style="border-bottom:3px solid #1D9E75;padding-bottom:.75rem;margin-bottom:1.5rem;">
+      <div style="font-size:22px;font-weight:700;">Legenda SDQ</div>
+      <div style="font-size:13px;color:#666;margin-top:3px;">Guida alla lettura dei risultati</div>
+    </div>
+    <h3 style="font-size:14px;font-weight:700;color:#1D9E75;margin-bottom:.5rem;">Struttura</h3>
+    <p>25 item divisi in 5 scale da 5 domande. Ogni risposta: <strong>0=Non vero, 1=Parzialmente vero, 2=Assolutamente vero</strong> (alcune invertite). Ogni scala: 0–10.</p>
+    <h3 style="font-size:14px;font-weight:700;color:#1D9E75;margin:.75rem 0 .5rem;">Punteggio Totale Difficolta (ES+EC+IP+C) — range 0–40</h3>
+    <table style="border-collapse:collapse;font-size:12px;margin-bottom:.75rem;">
+      <tr style="background:#f0faf6;"><th style="padding:5px 12px;border:1px solid #d0e8dc;">Punteggio</th><th style="padding:5px 12px;border:1px solid #d0e8dc;">Fascia</th></tr>
+      <tr><td style="padding:5px 12px;border:1px solid #e8e8e6;">0–13</td><td style="padding:5px 12px;border:1px solid #e8e8e6;">Normale</td></tr>
+      <tr><td style="padding:5px 12px;border:1px solid #e8e8e6;">14–16</td><td style="padding:5px 12px;border:1px solid #e8e8e6;">Borderline</td></tr>
+      <tr><td style="padding:5px 12px;border:1px solid #e8e8e6;">17–40</td><td style="padding:5px 12px;border:1px solid #e8e8e6;">Elevato/Rischio clinico</td></tr>
+    </table>
+    <h3 style="font-size:14px;font-weight:700;color:#1D9E75;margin:.75rem 0 .5rem;">Scale singole (0–10 ciascuna)</h3>
+    <table style="border-collapse:collapse;font-size:12px;margin-bottom:.75rem;width:100%;">
+      <tr style="background:#f0faf6;"><th style="padding:5px 10px;border:1px solid #d0e8dc;">Scala</th><th style="padding:5px 10px;border:1px solid #d0e8dc;">Normale</th><th style="padding:5px 10px;border:1px solid #d0e8dc;">Borderline</th><th style="padding:5px 10px;border:1px solid #d0e8dc;">Elevato</th></tr>
+      <tr><td style="padding:5px 10px;border:1px solid #e8e8e6;">Sintomi Emotivi (ES)</td><td style="padding:5px 10px;border:1px solid #e8e8e6;">0–3</td><td style="padding:5px 10px;border:1px solid #e8e8e6;">4</td><td style="padding:5px 10px;border:1px solid #e8e8e6;">5–10</td></tr>
+      <tr><td style="padding:5px 10px;border:1px solid #e8e8e6;">Problemi Condotta (EC)</td><td style="padding:5px 10px;border:1px solid #e8e8e6;">0–2</td><td style="padding:5px 10px;border:1px solid #e8e8e6;">3</td><td style="padding:5px 10px;border:1px solid #e8e8e6;">4–10</td></tr>
+      <tr><td style="padding:5px 10px;border:1px solid #e8e8e6;">Iperattivita (IP)</td><td style="padding:5px 10px;border:1px solid #e8e8e6;">0–5</td><td style="padding:5px 10px;border:1px solid #e8e8e6;">6</td><td style="padding:5px 10px;border:1px solid #e8e8e6;">7–10</td></tr>
+      <tr><td style="padding:5px 10px;border:1px solid #e8e8e6;">Prob. Relazioni (C)</td><td style="padding:5px 10px;border:1px solid #e8e8e6;">0–2</td><td style="padding:5px 10px;border:1px solid #e8e8e6;">3</td><td style="padding:5px 10px;border:1px solid #e8e8e6;">4–10</td></tr>
+      <tr><td style="padding:5px 10px;border:1px solid #e8e8e6;">Prosociale (PR) *invertita*</td><td style="padding:5px 10px;border:1px solid #e8e8e6;">6–10</td><td style="padding:5px 10px;border:1px solid #e8e8e6;">5</td><td style="padding:5px 10px;border:1px solid #e8e8e6;">0–4 (basso)</td></tr>
+    </table>
+    <h3 style="font-size:14px;font-weight:700;color:#1D9E75;margin:.75rem 0 .5rem;">Indici compositi (0–20 ciascuno)</h3>
+    <p><strong>Internalizzazione</strong> (ES+C): ansia, ritiro, tristezza — Normale 0–5, Borderline 6–7, Elevato 8–20</p>
+    <p><strong>Esternalizzazione</strong> (EC+IP): impulsivita, aggressivita, oppositività — Normale 0–5, Borderline 6–7, Elevato 8–20</p>
+    <div style="margin-top:1rem;padding:10px;background:#f8f8f7;border-radius:8px;font-size:11px;color:#888;">SDQ — Goodman (1997). Standardizzazione italiana. Documento a scopo informativo, non sostituisce valutazione clinica professionale.</div>
+  </div>
+</div>
+
 <div class="container">
+  <!-- LOGIN -->
   <div id="screen-login">
-    <div class="lock-screen">
+    <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;gap:1rem;text-align:center;">
       <div style="width:52px;height:52px;border-radius:50%;background:#E1F5EE;display:flex;align-items:center;justify-content:center;font-size:26px;">&#128274;</div>
       <h2>Area valutatore</h2>
       <p style="font-size:14px;color:#666;">Inserisci il PIN per accedere ai risultati</p>
-      <input class="pin-input" type="password" id="pin-in" maxlength="6" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" inputmode="numeric">
-      <p class="warn" id="pin-warn">PIN errato. Riprova.</p>
+      <input class="field input" type="password" id="pin-in" maxlength="6" placeholder="&#9679;&#9679;&#9679;&#9679;" inputmode="numeric" style="border:1px solid #d0d0ce;border-radius:8px;padding:11px;font-size:22px;letter-spacing:8px;width:170px;text-align:center;background:#fff;color:#1a1a1a;">
+      <p class="warn" id="pin-warn" style="display:none;">PIN errato. Riprova.</p>
       <button class="btn btn-primary" style="max-width:220px;width:100%;" onclick="checkPin()">Accedi</button>
-      <p style="font-size:12px;color:#aaa;margin-top:.5rem;">PIN predefinito: <strong style="color:#444;">1234</strong></p>
+      <p style="font-size:12px;color:#aaa;">PIN predefinito: <strong style="color:#444;">1234</strong></p>
     </div>
   </div>
+
+  <!-- DASHBOARD -->
   <div id="screen-dash" style="display:none;">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
-      <h1>SDQ &#8212; Area valutatore</h1>
+      <h1>SDQ — Area valutatore</h1>
       <button class="btn-sm" onclick="logout()">Esci</button>
     </div>
     <div class="nav-bar">
-      <button class="nav-btn act" onclick="switchTab(this,'tab-list')">Questionari</button>
+      <button class="nav-btn act" onclick="switchTab(this,'tab-list')">Minori</button>
       <button class="nav-btn" onclick="switchTab(this,'tab-settings')">Impostazioni</button>
     </div>
+
     <div id="tab-list" class="tab-pane act">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
-        <h2 style="margin:0;">Compilazioni ricevute</h2>
+        <h2 style="margin:0;">Minori in carico</h2>
         <div style="display:flex;gap:8px;">
           <button class="btn-sm" style="background:#1D9E75;color:#fff;border-color:#1D9E75;" onclick="nuovaPratica()">+ Nuova pratica</button>
           <button class="btn-sm" onclick="loadEntries()">&#8635; Aggiorna</button>
@@ -144,6 +182,7 @@ h2{font-size:17px;font-weight:600;margin-bottom:12px;}
       </div>
       <div id="entries-list"><div class="loading-center"><div class="spinner"></div></div></div>
     </div>
+
     <div id="tab-settings" class="tab-pane">
       <h2>Impostazioni</h2>
       <div class="card">
@@ -161,138 +200,22 @@ h2{font-size:17px;font-weight:600;margin-bottom:12px;}
   </div>
 </div>
 
-<div id="legenda-stampa" style="display:none;">
-  <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:720px;margin:0 auto;padding:2rem;font-size:13px;color:#1a1a1a;line-height:1.7;">
-    <div style="border-bottom:3px solid #1D9E75;padding-bottom:.75rem;margin-bottom:1.5rem;">
-      <div style="font-size:22px;font-weight:700;color:#1a1a1a;">Legenda SDQ</div>
-      <div style="font-size:13px;color:#666;margin-top:3px;">Guida alla lettura dei risultati del Questionario sui Punti di Forza e Difficolta</div>
-    </div>
-
-    <h3 style="font-size:14px;font-weight:700;margin-bottom:.5rem;color:#1D9E75;">Struttura dello strumento</h3>
-    <p>Lo SDQ si compone di <strong>25 item</strong> divisi in 5 scale da 5 domande ciascuna. Ogni risposta vale: <strong>0 = Non vero</strong>, <strong>1 = Parzialmente vero</strong>, <strong>2 = Assolutamente vero</strong> (alcune domande sono invertite in fase di correzione). Ogni scala produce un punteggio da 0 a 10.</p>
-    <ul style="margin:.5rem 0 1rem 1.2rem;">
-      <li>Sintomi Emotivi (ES)</li>
-      <li>Problemi di Condotta (EC)</li>
-      <li>Iperattivita / Disattenzione (IP)</li>
-      <li>Problemi con i Pari / Relazioni (C)</li>
-      <li>Comportamento Prosociale (PR)</li>
-    </ul>
-
-    <h3 style="font-size:14px;font-weight:700;margin-bottom:.75rem;color:#1D9E75;">1. Punteggio Totale Difficolta (0–40)</h3>
-    <p style="margin-bottom:.5rem;">Somma di ES + EC + IP + C. <strong>Il prosociale NON rientra nel totale.</strong></p>
-    <table style="width:100%;border-collapse:collapse;margin-bottom:1.25rem;font-size:12px;">
-      <thead><tr style="background:#f0faf6;">
-        <th style="padding:7px 10px;text-align:left;border:1px solid #d0e8dc;">Punteggio</th>
-        <th style="padding:7px 10px;text-align:left;border:1px solid #d0e8dc;">Interpretazione</th>
-      </tr></thead>
-      <tbody>
-        <tr><td style="padding:6px 10px;border:1px solid #e8e8e6;">0 – 13</td><td style="padding:6px 10px;border:1px solid #e8e8e6;"><span style="background:#E1F5EE;color:#085041;padding:2px 8px;border-radius:20px;font-weight:600;font-size:11px;">Nella norma</span></td></tr>
-        <tr><td style="padding:6px 10px;border:1px solid #e8e8e6;">14 – 16</td><td style="padding:6px 10px;border:1px solid #e8e8e6;"><span style="background:#FAC775;color:#633806;padding:2px 8px;border-radius:20px;font-weight:600;font-size:11px;">Borderline</span></td></tr>
-        <tr><td style="padding:6px 10px;border:1px solid #e8e8e6;">17 – 40</td><td style="padding:6px 10px;border:1px solid #e8e8e6;"><span style="background:#FCEBEB;color:#791F1F;padding:2px 8px;border-radius:20px;font-weight:600;font-size:11px;">Elevato / Rischio clinico</span></td></tr>
-      </tbody>
-    </table>
-
-    <h3 style="font-size:14px;font-weight:700;margin-bottom:.75rem;color:#1D9E75;">2. Scale singole</h3>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.25rem;">
-      <div>
-        <p style="font-weight:600;margin-bottom:.35rem;">Sintomi Emotivi — ES<br><span style="font-weight:400;font-size:11px;color:#666;">(ansia, tristezza, paure)</span></p>
-        <table style="width:100%;border-collapse:collapse;font-size:11px;">
-          <tr style="background:#f8f8f7;"><th style="padding:5px 8px;border:1px solid #e0e0de;text-align:left;">Punteggio</th><th style="padding:5px 8px;border:1px solid #e0e0de;text-align:left;">Fascia</th></tr>
-          <tr><td style="padding:5px 8px;border:1px solid #e8e8e6;">0 – 3</td><td style="padding:5px 8px;border:1px solid #e8e8e6;">Normale</td></tr>
-          <tr><td style="padding:5px 8px;border:1px solid #e8e8e6;">4</td><td style="padding:5px 8px;border:1px solid #e8e8e6;">Borderline</td></tr>
-          <tr><td style="padding:5px 8px;border:1px solid #e8e8e6;">5 – 10</td><td style="padding:5px 8px;border:1px solid #e8e8e6;">Elevato</td></tr>
-        </table>
-      </div>
-      <div>
-        <p style="font-weight:600;margin-bottom:.35rem;">Problemi di Condotta — EC<br><span style="font-weight:400;font-size:11px;color:#666;">(oppositività, aggressivita, regole)</span></p>
-        <table style="width:100%;border-collapse:collapse;font-size:11px;">
-          <tr style="background:#f8f8f7;"><th style="padding:5px 8px;border:1px solid #e0e0de;text-align:left;">Punteggio</th><th style="padding:5px 8px;border:1px solid #e0e0de;text-align:left;">Fascia</th></tr>
-          <tr><td style="padding:5px 8px;border:1px solid #e8e8e6;">0 – 2</td><td style="padding:5px 8px;border:1px solid #e8e8e6;">Normale</td></tr>
-          <tr><td style="padding:5px 8px;border:1px solid #e8e8e6;">3</td><td style="padding:5px 8px;border:1px solid #e8e8e6;">Borderline</td></tr>
-          <tr><td style="padding:5px 8px;border:1px solid #e8e8e6;">4 – 10</td><td style="padding:5px 8px;border:1px solid #e8e8e6;">Elevato</td></tr>
-        </table>
-      </div>
-      <div>
-        <p style="font-weight:600;margin-bottom:.35rem;">Iperattivita / Disattenzione — IP</p>
-        <table style="width:100%;border-collapse:collapse;font-size:11px;">
-          <tr style="background:#f8f8f7;"><th style="padding:5px 8px;border:1px solid #e0e0de;text-align:left;">Punteggio</th><th style="padding:5px 8px;border:1px solid #e0e0de;text-align:left;">Fascia</th></tr>
-          <tr><td style="padding:5px 8px;border:1px solid #e8e8e6;">0 – 5</td><td style="padding:5px 8px;border:1px solid #e8e8e6;">Normale</td></tr>
-          <tr><td style="padding:5px 8px;border:1px solid #e8e8e6;">6</td><td style="padding:5px 8px;border:1px solid #e8e8e6;">Borderline</td></tr>
-          <tr><td style="padding:5px 8px;border:1px solid #e8e8e6;">7 – 10</td><td style="padding:5px 8px;border:1px solid #e8e8e6;">Elevato</td></tr>
-        </table>
-      </div>
-      <div>
-        <p style="font-weight:600;margin-bottom:.35rem;">Problemi con i Pari — C<br><span style="font-weight:400;font-size:11px;color:#666;">(isolamento, difficolta relazionali)</span></p>
-        <table style="width:100%;border-collapse:collapse;font-size:11px;">
-          <tr style="background:#f8f8f7;"><th style="padding:5px 8px;border:1px solid #e0e0de;text-align:left;">Punteggio</th><th style="padding:5px 8px;border:1px solid #e0e0de;text-align:left;">Fascia</th></tr>
-          <tr><td style="padding:5px 8px;border:1px solid #e8e8e6;">0 – 2</td><td style="padding:5px 8px;border:1px solid #e8e8e6;">Normale</td></tr>
-          <tr><td style="padding:5px 8px;border:1px solid #e8e8e6;">3</td><td style="padding:5px 8px;border:1px solid #e8e8e6;">Borderline</td></tr>
-          <tr><td style="padding:5px 8px;border:1px solid #e8e8e6;">4 – 10</td><td style="padding:5px 8px;border:1px solid #e8e8e6;">Elevato</td></tr>
-        </table>
-      </div>
-      <div style="grid-column:1/-1;">
-        <p style="font-weight:600;margin-bottom:.35rem;">Comportamento Prosociale — PR<br><span style="font-weight:400;font-size:11px;color:#666;">(questa scala e positiva: si legge al contrario)</span></p>
-        <table style="width:50%;border-collapse:collapse;font-size:11px;">
-          <tr style="background:#f8f8f7;"><th style="padding:5px 8px;border:1px solid #e0e0de;text-align:left;">Punteggio</th><th style="padding:5px 8px;border:1px solid #e0e0de;text-align:left;">Fascia</th></tr>
-          <tr><td style="padding:5px 8px;border:1px solid #e8e8e6;">6 – 10</td><td style="padding:5px 8px;border:1px solid #e8e8e6;">Adeguato</td></tr>
-          <tr><td style="padding:5px 8px;border:1px solid #e8e8e6;">5</td><td style="padding:5px 8px;border:1px solid #e8e8e6;">Borderline</td></tr>
-          <tr><td style="padding:5px 8px;border:1px solid #e8e8e6;">0 – 4</td><td style="padding:5px 8px;border:1px solid #e8e8e6;">Basso comportamento prosociale</td></tr>
-        </table>
-      </div>
-    </div>
-
-    <h3 style="font-size:14px;font-weight:700;margin-bottom:.75rem;color:#1D9E75;">3. Indici compositi</h3>
-    <p style="margin-bottom:.75rem;">Due macro-dimensioni molto utilizzate nelle equipe educative europee:</p>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
-      <div style="padding:12px;border:1px solid #c8e6d8;border-radius:9px;background:#f0faf6;">
-        <p style="font-weight:700;color:#0F6E56;margin-bottom:4px;">Internalizzazione</p>
-        <p style="font-size:11px;color:#555;margin-bottom:6px;">Difficolta rivolte verso se stessi<br><strong>ES + C</strong> — Range 0–20</p>
-        <p style="font-size:11px;color:#555;">Indica: ansia, ritiro sociale, tristezza, isolamento.</p>
-        <p style="font-size:11px;margin-top:6px;"><span style="background:#E1F5EE;color:#085041;padding:1px 6px;border-radius:10px;">0–5 Normale</span> <span style="background:#FAC775;color:#633806;padding:1px 6px;border-radius:10px;">6–7 Borderline</span> <span style="background:#FCEBEB;color:#791F1F;padding:1px 6px;border-radius:10px;">8–20 Elevato</span></p>
-      </div>
-      <div style="padding:12px;border:1px solid #f0d8b4;border-radius:9px;background:#fff8f0;">
-        <p style="font-weight:700;color:#854F0B;margin-bottom:4px;">Esternalizzazione</p>
-        <p style="font-size:11px;color:#555;margin-bottom:6px;">Difficolta rivolte verso l'esterno<br><strong>EC + IP</strong> — Range 0–20</p>
-        <p style="font-size:11px;color:#555;">Indica: impulsivita, aggressivita, oppositività.</p>
-        <p style="font-size:11px;margin-top:6px;"><span style="background:#E1F5EE;color:#085041;padding:1px 6px;border-radius:10px;">0–5 Normale</span> <span style="background:#FAC775;color:#633806;padding:1px 6px;border-radius:10px;">6–7 Borderline</span> <span style="background:#FCEBEB;color:#791F1F;padding:1px 6px;border-radius:10px;">8–20 Elevato</span></p>
-      </div>
-    </div>
-
-    <div style="padding:10px 14px;background:#f8f8f7;border-radius:8px;font-size:11px;color:#888;margin-top:1rem;">
-      Lo SDQ (Strengths and Difficulties Questionnaire) e stato sviluppato da Robert Goodman (1997). I punteggi normativi fanno riferimento alla standardizzazione italiana. Questo documento e a scopo informativo e di supporto educativo: non sostituisce una valutazione clinica professionale.
-    </div>
-  </div>
-</div>
-
+<!-- MODAL MINORE -->
 <div id="modal-wrap" style="display:none;">
   <div class="modal-bg" onclick="closeModalBg(event)">
     <div class="modal">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;">
         <div id="det-header"></div>
-        <div style="display:flex;align-items:center;gap:8px;">
-          <button class="print-btn print-hide" onclick="stampaDettaglio()">&#128438; Stampa</button>
-          <button onclick="closeModal()" style="font-size:24px;cursor:pointer;color:#aaa;background:none;border:none;line-height:1;padding:0 0 0 12px;">&#215;</button>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <button class="print-btn" onclick="stampaDettaglio()">&#128438; Stampa</button>
+          <button onclick="closeModal()" style="font-size:24px;cursor:pointer;color:#aaa;background:none;border:none;line-height:1;padding:0 0 0 8px;">&#215;</button>
         </div>
       </div>
-      <div class="modal-tabs">
-        <button class="modal-tab act" onclick="detTab(this,'dp-scale')">Scale SDQ</button>
-        <button class="modal-tab" onclick="detTab(this,'dp-radar')">Grafico radar</button>
-        <button class="modal-tab" onclick="detTab(this,'dp-interp')">Interpretazione</button>
-        <button class="modal-tab" onclick="detTab(this,'dp-rel')">Relazione</button>
-        <button class="modal-tab" onclick="detTab(this,'dp-impact')">Impatto</button>
-        <button class="modal-tab" onclick="detTab(this,'dp-risposte')">Risposte</button>
-        <button class="modal-tab" id="tab-sint-btn" onclick="detTab(this,'dp-sint')" style="display:none;background:#FFF8E6;border-color:#FAC775;color:#633806;">&#9889; Sintesi</button>
-      </div>
-      <div id="dp-scale" class="det-pane act"></div>
-      <div id="dp-radar" class="det-pane"><div style="position:relative;width:100%;height:300px;"><canvas id="radar-canvas"></canvas></div></div>
-      <div id="dp-interp" class="det-pane"></div>
-      <div id="dp-rel" class="det-pane"></div>
-      <div id="dp-impact" class="det-pane"></div>
-      <div id="dp-risposte" class="det-pane"></div>
-      <div id="dp-sint" class="det-pane"></div>
-      <div style="margin-top:1.25rem;border-top:1px solid #f0f0ee;padding-top:1rem;">
-        <button class="btn-danger" onclick="deleteEntry()">Elimina compilazione</button>
-      </div>
+      <!-- FONTE TABS -->
+      <div class="fonte-tabs" id="fonte-tabs-bar"></div>
+      <!-- FONTE PANES -->
+      <div id="fonte-panes"></div>
+      <div style="margin-top:1.25rem;border-top:1px solid #f0f0ee;padding-top:1rem;" id="delete-area"></div>
     </div>
   </div>
 </div>
@@ -301,8 +224,8 @@ h2{font-size:17px;font-weight:600;margin-bottom:12px;}
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 <script>
-
-const FB = {
+"use strict";
+var FB = {
   apiKey: "AIzaSyBmsHeTkQMJVQyav3rF8VPMhLeIB45t3Io",
   authDomain: "sdq-questionario.firebaseapp.com",
   projectId: "sdq-questionario",
@@ -311,851 +234,730 @@ const FB = {
   appId: "1:601788476480:web:766d7dd791fa44acbd83a5"
 };
 firebase.initializeApp(FB);
-const db = firebase.firestore();
+var db = firebase.firestore();
 
-const SLBL = {ES:"Sintomi Emotivi",IP:"Iperattivita",EC:"Prob. Condotta",C:"Prob. Relazioni",PR:"Prosociale",TOT:"Tot. Difficolta",INT:"Internalizzazione",EST:"Esternalizzazione"};
-const BAR = {ES:"#1D9E75",IP:"#BA7517",EC:"#993C1D",C:"#185FA5",PR:"#534AB7"};
-const SCOL = {ES:"b-ES",IP:"b-IP",EC:"b-EC",C:"b-C",PR:"b-PR"};
+var SLBL = {ES:"Sintomi Emotivi",IP:"Iperattivita",EC:"Prob. Condotta",C:"Prob. Relazioni",PR:"Prosociale",TOT:"Tot. Difficolta",INT:"Internalizzazione",EST:"Esternalizzazione"};
+var BAR = {ES:"#1D9E75",IP:"#BA7517",EC:"#993C1D",C:"#185FA5",PR:"#534AB7"};
+var SCOL = {ES:"b-ES",IP:"b-IP",EC:"b-EC",C:"b-C",PR:"b-PR"};
 
-function band(s,v) {
+function band(s,v){
   if(s==="PR"){if(v>=6)return"adeguato";if(v===5)return"borderline";return"basso";}
   if(s==="TOT"){if(v<=15)return"normale";if(v<=19)return"borderline";return"elevato";}
-  if(s==="INT"){if(v<=5)return"normale";if(v<=7)return"borderline";return"elevato";}
-  if(s==="EST"){if(v<=5)return"normale";if(v<=7)return"borderline";return"elevato";}
+  if(s==="INT"||s==="EST"){if(v<=5)return"normale";if(v<=7)return"borderline";return"elevato";}
   var r={ES:[3,5],IP:[5,7],EC:[2,3],C:[2,3]}[s];
   if(v<=r[0])return"normale";if(v<=r[1])return"borderline";return"elevato";
 }
 function bc(b){return b==="normale"||b==="adeguato"?"bn":b==="borderline"?"bb":"be";}
 function bl(b){var m={normale:"Nella norma",adeguato:"Adeguato",borderline:"Borderline",basso:"Basso",elevato:"Elevato"};return m[b]||b;}
-function codBadge(c){if(!c)return "";return "<span style=\"background:#1a1a1a;color:#fff;font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;margin-right:6px;\">#"+c+"</span>";}
 function getPin(){return localStorage.getItem("sdq_pin2")||"1234";}
 
-window.checkPin = function() {
-  var v = document.getElementById("pin-in").value;
-  if(v === getPin()) {
-    document.getElementById("pin-warn").style.display = "none";
-    document.getElementById("pin-in").value = "";
-    document.getElementById("screen-login").style.display = "none";
-    document.getElementById("screen-dash").style.display = "block";
+window.checkPin = function(){
+  var v=document.getElementById("pin-in").value;
+  if(v===getPin()){
+    document.getElementById("pin-warn").style.display="none";
+    document.getElementById("pin-in").value="";
+    document.getElementById("screen-login").style.display="none";
+    document.getElementById("screen-dash").style.display="block";
     loadEntries();
   } else {
-    document.getElementById("pin-warn").style.display = "block";
+    document.getElementById("pin-warn").style.display="block";
   }
 };
-document.getElementById("pin-in").addEventListener("keydown", function(e){if(e.key==="Enter")window.checkPin();});
+document.getElementById("pin-in").addEventListener("keydown",function(e){if(e.key==="Enter")window.checkPin();});
 
-window.logout = function(){
-  document.getElementById("screen-dash").style.display = "none";
-  document.getElementById("screen-login").style.display = "block";
+window.logout=function(){
+  document.getElementById("screen-dash").style.display="none";
+  document.getElementById("screen-login").style.display="block";
 };
 
-window.switchTab = function(btn, id) {
+window.switchTab=function(btn,id){
   document.querySelectorAll(".nav-btn").forEach(function(b){b.classList.remove("act");});
   btn.classList.add("act");
   document.querySelectorAll(".tab-pane").forEach(function(p){p.classList.remove("act");});
   document.getElementById(id).classList.add("act");
 };
 
-var allEntries = [];
+var allEntries=[];
+var pratiche=[];
 
-window.nuovaPratica = function() {
-  document.getElementById("nuova-pratica-panel").style.display = "block";
-  document.getElementById("np-result").style.display = "none";
-  document.getElementById("np-nome").value = "";
+window.loadEntries=async function(){
+  var el=document.getElementById("entries-list");
+  el.innerHTML='<div class="loading-center"><div class="spinner"></div></div>';
+  try{
+    var snap=await db.collection("risposte").get();
+    allEntries=[];
+    snap.forEach(function(d){allEntries.push(Object.assign({id:d.id},d.data()));});
+    allEntries.sort(function(a,b){return(b.timestamp&&a.timestamp)?(b.timestamp.seconds||0)-(a.timestamp.seconds||0):0;});
+    // load pratiche
+    try{
+      var snap2=await db.collection("pratiche").get();
+      pratiche=[];
+      snap2.forEach(function(d){pratiche.push(Object.assign({id:d.id},d.data()));});
+    }catch(e2){}
+    renderList();
+  }catch(e){
+    el.innerHTML='<div class="empty">Errore nel caricamento. Riprova.</div>';
+  }
+};
+
+function normalizeNome(n){return(n||"").trim().toLowerCase().replace(/\s+/g," ");}
+
+function groupMinori(){
+  // Group entries by codice (preferred) or nome
+  var groups={};
+  allEntries.forEach(function(e){
+    var key=e.codice?("c:"+e.codice):("n:"+normalizeNome(e.nome));
+    if(!groups[key])groups[key]={codice:e.codice||"",nome:e.nome||"",entries:[]};
+    groups[key].entries.push(e);
+    if(!groups[key].nome&&e.nome)groups[key].nome=e.nome;
+  });
+  // Also add pratiche that have no entries yet
+  pratiche.forEach(function(p){
+    var key="c:"+p.codice;
+    if(!groups[key])groups[key]={codice:p.codice,nome:p.nome||"",entries:[]};
+    if(!groups[key].nome&&p.nome)groups[key].nome=p.nome;
+  });
+  return Object.values(groups).sort(function(a,b){
+    var ca=parseInt(a.codice||"999"),cb=parseInt(b.codice||"999");
+    return ca-cb;
+  });
+}
+
+function renderList(){
+  var el=document.getElementById("entries-list");
+  var groups=groupMinori();
+  if(!groups.length){el.innerHTML='<div class="empty">Nessun questionario ricevuto ancora.</div>';return;}
+  var html="";
+  groups.forEach(function(g){
+    var auto=g.entries.find(function(e){return!e.tipo||e.tipo==="auto-report";});
+    var edu=g.entries.find(function(e){return e.tipo==="educatore";});
+    var gen=g.entries.find(function(e){return e.tipo==="genitore";});
+    var codBadge=g.codice?'<span style="background:#1a1a1a;color:#fff;font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;margin-right:8px;">#'+g.codice+'</span>':"";
+    var badges="";
+    badges+=auto?'<span class="badge b-auto">&#10003; Auto-report</span>':'<span class="badge b-attesa">&#9711; Auto-report</span>';
+    badges+=edu?'<span class="badge b-edu">&#10003; Educatore</span>':'<span class="badge b-attesa">&#9711; Educatore</span>';
+    badges+=gen?'<span class="badge b-gen">&#10003; Genitore</span>':'<span class="badge b-attesa">&#9711; Genitore</span>';
+    var totals="";
+    if(auto)totals+='<span style="font-size:11px;color:#666;">Auto: <strong>'+auto.tot+'</strong> <span class="badge '+bc(band("TOT",auto.tot))+'">'+bl(band("TOT",auto.tot))+'</span></span> ';
+    if(edu)totals+='<span style="font-size:11px;color:#666;">Edu: <strong>'+edu.tot+'</strong> <span class="badge '+bc(band("TOT",edu.tot))+'">'+bl(band("TOT",edu.tot))+'</span></span> ';
+    if(gen)totals+='<span style="font-size:11px;color:#666;">Gen: <strong>'+gen.tot+'</strong> <span class="badge '+bc(band("TOT",gen.tot))+'">'+bl(band("TOT",gen.tot))+'</span></span>';
+    html+='<div class="minore-card" onclick="openMinore(\''+g.codice+'\',\''+encodeURIComponent(g.nome)+'\')">'
+      +'<div style="display:flex;justify-content:space-between;align-items:center;">'
+      +'<div class="minore-nome">'+codBadge+(g.nome||"Senza nome")+'</div>'
+      +'<span style="color:#ccc;font-size:20px;">&#8250;</span>'
+      +'</div>'
+      +'<div class="minore-badges" style="margin-bottom:6px;">'+badges+'</div>'
+      +'<div style="display:flex;gap:10px;flex-wrap:wrap;">'+totals+'</div>'
+      +'</div>';
+  });
+  el.innerHTML=html;
+}
+
+var currentMinore=null;
+var radarCharts=[];
+
+window.openMinore=function(codice,nomeEnc){
+  var nome=decodeURIComponent(nomeEnc);
+  // Find all entries for this minore
+  var entries=allEntries.filter(function(e){
+    if(codice)return e.codice===codice;
+    return normalizeNome(e.nome)===normalizeNome(nome);
+  });
+  var auto=entries.find(function(e){return!e.tipo||e.tipo==="auto-report";});
+  var edu=entries.find(function(e){return e.tipo==="educatore";});
+  var gen=entries.find(function(e){return e.tipo==="genitore";});
+  currentMinore={codice:codice,nome:nome,auto:auto,edu:edu,gen:gen};
+
+  // Header
+  var codBadge=codice?'<span style="background:#1a1a1a;color:#fff;font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;margin-right:8px;">#'+codice+'</span>':"";
+  document.getElementById("det-header").innerHTML=
+    '<div style="font-size:16px;font-weight:600;">'+codBadge+nome+'</div>'
+    +'<div style="font-size:12px;color:#888;margin-top:2px;">'+
+    (auto?'Auto-report: '+auto.data+' ':'')+
+    (edu?'&middot; Edu: '+edu.data+' ':'')+
+    (gen?'&middot; Gen: '+gen.data:'')+
+    '</div>';
+
+  // Build tabs
+  var tabsBar=document.getElementById("fonte-tabs-bar");
+  var panesEl=document.getElementById("fonte-panes");
+  tabsBar.innerHTML="";
+  panesEl.innerHTML="";
+
+  var fonti=[];
+  if(auto)fonti.push({key:"auto",label:"&#127891; Auto-report",cls:"t-auto",entry:auto});
+  if(edu)fonti.push({key:"edu",label:"&#128105;&#8205;&#127979; Educatore",cls:"t-edu",entry:edu});
+  if(gen)fonti.push({key:"gen",label:"&#128106; Genitore",cls:"t-gen",entry:gen});
+  var hasReport=(auto&&(edu||gen))||(edu&&gen);
+  if(hasReport)fonti.push({key:"report",label:"&#9889; Report sintesi",cls:"t-report",entry:null});
+
+  fonti.forEach(function(f,i){
+    var btn=document.createElement("button");
+    btn.className="fonte-tab "+f.cls+(i===0?" act":"");
+    btn.innerHTML=f.label;
+    btn.onclick=(function(fk){return function(){
+      document.querySelectorAll(".fonte-tab").forEach(function(b){b.classList.remove("act");});
+      btn.classList.add("act");
+      document.querySelectorAll(".fonte-pane").forEach(function(p){p.classList.remove("act");});
+      document.getElementById("fp-"+fk).classList.add("act");
+    };})(f.key);
+    tabsBar.appendChild(btn);
+
+    var pane=document.createElement("div");
+    pane.className="fonte-pane"+(i===0?" act":"");
+    pane.id="fp-"+f.key;
+    if(f.key==="report"){
+      pane.innerHTML=buildReportPane(auto,edu,gen);
+    } else {
+      pane.innerHTML=buildFontePane(f.key,f.entry);
+    }
+    panesEl.appendChild(pane);
+  });
+
+  // Delete area
+  var delArea=document.getElementById("delete-area");
+  delArea.innerHTML='';
+  entries.forEach(function(e){
+    var tipoLbl=e.tipo==="educatore"?"Educatore":e.tipo==="genitore"?"Genitore":"Auto-report";
+    var btn=document.createElement("button");
+    btn.className="btn-danger";
+    btn.style.marginRight="8px";
+    btn.textContent="Elimina "+tipoLbl;
+    btn.onclick=(function(eid,tnome){return function(){
+      if(confirm("Eliminare il questionario "+tnome+" di "+nome+"?"))deleteEntry(eid);
+    };})(e.id,tipoLbl);
+    delArea.appendChild(btn);
+  });
+
+  // Init charts after render
+  radarCharts.forEach(function(c){try{c.destroy();}catch(e){}});
+  radarCharts=[];
+  setTimeout(function(){initRadarCharts(auto,edu,gen);},100);
+
+  document.getElementById("modal-wrap").style.display="block";
+  document.body.style.overflow="hidden";
+};
+
+function buildFontePane(key,e){
+  if(!e)return'<div class="empty">Questionario non ancora compilato.</div>';
+  var tipoColor=key==="edu"?"#534AB7":key==="gen"?"#D85A30":"#1D9E75";
+  var tipoLabel=key==="edu"?"Educatore":key==="gen"?"Genitore/Parente":"Auto-report ragazzo/a";
+  var compilatoreStr=(e.compilatore||e.ruolo)?(" &middot; "+(e.compilatore||"")+(e.ruolo?" ("+e.ruolo+")":"")):"";
+  var html='<div style="margin-bottom:1rem;">';
+  html+='<div class="sub-tabs">';
+  html+='<button class="sub-tab act" onclick="subTab(this,\'st-scale-'+key+'\')">Scale SDQ</button>';
+  html+='<button class="sub-tab" onclick="subTab(this,\'st-radar-'+key+'\')">Grafico radar</button>';
+  html+='<button class="sub-tab" onclick="subTab(this,\'st-interp-'+key+'\')">Interpretazione</button>';
+  html+='<button class="sub-tab" onclick="subTab(this,\'st-rel-'+key+'\')">Relazione</button>';
+  html+='<button class="sub-tab" onclick="subTab(this,\'st-impact-'+key+'\')">Impatto</button>';
+  if(e.raw)html+='<button class="sub-tab" onclick="subTab(this,\'st-risp-'+key+'\')">Risposte</button>';
+  html+='</div>';
+  html+='<div id="st-scale-'+key+'" class="sub-pane act">'+renderScale(e,tipoColor,tipoLabel,compilatoreStr)+'</div>';
+  html+='<div id="st-radar-'+key+'" class="sub-pane"><div style="position:relative;height:280px;"><canvas id="radar-'+key+'"></canvas></div></div>';
+  html+='<div id="st-interp-'+key+'" class="sub-pane">'+renderInterp(e,tipoLabel)+'</div>';
+  html+='<div id="st-rel-'+key+'" class="sub-pane">'+renderRelazione(e,tipoLabel)+'</div>';
+  html+='<div id="st-impact-'+key+'" class="sub-pane">'+renderImpact(e)+'</div>';
+  if(e.raw)html+='<div id="st-risp-'+key+'" class="sub-pane">'+renderRisposte(e)+'</div>';
+  html+='</div>';
+  return html;
+}
+
+window.subTab=function(btn,id){
+  var pane=btn.closest(".fonte-pane");
+  pane.querySelectorAll(".sub-tab").forEach(function(b){b.classList.remove("act");});
+  btn.classList.add("act");
+  pane.querySelectorAll(".sub-pane").forEach(function(p){p.classList.remove("act");});
+  document.getElementById(id).classList.add("act");
+};
+
+function initRadarCharts(auto,edu,gen){
+  var configs=[
+    {key:"auto",e:auto,color:"#1D9E75"},
+    {key:"edu",e:edu,color:"#534AB7"},
+    {key:"gen",e:gen,color:"#D85A30"}
+  ];
+  configs.forEach(function(c){
+    if(!c.e)return;
+    var canvas=document.getElementById("radar-"+c.key);
+    if(!canvas)return;
+    var chart=new Chart(canvas,{
+      type:"radar",
+      data:{
+        labels:["Sintomi Emotivi","Iperattivita","Prob. Condotta","Prob. Relazioni","Prosociale"],
+        datasets:[{label:c.key==="auto"?"Auto-report":c.key==="edu"?"Educatore":"Genitore",
+          data:[c.e.scores.ES,c.e.scores.IP,c.e.scores.EC,c.e.scores.C,c.e.scores.PR],
+          backgroundColor:c.color+"26",borderColor:c.color,borderWidth:2,pointBackgroundColor:c.color,pointRadius:4}]
+      },
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+        scales:{r:{min:0,max:10,ticks:{stepSize:2,font:{size:10},color:"#aaa"},
+          pointLabels:{font:{size:11},color:"#555"},
+          grid:{color:"rgba(0,0,0,0.07)"},angleLines:{color:"rgba(0,0,0,0.07)"}}}}
+    });
+    radarCharts.push(chart);
+  });
+}
+
+function renderScale(e,tipoColor,tipoLabel,compilatoreStr){
+  var html='<div style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;display:inline-block;margin-bottom:12px;background:'+tipoColor+'20;color:'+tipoColor+';">'+tipoLabel+'</div>';
+  if(compilatoreStr)html+='<span style="font-size:12px;color:#888;margin-left:8px;">'+compilatoreStr+'</span>';
+  html+='<p class="lbl">Punteggi per scala</p>';
+  ["ES","IP","EC","C","PR"].forEach(function(s){
+    var v=e.scores[s];var pct=Math.round(v/10*100);var bd=band(s,v);
+    html+='<div class="scale-row"><div><span class="badge '+SCOL[s]+'">'+s+'</span><div style="font-size:12px;color:#888;margin-top:3px;">'+SLBL[s]+'</div></div>'
+      +'<div class="bar-bg"><div class="bar-fill" style="width:'+pct+'%;background:'+BAR[s]+';"></div></div>'
+      +'<div style="font-size:15px;font-weight:600;text-align:center;">'+v+'<span style="font-size:11px;color:#aaa;">/10</span></div>'
+      +'<div style="text-align:right;"><span class="badge '+bc(bd)+'">'+bl(bd)+'</span></div></div>';
+  });
+  var totBd=band("TOT",e.tot);
+  var intV=e.scores.ES+e.scores.C;var estV=e.scores.EC+e.scores.IP;
+  var intBd=band("INT",intV);var estBd=band("EST",estV);
+  html+='<div style="margin-top:1rem;padding:12px;background:#f8f8f7;border-radius:9px;display:flex;justify-content:space-between;align-items:center;">'
+    +'<div style="font-size:13px;font-weight:600;color:#666;">Punteggio totale difficolta</div>'
+    +'<div style="display:flex;align-items:center;gap:10px;"><span style="font-size:24px;font-weight:700;">'+e.tot+'<span style="font-size:12px;color:#aaa;font-weight:400;">/40</span></span><span class="badge '+bc(totBd)+'">'+bl(totBd)+'</span></div></div>';
+  html+='<div style="margin-top:8px;display:grid;grid-template-columns:1fr 1fr;gap:8px;">'
+    +'<div style="padding:12px;background:#f0faf6;border-radius:9px;border-left:3px solid #1D9E75;">'
+    +'<div style="font-size:11px;font-weight:600;color:#0F6E56;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">Internalizzazione</div>'
+    +'<div style="font-size:11px;color:#555;margin-bottom:6px;">ES + C</div>'
+    +'<div><span style="font-size:20px;font-weight:700;">'+intV+'<span style="font-size:11px;color:#aaa;">/20</span></span> <span class="badge '+bc(intBd)+'">'+bl(intBd)+'</span></div></div>'
+    +'<div style="padding:12px;background:#fff8f0;border-radius:9px;border-left:3px solid #BA7517;">'
+    +'<div style="font-size:11px;font-weight:600;color:#854F0B;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">Esternalizzazione</div>'
+    +'<div style="font-size:11px;color:#555;margin-bottom:6px;">EC + IP</div>'
+    +'<div><span style="font-size:20px;font-weight:700;">'+estV+'<span style="font-size:11px;color:#aaa;">/20</span></span> <span class="badge '+bc(estBd)+'">'+bl(estBd)+'</span></div></div></div>';
+  return html;
+}
+
+var INTERP={
+  ES:{normale:"Il livello di sintomatologia emotiva rientra nella fascia normativa attesa per la fascia di eta.",borderline:"Sono presenti alcuni indicatori di disagio emotivo che meritano monitoraggio.",elevato:"Il punteggio indica una presenza significativa di sintomi emotivi: preoccupazioni ricorrenti, vissuti di tristezza o manifestazioni somatiche che richiedono approfondimento."},
+  IP:{normale:"Il livello di attenzione e controllo motorio e adeguato. Non emergono difficolta significative.",borderline:"Sono presenti alcune difficolta nel mantenere l'attenzione e nel regolare l'attivita motoria.",elevato:"Difficolta marcate nell'autoregolazione, nella concentrazione e nel controllo dell'impulsivita, con possibili ricadute sull'apprendimento."},
+  EC:{normale:"Il comportamento e generalmente adeguato alle regole sociali. Non emergono pattern problematici.",borderline:"Sono presenti alcune condotte problematiche in area borderline. Opportuno osservare frequenza e contesto.",elevato:"Il punteggio segnala la presenza di comportamenti aggressivi, oppositivi o antisociali che superano la norma. Richiede attenzione educativa strutturata."},
+  C:{normale:"Mostra un buon inserimento nel gruppo dei pari e relazioni soddisfacenti con i coetanei.",borderline:"Sono presenti alcune difficolta nelle relazioni con i pari. Possibile rete sociale limitata.",elevato:"Difficolta significative nel costruire e mantenere relazioni con i coetanei, con possibili vissuti di isolamento."},
+  PR:{adeguato:"Buon livello di comportamento prosociale: empatia, disponibilita ad aiutare e attenzione ai bisogni degli altri.",borderline:"Il comportamento prosociale risulta parzialmente sviluppato.",basso:"Il punteggio prosociale e basso: scarse manifestazioni di comportamento d'aiuto, empatia e cooperazione."},
+  TOT:{normale:"Il punteggio totale di difficolta rientra nella fascia normativa.",borderline:"Il punteggio totale si colloca in area borderline: condizione di rischio che merita monitoraggio sistematico.",elevato:"Il punteggio totale e clinicamente significativo. Si raccomanda un approfondimento valutativo professionale."},
+  INT:{normale:"Il punteggio di internalizzazione rientra nella norma.",borderline:"Il punteggio di internalizzazione si colloca in area borderline.",elevato:"Il punteggio di internalizzazione e clinicamente significativo: sofferenza interiore rilevante da approfondire."},
+  EST:{normale:"Il punteggio di esternalizzazione rientra nella norma.",borderline:"Il punteggio di esternalizzazione si colloca in area borderline.",elevato:"Il punteggio di esternalizzazione e clinicamente significativo: difficolta marcate nell'autoregolazione."}
+};
+
+function renderInterp(e,tipoLabel){
+  var allSc={ES:e.scores.ES,IP:e.scores.IP,EC:e.scores.EC,C:e.scores.C,PR:e.scores.PR,TOT:e.tot,INT:e.scores.ES+e.scores.C,EST:e.scores.EC+e.scores.IP};
+  var html='<p class="lbl" style="margin-top:0;">Interpretazione clinica — '+tipoLabel+'</p>';
+  ["ES","IP","EC","C","PR","TOT","INT","EST"].forEach(function(s){
+    var v=allSc[s];var bd=band(s,v);
+    var col=bd==="normale"||bd==="adeguato"?"#1D9E75":bd==="borderline"?"#BA7517":"#A32D2D";
+    html+='<div class="interp-block" style="border-left-color:'+col+';">'
+      +'<div class="interp-header"><span style="font-size:13px;font-weight:600;">'+SLBL[s]+'</span>'
+      +'<div style="display:flex;align-items:center;gap:6px;"><span style="font-size:13px;font-weight:700;">'+v+'</span><span class="badge '+bc(bd)+'">'+bl(bd)+'</span></div></div>'
+      +'<p style="font-size:13px;color:#555;line-height:1.65;">'+(INTERP[s][bd]||"")+'</p></div>';
+  });
+  return html;
+}
+
+function renderRelazione(e,tipoLabel){
+  var nome=e.nome||"Il ragazzo/la ragazza";
+  var strumento=e.tipo==="educatore"?"SDQ versione adulto (osservazione educatore) 4-17 anni":e.tipo==="genitore"?"SDQ versione genitori 4-17 anni":"SDQ auto-report 11-17 anni, standardizzazione italiana";
+  var compilatoreInfo=(e.compilatore||e.ruolo)?("<br>Compilatore: <strong>"+(e.compilatore||"")+(e.ruolo?" ("+e.ruolo+")":"")+"</strong>"):"";
+  var tipoColor=e.tipo==="educatore"?"#534AB7":e.tipo==="genitore"?"#D85A30":"#1D9E75";
+  var ES={v:e.scores.ES,bd:band("ES",e.scores.ES)};
+  var IP={v:e.scores.IP,bd:band("IP",e.scores.IP)};
+  var EC={v:e.scores.EC,bd:band("EC",e.scores.EC)};
+  var C={v:e.scores.C,bd:band("C",e.scores.C)};
+  var PR={v:e.scores.PR,bd:band("PR",e.scores.PR)};
+  var TOT={v:e.tot,bd:band("TOT",e.tot)};
+  var intV=e.scores.ES+e.scores.C;var estV=e.scores.EC+e.scores.IP;
+  var intBd=band("INT",intV);var estBd=band("EST",estV);
+  var livTot=TOT.bd==="normale"?"nella norma":TOT.bd==="borderline"?"in area borderline":"clinicamente significativo";
+  var rec=[];
+  if(ES.bd!=="normale")rec.push("un approfondimento della dimensione emotiva");
+  if(IP.bd!=="normale")rec.push("una valutazione delle capacita attentive e dell'autoregolazione");
+  if(EC.bd!=="normale")rec.push("un intervento strutturato sulla gestione del comportamento");
+  if(C.bd!=="normale")rec.push("un supporto alle abilita sociali");
+  if(PR.bd==="basso")rec.push("un potenziamento delle competenze prosociali");
+  var recStr=rec.length?rec.join(", ")+".":"un monitoraggio periodico nel tempo.";
+  var aree=[];
+  if(ES.bd!=="normale")aree.push("emotiva");
+  if(IP.bd!=="normale")aree.push("dell'autoregolazione");
+  if(EC.bd!=="normale")aree.push("comportamentale");
+  if(C.bd!=="normale")aree.push("relazionale");
+  var analisi=[];
+  if(TOT.bd==="normale")analisi.push("Il profilo complessivo non evidenzia aree di difficolta clinicamente significative.");
+  else if(TOT.bd==="borderline"){analisi.push("Il profilo presenta alcune aree di vulnerabilita in zona borderline.");if(aree.length)analisi.push("Le aree di maggiore attenzione riguardano la dimensione "+aree.join(", ")+".");}
+  else{analisi.push("Il profilo evidenzia difficolta significative in piu domini.");if(aree.length)analisi.push("Le dimensioni piu critiche sono quella "+aree.join(", ")+".");}
+  if(PR.bd==="adeguato")analisi.push("Il comportamento prosociale e un punto di forza su cui fare leva.");
+  var impl=[];
+  if(ES.bd!=="normale")impl.push("Sul piano emotivo, creare spazi di ascolto strutturati e tecniche di psicoeducazione emotiva.");
+  if(IP.bd!=="normale")impl.push("Per l'autoregolazione, strutturare l'ambiente con routine chiare e strategie metacognitive.");
+  if(EC.bd!=="normale")impl.push("Per il comportamento, applicare regole chiare, conseguenze prevedibili e rinforzo positivo.");
+  if(C.bd!=="normale")impl.push("Per l'integrazione sociale, attivita di gruppo strutturate e training sulle abilita sociali.");
+  if(PR.bd==="basso")impl.push("Per il prosociale, cooperative learning e role-playing su scenari relazionali.");
+  if(!impl.length)impl.push("Il profilo non evidenzia aree critiche. Si suggerisce monitoraggio periodico.");
+  return '<p class="lbl" style="margin-top:0;">Relazione psicoeducativa</p>'
+    +'<div style="border:1px solid #e8e8e6;border-radius:12px;padding:1.25rem;">'
+    +'<div style="background:#f8f8f7;border-radius:8px;padding:8px 12px;margin-bottom:1rem;display:flex;align-items:center;gap:10px;">'
+    +'<span style="font-size:11px;font-weight:600;padding:2px 10px;border-radius:20px;background:'+tipoColor+'20;color:'+tipoColor+';">'+tipoLabel+'</span>'
+    +'<span style="font-size:13px;color:#444;">Relazione riferita a <strong>'+nome+'</strong></span></div>'
+    +'<div class="rel-section"><h4>Dati identificativi</h4><p>Nome: <strong>'+nome+'</strong>'+(e.ddn?" &middot; Nato/a: "+e.ddn:"")+(e.sesso?" &middot; "+e.sesso:"")+'.<br>Tipo compilazione: <strong>'+tipoLabel+'</strong>.'+compilatoreInfo+'<br>Data: '+e.data+'. Strumento: '+strumento+'.</p></div>'
+    +'<div class="rel-section"><h4>Presentazione strumento</h4><p>L\'SDQ (Goodman, 1997) e un questionario di screening psicologico validato internazionalmente. Valuta cinque dimensioni: sintomi emotivi, iperattivita/disattenzione, problemi di condotta, difficolta relazionali e comportamento prosociale.</p></div>'
+    +'<div class="rel-section"><h4>Profilo punteggi</h4><p>Il punteggio totale di difficolta e <strong>'+TOT.v+'/40</strong>, collocandosi <strong>'+livTot+'</strong>.</p>'
+    +'<ul style="margin-top:8px;padding-left:16px;font-size:13px;color:#555;line-height:2;">'
+    +'<li>ES: '+ES.v+'/10 <span class="badge '+bc(ES.bd)+'">'+bl(ES.bd)+'</span></li>'
+    +'<li>IP: '+IP.v+'/10 <span class="badge '+bc(IP.bd)+'">'+bl(IP.bd)+'</span></li>'
+    +'<li>EC: '+EC.v+'/10 <span class="badge '+bc(EC.bd)+'">'+bl(EC.bd)+'</span></li>'
+    +'<li>C: '+C.v+'/10 <span class="badge '+bc(C.bd)+'">'+bl(C.bd)+'</span></li>'
+    +'<li>PR: '+PR.v+'/10 <span class="badge '+bc(PR.bd)+'">'+bl(PR.bd)+'</span></li>'
+    +'</ul></div>'
+    +'<div class="rel-section"><h4>Analisi</h4><p>'+analisi.join(" ")+'</p></div>'
+    +'<div class="rel-section"><h4>Implicazioni psicoeducative</h4><p>'+impl.join(" ")+'</p></div>'
+    +'<div class="rel-section"><h4>Raccomandazioni</h4><p>Si suggerisce '+recStr+'<br>L\'SDQ e uno strumento di screening: i risultati vanno contestualizzati in una valutazione globale.</p></div>'
+    +'<div class="rel-section" style="margin-bottom:0;"><h4>Note</h4><p>Documento redatto a scopo informativo. Non sostituisce valutazione psicologica professionale. Si raccomanda riservatezza nel trattamento dei dati.</p></div>'
+    +'</div>';
+}
+
+function renderImpact(e){
+  var imp=e.impact||{};
+  var dgMap={0:"No",1:"Si, piccole difficolta",2:"Si, difficolta importanti",3:"Si, difficolta molto grandi"};
+  var durMap={1:"Meno di 1 mese",2:"1-5 mesi",3:"6-12 mesi",4:"Piu di 1 anno"};
+  var lvlMap={0:"Per niente",1:"Solo un po",2:"Abbastanza",3:"Molto"};
+  var rows=[
+    ["Difficolta percepita",imp.diff_gen!=null?dgMap[imp.diff_gen]:"Non risposto"],
+    ["Durata",imp.durata!=null?durMap[imp.durata]:"Non risposto"],
+    ["Sofferenza soggettiva",imp.soff!=null?lvlMap[imp.soff]:"Non risposto"],
+    ["Vita familiare",imp.i_fam!=null?lvlMap[imp.i_fam]:"Non risposto"],
+    ["Amicizie",imp.i_ami!=null?lvlMap[imp.i_ami]:"Non risposto"],
+    ["Scuola",imp.i_scu!=null?lvlMap[imp.i_scu]:"Non risposto"],
+    ["Tempo libero",imp.i_lib!=null?lvlMap[imp.i_lib]:"Non risposto"],
+    ["Carico sugli altri",imp.i_altri!=null?lvlMap[imp.i_altri]:"Non risposto"]
+  ];
+  var tbl=rows.map(function(r){return "<tr><td>"+r[0]+"</td><td>"+r[1]+"</td></tr>";}).join("");
+  return '<p class="lbl" style="margin-top:0;">Sezione impatto</p>'
+    +'<div class="card"><table class="impact-table" style="width:100%;">'+tbl+'</table></div>';
+}
+
+function renderRisposte(e){
+  if(!e.raw)return'<div class="empty">Risposte dettagliate non disponibili per questa compilazione.</div>';
+  var ITEMS=[
+    {t:"Rispettoso dei sentimenti degli altri",s:"PR",r:false},{t:"Irrequieto, iperattivo",s:"IP",r:false},
+    {t:"Mal di testa, stomaco o nausea",s:"ES",r:false},{t:"Condivide volentieri",s:"PR",r:false},
+    {t:"Crisi di collera o cattivo umore",s:"EC",r:false},{t:"Solitario, tende a giocare da solo",s:"C",r:false},
+    {t:"Generalmente obbediente",s:"EC",r:true},{t:"Ha molte preoccupazioni",s:"ES",r:false},
+    {t:"Di aiuto se qualcuno e in difficolta",s:"PR",r:false},{t:"Costantemente in movimento",s:"IP",r:false},
+    {t:"Ha almeno un buon amico",s:"C",r:true},{t:"Spesso litiga con gli altri",s:"EC",r:false},
+    {t:"Spesso infelice o triste",s:"ES",r:false},{t:"Generalmente ben accetto dai pari",s:"C",r:true},
+    {t:"Facilmente distratto",s:"IP",r:false},{t:"Nervoso in situazioni nuove",s:"ES",r:false},
+    {t:"Gentile con i bambini piccoli",s:"PR",r:false},{t:"Spesso dice bugie o inganna",s:"EC",r:false},
+    {t:"Preso di mira dagli altri",s:"C",r:false},{t:"Si offre volontario per aiutare",s:"PR",r:false},
+    {t:"Pensa prima di fare",s:"IP",r:true},{t:"Ruba",s:"EC",r:false},
+    {t:"Migliori rapporti con adulti",s:"C",r:false},{t:"Ha molte paure",s:"ES",r:false},
+    {t:"Porta a termine i compiti",s:"IP",r:true}
+  ];
+  var lvl=["Non vero","Parz. vero","Assol. vero"];
+  var lvlCol=["#888780","#BA7517","#A32D2D"];
+  var lvlBg=["#F1EFE8","#FAEEDA","#FCEBEB"];
+  var html='<p class="lbl" style="margin-top:0;">Risposte individuali</p>';
+  html+='<table style="width:100%;border-collapse:collapse;font-size:13px;">';
+  html+='<thead><tr>'
+    +'<th style="text-align:left;padding:7px 4px;border-bottom:1px solid #f0f0ee;color:#888;font-weight:600;font-size:11px;">Affermazione</th>'
+    +'<th style="text-align:center;padding:7px 4px;border-bottom:1px solid #f0f0ee;color:#888;font-weight:600;font-size:11px;">Scala</th>'
+    +'<th style="text-align:right;padding:7px 4px;border-bottom:1px solid #f0f0ee;color:#888;font-weight:600;font-size:11px;">Risposta</th>'
+    +'<th style="text-align:right;padding:7px 4px;border-bottom:1px solid #f0f0ee;color:#888;font-weight:600;font-size:11px;">Pt.</th>'
+    +'</tr></thead><tbody>';
+  ITEMS.forEach(function(item,i){
+    var raw=e.raw[i];if(raw==null)return;
+    var scored=item.r?2-raw:raw;
+    html+='<tr style="background:'+(i%2===0?"#fff":"#fafaf9")+';">'
+      +'<td style="padding:7px 4px;border-bottom:1px solid #f5f5f3;color:#1a1a1a;line-height:1.4;">'+(i+1)+'. '+item.t+(item.r?' <span style="font-size:10px;color:#aaa;">(inv.)</span>':'')+'</td>'
+      +'<td style="padding:7px 4px;border-bottom:1px solid #f5f5f3;text-align:center;"><span class="badge '+SCOL[item.s]+'">'+item.s+'</span></td>'
+      +'<td style="padding:7px 4px;border-bottom:1px solid #f5f5f3;text-align:right;"><span style="font-size:11px;font-weight:600;padding:2px 7px;border-radius:20px;background:'+lvlBg[raw]+';color:'+lvlCol[raw]+';">'+lvl[raw]+'</span></td>'
+      +'<td style="padding:7px 4px;border-bottom:1px solid #f5f5f3;text-align:right;font-weight:600;color:'+(scored>0?"#A32D2D":"#085041")+';">'+scored+'</td>'
+      +'</tr>';
+  });
+  html+='</tbody></table>';
+  return html;
+}
+
+function buildReportPane(auto,edu,gen){
+  var fontiDisp=[];
+  if(auto)fontiDisp.push({e:auto,label:"Auto-report",color:"#1D9E75"});
+  if(edu)fontiDisp.push({e:edu,label:"Educatore",color:"#534AB7"});
+  if(gen)fontiDisp.push({e:gen,label:"Genitore",color:"#D85A30"});
+
+  var html='<div class="sub-tabs">';
+  html+='<button class="sub-tab act" onclick="subTab(this,\'sr-scale\')">Confronto scale</button>';
+  html+='<button class="sub-tab" onclick="subTab(this,\'sr-radar\')">Radar sovrapposti</button>';
+  html+='<button class="sub-tab" onclick="subTab(this,\'sr-interp\')">Confronto interpretazioni</button>';
+  html+='<button class="sub-tab" onclick="subTab(this,\'sr-rel\')">Relazione sintesi</button>';
+  html+='<button class="sub-tab" onclick="subTab(this,\'sr-impact\')">Confronto impatto</button>';
+  var hasAllRaw=fontiDisp.every(function(f){return f.e.raw;});
+  if(hasAllRaw)html+='<button class="sub-tab" onclick="subTab(this,\'sr-risp\')">Confronto risposte</button>';
+  html+='</div>';
+
+  // ── SUB: Confronto scale ──
+  html+='<div id="sr-scale" class="sub-pane act">';
+  html+='<p class="lbl" style="margin-top:0;">Confronto punteggi per scala</p>';
+  var scale=["ES","IP","EC","C","PR","TOT"];
+  html+='<table style="width:100%;border-collapse:collapse;font-size:13px;">';
+  html+='<thead><tr><th style="text-align:left;padding:8px;border-bottom:1px solid #e8e8e6;font-size:11px;color:#888;">Scala</th>';
+  fontiDisp.forEach(function(f){html+='<th style="text-align:center;padding:8px;border-bottom:1px solid #e8e8e6;font-size:11px;color:'+f.color+';">'+f.label+'</th>';});
+  html+='<th style="padding:8px;border-bottom:1px solid #e8e8e6;font-size:11px;color:#888;">Note</th></tr></thead><tbody>';
+  scale.forEach(function(s){
+    var vals=fontiDisp.map(function(f){return s==="TOT"?f.e.tot:f.e.scores[s];});
+    var max=Math.max.apply(null,vals);var min=Math.min.apply(null,vals);
+    var discr=max-min>=3?"<span style='color:#A32D2D;font-size:11px;font-weight:600;'>Discrepanza</span>":max-min>=2?"<span style='color:#BA7517;font-size:11px;'>Lieve diff.</span>":"<span style='color:#1D9E75;font-size:11px;'>Concordanti</span>";
+    html+='<tr><td style="padding:8px;border-bottom:1px solid #f0f0ee;font-weight:600;">'+SLBL[s]+'</td>';
+    fontiDisp.forEach(function(f,i){
+      var v=vals[i];var bd=band(s,v);
+      html+='<td style="text-align:center;padding:8px;border-bottom:1px solid #f0f0ee;"><span style="font-weight:700;font-size:15px;">'+v+'</span><br><span class="badge '+bc(bd)+'" style="font-size:10px;">'+bl(bd)+'</span></td>';
+    });
+    html+='<td style="padding:8px;border-bottom:1px solid #f0f0ee;">'+discr+'</td></tr>';
+  });
+  html+='</tbody></table>';
+  html+='</div>';
+
+  // ── SUB: Radar sovrapposti ──
+  html+='<div id="sr-radar" class="sub-pane">';
+  html+='<p class="lbl" style="margin-top:0;">Grafici radar sovrapposti</p>';
+  html+='<div style="position:relative;height:320px;"><canvas id="radar-report"></canvas></div>';
+  html+='<div style="display:flex;gap:16px;justify-content:center;margin-top:10px;flex-wrap:wrap;">';
+  fontiDisp.forEach(function(f){html+='<div style="display:flex;align-items:center;gap:6px;font-size:12px;"><div style="width:14px;height:3px;background:'+f.color+';border-radius:2px;"></div>'+f.label+'</div>';});
+  html+='</div></div>';
+
+  // ── SUB: Confronto interpretazioni ──
+  html+='<div id="sr-interp" class="sub-pane">';
+  html+='<p class="lbl" style="margin-top:0;">Confronto interpretazioni per scala</p>';
+  ["ES","IP","EC","C","PR","TOT","INT","EST"].forEach(function(s){
+    html+='<div style="margin-bottom:1rem;">';
+    html+='<div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:6px;">'+SLBL[s]+'</div>';
+    fontiDisp.forEach(function(f){
+      var v=s==="TOT"?f.e.tot:s==="INT"?f.e.scores.ES+f.e.scores.C:s==="EST"?f.e.scores.EC+f.e.scores.IP:f.e.scores[s];
+      var bd=band(s,v);
+      var col=bd==="normale"||bd==="adeguato"?"#1D9E75":bd==="borderline"?"#BA7517":"#A32D2D";
+      html+='<div style="padding:8px 12px;border-radius:8px;border-left:3px solid '+f.color+';background:'+f.color+'0d;margin-bottom:4px;">'
+        +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">'
+        +'<span style="font-size:11px;font-weight:600;color:'+f.color+';">'+f.label+'</span>'
+        +'<span style="font-size:12px;font-weight:700;">'+v+' <span class="badge '+bc(bd)+'">'+bl(bd)+'</span></span></div>'
+        +'<p style="font-size:12px;color:#555;line-height:1.5;">'+(INTERP[s][bd]||"")+'</p></div>';
+    });
+    html+='</div>';
+  });
+  html+='</div>';
+
+  // ── SUB: Relazione sintesi ──
+  html+='<div id="sr-rel" class="sub-pane">';
+  html+=buildRelazioneSintesi(auto,edu,gen,fontiDisp);
+  html+='</div>';
+
+  // ── SUB: Confronto impatto ──
+  html+='<div id="sr-impact" class="sub-pane">';
+  html+='<p class="lbl" style="margin-top:0;">Confronto impatto</p>';
+  var impKeys=[["diff_gen","Difficolta percepita"],["durata","Durata"],["soff","Sofferenza"],["i_fam","Vita familiare"],["i_ami","Amicizie"],["i_scu","Scuola"],["i_lib","Tempo libero"],["i_altri","Carico sugli altri"]];
+  var dgMap={0:"No",1:"Piccole",2:"Importanti",3:"Severe"};
+  var durMap={1:"<1 mese",2:"1-5 mesi",3:"6-12 mesi",4:">1 anno"};
+  var lvlMap2={0:"Per niente",1:"Un po",2:"Abbastanza",3:"Molto"};
+  html+='<table style="width:100%;border-collapse:collapse;font-size:12px;">';
+  html+='<thead><tr><th style="text-align:left;padding:7px 8px;border-bottom:1px solid #e8e8e6;color:#888;font-size:11px;">Voce</th>';
+  fontiDisp.forEach(function(f){html+='<th style="text-align:center;padding:7px 8px;border-bottom:1px solid #e8e8e6;color:'+f.color+';font-size:11px;">'+f.label+'</th>';});
+  html+='</tr></thead><tbody>';
+  impKeys.forEach(function(kv){
+    html+='<tr><td style="padding:7px 8px;border-bottom:1px solid #f0f0ee;color:#666;">'+kv[1]+'</td>';
+    fontiDisp.forEach(function(f){
+      var imp=f.e.impact||{};
+      var v=imp[kv[0]];
+      var txt="—";
+      if(v!=null){
+        if(kv[0]==="diff_gen")txt=dgMap[v]||v;
+        else if(kv[0]==="durata")txt=durMap[v]||v;
+        else txt=lvlMap2[v]||v;
+      }
+      var col=v>=3?"#A32D2D":v===2?"#BA7517":v===1?"#666":"#085041";
+      html+='<td style="text-align:center;padding:7px 8px;border-bottom:1px solid #f0f0ee;font-weight:600;color:'+col+';">'+txt+'</td>';
+    });
+    html+='</tr>';
+  });
+  html+='</tbody></table>';
+  html+='</div>';
+
+  // ── SUB: Confronto risposte ──
+  if(hasAllRaw){
+    html+='<div id="sr-risp" class="sub-pane">';
+    html+='<p class="lbl" style="margin-top:0;">Confronto risposte item per item</p>';
+    var ITEMS_SHORT=["Rispettoso sentimenti","Irrequieto/iperattivo","Mal di testa/stomaco","Condivide volentieri","Crisi di collera","Solitario","Obbediente","Molte preoccupazioni","Di aiuto","Costante movimento","Ha un buon amico","Spesso litiga","Spesso infelice","Ben accetto dai pari","Facilmente distratto","Nervoso in situazioni nuove","Gentile con piccoli","Dice bugie","Preso di mira","Volontario aiuto","Pensa prima","Ruba","Rapporti con adulti","Molte paure","Porta a termine compiti"];
+    var ITEMS_S=["PR","IP","ES","PR","EC","C","EC","ES","PR","IP","C","EC","ES","C","IP","ES","PR","EC","C","PR","IP","EC","C","ES","IP"];
+    var ITEMS_R=[false,false,false,false,false,false,true,false,false,false,true,false,false,true,false,false,false,false,false,false,true,false,false,false,true];
+    var lvl=["Non vero","Parz. vero","Assol. vero"];
+    html+='<table style="width:100%;border-collapse:collapse;font-size:12px;">';
+    html+='<thead><tr><th style="text-align:left;padding:6px 4px;border-bottom:1px solid #e8e8e6;font-size:10px;color:#888;">#</th>';
+    html+='<th style="text-align:left;padding:6px 4px;border-bottom:1px solid #e8e8e6;font-size:10px;color:#888;">Item</th>';
+    fontiDisp.forEach(function(f){html+='<th style="text-align:center;padding:6px 4px;border-bottom:1px solid #e8e8e6;font-size:10px;color:'+f.color+';">'+f.label+'</th>';});
+    html+='</tr></thead><tbody>';
+    for(var i=0;i<25;i++){
+      var vals2=fontiDisp.map(function(f){return f.e.raw?f.e.raw[i]:null;});
+      var allSame=vals2.every(function(v){return v===vals2[0];});
+      var rowBg=allSame?"":" style='background:#fffbf0;'";
+      html+='<tr'+rowBg+'><td style="padding:5px 4px;border-bottom:1px solid #f5f5f3;color:#aaa;font-size:11px;">'+(i+1)+'</td>';
+      html+='<td style="padding:5px 4px;border-bottom:1px solid #f5f5f3;font-size:12px;color:#444;">'+ITEMS_SHORT[i]+(ITEMS_R[i]?" <span style='font-size:9px;color:#aaa;'>(inv.)</span>":"")+'</td>';
+      fontiDisp.forEach(function(f,fi){
+        var v=vals2[fi];
+        var bg=v===0?"#F1EFE8":v===1?"#FAEEDA":"#FCEBEB";
+        var col=v===0?"#888780":v===1?"#BA7517":"#A32D2D";
+        html+='<td style="text-align:center;padding:5px 4px;border-bottom:1px solid #f5f5f3;">'
+          +(v!=null?'<span style="font-size:10px;padding:1px 6px;border-radius:10px;background:'+bg+';color:'+col+';font-weight:600;">'+lvl[v]+'</span>':"—")+'</td>';
+      });
+      html+='</tr>';
+    }
+    html+='</tbody></table></div>';
+  }
+
+  return html;
+}
+
+function buildRelazioneSintesi(auto,edu,gen,fontiDisp){
+  var nome=(auto||edu||gen).nome||"Il soggetto";
+  var html='<p class="lbl" style="margin-top:0;">Relazione di sintesi integrata</p>';
+  html+='<div style="padding:10px 14px;background:#f0faf6;border-radius:9px;margin-bottom:1rem;border-left:3px solid #1D9E75;">'
+    +'<p style="font-size:13px;color:#444;line-height:1.7;">Questo documento integra le valutazioni di <strong>'+nome+'</strong> provenienti da: ';
+  fontiDisp.forEach(function(f,i){
+    html+='<span style="background:'+f.color+'20;color:'+f.color+';font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;margin:0 2px;">'+f.label+'</span>';
+  });
+  html+='.</p></div>';
+
+  // Profilo per fonte
+  html+='<div style="border:1px solid #e8e8e6;border-radius:12px;padding:1.25rem;margin-bottom:1rem;">';
+  html+='<div class="rel-section"><h4>Profili individuali</h4>';
+  fontiDisp.forEach(function(f){
+    var intV=f.e.scores.ES+f.e.scores.C;var estV=f.e.scores.EC+f.e.scores.IP;
+    var dirLabel=intV>estV&&band("INT",intV)!=="normale"?"Prevalenza internalizzante":estV>intV&&band("EST",estV)!=="normale"?"Prevalenza esternalizzante":band("TOT",f.e.tot)==="normale"?"Profilo nella norma":"Profilo misto";
+    html+='<p style="margin-bottom:6px;"><strong style="color:'+f.color+';">'+f.label+':</strong> Totale '+f.e.tot+'/40 <span class="badge '+bc(band("TOT",f.e.tot))+'">'+bl(band("TOT",f.e.tot))+'</span> — '+dirLabel+'.</p>';
+  });
+  html+='</div>';
+
+  // Concordanze e discrepanze
+  var scale5=["ES","IP","EC","C","PR"];
+  var discr=scale5.filter(function(s){
+    var vals=fontiDisp.map(function(f){return f.e.scores[s];});
+    return Math.max.apply(null,vals)-Math.min.apply(null,vals)>=3;
+  });
+  var concord=scale5.filter(function(s){
+    var bds=fontiDisp.map(function(f){return band(s,f.e.scores[s]);});
+    return bds.every(function(b){return b===bds[0];});
+  });
+
+  html+='<div class="rel-section"><h4>Concordanze e discrepanze</h4>';
+  if(concord.length)html+='<p style="margin-bottom:6px;">Le scale <strong>'+concord.map(function(s){return SLBL[s];}).join(", ")+'</strong> mostrano concordanza tra le fonti.</p>';
+  if(discr.length)html+='<p style="margin-bottom:6px;">Le scale <strong>'+discr.map(function(s){return SLBL[s];}).join(", ")+'</strong> presentano discrepanze significative (differenza &ge;3 punti) che meritano approfondimento.</p>';
+  if(!discr.length&&!concord.length)html+='<p>Non emergono discrepanze significative tra le fonti.</p>';
+  html+='</div>';
+
+  // Aree critiche
+  var areeCrit=scale5.filter(function(s){
+    return fontiDisp.some(function(f){return band(s,f.e.scores[s])==="elevato";});
+  });
+  var areeBord=scale5.filter(function(s){
+    return !areeCrit.includes(s)&&fontiDisp.some(function(f){return band(s,f.e.scores[s])==="borderline";});
+  });
+  html+='<div class="rel-section"><h4>Aree di attenzione</h4>';
+  if(areeCrit.length)html+='<p style="margin-bottom:6px;"><strong>Aree critiche (almeno una fonte in fascia elevata):</strong> '+areeCrit.map(function(s){return SLBL[s];}).join(", ")+'.</p>';
+  if(areeBord.length)html+='<p style="margin-bottom:6px;"><strong>Aree da monitorare (borderline):</strong> '+areeBord.map(function(s){return SLBL[s];}).join(", ")+'.</p>';
+  if(!areeCrit.length&&!areeBord.length)html+='<p>Nessuna area critica o borderline emersa dalle valutazioni.</p>';
+  html+='</div>';
+
+  // Suggerimenti pedagogici
+  var areaMap={ES:{label:"Supporto emotivo",desc:"Creare spazi di ascolto strutturati; tecniche di psicoeducazione emotiva."},IP:{label:"Autoregolazione",desc:"Ambiente strutturato con routine chiare; strategie metacognitive e pause programmate."},EC:{label:"Gestione comportamento",desc:"Regole chiare, conseguenze prevedibili, rinforzo positivo sistematico."},C:{label:"Abilita sociali",desc:"Attivita di gruppo strutturate, training sulle abilita sociali."},PR:{label:"Competenze prosociali",desc:"Cooperative learning, role-playing, valorizzazione comportamenti d'aiuto."}};
+  var suggestAree=areeCrit.concat(areeBord);
+  html+='<div class="rel-section"><h4>Suggerimenti di intervento pedagogico</h4>';
+  if(suggestAree.length){
+    suggestAree.forEach(function(s){
+      var a=areaMap[s];
+      html+='<p style="margin-bottom:6px;"><strong>'+a.label+':</strong> '+a.desc+'</p>';
+    });
+  } else {
+    html+='<p>Il profilo non evidenzia aree critiche. Si suggerisce monitoraggio periodico e valorizzazione dei punti di forza.</p>';
+  }
+  html+='</div>';
+
+  html+='<div class="rel-section" style="margin-bottom:0;"><h4>Note conclusive</h4><p>La presente relazione di sintesi integra valutazioni multi-informante e non sostituisce una valutazione clinica professionale. Si raccomanda la massima riservatezza nel trattamento dei dati.</p></div>';
+  html+='</div>';
+  return html;
+}
+
+window.closeModal=function(){
+  document.getElementById("modal-wrap").style.display="none";
+  document.body.style.overflow="";
+  radarCharts.forEach(function(c){try{c.destroy();}catch(e){}});
+  radarCharts=[];
+  currentMinore=null;
+};
+window.closeModalBg=function(e){if(e.target===e.currentTarget)window.closeModal();};
+
+window.stampaDettaglio=function(){
+  document.getElementById("modal-wrap").style.display="block";
+  // Make sure radar-report is initialized
+  if(currentMinore){
+    var canvas=document.getElementById("radar-report");
+    if(canvas){
+      var fontiDisp=[];
+      if(currentMinore.auto)fontiDisp.push({e:currentMinore.auto,label:"Auto-report",color:"#1D9E75"});
+      if(currentMinore.edu)fontiDisp.push({e:currentMinore.edu,label:"Educatore",color:"#534AB7"});
+      if(currentMinore.gen)fontiDisp.push({e:currentMinore.gen,label:"Genitore",color:"#D85A30"});
+      var datasets=fontiDisp.map(function(f){
+        return{label:f.label,data:[f.e.scores.ES,f.e.scores.IP,f.e.scores.EC,f.e.scores.C,f.e.scores.PR],backgroundColor:f.color+"26",borderColor:f.color,borderWidth:2,pointBackgroundColor:f.color,pointRadius:4};
+      });
+      try{
+        var rc=new Chart(canvas,{type:"radar",data:{labels:["ES","IP","EC","C","PR"],datasets:datasets},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:"bottom"}},scales:{r:{min:0,max:10}}}});
+        radarCharts.push(rc);
+      }catch(e2){}
+    }
+  }
+  window.print();
+};
+
+async function deleteEntry(id){
+  try{
+    await db.collection("risposte").doc(id).delete();
+    allEntries=allEntries.filter(function(e){return e.id!==id;});
+    renderList();
+    window.closeModal();
+  }catch(e){alert("Errore nell'eliminazione.");}
+}
+
+window.nuovaPratica=function(){
+  document.getElementById("nuova-pratica-panel").style.display="block";
+  document.getElementById("np-result").style.display="none";
+  document.getElementById("np-nome").value="";
   document.getElementById("np-nome").focus();
 };
 
-window.confermaNuovaPratica = async function() {
-  var nome = document.getElementById("np-nome").value.trim();
-  if(!nome){ document.getElementById("np-nome").focus(); return; }
-  try {
-    var snap = await db.collection("risposte").get();
-    var maxN = 0;
-    snap.forEach(function(d){
-      var n = parseInt(d.data().codice||"0");
-      if(n > maxN) maxN = n;
-    });
-    try {
-      var snap2 = await db.collection("pratiche").get();
-      snap2.forEach(function(d){
-        var n = parseInt(d.data().codice||"0");
-        if(n > maxN) maxN = n;
-      });
-    } catch(e2){}
-    var newCodice = String(maxN+1).padStart(2,"0");
-    await db.collection("pratiche").add({
-      codice: newCodice,
-      nome: nome,
-      creato: new Date(),
-      creatoIl: new Date().toISOString().split("T")[0]
-    });
-    document.getElementById("nuovo-codice-display").textContent = "#"+newCodice;
-    document.getElementById("np-nome-display").textContent = nome;
-    document.getElementById("np-result").style.display = "block";
-    document.getElementById("copy-btn").textContent = "Copia codice";
-    window.lastNewCodice = newCodice;
-  } catch(e) {
-    alert("Errore: "+e.message);
-  }
+window.confermaNuovaPratica=async function(){
+  var nome=document.getElementById("np-nome").value.trim();
+  if(!nome){document.getElementById("np-nome").focus();return;}
+  try{
+    var snap=await db.collection("risposte").get();
+    var maxN=0;
+    snap.forEach(function(d){var n=parseInt(d.data().codice||"0");if(n>maxN)maxN=n;});
+    try{var snap2=await db.collection("pratiche").get();snap2.forEach(function(d){var n=parseInt(d.data().codice||"0");if(n>maxN)maxN=n;});}catch(e2){}
+    var newCodice=String(maxN+1).padStart(2,"0");
+    await db.collection("pratiche").add({codice:newCodice,nome:nome,creato:new Date(),creatoIl:new Date().toISOString().split("T")[0]});
+    document.getElementById("nuovo-codice-display").textContent="#"+newCodice;
+    document.getElementById("np-nome-display").textContent=nome;
+    document.getElementById("np-result").style.display="block";
+    document.getElementById("copy-btn").textContent="Copia codice";
+    window.lastNewCodice=newCodice;
+  }catch(e){alert("Errore: "+e.message);}
 };
 
-window.copiaCodicePratica = function() {
-  if(window.lastNewCodice) {
+window.copiaCodicePratica=function(){
+  if(window.lastNewCodice){
     navigator.clipboard.writeText(window.lastNewCodice).then(function(){
-      document.getElementById("copy-btn").textContent = "Copiato!";
+      document.getElementById("copy-btn").textContent="Copiato!";
       setTimeout(function(){document.getElementById("copy-btn").textContent="Copia codice";},2000);
-    }).catch(function(){
-      prompt("Copia questo codice:", window.lastNewCodice);
-    });
+    }).catch(function(){prompt("Copia questo codice:",window.lastNewCodice);});
   }
 };
 
-window.loadEntries = async function() {
-  var el = document.getElementById("entries-list");
-  el.innerHTML = '<div class="loading-center"><div class="spinner"></div></div>';
-  try {
-    var snap = await db.collection("risposte").get();
-    allEntries = [];
-    snap.forEach(function(d){allEntries.push(Object.assign({id:d.id},d.data()));});
-    allEntries.sort(function(a,b){return (b.timestamp&&a.timestamp)?(b.timestamp.seconds||0)-(a.timestamp.seconds||0):0;});
-    renderList();
-  } catch(e) {
-    el.innerHTML = '<div class="empty">Errore nel caricamento. Riprova.</div>';
-  }
-};
-
-function renderList() {
-  var el = document.getElementById("entries-list");
-  if(!allEntries.length){el.innerHTML='<div class="empty">Nessun questionario compilato ancora.</div>';return;}
-  var html = "";
-  allEntries.forEach(function(e) {
-    var bd = band("TOT",e.tot);
-    var tipoTag = e.tipo==="educatore"
-      ? '<span style="background:#EEEDFE;color:#3C3489;font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;margin-left:6px;">Educatore</span>'
-      : e.tipo==="genitore"
-      ? '<span style="background:#FAECE7;color:#712B13;font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;margin-left:6px;">Genitore</span>'
-      : '<span style="background:#E1F5EE;color:#085041;font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;margin-left:6px;">Auto-report</span>';
-    var kk = (e.nome||'').trim().toLowerCase().replace(/\s+/g,' ');
-    var eAutoReport = !e.tipo || e.tipo==="auto-report";
-    var hasS = allEntries.some(function(x){
-      var xAutoReport = !x.tipo || x.tipo==="auto-report";
-      if(x.id===e.id) return false;
-      var sameGroup = (e.codice && x.codice) ? e.codice===x.codice : (x.nome||'').trim().toLowerCase().replace(/\s+/g,' ')===kk;
-      return sameGroup && ((eAutoReport && !xAutoReport) || (!eAutoReport && xAutoReport));
-    });
-    var sintTag = hasS ? '<span style="background:#FAC775;color:#633806;font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;margin-left:6px;">Sintesi disponibile</span>' : '';
-    var comp = e.compilatore ? ' &middot; '+e.compilatore : '';
-    html += '<div class="entry-card" onclick="openDetail(\''+e.id+'\')">'
-      + '<div>'
-      + '<div style="font-size:15px;font-weight:600;">'+codBadge(e.codice)+e.nome+tipoTag+sintTag+'</div>'
-      + '<div style="font-size:12px;color:#888;margin-top:3px;">'+e.data+(e.sesso?' &middot; '+e.sesso:'')+' &middot; Tot. difficolta: <strong>'+e.tot+'</strong> <span class="badge '+bc(bd)+'">'+bl(bd)+'</span>'+comp+'</div>'
-      + '</div>'
-      + '<span style="color:#ccc;font-size:20px;">&#8250;</span>'
-      + '</div>';
-  });
-  el.innerHTML = html;
-}
-
-var currentEntry = null;
-var radarChart = null;
-
-window.openDetail = function(id) {
-  currentEntry = allEntries.find(function(e){return e.id===id;});
-  if(!currentEntry) return;
-  document.getElementById("det-header").innerHTML =
-    '<div style="font-size:16px;font-weight:600;">'+codBadge(currentEntry.codice)+currentEntry.nome+'</div>'
-    +'<div style="font-size:12px;color:#888;margin-top:2px;">'+currentEntry.data
-    +(currentEntry.sesso?' &middot; '+currentEntry.sesso:'')
-    +(currentEntry.ddn?' &middot; Nato/a: '+currentEntry.ddn:'')+'</div>';
-
-  renderScale();
-  renderInterp();
-  renderRelazione();
-  renderImpact();
-  renderRisposte();
-
-  if(radarChart){radarChart.destroy();radarChart=null;}
-  document.getElementById("dp-radar").innerHTML = '<div style="position:relative;width:100%;height:300px;"><canvas id="radar-canvas"></canvas></div>';
-
-  ["dp-scale","dp-radar","dp-interp","dp-rel","dp-impact","dp-risposte","dp-sint"].forEach(function(t){
-    document.getElementById(t).classList.remove("act");
-  });
-  document.getElementById("dp-scale").classList.add("act");
-  document.querySelectorAll(".modal-tab").forEach(function(b,i){b.classList.remove("act");if(i===0)b.classList.add("act");});
-
-  var kN = (currentEntry.nome||'').trim().toLowerCase().replace(/\s+/g,' ');
-  var paired = allEntries.filter(function(x){
-    if(x.id===currentEntry.id) return false;
-    if(currentEntry.codice && x.codice) return currentEntry.codice===x.codice;
-    return (x.nome||'').trim().toLowerCase().replace(/\s+/g,' ')===kN;
-  });
-  var curIsAuto = !currentEntry.tipo || currentEntry.tipo==="auto-report";
-  var hasSint = paired.some(function(x){
-    var xIsAuto = !x.tipo || x.tipo==="auto-report";
-    return (curIsAuto && !xIsAuto) || (!curIsAuto && xIsAuto);
-  });
-  document.getElementById("tab-sint-btn").style.display = hasSint ? "inline-block" : "none";
-  if(hasSint) {
-    var partner = paired.find(function(x){
-      var xIsAuto = !x.tipo || x.tipo==="auto-report";
-      return (curIsAuto && !xIsAuto) || (!curIsAuto && xIsAuto);
-    }) || paired[0];
-    renderSint(currentEntry, partner);
-  }
-
-  document.getElementById("modal-wrap").style.display = "block";
-  document.body.style.overflow = "hidden";
-};
-
-window.detTab = function(btn, id) {
-  document.querySelectorAll(".modal-tab").forEach(function(b){b.classList.remove("act");});
-  btn.classList.add("act");
-  ["dp-scale","dp-radar","dp-interp","dp-rel","dp-impact","dp-risposte","dp-sint"].forEach(function(t){
-    document.getElementById(t).classList.remove("act");
-  });
-  document.getElementById(id).classList.add("act");
-  if(id==="dp-radar") renderRadar();
-};
-
-window.stampaTab = function(tabId) {
-  document.querySelectorAll(".det-pane").forEach(function(p){p.classList.remove("act");});
-  document.getElementById(tabId).classList.add("act");
-  setTimeout(function(){ window.stampaDettaglio(); }, 100);
-};
-
-window.closeModal = function() {
-  document.getElementById("modal-wrap").style.display = "none";
-  document.body.style.overflow = "";
-  if(radarChart){radarChart.destroy();radarChart=null;}
-};
-window.closeModalBg = function(e) {if(e.target===e.currentTarget)window.closeModal();};
-
-function renderScale() {
-  var e = currentEntry;
-  var html = '<p class="lbl">Punteggi per scala</p>';
-  ["ES","IP","EC","C","PR"].forEach(function(s) {
-    var v = e.scores[s];
-    var pct = Math.round(v/10*100);
-    var bd = band(s,v);
-    html += '<div class="scale-row">'
-      + '<div><span class="badge '+SCOL[s]+'">'+s+'</span><div style="font-size:12px;color:#888;margin-top:3px;">'+SLBL[s]+'</div></div>'
-      + '<div class="bar-bg"><div class="bar-fill" style="width:'+pct+'%;background:'+BAR[s]+';"></div></div>'
-      + '<div style="font-size:15px;font-weight:600;text-align:center;">'+v+'<span style="font-size:11px;color:#aaa;">/10</span></div>'
-      + '<div style="text-align:right;"><span class="badge '+bc(bd)+'">'+bl(bd)+'</span></div>'
-      + '</div>';
-  });
-  var totBd = band("TOT",e.tot);
-  var intV = e.scores.ES+e.scores.C;
-  var estV = e.scores.EC+e.scores.IP;
-  var intBd = band("INT",intV);
-  var estBd = band("EST",estV);
-  html += '<div style="margin-top:1rem;padding:12px;background:#f8f8f7;border-radius:9px;display:flex;justify-content:space-between;align-items:center;">'
-    + '<div style="font-size:13px;font-weight:600;color:#666;">Punteggio totale difficolta (ES+IP+EC+C)</div>'
-    + '<div style="display:flex;align-items:center;gap:10px;"><span style="font-size:24px;font-weight:700;">'+e.tot+'<span style="font-size:12px;color:#aaa;font-weight:400;">/40</span></span><span class="badge '+bc(totBd)+'">'+bl(totBd)+'</span></div>'
-    + '</div>';
-  html += '<div style="margin-top:8px;display:grid;grid-template-columns:1fr 1fr;gap:8px;">';
-  html += '<div style="padding:12px;background:#f0faf6;border-radius:9px;border-left:3px solid #1D9E75;">'
-    + '<div style="font-size:11px;font-weight:600;color:#0F6E56;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">Internalizzazione</div>'
-    + '<div style="font-size:11px;color:#555;margin-bottom:6px;">Sintomi Emotivi + Prob. Relazioni</div>'
-    + '<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:20px;font-weight:700;">'+intV+'<span style="font-size:11px;color:#aaa;font-weight:400;">/20</span></span><span class="badge '+bc(intBd)+'">'+bl(intBd)+'</span></div>'
-    + '</div>';
-  html += '<div style="padding:12px;background:#fff8f0;border-radius:9px;border-left:3px solid #BA7517;">'
-    + '<div style="font-size:11px;font-weight:600;color:#854F0B;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">Esternalizzazione</div>'
-    + '<div style="font-size:11px;color:#555;margin-bottom:6px;">Prob. Condotta + Iperattivita</div>'
-    + '<div style="display:flex;align-items:center;gap:8px;"><span style="font-size:20px;font-weight:700;">'+estV+'<span style="font-size:11px;color:#aaa;font-weight:400;">/20</span></span><span class="badge '+bc(estBd)+'">'+bl(estBd)+'</span></div>'
-    + '</div>';
-  html += '</div>';
-  var commINTEST = "";
-  if(intBd==="normale"&&estBd==="normale") {
-    commINTEST = "Il profilo non mostra difficolta significative ne sul versante internalizzante ne su quello esternalizzante. Il funzionamento psicologico e comportamentale risulta complessivamente adeguato.";
-  } else if(intBd!=="normale"&&estBd==="normale") {
-    commINTEST = "Il profilo mostra una prevalenza di difficolta internalizzanti: il disagio si esprime principalmente attraverso sintomi emotivi e difficolta relazionali. Richiede interventi focalizzati sull'ascolto emotivo e sul sostegno alla regolazione interna.";
-  } else if(estBd!=="normale"&&intBd==="normale") {
-    commINTEST = "Il profilo mostra una prevalenza di difficolta esternalizzanti: il disagio si esprime principalmente attraverso il comportamento. Richiede interventi centrati sulla regolazione comportamentale e sulla struttura ambientale.";
-  } else if(intBd!=="normale"&&estBd!=="normale") {
-    commINTEST = "Il profilo evidenzia difficolta sia sul versante internalizzante che esternalizzante. La compresenza richiede un approccio integrato che lavori simultaneamente sulla regolazione emotiva e sul comportamento agito.";
-  }
-  if(commINTEST) {
-    html += '<div style="margin-top:10px;padding:12px 14px;background:#f8f8f7;border-radius:9px;font-size:13px;color:#444;line-height:1.7;border-left:3px solid #e8e8e6;">'+commINTEST+'</div>';
-  }
-  html += '<div style="margin-top:8px;padding:9px 12px;background:#f8f8f7;border-radius:8px;font-size:12px;color:#888;line-height:1.5;">Nota: per la scala Prosociale punteggi alti (6-10) = adeguato; punteggi bassi (0-4) = difficolta.</div>';
-  document.getElementById("dp-scale").innerHTML = html;
-}
-
-function renderRadar() {
-  if(!currentEntry||!window.Chart) return;
-  if(radarChart){radarChart.destroy();}
-  var canvas = document.getElementById("radar-canvas");
-  if(!canvas) return;
-  var e = currentEntry;
-  radarChart = new Chart(canvas, {
-    type:"radar",
-    data:{
-      labels:["Sintomi Emotivi","Iperattivita","Prob. Condotta","Prob. Relazioni","Prosociale"],
-      datasets:[{label:"Punteggio",data:[e.scores.ES,e.scores.IP,e.scores.EC,e.scores.C,e.scores.PR],backgroundColor:"rgba(29,158,117,0.15)",borderColor:"#1D9E75",borderWidth:2,pointBackgroundColor:"#1D9E75",pointRadius:5}]
-    },
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{r:{min:0,max:10,ticks:{stepSize:2,font:{size:10},color:"#aaa"},pointLabels:{font:{size:11},color:"#555"},grid:{color:"rgba(0,0,0,0.07)"},angleLines:{color:"rgba(0,0,0,0.07)"}}}}
-  });
-}
-
-var INTERP = {
-  ES:{
-    normale:"Il livello di sintomatologia emotiva rientra nella fascia normativa attesa per la fascia di eta.",
-    borderline:"Sono presenti alcuni indicatori di disagio emotivo che meritano monitoraggio. Il ragazzo/a mostra livelli di ansia o vissuti depressivi leggermente al di sopra della media.",
-    elevato:"Il punteggio indica una presenza significativa di sintomi emotivi. Riferisce preoccupazioni ricorrenti, vissuti di tristezza o manifestazioni somatiche che suggeriscono una sofferenza emotiva degna di approfondimento."
-  },
-  IP:{
-    normale:"Il livello di attenzione e controllo motorio e adeguato. Non emergono difficolta significative nella regolazione del comportamento.",
-    borderline:"Sono presenti alcune difficolta nel mantenere l'attenzione e nel regolare l'attivita motoria. Il quadro e da monitorare.",
-    elevato:"Il punteggio evidenzia difficolta marcate nell'autoregolazione, nella concentrazione e nel controllo dell'impulsivita, con possibili ricadute sull'apprendimento."
-  },
-  EC:{
-    normale:"Il comportamento e generalmente adeguato alle regole sociali. Non emergono pattern problematici di condotta.",
-    borderline:"Sono presenti alcune condotte problematiche in area borderline. E opportuno osservare frequenza e contesto.",
-    elevato:"Il punteggio segnala la presenza di comportamenti aggressivi, oppositivi o antisociali che superano la norma attesa. Richiede attenzione educativa strutturata."
-  },
-  C:{
-    normale:"Il ragazzo/a mostra un buon inserimento nel gruppo dei pari e relazioni soddisfacenti con i coetanei.",
-    borderline:"Sono presenti alcune difficolta nelle relazioni con i pari. Il ragazzo/a potrebbe avere una rete sociale limitata.",
-    elevato:"Il punteggio indica difficolta significative nel costruire e mantenere relazioni con i coetanei, con possibili vissuti di isolamento."
-  },
-  PR:{
-    adeguato:"Il ragazzo/a mostra un buon livello di comportamento prosociale: empatia, disponibilita ad aiutare e attenzione ai bisogni degli altri.",
-    borderline:"Il comportamento prosociale risulta parzialmente sviluppato. Presenti alcune difficolta nel cooperare o rispondere ai bisogni degli altri.",
-    basso:"Il punteggio prosociale e basso, indicando scarse manifestazioni di comportamento d'aiuto, empatia e cooperazione. Aspetto importante nel progetto educativo."
-  },
-  TOT:{
-    normale:"Il punteggio totale di difficolta rientra nella fascia normativa. Non emergono aree di preoccupazione clinica significativa.",
-    borderline:"Il punteggio totale si colloca in area borderline, suggerendo una condizione di rischio che merita un monitoraggio sistematico.",
-    elevato:"Il punteggio totale e clinicamente significativo e indica difficolta in piu domini. Si raccomanda un approfondimento valutativo professionale."
-  },
-  INT:{
-    normale:"Il punteggio di internalizzazione rientra nella norma. Non emergono segnali significativi di sofferenza interiore o ritiro sociale.",
-    borderline:"Il punteggio di internalizzazione si colloca in area borderline. Il ragazzo/a mostra una tendenza a rivolgersi verso l'interno con vissuti di ansia o isolamento.",
-    elevato:"Il punteggio di internalizzazione e clinicamente significativo. La combinazione di sintomi emotivi e difficolta relazionali suggerisce una sofferenza interiore rilevante da approfondire."
-  },
-  EST:{
-    normale:"Il punteggio di esternalizzazione rientra nella norma. Non emergono pattern problematici di comportamento agito.",
-    borderline:"Il punteggio di esternalizzazione si colloca in area borderline. Presenti alcune difficolta nell'autoregolazione e nel comportamento.",
-    elevato:"Il punteggio di esternalizzazione e clinicamente significativo. La combinazione di problemi di condotta e iperattivita indica difficolta marcate nell'autoregolazione con ricadute sul contesto scolastico e relazionale."
-  }
-};
-
-function renderInterp() {
-  var e = currentEntry;
-  var allSc = {ES:e.scores.ES,IP:e.scores.IP,EC:e.scores.EC,C:e.scores.C,PR:e.scores.PR,TOT:e.tot,INT:e.scores.ES+e.scores.C,EST:e.scores.EC+e.scores.IP};
-  var html = '<p class="lbl">Interpretazione clinica per scala</p>';
-  ["ES","IP","EC","C","PR","TOT","INT","EST"].forEach(function(s) {
-    var v = allSc[s];
-    var bd = band(s,v);
-    var col = bd==="normale"||bd==="adeguato" ? "#1D9E75" : bd==="borderline" ? "#BA7517" : "#A32D2D";
-    var txt = INTERP[s][bd] || "";
-    html += '<div class="interp-block" style="border-left-color:'+col+';">'
-      + '<div class="interp-header"><span style="font-size:13px;font-weight:600;">'+SLBL[s]+'</span>'
-      + '<div style="display:flex;align-items:center;gap:6px;"><span style="font-size:13px;font-weight:700;">'+v+'</span><span class="badge '+bc(bd)+'">'+bl(bd)+'</span></div></div>'
-      + '<p style="font-size:13px;color:#555;line-height:1.65;">'+txt+'</p>'
-      + '</div>';
-  });
-  document.getElementById("dp-interp").innerHTML = html;
-}
-
-function renderRelazione() {
-  var e = currentEntry;
-  var nome = e.nome || "Il ragazzo/la ragazza";
-  var ES = {v:e.scores.ES,bd:band("ES",e.scores.ES)};
-  var IP = {v:e.scores.IP,bd:band("IP",e.scores.IP)};
-  var EC = {v:e.scores.EC,bd:band("EC",e.scores.EC)};
-  var C  = {v:e.scores.C, bd:band("C", e.scores.C)};
-  var PR = {v:e.scores.PR,bd:band("PR",e.scores.PR)};
-  var TOT= {v:e.tot,      bd:band("TOT",e.tot)};
-  var intV = e.scores.ES+e.scores.C;
-  var estV = e.scores.EC+e.scores.IP;
-  var intBd = band("INT",intV);
-  var estBd = band("EST",estV);
-  var livTot = TOT.bd==="normale"?"nella norma":TOT.bd==="borderline"?"in area borderline":"clinicamente significativo";
-  var rec = [];
-  if(ES.bd!=="normale") rec.push("un approfondimento della dimensione emotiva e dei vissuti ansiosi");
-  if(IP.bd!=="normale") rec.push("una valutazione delle capacita attentive e dell'autoregolazione");
-  if(EC.bd!=="normale") rec.push("un intervento strutturato sulla gestione del comportamento");
-  if(C.bd!=="normale")  rec.push("un supporto alle abilita sociali e al senso di appartenenza al gruppo");
-  if(PR.bd==="basso")   rec.push("un potenziamento delle competenze empatiche e prosociali");
-  var recStr = rec.length ? rec.join(", ")+"." : "un monitoraggio periodico nel tempo per verificare la stabilita del profilo.";
-  var aree = [];
-  if(ES.bd!=="normale") aree.push("emotiva");
-  if(IP.bd!=="normale") aree.push("dell'autoregolazione");
-  if(EC.bd!=="normale") aree.push("comportamentale");
-  if(C.bd!=="normale")  aree.push("relazionale");
-  var analisi = [];
-  if(TOT.bd==="normale") {
-    analisi.push("Il profilo complessivo di "+nome+" non evidenzia aree di difficolta clinicamente significative. I punteggi si collocano entro i valori normativi.");
-  } else if(TOT.bd==="borderline") {
-    analisi.push("Il profilo di "+nome+" presenta alcune aree di vulnerabilita in zona borderline.");
-    if(aree.length) analisi.push("Le aree di maggiore attenzione riguardano la dimensione "+aree.join(", ")+".");
-  } else {
-    analisi.push("Il profilo di "+nome+" evidenzia difficolta significative in piu domini.");
-    if(aree.length) analisi.push("Le dimensioni piu critiche sono quella "+aree.join(", ")+".");
-  }
-  if(PR.bd==="adeguato") analisi.push("Il comportamento prosociale e un punto di forza su cui fare leva nel progetto educativo.");
-  else if(PR.bd==="basso") analisi.push("Il comportamento prosociale risulta poco sviluppato, con possibili difficolta nell'empatia e cooperazione.");
-  if(ES.bd==="elevato"&&C.bd==="elevato") analisi.push("La compresenza di sintomi emotivi e difficolta relazionali suggerisce un circolo disfunzionale tra sofferenza interiore e isolamento.");
-  if(IP.bd==="elevato"&&EC.bd==="elevato") analisi.push("L'associazione tra iperattivita e problemi di condotta puo indicare difficolta di autoregolazione con ricadute sul comportamento agito.");
-  var impl = [];
-  if(ES.bd!=="normale") impl.push("Sul piano emotivo, si raccomanda di creare spazi di ascolto strutturati. Tecniche di psicoeducazione emotiva e di gestione dell'ansia possono risultare efficaci.");
-  if(IP.bd!=="normale") impl.push("Per l'autoregolazione, e utile strutturare l'ambiente con routine chiare e tempi definiti. Strategie metacognitive e pause strutturate possono migliorare la concentrazione.");
-  if(EC.bd!=="normale") impl.push("Per la gestione del comportamento, si raccomanda un approccio basato su regole chiare, conseguenze prevedibili e rinforzo positivo.");
-  if(C.bd!=="normale")  impl.push("Per l'integrazione sociale, possono essere utili attivita di gruppo strutturate e training sulle abilita sociali.");
-  if(PR.bd==="basso")   impl.push("Il potenziamento prosociale puo avvenire tramite cooperative learning, role-playing e valorizzazione esplicita degli episodi di aiuto.");
-  if(!impl.length) impl.push("Il profilo non evidenzia aree critiche. Si suggerisce di valorizzare i punti di forza e mantenere un monitoraggio periodico.");
-  var tipoLabel = e.tipo==="educatore" ? "Educatore/Operatore" : e.tipo==="genitore" ? "Genitore" : "Auto-report ragazzo/a";
-  var strumentoLabel = e.tipo==="educatore" ? "SDQ versione adulto (osservazione educatore) 4-17 anni" : e.tipo==="genitore" ? "SDQ versione genitori 4-17 anni" : "SDQ auto-report 11-17 anni";
-  var compilatoreInfo = (e.compilatore||e.ruolo) ? ("<br>Compilatore: <strong>"+(e.compilatore||"")+(e.ruolo?" ("+e.ruolo+")":"")+"</strong>") : "";
-  var html = '<p class="lbl">Relazione psicoeducativa</p>'
-    + '<div style="border:1px solid #e8e8e6;border-radius:12px;padding:1.25rem;">'
-    + '<div style="background:#f8f8f7;border-radius:8px;padding:10px 14px;margin-bottom:1rem;display:flex;align-items:center;gap:10px;">'
-    + '<span style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;background:'+(e.tipo==="educatore"?"#EEEDFE":e.tipo==="genitore"?"#FAECE7":"#E1F5EE")+';color:'+(e.tipo==="educatore"?"#3C3489":e.tipo==="genitore"?"#712B13":"#085041")+';">'+tipoLabel+'</span>'
-    + '<span style="font-size:13px;color:#444;">Relazione riferita a <strong>'+nome+'</strong></span>'
-    + '</div>'
-    + '<div class="rel-section"><h4>Dati identificativi</h4><p>Nome: <strong>'+nome+'</strong>'+(e.ddn?' &middot; Nato/a: '+e.ddn:'')+(e.sesso?' &middot; '+e.sesso:'')+'.<br>Tipo compilazione: <strong>'+tipoLabel+'</strong>.'+compilatoreInfo+'<br>Data somministrazione: '+e.data+'. Strumento: '+strumentoLabel+'.</p></div>'
-    + '<div class="rel-section"><h4>Presentazione dello strumento</h4><p>L\'SDQ (Goodman, 1997) e un questionario di screening psicologico validato internazionalmente. Valuta cinque dimensioni: sintomi emotivi, iperattivita/disattenzione, problemi di condotta, difficolta nelle relazioni con i pari e comportamento prosociale. Per la scala Prosociale, punteggi piu alti indicano funzionamento migliore.</p></div>'
-    + '<div class="rel-section"><h4>Profilo dei punteggi</h4>'
-    + '<p>Il punteggio totale di difficolta e <strong>'+TOT.v+'/40</strong>, collocandosi <strong>'+livTot+'</strong> secondo le norme italiane.</p>'
-    + '<ul style="margin-top:8px;padding-left:16px;font-size:13px;color:#555;line-height:2;">'
-    + '<li><strong>Sintomi Emotivi (ES):</strong> '+ES.v+'/10 &mdash; <span class="badge '+bc(ES.bd)+'">'+bl(ES.bd)+'</span></li>'
-    + '<li><strong>Iperattivita/Disattenzione (IP):</strong> '+IP.v+'/10 &mdash; <span class="badge '+bc(IP.bd)+'">'+bl(IP.bd)+'</span></li>'
-    + '<li><strong>Problemi di Condotta (EC):</strong> '+EC.v+'/10 &mdash; <span class="badge '+bc(EC.bd)+'">'+bl(EC.bd)+'</span></li>'
-    + '<li><strong>Difficolta Relazioni con i Pari (C):</strong> '+C.v+'/10 &mdash; <span class="badge '+bc(C.bd)+'">'+bl(C.bd)+'</span></li>'
-    + '<li><strong>Comportamento Prosociale (PR):</strong> '+PR.v+'/10 &mdash; <span class="badge '+bc(PR.bd)+'">'+bl(PR.bd)+'</span></li>'
-    + '</ul>'
-    + '<p style="margin-top:8px;">Indicatori compositi: <strong>Internalizzazione</strong> = '+intV+'/20 <span class="badge '+bc(intBd)+'">'+bl(intBd)+'</span> &nbsp; <strong>Esternalizzazione</strong> = '+estV+'/20 <span class="badge '+bc(estBd)+'">'+bl(estBd)+'</span></p>'
-    + '</div>'
-    + '<div class="rel-section"><h4>Analisi del profilo</h4><p>'+analisi.join(" ")+'</p></div>'
-    + '<div class="rel-section"><h4>Implicazioni psicoeducative</h4><p>'+impl.join(" ")+'</p></div>'
-    + '<div class="rel-section"><h4>Raccomandazioni</h4><p>Sulla base del profilo emerso, si suggerisce '+recStr+'</p><p style="margin-top:8px;">L\'SDQ e uno strumento di screening e non consente diagnosi. I risultati vanno contestualizzati in una valutazione globale del ragazzo/a nel suo contesto familiare, scolastico e relazionale.</p></div>'
-    + '<div class="rel-section" style="margin-bottom:0;"><h4>Note conclusive</h4><p>La presente relazione e redatta a scopo informativo e di supporto alla programmazione educativa. Non sostituisce una valutazione psicologica condotta da professionisti abilitati. Si raccomanda la massima riservatezza nel trattamento dei dati.</p></div>'
-    + '</div>';
-  document.getElementById("dp-rel").innerHTML = html;
-}
-
-function renderImpact() {
-  var e = currentEntry;
-  var imp = e.impact || {};
-  var dgMap = {0:"No",1:"Si, piccole difficolta",2:"Si, difficolta importanti",3:"Si, difficolta molto grandi"};
-  var durMap = {1:"Meno di 1 mese",2:"1-5 mesi",3:"6-12 mesi",4:"Piu di 1 anno"};
-  var lvlMap = {0:"Per niente",1:"Solo un po",2:"Abbastanza",3:"Molto"};
-  var rows = [
-    ["Difficolta percepita", imp.diff_gen!=null ? dgMap[imp.diff_gen] : "Non risposto"],
-    ["Durata", imp.durata!=null ? durMap[imp.durata] : "Non risposto"],
-    ["Sofferenza soggettiva", imp.soff!=null ? lvlMap[imp.soff] : "Non risposto"],
-    ["Vita familiare", imp.i_fam!=null ? lvlMap[imp.i_fam] : "Non risposto"],
-    ["Amicizie", imp.i_ami!=null ? lvlMap[imp.i_ami] : "Non risposto"],
-    ["Scuola", imp.i_scu!=null ? lvlMap[imp.i_scu] : "Non risposto"],
-    ["Tempo libero", imp.i_lib!=null ? lvlMap[imp.i_lib] : "Non risposto"],
-    ["Carico sugli altri", imp.i_altri!=null ? lvlMap[imp.i_altri] : "Non risposto"]
-  ];
-  var tbl = rows.map(function(r){return "<tr><td>"+r[0]+"</td><td>"+r[1]+"</td></tr>";}).join("");
-  var nome = e.nome || "Il ragazzo/la ragazza";
-  var isEst = band("EC",e.scores.EC)!=="normale" || band("IP",e.scores.IP)!=="normale";
-  var isInt = band("ES",e.scores.ES)!=="normale" || band("C",e.scores.C)!=="normale";
-  var bloc = function(titolo, valore, borderCol, bgCol, txtCol, commento) {
-    return "<div style=\"padding:11px 13px;background:"+bgCol+";border-radius:9px;border-left:3px solid "+borderCol+";margin-bottom:8px;\">"
-      +"<div style=\"display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;\">"
-      +"<span style=\"font-size:13px;font-weight:600;color:#1a1a1a;\">"+titolo+"</span>"
-      +"<span style=\"font-size:12px;font-weight:600;padding:2px 9px;border-radius:20px;background:"+borderCol+";color:#fff;\">"+valore+"</span>"
-      +"</div>"
-      +"<p style=\"font-size:12px;color:#555;line-height:1.6;margin:0;\">"+commento+"</p>"
-      +"</div>";
-  };
-
-  var html = "<p class=\"lbl\">Sezione impatto</p>"
-    +"<div class=\"card\"><table class=\"impact-table\" style=\"width:100%;\">"+tbl+"</table></div>"
-    +"<p class=\"lbl\" style=\"margin-top:1.25rem;\">Lettura interpretativa</p>"
-    +"<p style=\"font-size:13px;color:#555;line-height:1.75;margin-bottom:1rem;\">La sezione Impatto (Impact Supplement) non misura la gravita delle scale, ma quanto le difficolta incidono concretamente nella vita quotidiana di "+nome+". Permette di capire dove e come il disagio si manifesta nel reale.</p>";
-
-  if(imp.diff_gen != null) {
-    var dg = imp.diff_gen;
-    var dgTxt = ["",
-      nome+" non riconosce difficolta significative nelle aree indagate. Questo puo indicare scarsa consapevolezza del disagio oppure un funzionamento effettivamente adeguato nel contesto quotidiano.",
-      nome+" riconosce la presenza di piccole difficolta. La consapevolezza e parziale: il problema viene percepito ma non vissuto come fonte importante di disagio."+(isEst?" Questo e frequente nei profili esternalizzanti, dove il comportamento problematico non genera necessariamente sofferenza soggettiva.":""),
-      nome+" riconosce difficolta importanti nella propria quotidianita. Il livello di consapevolezza e significativo e suggerisce che le difficolta vengono vissute con un certo peso personale.",
-      nome+" riconosce difficolta molto grandi. Il disagio e avvertito con chiarezza e intensita, il che puo facilitare la motivazione al cambiamento ma richiede anche un supporto adeguato."
-    ][dg+1];
-    var dgCol = dg===0?"#1D9E75":dg===1?"#BA7517":dg===2?"#A32D2D":"#791F1F";
-    html += bloc("Difficolta percepita", dgMap[dg], dgCol, dg===0?"#E1F5EE":dg===1?"#FAEEDA":"#FCEBEB", "#fff", dgTxt);
-  }
-
-  if(imp.durata != null) {
-    var dur = imp.durata;
-    var durTxt = [null,
-      "La durata inferiore a un mese suggerisce un disagio acuto e recente. Potrebbe trattarsi di una reazione a un evento specifico piuttosto che di un pattern strutturato.",
-      "Una durata di 1-5 mesi indica un disagio persistente ma relativamente recente. E importante capire se vi sia stato un evento scatenante o se si tratti di una tendenza in consolidamento.",
-      "Una durata di 6-12 mesi indica che il pattern non e episodico. Le difficolta si sono stabilizzate nel tempo e probabilmente necessitano di un intervento strutturato.",
-      "Una durata superiore a un anno indica un pattern comportamentale o emotivo stabile. Non si tratta di una fase momentanea, ma di una modalita di funzionamento consolidata che richiede interventi mirati e continuativi."
-    ][dur];
-    var durCol = dur<=2?"#BA7517":"#A32D2D";
-    html += bloc("Durata", durMap[dur], durCol, dur<=2?"#FAEEDA":"#FCEBEB", "#fff", durTxt);
-  }
-
-  if(imp.soff != null) {
-    var soff = imp.soff;
-    var soffTxt = [
-      nome+" non riferisce sofferenza personale. "+(isEst?"Questo e frequente nei profili con difficolta comportamentali: il disagio e percepito piu dall'ambiente che dal soggetto stesso. Non implica assenza di problema, ma orienta l'intervento verso strategie esterne.":"E utile esplorare se questa assenza di sofferenza rifletta un reale equilibrio o una difficolta nel riconoscere le proprie emozioni."),
-      nome+" riferisce una lieve sofferenza soggettiva. Il disagio e presente ma contenuto.",
-      nome+" riferisce una sofferenza abbastanza significativa. Il peso emotivo delle difficolta e percepito e va considerato nella progettazione dell'intervento educativo.",
-      nome+" riferisce una sofferenza intensa. Questo livello di disagio richiede attenzione prioritaria e, se non gia presente, l'attivazione di un supporto psicologico professionale."
-    ][soff];
-    var soffCol = soff===0?"#1D9E75":soff===1?"#BA7517":soff===2?"#BA7517":"#A32D2D";
-    html += bloc("Sofferenza soggettiva", lvlMap[soff], soffCol, soff===0?"#E1F5EE":soff<=2?"#FAEEDA":"#FCEBEB", "#fff", soffTxt);
-  }
-
-  html += "<p style=\"font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.06em;margin:1rem 0 .5rem;\">Aree di impatto nella vita quotidiana</p>";
-
-  var aree = [
-    {k:"i_fam", n:"Vita familiare", t:[
-      "Il contesto familiare non risulta impattato. Le relazioni in famiglia sembrano funzionare adeguatamente.",
-      "Il contesto familiare mostra un impatto lieve. Qualche tensione e presente ma non compromette il funzionamento quotidiano.",
-      "Il contesto familiare e abbastanza impattato. "+(isEst?"In molti profili con condotta elevata e proprio la famiglia il luogo dove la regolazione comportamentale e piu difficile, perche i legami affettivi intensificano le reazioni emotive.":"Le dinamiche familiari sembrano amplificare il disagio. E utile coinvolgere la famiglia nel progetto educativo."),
-      "Il contesto familiare e fortemente impattato. "+(isEst?"I conflitti emergono soprattutto nel contesto domestico: il ragazzo/a fatica a regolare il comportamento laddove il legame affettivo e piu intenso.":"Le difficolta ricadono pesantemente sulla vita familiare. E fondamentale il coinvolgimento attivo della famiglia nel percorso di supporto.")
-    ]},
-    {k:"i_ami", n:"Amicizie", t:[
-      "Le amicizie non sembrano influenzate. Il ragazzo/a mantiene relazioni sociali soddisfacenti.",
-      "Le amicizie sono lievemente influenzate. Qualche attrito relazionale e presente ma non compromette i legami.",
-      "Le amicizie sono abbastanza influenzate. "+(isEst?"Le relazioni possono essere turbolente pur mantenendosi. L'impulsivita o la tendenza al conflitto emergono anche in questo contesto.":"Le difficolta cominciano a incidere sui rapporti con i pari. E un segnale da monitorare."),
-      "Le amicizie sono fortemente influenzate. Le difficolta relazionali impattano significativamente sulla rete sociale, con rischio di isolamento o conflitti ripetuti."
-    ]},
-    {k:"i_scu", n:"Scuola", t:[
-      "Il contesto scolastico non e percepito come area critica. Questo puo indicare che il ragazzo/a riesce a regolare meglio il comportamento in ambienti strutturati con regole chiare.",
-      "L'impatto a scuola e lieve. Le difficolta non compromettono significativamente il funzionamento scolastico.",
-      "L'impatto a scuola e abbastanza significativo. Le difficolta cominciano a interferire con l'apprendimento o con le relazioni nel contesto scolastico.",
-      "L'impatto a scuola e molto elevato. E necessario un coordinamento tra equipe educativa e istituzione scolastica."
-    ]},
-    {k:"i_lib", n:"Tempo libero", t:[
-      "Il tempo libero non e influenzato. Il ragazzo/a riesce a gestire autonomamente i momenti non strutturati.",
-      "L'impatto sul tempo libero e lieve. Qualche difficolta emerge ma non compromette le attivita.",
-      "Il tempo libero e abbastanza influenzato. "+(isEst?"Nei contesti meno strutturati emergono piu facilmente impulsivita e conflitti, perche le regole sono meno chiare e il controllo esterno e ridotto.":"Le difficolta si manifestano anche nei momenti di svago, limitando il benessere del ragazzo/a."),
-      "Il tempo libero e fortemente influenzato. "+(isEst?"L'assenza di struttura amplifica le difficolta di autoregolazione: e il luogo dove emergono di piu impulsivita e conflitti tra pari.":"Le difficolta pervadono anche i momenti di svago, riducendo significativamente la qualita di vita percepita.")
-    ]},
-    {k:"i_altri", n:"Carico sugli altri", t:[
-      "Le difficolta non sembrano pesare sulle persone vicine. L'impatto sull'ambiente circostante e minimo.",
-      "Le difficolta pesano lievemente sugli altri. Chi e vicino avverte qualche tensione ma riesce a gestirla.",
-      "Le difficolta pesano abbastanza sugli altri. Familiari, insegnanti e amici avvertono il peso del comportamento o del disagio del ragazzo/a.",
-      (imp.soff===0?"Anche se il ragazzo/a non percepisce sofferenza personale, riconosce che il suo comportamento pesa sull'ambiente: e una forma embrionale di consapevolezza sociale da valorizzare nel percorso educativo.":"Il carico sugli altri e elevato. E importante prevenire dinamiche di esaurimento o conflitto cronico nell'ambiente circostante.")
-    ]}
-  ];
-
-  aree.forEach(function(a) {
-    var v = imp[a.k];
-    if(v == null) return;
-    var cols = ["#1D9E75","#888780","#BA7517","#A32D2D"];
-    var bgs  = ["#E1F5EE","#F1EFE8","#FAEEDA","#FCEBEB"];
-    html += bloc(a.n, lvlMap[v], cols[v], bgs[v], "#fff", a.t[v]);
-  });
-
-  var areeAlte = [];
-  if(imp.i_fam>=2) areeAlte.push("vita familiare");
-  if(imp.i_ami>=2) areeAlte.push("amicizie");
-  if(imp.i_scu>=2) areeAlte.push("scuola");
-  if(imp.i_lib>=2) areeAlte.push("tempo libero");
-  if(imp.i_altri>=2) areeAlte.push("carico sugli altri");
-
-  var sint = "<div style=\"margin-top:1rem;padding:14px;background:#f8f8f7;border-radius:9px;border-top:2px solid #e8e8e6;\">"
-    +"<p style=\"font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;\">Sintesi interpretativa</p>"
-    +"<p style=\"font-size:13px;color:#444;line-height:1.75;\">";
-  if(areeAlte.length===0){
-    sint += "Il profilo di impatto non mostra aree di interferenza significativa nella vita quotidiana di "+nome+". Le difficolta emerse nelle scale SDQ sembrano avere un peso contenuto sul funzionamento reale.";
-  } else {
-    sint += "Le aree di maggiore interferenza nella vita di "+nome+" sono: <strong>"+areeAlte.join(", ")+"</strong>. ";
-    if(isEst&&!isInt) sint += "Il profilo e coerente con un pattern prevalentemente esternalizzante: le difficolta non generano sofferenza interna marcata, ma si manifestano nei contesti relazionali e nelle situazioni meno strutturate. Gli interventi centrati su regole chiare, struttura ambientale e rinforzo positivo tendono a essere i piu efficaci.";
-    else if(isInt&&!isEst) sint += "Il profilo e coerente con un pattern prevalentemente internalizzante: il disagio si manifesta soprattutto sul piano emotivo e relazionale. E importante creare spazi di ascolto sicuri e intervenire sulla dimensione emotiva prima ancora che su quella comportamentale.";
-    else if(isInt&&isEst) sint += "Il profilo mostra sia componenti internalizzanti che esternalizzanti. Questo richiede un approccio integrato che lavori simultaneamente sulla regolazione emotiva e sul comportamento agito.";
-    else sint += "E utile considerare questi ambiti come prioritari nella progettazione dell'intervento educativo e nel dialogo con la famiglia.";
-  }
-  sint += "</p></div>";
-  html += sint;
-
-  document.getElementById("dp-impact").innerHTML = html;
-}
-
-
-function renderRisposte() {
-  var e = currentEntry;
-  if(!e.raw) {
-    document.getElementById("dp-risposte").innerHTML =
-      '<p class="lbl" style="margin-top:0;">Risposte individuali</p>'
-      +"<div style=\"padding:14px;background:#f8f8f7;border-radius:9px;font-size:13px;color:#888;text-align:center;\">Le risposte dettagliate non sono disponibili per questa compilazione.</div>";
-    return;
-  }
-  var ITEMS = [
-    {t:"E rispettoso/a dei sentimenti degli altri",s:"PR",r:false},
-    {t:"E irrequieto/a, iperattivo/a, incapace di stare fermo per molto tempo",s:"IP",r:false},
-    {t:"Si lamenta spesso per mal di testa, mal di stomaco o nausea",s:"ES",r:false},
-    {t:"Condivide volentieri con gli altri (dolci, giocattoli, matite ecc.)",s:"PR",r:false},
-    {t:"Spesso ha crisi di collera o e di cattivo umore",s:"EC",r:false},
-    {t:"E piuttosto solitario/a, tende a giocare da solo",s:"C",r:false},
-    {t:"Generalmente obbediente, esegue di solito le richieste degli adulti",s:"EC",r:true},
-    {t:"Ha molte preoccupazioni, spesso sembra preoccupato/a",s:"ES",r:false},
-    {t:"E di aiuto se qualcuno si fa male, e arrabbiato o malato",s:"PR",r:false},
-    {t:"E costantemente in movimento o a disagio",s:"IP",r:false},
-    {t:"Ha almeno un buon amico o una buona amica",s:"C",r:true},
-    {t:"Spesso litiga con gli altri bambini o li infastidisce di proposito",s:"EC",r:false},
-    {t:"Spesso infelice, triste o in lacrime",s:"ES",r:false},
-    {t:"Generalmente ben accetto/a dagli altri bambini",s:"C",r:true},
-    {t:"Facilmente distratto/a, incapace di concentrarsi",s:"IP",r:false},
-    {t:"E nervoso/a o a disagio in situazioni nuove, si sente poco sicuro di se",s:"ES",r:false},
-    {t:"Gentile con i bambini piu piccoli",s:"PR",r:false},
-    {t:"Spesso dice bugie o inganna",s:"EC",r:false},
-    {t:"Preso/a di mira e preso/a in giro dagli altri bambini",s:"C",r:false},
-    {t:"Si offre spesso volontario per aiutare gli altri",s:"PR",r:false},
-    {t:"Pensa prima di fare qualcosa",s:"IP",r:true},
-    {t:"Ruba a casa, a scuola o in altri posti",s:"EC",r:false},
-    {t:"Ha migliori rapporti con gli adulti che con i bambini",s:"C",r:false},
-    {t:"Ha molte paure, si spaventa facilmente",s:"ES",r:false},
-    {t:"E in grado di portare a termine cio che gli viene richiesto, rimanendo concentrato per tutto il tempo necessario",s:"IP",r:true},
-  ];
-  var SCOL = {ES:"b-ES",IP:"b-IP",EC:"b-EC",C:"b-C",PR:"b-PR"};
-  var lvl = ["Non vero","Parz. vero","Assol. vero"];
-  var lvlCol = ["#888780","#BA7517","#A32D2D"];
-  var lvlBg  = ["#F1EFE8","#FAEEDA","#FCEBEB"];
-  var html = '<p class="lbl" style="margin-top:0;">Risposte individuali</p>';
-  html += '<table style="width:100%;border-collapse:collapse;font-size:13px;">';
-  html += '<thead><tr>'
-    +'<th style="text-align:left;padding:8px 4px;border-bottom:1px solid #f0f0ee;color:#888;font-weight:600;font-size:11px;width:50%;">Affermazione</th>'
-    +'<th style="text-align:center;padding:8px 4px;border-bottom:1px solid #f0f0ee;color:#888;font-weight:600;font-size:11px;width:10%;">Scala</th>'
-    +'<th style="text-align:right;padding:8px 4px;border-bottom:1px solid #f0f0ee;color:#888;font-weight:600;font-size:11px;width:20%;">Risposta</th>'
-    +'<th style="text-align:right;padding:8px 4px;border-bottom:1px solid #f0f0ee;color:#888;font-weight:600;font-size:11px;width:10%;">Punteggio</th>'
-    +'</tr></thead><tbody>';
-  ITEMS.forEach(function(item, i) {
-    var raw = e.raw[i];
-    if(raw == null) return;
-    var scored = item.r ? 2 - raw : raw;
-    var bg = i % 2 === 0 ? "#fff" : "#fafaf9";
-    html += '<tr style="background:'+bg+';">'
-      +'<td style="padding:8px 4px;border-bottom:1px solid #f5f5f3;color:#1a1a1a;line-height:1.4;">'+(i+1)+'. '+item.t+'</td>'
-      +'<td style="padding:8px 4px;border-bottom:1px solid #f5f5f3;text-align:center;"><span class="badge '+SCOL[item.s]+'">'+item.s+'</span></td>'
-      +'<td style="padding:8px 4px;border-bottom:1px solid #f5f5f3;text-align:right;"><span style="font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;background:'+lvlBg[raw]+';color:'+lvlCol[raw]+';">'+lvl[raw]+'</span></td>'
-      +'<td style="padding:8px 4px;border-bottom:1px solid #f5f5f3;text-align:right;font-weight:600;color:'+(scored>0?"#A32D2D":"#085041")+';">'+scored+'</td>'
-      +'</tr>';
-  });
-  html += '</tbody></table>';
-  document.getElementById("dp-risposte").innerHTML = html;
-}
-
-function renderSint(eA, eB) {
-  var auto = eA.tipo==="educatore" ? eB : eA;
-  var edu  = eA.tipo==="educatore" ? eA : eB;
-  var nome = auto.nome || edu.nome || "";
-  var scales = ["ES","IP","EC","C","PR"];
-  var slbl = {ES:"Sintomi Emotivi",IP:"Iperattivita",EC:"Prob. Condotta",C:"Prob. Relazioni",PR:"Prosociale"};
-  var bdA = band("TOT",auto.tot);
-  var bdE = band("TOT",edu.tot);
-  var totDiff = Math.abs(auto.tot-edu.tot);
-  var discr = scales.filter(function(s){return Math.abs(auto.scores[s]-edu.scores[s])>=3;});
-  var concord = scales.filter(function(s){return band(s,auto.scores[s])===band(s,edu.scores[s]);});
-  var concScore = concord.length;
-  var concLabel, concCol, concBg, concDesc;
-  if(totDiff<=4&&discr.length===0){
-    concLabel="Alta concordanza";concCol="#085041";concBg="#E1F5EE";
-    concDesc="I due profili si sovrappongono in modo coerente. La valutazione ha alta attendibilita.";
-  } else if(totDiff<=8&&discr.length<=1){
-    concLabel="Moderata concordanza";concCol="#633806";concBg="#FAC775";
-    concDesc="I profili convergono su piu scale ma presentano alcune differenze. Utile un confronto diretto con il ragazzo/a.";
-  } else {
-    concLabel="Bassa concordanza";concCol="#791F1F";concBg="#FCEBEB";
-    concDesc="I profili divergono significativamente. La discrepanza tra auto-percezione e osservazione esterna e un dato clinicamente rilevante da esplorare.";
-  }
-  var intA=auto.scores.ES+auto.scores.C; var estA=auto.scores.EC+auto.scores.IP;
-  var intE=edu.scores.ES+edu.scores.C;   var estE=edu.scores.EC+edu.scores.IP;
-  var intBdA=band("INT",intA); var estBdA=band("EST",estA);
-  var intBdE=band("INT",intE); var estBdE=band("EST",estE);
-  var profDir = function(iv,ev,ib,eb){
-    if(ib==="normale"&&eb==="normale") return "Profilo nella norma";
-    if(iv>ev&&ib!=="normale") return "Prevalenza internalizzante";
-    if(ev>iv&&eb!=="normale") return "Prevalenza esternalizzante";
-    if(ib!=="normale"&&eb!=="normale") return "Profilo misto";
-    if(ib!=="normale") return "Prevalenza internalizzante";
-    return "Prevalenza esternalizzante";
-  };
-  var dirA=profDir(intA,estA,intBdA,estBdA);
-  var dirE=profDir(intE,estE,intBdE,estBdE);
-  var dirMatch=dirA===dirE;
-  var priorita=[];
-  var scaleElevate=scales.filter(function(s){return band(s,auto.scores[s])==="elevato"||band(s,edu.scores[s])==="elevato";});
-  var scaleBorder=scales.filter(function(s){return (band(s,auto.scores[s])==="borderline"||band(s,edu.scores[s])==="borderline")&&scaleElevate.indexOf(s)===-1;});
-  var areaMap={
-    ES:{label:"Supporto emotivo",desc:"Creare spazi di ascolto e lavorare sulla regolazione emotiva e la gestione dell'ansia."},
-    IP:{label:"Autoregolazione e attenzione",desc:"Strutturare l'ambiente con routine chiare. Usare strategie metacognitive e pause programmate."},
-    EC:{label:"Gestione del comportamento",desc:"Applicare regole chiare, conseguenze prevedibili e rinforzo positivo sistematico."},
-    C: {label:"Abilita sociali e integrazione",desc:"Attivita di gruppo strutturate, training sulle abilita sociali, monitoraggio del clima relazionale."},
-    PR:{label:"Competenze prosociali",desc:"Cooperative learning, role-playing su scenari relazionali, valorizzazione esplicita dei comportamenti d'aiuto."}
-  };
-  scaleElevate.forEach(function(s){if(areaMap[s])priorita.push({scala:s,livello:"elevato",info:areaMap[s]});});
-  scaleBorder.forEach(function(s){if(areaMap[s])priorita.push({scala:s,livello:"borderline",info:areaMap[s]});});
-  if((band("PR",auto.scores.PR)==="basso"||band("PR",edu.scores.PR)==="basso")&&priorita.findIndex(function(p){return p.scala==="PR";})===-1)
-    priorita.push({scala:"PR",livello:"basso",info:areaMap.PR});
-
-  var html='<p class="lbl" style="margin-top:0;">Confronto auto-report vs osservazione educatore</p>';
-  html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1rem;">';
-  html+='<div style="padding:12px;background:#E1F5EE;border-radius:9px;border-left:3px solid #1D9E75;">'
-    +'<div style="font-size:10px;font-weight:600;color:#085041;text-transform:uppercase;letter-spacing:.06em;">Auto-report (ragazzo)</div>'
-    +'<div style="font-size:11px;color:#555;margin-top:2px;">'+auto.data+(auto.sesso?" &middot; "+auto.sesso:"")+'</div>'
-    +'<div style="font-size:20px;font-weight:700;margin-top:4px;">'+auto.tot+'<span style="font-size:12px;color:#aaa;font-weight:400;">/40</span> <span class="badge '+bc(bdA)+'">'+bl(bdA)+'</span></div>'
-    +'<div style="margin-top:6px;font-size:11px;font-weight:600;color:#085041;">'+dirA+'</div>'
-    +'</div>';
-  html+='<div style="padding:12px;background:#EEEDFE;border-radius:9px;border-left:3px solid #534AB7;">'
-    +'<div style="font-size:10px;font-weight:600;color:#3C3489;text-transform:uppercase;letter-spacing:.06em;">'+(edu.tipo==="genitore"?"Osservazione genitore":"Osservazione educatore")+'</div>'
-    +'<div style="font-size:11px;color:#555;margin-top:2px;">'+(edu.compilatore||"")+(edu.ruolo?" &middot; "+edu.ruolo:"")+'</div>'
-    +'<div style="font-size:20px;font-weight:700;margin-top:4px;">'+edu.tot+'<span style="font-size:12px;color:#aaa;font-weight:400;">/40</span> <span class="badge '+bc(bdE)+'">'+bl(bdE)+'</span></div>'
-    +'<div style="margin-top:6px;font-size:11px;font-weight:600;color:#3C3489;">'+dirE+'</div>'
-    +'</div>';
-  html+='</div>';
-  html+='<div style="padding:12px 14px;background:'+concBg+';border-radius:9px;margin-bottom:1rem;">'
-    +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">'
-    +'<span style="font-size:13px;font-weight:600;color:'+concCol+';">'+concLabel+'</span>'
-    +'<span style="font-size:11px;color:'+concCol+';">'+concScore+'/5 scale concordanti &middot; diff. totale: '+totDiff+' pt</span>'
-    +'</div>'
-    +'<p style="font-size:12px;color:'+concCol+';line-height:1.55;">'+concDesc+'</p>'
-    +'</div>';
-  html+='<div style="padding:12px 14px;background:#f8f8f7;border-radius:9px;margin-bottom:1rem;border-left:3px solid '+(dirMatch?"#1D9E75":"#BA7517")+';">'
-    +'<div style="font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">Direzione del profilo</div>'
-    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">'
-    +'<div><div style="font-size:11px;color:#666;margin-bottom:2px;">Ragazzo (auto-report)</div>'
-    +'<div style="font-size:13px;font-weight:600;color:#1a1a1a;">'+dirA+'</div>'
-    +'<div style="font-size:11px;color:#666;margin-top:2px;">INT: '+intA+'/20 &middot; EST: '+estA+'/20</div></div>'
-    +'<div><div style="font-size:11px;color:#666;margin-bottom:2px;">Educatore (osservazione)</div>'
-    +'<div style="font-size:13px;font-weight:600;color:#1a1a1a;">'+dirE+'</div>'
-    +'<div style="font-size:11px;color:#666;margin-top:2px;">INT: '+intE+'/20 &middot; EST: '+estE+'/20</div></div>'
-    +'</div>'
-    +(dirMatch
-      ?'<p style="font-size:12px;color:#0F6E56;margin-top:8px;">I due osservatori concordano sulla direzione del profilo.</p>'
-      :'<p style="font-size:12px;color:#BA7517;margin-top:8px;">I due osservatori descrivono direzioni diverse: il disagio potrebbe manifestarsi diversamente nei vari contesti di vita.</p>')
-    +'</div>';
-  html+='<p class="lbl">Confronto per scala</p>';
-  scales.forEach(function(s){
-    var va=auto.scores[s]; var ve=edu.scores[s];
-    var ba=band(s,va); var be=band(s,ve);
-    var diff=Math.abs(va-ve);
-    var cL,cC,bgC;
-    if(ba===be){cL="Concordante";cC="#1D9E75";bgC="#E1F5EE";}
-    else if(diff<=2){cL="Lieve discrepanza";cC="#BA7517";bgC="#FAEEDA";}
-    else{cL="Discrepanza significativa";cC="#A32D2D";bgC="#FCEBEB";}
-    var cT;
-    if(ba===be) cT="I due profili concordano su questa scala.";
-    else if(diff<=2) cT="Lieve differenza: auto-report "+va+", educatore "+ve+".";
-    else cT="Differenza marcata: il ragazzo riferisce "+va+" ("+bl(ba)+"), l'educatore osserva "+ve+" ("+bl(be)+"). Questo scarto merita un approfondimento nel colloquio educativo.";
-    html+='<div style="padding:10px 12px;background:'+bgC+';border-radius:9px;border-left:3px solid '+cC+';margin-bottom:8px;">'
-      +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">'
-      +'<span style="font-size:13px;font-weight:600;">'+slbl[s]+'</span>'
-      +'<span style="font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;background:rgba(0,0,0,0.08);color:'+cC+';">'+cL+'</span></div>'
-      +'<div style="display:flex;gap:12px;margin-bottom:6px;">'
-      +'<div style="flex:1;"><div style="font-size:11px;color:#666;margin-bottom:3px;">Auto-report: <strong>'+va+'/10</strong> <span class="badge '+bc(ba)+'">'+bl(ba)+'</span></div><div style="background:rgba(0,0,0,0.08);border-radius:4px;height:6px;overflow:hidden;"><div style="height:6px;border-radius:4px;background:#1D9E75;width:'+(va/10*100)+'%;"></div></div></div>'
-      +'<div style="flex:1;"><div style="font-size:11px;color:#666;margin-bottom:3px;">Educatore: <strong>'+ve+'/10</strong> <span class="badge '+bc(be)+'">'+bl(be)+'</span></div><div style="background:rgba(0,0,0,0.08);border-radius:4px;height:6px;overflow:hidden;"><div style="height:6px;border-radius:4px;background:#534AB7;width:'+(ve/10*100)+'%;"></div></div></div>'
-      +'</div>'
-      +'<p style="font-size:12px;color:#555;line-height:1.5;">'+cT+'</p></div>';
-  });
-  html+='<p class="lbl">Aree educative prioritarie</p>';
-  if(priorita.length===0){
-    html+='<div style="padding:12px;background:#E1F5EE;border-radius:9px;font-size:13px;color:#085041;">Il profilo non evidenzia aree critiche in nessuna delle due valutazioni. Si raccomanda un monitoraggio periodico e il consolidamento dei punti di forza.</div>';
-  } else {
-    priorita.forEach(function(p,idx){
-      var pC=p.livello==="borderline"?"#BA7517":"#A32D2D";
-      var pB=p.livello==="borderline"?"#FAEEDA":"#FCEBEB";
-      var pT=p.livello==="borderline"?"Monitorare":"Priorita alta";
-      html+='<div style="padding:12px;background:'+pB+';border-radius:9px;border-left:3px solid '+pC+';margin-bottom:8px;">'
-        +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">'
-        +'<span style="font-size:13px;font-weight:600;color:'+pC+';">'+(idx+1)+'. '+p.info.label+'</span>'
-        +'<span style="font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;background:'+pC+';color:#fff;">'+pT+'</span>'
-        +'</div>'
-        +'<p style="font-size:12px;color:#555;line-height:1.55;">'+p.info.desc+'</p>'
-        +'</div>';
-    });
-  }
-  html+='<p class="lbl">Interpretazione integrata</p>';
-  var interp;
-  if(totDiff<=4) interp="I due profili sono sostanzialmente concordanti (differenza totale: "+totDiff+" punti). La percezione di "+nome+" su se stesso e l'osservazione dell'educatore descrivono un quadro coerente, aumentando l'attendibilita della valutazione.";
-  else if(totDiff>8) interp="I due profili mostrano una discrepanza rilevante nel punteggio totale (auto-report: "+auto.tot+", educatore: "+edu.tot+", differenza: "+totDiff+" punti). Questo scarto merita un approfondimento attraverso un colloquio diretto.";
-  else interp="I due profili mostrano una concordanza parziale (differenza totale: "+totDiff+" punti). Alcune scale convergono, altre mostrano differenze utili da esplorare nel contesto educativo.";
-  if(discr.length>0) interp+=" Le scale con maggiore discrepanza sono: <strong>"+discr.map(function(s){return slbl[s];}).join(", ")+"</strong>.";
-  html+='<div style="padding:14px;background:#f8f8f7;border-radius:9px;margin-bottom:8px;"><p style="font-size:13px;color:#444;line-height:1.75;">'+interp+'</p></div>';
-  var racc;
-  if(discr.length===0) racc="La coerenza tra i due profili permette di progettare interventi mirati. Si raccomanda di condividere i risultati in equipe e pianificare obiettivi educativi per le aree prioritarie emerse.";
-  else racc="La presenza di discrepanze suggerisce di avviare un colloquio diretto con "+nome+" per comprendere la sua percezione. E utile costruire una lettura condivisa del profilo in equipe, eventualmente coinvolgendo anche la famiglia.";
-  html+='<div style="padding:14px;background:#FFF8E6;border-radius:9px;border-left:3px solid #FAC775;">'
-    +'<p style="font-size:11px;font-weight:600;color:#854F0B;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">Raccomandazioni operative</p>'
-    +'<p style="font-size:13px;color:#444;line-height:1.75;">'+racc+'</p></div>';
-
-  // Relazione di sintesi integrata
-  html += '<p class="lbl" style="margin-top:1.5rem;">Relazione di sintesi integrata</p>';
-  html += '<div style="padding:10px 14px;background:#f0faf6;border-radius:9px;margin-bottom:1rem;border-left:3px solid #1D9E75;">'
-    +'<p style="font-size:13px;color:#444;line-height:1.7;">Questo documento integra le valutazioni di <strong>'+nome+'</strong> provenienti da piu fonti: '
-    +'<span style="background:#E1F5EE;color:#085041;font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;">Auto-report ragazzo/a</span> '
-    +(edu.tipo==="genitore"?'e <span style="background:#FAECE7;color:#712B13;font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;">Genitore</span>':'e <span style="background:#EEEDFE;color:#3C3489;font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;">Educatore</span>')
-    +'. La valutazione multi-informante aumenta l\'attendibilita del profilo e consente di distinguere tra comportamenti situazionali e pattern stabili.</p></div>';
-
-  var autoLabel = "Auto-report ("+auto.nome+", "+auto.data+")";
-  var eduLabel = (edu.tipo==="genitore"?"Genitore":"Educatore")+(edu.compilatore?" — "+edu.compilatore:"")+" ("+edu.data+")";
-  html += '<div style="border:1px solid #e8e8e6;border-radius:12px;padding:1.25rem;font-size:13px;">';
-  html += '<div class="rel-section"><h4>Fonti della valutazione</h4>'
-    +'<p><strong>Fonte 1 — '+autoLabel+':</strong> Punteggio totale difficolta '+auto.tot+'/40 ('+bl(band("TOT",auto.tot))+').<br>'
-    +'<strong>Fonte 2 — '+eduLabel+':</strong> Punteggio totale difficolta '+edu.tot+'/40 ('+bl(band("TOT",edu.tot))+').</p></div>';
-  html += '<div class="rel-section"><h4>Livello di concordanza</h4>'
-    +'<p>'+concDesc+'</p></div>';
-  html += '<div class="rel-section"><h4>Direzione del profilo</h4>'
-    +'<p>Ragazzo/a (auto-report): <strong>'+dirA+'</strong>. '
-    +(edu.tipo==="genitore"?"Genitore":"Educatore")+': <strong>'+dirE+'</strong>. '
-    +(dirMatch?'I due profili concordano sulla direzione del disagio.':'I due profili indicano direzioni diverse: il disagio potrebbe manifestarsi in modo differente nei vari contesti.')+'</p></div>';
-  if(priorita.length>0){
-    html += '<div class="rel-section"><h4>Aree di intervento prioritarie</h4><ul style="padding-left:1rem;line-height:2;">';
-    priorita.forEach(function(p,idx){
-      html += '<li><strong>'+p.info.label+'</strong>: '+p.info.desc+'</li>';
-    });
-    html += '</ul></div>';
-  }
-  html += '<div class="rel-section" style="margin-bottom:0;"><h4>Note conclusive</h4>'
-    +'<p>La presente relazione di sintesi e redatta a scopo informativo e di supporto alla programmazione educativa. Non sostituisce una valutazione psicologica condotta da professionisti abilitati. Si raccomanda la massima riservatezza nel trattamento dei dati.</p></div>';
-  html += '</div>';
-
-  document.getElementById("dp-sint").innerHTML=html;
-}
-
-window.stampaDettaglio = function() {
-  if(!currentEntry) return;
-  var nome = currentEntry.nome || "Anonimo";
-  var cod = currentEntry.codice ? "#"+currentEntry.codice+" - " : "";
-  var tipo = currentEntry.tipo==="educatore" ? "Educatore" : currentEntry.tipo==="genitore" ? "Genitore" : "Auto-report";
-  var header = "<div class='print-header' style='margin-bottom:1rem;padding-bottom:.75rem;border-bottom:2px solid #1D9E75;'>"
-    +"<div style='font-size:18px;font-weight:700;'>SDQ — Valutazione</div>"
-    +"<div style='font-size:14px;color:#444;margin-top:4px;'>"+cod+nome+" &nbsp;&middot;&nbsp; "+tipo+" &nbsp;&middot;&nbsp; "+currentEntry.data+"</div>"
-    +"</div>";
-  document.querySelectorAll(".det-pane").forEach(function(p){
-    var existing = p.querySelector(".print-header");
-    if(existing) existing.remove();
-    p.insertAdjacentHTML("afterbegin", header);
-  });
-  document.getElementById("modal-wrap").style.display = "block";
-  window.print();
-  setTimeout(function(){ 
-    if(!currentEntry) document.getElementById("modal-wrap").style.display = "none";
-  }, 1000);
-};
-
-window.deleteEntry = async function() {
-  if(!currentEntry||!confirm("Eliminare questa compilazione definitivamente?")) return;
-  try {
-    await db.collection("risposte").doc(currentEntry.id).delete();
-    allEntries = allEntries.filter(function(e){return e.id!==currentEntry.id;});
-    renderList();
-    window.closeModal();
-  } catch(e) {
-    alert("Errore nell'eliminazione.");
-  }
-};
-
-window.changePin = function() {
-  var old = document.getElementById("old-pin").value;
-  var nw  = document.getElementById("new-pin").value;
-  var cf  = document.getElementById("conf-pin").value;
-  var w   = document.getElementById("pin-ch-warn");
-  var ok  = document.getElementById("pin-ch-ok");
-  w.style.display="none"; ok.style.display="none";
+window.changePin=function(){
+  var old=document.getElementById("old-pin").value;
+  var nw=document.getElementById("new-pin").value;
+  var cf=document.getElementById("conf-pin").value;
+  var w=document.getElementById("pin-ch-warn");
+  var ok=document.getElementById("pin-ch-ok");
+  w.style.display="none";ok.style.display="none";
   if(old!==getPin()){w.textContent="PIN attuale errato.";w.style.display="block";return;}
   if(nw.length<4){w.textContent="Almeno 4 cifre.";w.style.display="block";return;}
   if(nw!==cf){w.textContent="I PIN non coincidono.";w.style.display="block";return;}
@@ -1165,6 +967,28 @@ window.changePin = function() {
   document.getElementById("conf-pin").value="";
   ok.style.display="block";
 };
+
+// Init radar for report tab when clicked
+document.addEventListener("click",function(ev){
+  var btn=ev.target.closest(".fonte-tab");
+  if(btn&&btn.textContent.includes("Report sintesi")){
+    setTimeout(function(){
+      var canvas=document.getElementById("radar-report");
+      if(!canvas||canvas._chartInitialized)return;
+      canvas._chartInitialized=true;
+      if(!currentMinore)return;
+      var fontiDisp=[];
+      if(currentMinore.auto)fontiDisp.push({e:currentMinore.auto,label:"Auto-report",color:"#1D9E75"});
+      if(currentMinore.edu)fontiDisp.push({e:currentMinore.edu,label:"Educatore",color:"#534AB7"});
+      if(currentMinore.gen)fontiDisp.push({e:currentMinore.gen,label:"Genitore",color:"#D85A30"});
+      var datasets=fontiDisp.map(function(f){
+        return{label:f.label,data:[f.e.scores.ES,f.e.scores.IP,f.e.scores.EC,f.e.scores.C,f.e.scores.PR],backgroundColor:f.color+"26",borderColor:f.color,borderWidth:2,pointBackgroundColor:f.color,pointRadius:4};
+      });
+      var rc=new Chart(canvas,{type:"radar",data:{labels:["Sintomi Emotivi","Iperattivita","Prob. Condotta","Prob. Relazioni","Prosociale"],datasets:datasets},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:"bottom"}},scales:{r:{min:0,max:10,ticks:{stepSize:2,font:{size:10},color:"#aaa"}}}}});
+      radarCharts.push(rc);
+    },100);
+  }
+});
 </script>
 </body>
 </html>
