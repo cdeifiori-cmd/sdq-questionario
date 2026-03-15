@@ -68,6 +68,26 @@ h2{font-size:17px;font-weight:600;margin-bottom:12px;}
 @keyframes spin{to{transform:rotate(360deg);}}
 .loading-center{display:flex;justify-content:center;padding:2rem;}
 .warn{font-size:12px;color:#A32D2D;display:none;margin-top:6px;}
+
+@media print {
+  body { background: #fff !important; font-size: 13px; }
+  .container { padding: 0; max-width: 100%; }
+  #screen-login, #screen-dash .nav-bar, #screen-dash > div:first-child,
+  .btn-sm, .btn-danger, .modal-tabs, #tab-sint-btn,
+  #screen-login { display: none !important; }
+  .modal-bg { position: static !important; background: none !important; padding: 0 !important; }
+  .modal { box-shadow: none !important; border-radius: 0 !important; padding: 0 !important; max-width: 100% !important; }
+  .det-pane { display: block !important; margin-bottom: 2rem; border-bottom: 1px solid #ccc; padding-bottom: 1rem; }
+  .det-pane + .det-pane { page-break-before: always; }
+  canvas { max-width: 400px !important; }
+  .print-hide { display: none !important; }
+  .print-header { display: block !important; }
+}
+.print-header { display: none; margin-bottom: 1rem; }
+@media screen {
+  .print-btn { background: #f8f8f7; border: 1px solid #e0e0de; border-radius: 7px; padding: 5px 12px; font-size: 12px; cursor: pointer; color: #444; }
+  .print-btn:hover { background: #f0f0ee; }
+}
 </style>
 </head>
 <body>
@@ -143,7 +163,10 @@ h2{font-size:17px;font-weight:600;margin-bottom:12px;}
     <div class="modal">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;">
         <div id="det-header"></div>
-        <button onclick="closeModal()" style="font-size:24px;cursor:pointer;color:#aaa;background:none;border:none;line-height:1;padding:0 0 0 12px;">&#215;</button>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <button class="print-btn print-hide" onclick="stampaDettaglio()">&#128438; Stampa</button>
+          <button onclick="closeModal()" style="font-size:24px;cursor:pointer;color:#aaa;background:none;border:none;line-height:1;padding:0 0 0 12px;">&#215;</button>
+        </div>
       </div>
       <div class="modal-tabs">
         <button class="modal-tab act" onclick="detTab(this,'dp-scale')">Scale SDQ</button>
@@ -386,6 +409,12 @@ window.detTab = function(btn, id) {
   });
   document.getElementById(id).classList.add("act");
   if(id==="dp-radar") renderRadar();
+};
+
+window.stampaTab = function(tabId) {
+  document.querySelectorAll(".det-pane").forEach(function(p){p.classList.remove("act");});
+  document.getElementById(tabId).classList.add("act");
+  setTimeout(function(){ window.stampaDettaglio(); }, 100);
 };
 
 window.closeModal = function() {
@@ -941,6 +970,23 @@ function renderSint(eA, eB) {
     +'<p style="font-size:13px;color:#444;line-height:1.75;">'+racc+'</p></div>';
   document.getElementById("dp-sint").innerHTML=html;
 }
+
+window.stampaDettaglio = function() {
+  if(!currentEntry) return;
+  var nome = currentEntry.nome || "Anonimo";
+  var cod = currentEntry.codice ? "#"+currentEntry.codice+" - " : "";
+  var tipo = currentEntry.tipo==="educatore" ? "Educatore" : currentEntry.tipo==="genitore" ? "Genitore" : "Auto-report";
+  var header = "<div class='print-header' style='margin-bottom:1rem;padding-bottom:.75rem;border-bottom:2px solid #1D9E75;'>"
+    +"<div style='font-size:18px;font-weight:700;'>SDQ — Valutazione</div>"
+    +"<div style='font-size:14px;color:#444;margin-top:4px;'>"+cod+nome+" &nbsp;&middot;&nbsp; "+tipo+" &nbsp;&middot;&nbsp; "+currentEntry.data+"</div>"
+    +"</div>";
+  document.querySelectorAll(".det-pane").forEach(function(p){
+    var existing = p.querySelector(".print-header");
+    if(existing) existing.remove();
+    p.insertAdjacentHTML("afterbegin", header);
+  });
+  window.print();
+};
 
 window.deleteEntry = async function() {
   if(!currentEntry||!confirm("Eliminare questa compilazione definitivamente?")) return;
