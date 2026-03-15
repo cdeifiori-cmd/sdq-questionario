@@ -232,8 +232,9 @@ function renderList() {
     var eAutoReport = !e.tipo || e.tipo==="auto-report";
     var hasS = allEntries.some(function(x){
       var xAutoReport = !x.tipo || x.tipo==="auto-report";
-      return x.nome.trim().toLowerCase()===kk && x.id!==e.id &&
-        ((eAutoReport && !xAutoReport) || (!eAutoReport && xAutoReport));
+      if(x.id===e.id) return false;
+      var sameGroup = (e.codice && x.codice) ? e.codice===x.codice : x.nome.trim().toLowerCase()===kk;
+      return sameGroup && ((eAutoReport && !xAutoReport) || (!eAutoReport && xAutoReport));
     });
     var sintTag = hasS ? '<span style="background:#FAC775;color:#633806;font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;margin-left:6px;">Sintesi disponibile</span>' : '';
     var comp = e.compilatore ? ' &middot; '+e.compilatore : '';
@@ -277,7 +278,9 @@ window.openDetail = function(id) {
 
   var kN = currentEntry.nome.trim().toLowerCase();
   var paired = allEntries.filter(function(x){
-    return x.nome.trim().toLowerCase()===kN && x.id!==currentEntry.id;
+    if(x.id===currentEntry.id) return false;
+    if(currentEntry.codice && x.codice) return currentEntry.codice===x.codice;
+    return x.nome.trim().toLowerCase()===kN;
   });
   var curIsAuto = !currentEntry.tipo || currentEntry.tipo==="auto-report";
   var hasSint = paired.some(function(x){
