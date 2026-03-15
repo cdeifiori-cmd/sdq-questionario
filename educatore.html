@@ -1026,4 +1026,145 @@ function renderSint(eA, eB) {
     +'</div>'
     +(dirMatch
       ?'<p style="font-size:12px;color:#0F6E56;margin-top:8px;">I due osservatori concordano sulla direzione del profilo.</p>'
-      :'<p style="font-size:12px;color:#BA7517;margin-top:8px;">I due osservatori descrivono direzioni diverse: il disagio potrebbe manifestarsi diversamente nei vari contesti di vita.</p
+      :'<p style="font-size:12px;color:#BA7517;margin-top:8px;">I due osservatori descrivono direzioni diverse: il disagio potrebbe manifestarsi diversamente nei vari contesti di vita.</p>')
+    +'</div>';
+  html+='<p class="lbl">Confronto per scala</p>';
+  scales.forEach(function(s){
+    var va=auto.scores[s]; var ve=edu.scores[s];
+    var ba=band(s,va); var be=band(s,ve);
+    var diff=Math.abs(va-ve);
+    var cL,cC,bgC;
+    if(ba===be){cL="Concordante";cC="#1D9E75";bgC="#E1F5EE";}
+    else if(diff<=2){cL="Lieve discrepanza";cC="#BA7517";bgC="#FAEEDA";}
+    else{cL="Discrepanza significativa";cC="#A32D2D";bgC="#FCEBEB";}
+    var cT;
+    if(ba===be) cT="I due profili concordano su questa scala.";
+    else if(diff<=2) cT="Lieve differenza: auto-report "+va+", educatore "+ve+".";
+    else cT="Differenza marcata: il ragazzo riferisce "+va+" ("+bl(ba)+"), l'educatore osserva "+ve+" ("+bl(be)+"). Questo scarto merita un approfondimento nel colloquio educativo.";
+    html+='<div style="padding:10px 12px;background:'+bgC+';border-radius:9px;border-left:3px solid '+cC+';margin-bottom:8px;">'
+      +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">'
+      +'<span style="font-size:13px;font-weight:600;">'+slbl[s]+'</span>'
+      +'<span style="font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;background:rgba(0,0,0,0.08);color:'+cC+';">'+cL+'</span></div>'
+      +'<div style="display:flex;gap:12px;margin-bottom:6px;">'
+      +'<div style="flex:1;"><div style="font-size:11px;color:#666;margin-bottom:3px;">Auto-report: <strong>'+va+'/10</strong> <span class="badge '+bc(ba)+'">'+bl(ba)+'</span></div><div style="background:rgba(0,0,0,0.08);border-radius:4px;height:6px;overflow:hidden;"><div style="height:6px;border-radius:4px;background:#1D9E75;width:'+(va/10*100)+'%;"></div></div></div>'
+      +'<div style="flex:1;"><div style="font-size:11px;color:#666;margin-bottom:3px;">Educatore: <strong>'+ve+'/10</strong> <span class="badge '+bc(be)+'">'+bl(be)+'</span></div><div style="background:rgba(0,0,0,0.08);border-radius:4px;height:6px;overflow:hidden;"><div style="height:6px;border-radius:4px;background:#534AB7;width:'+(ve/10*100)+'%;"></div></div></div>'
+      +'</div>'
+      +'<p style="font-size:12px;color:#555;line-height:1.5;">'+cT+'</p></div>';
+  });
+  html+='<p class="lbl">Aree educative prioritarie</p>';
+  if(priorita.length===0){
+    html+='<div style="padding:12px;background:#E1F5EE;border-radius:9px;font-size:13px;color:#085041;">Il profilo non evidenzia aree critiche in nessuna delle due valutazioni. Si raccomanda un monitoraggio periodico e il consolidamento dei punti di forza.</div>';
+  } else {
+    priorita.forEach(function(p,idx){
+      var pC=p.livello==="borderline"?"#BA7517":"#A32D2D";
+      var pB=p.livello==="borderline"?"#FAEEDA":"#FCEBEB";
+      var pT=p.livello==="borderline"?"Monitorare":"Priorita alta";
+      html+='<div style="padding:12px;background:'+pB+';border-radius:9px;border-left:3px solid '+pC+';margin-bottom:8px;">'
+        +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">'
+        +'<span style="font-size:13px;font-weight:600;color:'+pC+';">'+(idx+1)+'. '+p.info.label+'</span>'
+        +'<span style="font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;background:'+pC+';color:#fff;">'+pT+'</span>'
+        +'</div>'
+        +'<p style="font-size:12px;color:#555;line-height:1.55;">'+p.info.desc+'</p>'
+        +'</div>';
+    });
+  }
+  html+='<p class="lbl">Interpretazione integrata</p>';
+  var interp;
+  if(totDiff<=4) interp="I due profili sono sostanzialmente concordanti (differenza totale: "+totDiff+" punti). La percezione di "+nome+" su se stesso e l'osservazione dell'educatore descrivono un quadro coerente, aumentando l'attendibilita della valutazione.";
+  else if(totDiff>8) interp="I due profili mostrano una discrepanza rilevante nel punteggio totale (auto-report: "+auto.tot+", educatore: "+edu.tot+", differenza: "+totDiff+" punti). Questo scarto merita un approfondimento attraverso un colloquio diretto.";
+  else interp="I due profili mostrano una concordanza parziale (differenza totale: "+totDiff+" punti). Alcune scale convergono, altre mostrano differenze utili da esplorare nel contesto educativo.";
+  if(discr.length>0) interp+=" Le scale con maggiore discrepanza sono: <strong>"+discr.map(function(s){return slbl[s];}).join(", ")+"</strong>.";
+  html+='<div style="padding:14px;background:#f8f8f7;border-radius:9px;margin-bottom:8px;"><p style="font-size:13px;color:#444;line-height:1.75;">'+interp+'</p></div>';
+  var racc;
+  if(discr.length===0) racc="La coerenza tra i due profili permette di progettare interventi mirati. Si raccomanda di condividere i risultati in equipe e pianificare obiettivi educativi per le aree prioritarie emerse.";
+  else racc="La presenza di discrepanze suggerisce di avviare un colloquio diretto con "+nome+" per comprendere la sua percezione. E utile costruire una lettura condivisa del profilo in equipe, eventualmente coinvolgendo anche la famiglia.";
+  html+='<div style="padding:14px;background:#FFF8E6;border-radius:9px;border-left:3px solid #FAC775;">'
+    +'<p style="font-size:11px;font-weight:600;color:#854F0B;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">Raccomandazioni operative</p>'
+    +'<p style="font-size:13px;color:#444;line-height:1.75;">'+racc+'</p></div>';
+
+  // Relazione di sintesi integrata
+  html += '<p class="lbl" style="margin-top:1.5rem;">Relazione di sintesi integrata</p>';
+  html += '<div style="padding:10px 14px;background:#f0faf6;border-radius:9px;margin-bottom:1rem;border-left:3px solid #1D9E75;">'
+    +'<p style="font-size:13px;color:#444;line-height:1.7;">Questo documento integra le valutazioni di <strong>'+nome+'</strong> provenienti da piu fonti: '
+    +'<span style="background:#E1F5EE;color:#085041;font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;">Auto-report ragazzo/a</span> '
+    +(edu.tipo==="genitore"?'e <span style="background:#FAECE7;color:#712B13;font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;">Genitore</span>':'e <span style="background:#EEEDFE;color:#3C3489;font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;">Educatore</span>')
+    +'. La valutazione multi-informante aumenta l\'attendibilita del profilo e consente di distinguere tra comportamenti situazionali e pattern stabili.</p></div>';
+
+  var autoLabel = "Auto-report ("+auto.nome+", "+auto.data+")";
+  var eduLabel = (edu.tipo==="genitore"?"Genitore":"Educatore")+(edu.compilatore?" — "+edu.compilatore:"")+" ("+edu.data+")";
+  html += '<div style="border:1px solid #e8e8e6;border-radius:12px;padding:1.25rem;font-size:13px;">';
+  html += '<div class="rel-section"><h4>Fonti della valutazione</h4>'
+    +'<p><strong>Fonte 1 — '+autoLabel+':</strong> Punteggio totale difficolta '+auto.tot+'/40 ('+bl(band("TOT",auto.tot))+').<br>'
+    +'<strong>Fonte 2 — '+eduLabel+':</strong> Punteggio totale difficolta '+edu.tot+'/40 ('+bl(band("TOT",edu.tot))+').</p></div>';
+  html += '<div class="rel-section"><h4>Livello di concordanza</h4>'
+    +'<p>'+concDesc+'</p></div>';
+  html += '<div class="rel-section"><h4>Direzione del profilo</h4>'
+    +'<p>Ragazzo/a (auto-report): <strong>'+dirA+'</strong>. '
+    +(edu.tipo==="genitore"?"Genitore":"Educatore")+': <strong>'+dirE+'</strong>. '
+    +(dirMatch?'I due profili concordano sulla direzione del disagio.':'I due profili indicano direzioni diverse: il disagio potrebbe manifestarsi in modo differente nei vari contesti.')+'</p></div>';
+  if(priorita.length>0){
+    html += '<div class="rel-section"><h4>Aree di intervento prioritarie</h4><ul style="padding-left:1rem;line-height:2;">';
+    priorita.forEach(function(p,idx){
+      html += '<li><strong>'+p.info.label+'</strong>: '+p.info.desc+'</li>';
+    });
+    html += '</ul></div>';
+  }
+  html += '<div class="rel-section" style="margin-bottom:0;"><h4>Note conclusive</h4>'
+    +'<p>La presente relazione di sintesi e redatta a scopo informativo e di supporto alla programmazione educativa. Non sostituisce una valutazione psicologica condotta da professionisti abilitati. Si raccomanda la massima riservatezza nel trattamento dei dati.</p></div>';
+  html += '</div>';
+
+  document.getElementById("dp-sint").innerHTML=html;
+}
+
+window.stampaDettaglio = function() {
+  if(!currentEntry) return;
+  var nome = currentEntry.nome || "Anonimo";
+  var cod = currentEntry.codice ? "#"+currentEntry.codice+" - " : "";
+  var tipo = currentEntry.tipo==="educatore" ? "Educatore" : currentEntry.tipo==="genitore" ? "Genitore" : "Auto-report";
+  var header = "<div class='print-header' style='margin-bottom:1rem;padding-bottom:.75rem;border-bottom:2px solid #1D9E75;'>"
+    +"<div style='font-size:18px;font-weight:700;'>SDQ — Valutazione</div>"
+    +"<div style='font-size:14px;color:#444;margin-top:4px;'>"+cod+nome+" &nbsp;&middot;&nbsp; "+tipo+" &nbsp;&middot;&nbsp; "+currentEntry.data+"</div>"
+    +"</div>";
+  document.querySelectorAll(".det-pane").forEach(function(p){
+    var existing = p.querySelector(".print-header");
+    if(existing) existing.remove();
+    p.insertAdjacentHTML("afterbegin", header);
+  });
+  document.getElementById("modal-wrap").style.display = "block";
+  window.print();
+  setTimeout(function(){ 
+    if(!currentEntry) document.getElementById("modal-wrap").style.display = "none";
+  }, 1000);
+};
+
+window.deleteEntry = async function() {
+  if(!currentEntry||!confirm("Eliminare questa compilazione definitivamente?")) return;
+  try {
+    await db.collection("risposte").doc(currentEntry.id).delete();
+    allEntries = allEntries.filter(function(e){return e.id!==currentEntry.id;});
+    renderList();
+    window.closeModal();
+  } catch(e) {
+    alert("Errore nell'eliminazione.");
+  }
+};
+
+window.changePin = function() {
+  var old = document.getElementById("old-pin").value;
+  var nw  = document.getElementById("new-pin").value;
+  var cf  = document.getElementById("conf-pin").value;
+  var w   = document.getElementById("pin-ch-warn");
+  var ok  = document.getElementById("pin-ch-ok");
+  w.style.display="none"; ok.style.display="none";
+  if(old!==getPin()){w.textContent="PIN attuale errato.";w.style.display="block";return;}
+  if(nw.length<4){w.textContent="Almeno 4 cifre.";w.style.display="block";return;}
+  if(nw!==cf){w.textContent="I PIN non coincidono.";w.style.display="block";return;}
+  localStorage.setItem("sdq_pin2",nw);
+  document.getElementById("old-pin").value="";
+  document.getElementById("new-pin").value="";
+  document.getElementById("conf-pin").value="";
+  ok.style.display="block";
+};
+</script>
+</body>
+</html>
