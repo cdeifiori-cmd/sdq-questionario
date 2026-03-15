@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<!-- SDQ valutatore v9 -->
+<!-- SDQ valutatore v3.1 -->
 <html lang="it">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SDQ — Area valutatore</title>
+<title>SDQ — Area valutatore v3.1</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f3;color:#1a1a1a;font-size:15px;}
@@ -173,10 +173,7 @@ function band(s,v) {
 }
 function bc(b){return b==="normale"||b==="adeguato"?"bn":b==="borderline"?"bb":"be";}
 function bl(b){var m={normale:"Nella norma",adeguato:"Adeguato",borderline:"Borderline",basso:"Basso",elevato:"Elevato"};return m[b]||b;}
-function codBadge(cod){
-  if(!cod) return "";
-  return "<span style='background:#1a1a1a;color:#fff;font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;margin-right:6px;letter-spacing:1px;'>#"+cod+"</span>";
-}
+function codBadge(c){if(!c)return "";return "<span style=\"background:#1a1a1a;color:#fff;font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;margin-right:6px;\">#"+c+"</span>";}
 function getPin(){return localStorage.getItem("sdq_pin2")||"1234";}
 
 window.checkPin = function() {
@@ -538,9 +535,11 @@ function renderImpact() {
   ];
   var tbl = rows.map(function(r){return "<tr><td>"+r[0]+"</td><td>"+r[1]+"</td></tr>";}).join("");
   var nome = e.nome || "Il ragazzo/la ragazza";
-  var isEst = band("EC",e.scores.EC)!=="normale" || band("IP",e.scores.IP)!=="normale";
-  var isInt = band("ES",e.scores.ES)!=="normale" || band("C",e.scores.C)!=="normale";
-  var bloc = function(titolo, valore, borderCol, bgCol, txtCol, commento) {
+  var isEst = getBand_local("EC",e.scores.EC)!=="normale" || getBand_local("IP",e.scores.IP)!=="normale";
+  var isInt = getBand_local("ES",e.scores.ES)!=="normale" || getBand_local("C",e.scores.C)!=="normale";
+  function getBand_local(s,v){return band(s,v);}
+
+  function bloc(titolo, valore, borderCol, bgCol, txtCol, commento) {
     return "<div style=\"padding:11px 13px;background:"+bgCol+";border-radius:9px;border-left:3px solid "+borderCol+";margin-bottom:8px;\">"
       +"<div style=\"display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;\">"
       +"<span style=\"font-size:13px;font-weight:600;color:#1a1a1a;\">"+titolo+"</span>"
@@ -665,7 +664,7 @@ function renderRisposte() {
   if(!e.raw) {
     document.getElementById("dp-risposte").innerHTML =
       '<p class="lbl" style="margin-top:0;">Risposte individuali</p>'
-      +"<div style=\"padding:14px;background:#f8f8f7;border-radius:9px;font-size:13px;color:#888;text-align:center;\">Le risposte dettagliate non sono disponibili per questa compilazione.</div>";
+      +'<div style="padding:14px;background:#f8f8f7;border-radius:9px;font-size:13px;color:#888;text-align:center;">Le risposte dettagliate non sono disponibili per questa compilazione (salvata prima dell'aggiornamento dello strumento).</div>';
     return;
   }
   var ITEMS = [
@@ -750,7 +749,7 @@ function renderSint(eA, eB) {
   var intE=edu.scores.ES+edu.scores.C;   var estE=edu.scores.EC+edu.scores.IP;
   var intBdA=band("INT",intA); var estBdA=band("EST",estA);
   var intBdE=band("INT",intE); var estBdE=band("EST",estE);
-  var profDir = function(iv,ev,ib,eb){
+  function profDir(iv,ev,ib,eb){
     if(ib==="normale"&&eb==="normale") return "Profilo nella norma";
     if(iv>ev&&ib!=="normale") return "Prevalenza internalizzante";
     if(ev>iv&&eb!=="normale") return "Prevalenza esternalizzante";
