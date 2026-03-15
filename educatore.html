@@ -186,6 +186,12 @@ h2{font-size:17px;font-weight:600;margin-bottom:12px;}
     <div id="tab-settings" class="tab-pane">
       <h2>Impostazioni</h2>
       <div class="card">
+        <p class="lbl">Associa codici mancanti</p>
+        <p style="font-size:13px;color:#666;margin-bottom:10px;">Assegna automaticamente il codice pratica ai questionari senza codice, cercando la corrispondenza per nome con le pratiche create.</p>
+        <button class="btn-sm" onclick="migrazioneCodiceMancante()" style="padding:8px 14px;">Esegui associazione</button>
+        <p id="migr-result" style="font-size:12px;color:#0F6E56;margin-top:8px;display:none;"></p>
+      </div>
+      <div class="card" style="margin-top:1rem;">
         <p class="lbl">Cambia PIN</p>
         <div style="display:flex;flex-direction:column;gap:8px;max-width:260px;">
           <div class="field"><label>PIN attuale</label><input type="password" id="old-pin" maxlength="6" inputmode="numeric"></div>
@@ -1210,6 +1216,36 @@ window.migrazioneCodiceMancante=async function(){
     }catch(err){}
   }
   result.textContent="Aggiornati "+updated+" questionari.";
+  result.style.display="block";
+  renderList();
+};
+
+window.migrazioneCodiceMancante=async function(){
+  var result=document.getElementById("migr-result");
+  result.style.display="none";
+  var nameToCodice={};
+  pratiche.forEach(function(p){
+    if(p.nome) nameToCodice[normalizeNome(p.nome)]=p.codice;
+  });
+  var toUpdate=allEntries.filter(function(e){
+    return !e.codice && e.nome && nameToCodice[normalizeNome(e.nome)];
+  });
+  if(!toUpdate.length){
+    result.textContent="Nessun questionario da aggiornare.";
+    result.style.display="block";
+    return;
+  }
+  var updated=0;
+  for(var i=0;i<toUpdate.length;i++){
+    var e=toUpdate[i];
+    var cod=nameToCodice[normalizeNome(e.nome)];
+    try{
+      await db.collection("risposte").doc(e.id).update({codice:cod});
+      e.codice=cod;
+      updated++;
+    }catch(err){console.error(err);}
+  }
+  result.textContent="Aggiornati "+updated+" questionari. Ricarica la lista.";
   result.style.display="block";
   renderList();
 };
