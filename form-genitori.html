@@ -61,8 +61,13 @@ h1{font-size:22px;font-weight:600;margin-bottom:4px;}
     <p class="sub">Per ciascuna domanda metta una crocetta su una delle tre caselle. Risponda sulla base del comportamento di suo figlio negli ultimi sei mesi o durante il presente anno scolastico.</p>
 
     <div class="card">
+      <div style="margin-bottom:1rem;padding:1rem;background:#f8f8f7;border-radius:9px;border:2px solid #e8e8e6;">
+        <label style="font-size:13px;font-weight:600;color:#1a1a1a;display:block;margin-bottom:6px;">Codice pratica <span style="color:#c0392b;">*</span></label>
+        <input type="text" id="f-codice" placeholder="Es. 01" maxlength="4" style="font-size:24px;font-weight:700;letter-spacing:6px;width:120px;border:2px solid #d0d0ce;border-radius:8px;padding:8px 12px;background:#fff;color:#1a1a1a;">
+        <div style="font-size:12px;color:#888;margin-top:5px;">Inserisci il codice numerico ricevuto dal ragazzo/a</div>
+      </div>
       <div class="info-grid">
-        <div class="field"><label>Nome</label><input type="text" id="f-nome" placeholder="Es. Mario Rossi"></div>
+        <div class="field"><label>Nome del bambino/ragazzo</label><input type="text" id="f-nome" placeholder="Es. Mario Rossi"></div>
         <div class="field"><label>Data di nascita</label><input type="date" id="f-ddn"></div>
         <div class="field"><label>Sesso</label>
           <select id="f-sesso"><option value="">Seleziona...</option><option>Maschio</option><option>Femmina</option></select>
@@ -273,13 +278,21 @@ window.submitForm = async function() {
       return;
     }
   }
+  if(!document.getElementById("f-codice").value.trim()){
+    warn.textContent="Inserisci il codice pratica prima di inviare.";
+    warn.style.display="block";
+    document.getElementById("f-codice").focus();
+    return;
+  }
   warn.style.display="none";
   var btn = document.getElementById("submit-btn");
   btn.disabled=true;
   btn.innerHTML="<span class=\"spinner\"></span>Invio in corso...";
   var sc = {ES:0,IP:0,EC:0,C:0,PR:0};
+  var raw = [];
   ITEMS.forEach(function(item,i){
     var v = parseInt(document.querySelector("input[name=\"q"+i+"\"]:checked").value);
+    raw.push(v);
     if(item.r) v = 2-v;
     sc[item.s] += v;
   });
@@ -287,6 +300,7 @@ window.submitForm = async function() {
   var dg = document.querySelector("input[name=\"diff_gen\"]:checked");
   var entry = {
     tipo: "genitore",
+    codice: (document.getElementById("f-codice").value||"00").padStart(2,"0"),
     nome: document.getElementById("f-nome").value || "Anonimo",
     ddn: document.getElementById("f-ddn").value,
     sesso: document.getElementById("f-sesso").value,
@@ -296,6 +310,7 @@ window.submitForm = async function() {
     timestamp: new Date(),
     scores: sc,
     tot: tot,
+    raw: raw,
     impact: {
       diff_gen: dg ? parseInt(dg.value) : null,
       durata: getRad("durata"),

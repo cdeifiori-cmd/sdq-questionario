@@ -196,10 +196,15 @@ h1{font-size:22px;font-weight:600;margin-bottom:4px;}
   </div>
 
   <div id="screen-thanks" style="display:none;">
-    <div class="thanks-screen">
-      <div class="thanks-icon">✅</div>
-      <div style="font-size:22px;font-weight:600;">Grazie per aver risposto!</div>
-      <div style="font-size:15px;color:#666;max-width:280px;line-height:1.6;">Le tue risposte sono state registrate correttamente. Puoi chiudere questa pagina.</div>
+    <div style="display:flex;flex-direction:column;align-items:center;min-height:60vh;justify-content:center;gap:1rem;text-align:center;padding:2rem;">
+      <div style="width:64px;height:64px;border-radius:50%;background:#E1F5EE;display:flex;align-items:center;justify-content:center;font-size:32px;">&#10003;</div>
+      <h2 style="font-size:22px;font-weight:600;">Grazie per aver risposto!</h2>
+      <p style="font-size:14px;color:#666;max-width:300px;line-height:1.6;">Le tue risposte sono state registrate correttamente.</p>
+      <div style="background:#f8f8f7;border-radius:12px;padding:1.5rem 2.5rem;border:2px solid #1D9E75;">
+        <div style="font-size:12px;color:#888;margin-bottom:6px;font-weight:500;">Il tuo codice pratica</div>
+        <div id="codice-assegnato" style="font-size:42px;font-weight:700;color:#1D9E75;letter-spacing:6px;">#--</div>
+        <div style="font-size:12px;color:#aaa;margin-top:6px;">Comunica questo codice all'educatore e ai tuoi genitori</div>
+      </div>
     </div>
   </div>
 
@@ -207,7 +212,7 @@ h1{font-size:22px;font-weight:600;margin-bottom:4px;}
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBmsHeTkQMJVQyav3rF8VPMhLeIB45t3Io",
@@ -290,20 +295,31 @@ window.submitForm = async function() {
   btn.disabled=true;
   btn.innerHTML='<span class="spinner"></span>Invio in corso...';
   const sc={ES:0,IP:0,EC:0,C:0,PR:0};
-  ITEMS.forEach((item,i)=>{let v=parseInt(document.querySelector(`input[name="q${i}"]:checked`).value);if(item.r)v=2-v;sc[item.s]+=v;});
+  const raw=[];ITEMS.forEach((item,i)=>{let v=parseInt(document.querySelector(`input[name="q${i}"]:checked`).value);raw.push(v);if(item.r)v=2-v;sc[item.s]+=v;});
   const tot=sc.ES+sc.IP+sc.EC+sc.C;
   const dg=document.querySelector('input[name="diff_gen"]:checked');
+  // calcola prossimo codice pratica
+  let codice="01";
+  try {
+    const snap=await getDocs(collection(db,"risposte"));
+    let maxN=0;
+    snap.forEach(d=>{const dd=d.data();if(!dd.tipo||dd.tipo==="auto-report"){const n=parseInt(dd.codice||"0");if(n>maxN)maxN=n;}});
+    codice=String(maxN+1).padStart(2,"0");
+  } catch(e2){}
   const entry={
+    tipo:"auto-report",
+    codice:codice,
     nome:document.getElementById("f-nome").value||"Anonimo",
     ddn:document.getElementById("f-ddn").value,
     sesso:document.getElementById("f-sesso").value,
     data:document.getElementById("f-data").value||new Date().toISOString().split("T")[0],
-    timestamp: new Date(),
-    scores:sc, tot,
+    timestamp:new Date(),
+    scores:sc,tot,raw,
     impact:{diff_gen:dg?parseInt(dg.value):null,durata:getRad("durata"),soff:getRad("soff"),i_fam:getRad("i_fam"),i_ami:getRad("i_ami"),i_scu:getRad("i_scu"),i_lib:getRad("i_lib"),i_altri:getRad("i_altri")}
   };
   try {
-    await addDoc(collection(db,"risposte"), entry);
+    await addDoc(collection(db,"risposte"),entry);
+    document.getElementById("codice-assegnato").textContent="#"+codice;
     document.getElementById("screen-form").style.display="none";
     document.getElementById("screen-thanks").style.display="block";
     window.scrollTo(0,0);
@@ -313,6 +329,7 @@ window.submitForm = async function() {
     alert("Errore nell'invio. Controlla la connessione e riprova.");
   }
 };
+
 
 document.getElementById("f-data").value=new Date().toISOString().split("T")[0];
 </script>

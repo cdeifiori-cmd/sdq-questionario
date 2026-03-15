@@ -126,6 +126,7 @@ h2{font-size:17px;font-weight:600;margin-bottom:12px;}
         <button class="modal-tab" onclick="detTab(this,'dp-interp')">Interpretazione</button>
         <button class="modal-tab" onclick="detTab(this,'dp-rel')">Relazione</button>
         <button class="modal-tab" onclick="detTab(this,'dp-impact')">Impatto</button>
+        <button class="modal-tab" onclick="detTab(this,'dp-risposte')">Risposte</button>
         <button class="modal-tab" id="tab-sint-btn" onclick="detTab(this,'dp-sint')" style="display:none;background:#FFF8E6;border-color:#FAC775;color:#633806;">&#9889; Sintesi</button>
       </div>
       <div id="dp-scale" class="det-pane act"></div>
@@ -133,6 +134,7 @@ h2{font-size:17px;font-weight:600;margin-bottom:12px;}
       <div id="dp-interp" class="det-pane"></div>
       <div id="dp-rel" class="det-pane"></div>
       <div id="dp-impact" class="det-pane"></div>
+      <div id="dp-risposte" class="det-pane"></div>
       <div id="dp-sint" class="det-pane"></div>
       <div style="margin-top:1.25rem;border-top:1px solid #f0f0ee;padding-top:1rem;">
         <button class="btn-danger" onclick="deleteEntry()">Elimina compilazione</button>
@@ -237,7 +239,7 @@ function renderList() {
     var comp = e.compilatore ? ' &middot; '+e.compilatore : '';
     html += '<div class="entry-card" onclick="openDetail(\''+e.id+'\')">'
       + '<div>'
-      + '<div style="font-size:15px;font-weight:600;">'+e.nome+tipoTag+sintTag+'</div>'
+      + '<div style="font-size:15px;font-weight:600;">'+(e.codice?'<span style="background:#1a1a1a;color:#fff;font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;margin-right:6px;">#'+e.codice+'</span>':'')+e.nome+tipoTag+sintTag+'</div>'
       + '<div style="font-size:12px;color:#888;margin-top:3px;">'+e.data+(e.sesso?' &middot; '+e.sesso:'')+' &middot; Tot. difficolta: <strong>'+e.tot+'</strong> <span class="badge '+bc(bd)+'">'+bl(bd)+'</span>'+comp+'</div>'
       + '</div>'
       + '<span style="color:#ccc;font-size:20px;">&#8250;</span>'
@@ -253,7 +255,7 @@ window.openDetail = function(id) {
   currentEntry = allEntries.find(function(e){return e.id===id;});
   if(!currentEntry) return;
   document.getElementById("det-header").innerHTML =
-    '<div style="font-size:16px;font-weight:600;">'+currentEntry.nome+'</div>'
+    '<div style="font-size:16px;font-weight:600;">'+(currentEntry.codice?'<span style="background:#1a1a1a;color:#fff;font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;margin-right:8px;">#'+currentEntry.codice+'</span>':'')+currentEntry.nome+'</div>'
     +'<div style="font-size:12px;color:#888;margin-top:2px;">'+currentEntry.data
     +(currentEntry.sesso?' &middot; '+currentEntry.sesso:'')
     +(currentEntry.ddn?' &middot; Nato/a: '+currentEntry.ddn:'')+'</div>';
@@ -262,11 +264,12 @@ window.openDetail = function(id) {
   renderInterp();
   renderRelazione();
   renderImpact();
+  renderRisposte();
 
   if(radarChart){radarChart.destroy();radarChart=null;}
   document.getElementById("dp-radar").innerHTML = '<div style="position:relative;width:100%;height:300px;"><canvas id="radar-canvas"></canvas></div>';
 
-  ["dp-scale","dp-radar","dp-interp","dp-rel","dp-impact","dp-sint"].forEach(function(t){
+  ["dp-scale","dp-radar","dp-interp","dp-rel","dp-impact","dp-risposte","dp-sint"].forEach(function(t){
     document.getElementById(t).classList.remove("act");
   });
   document.getElementById("dp-scale").classList.add("act");
@@ -297,7 +300,7 @@ window.openDetail = function(id) {
 window.detTab = function(btn, id) {
   document.querySelectorAll(".modal-tab").forEach(function(b){b.classList.remove("act");});
   btn.classList.add("act");
-  ["dp-scale","dp-radar","dp-interp","dp-rel","dp-impact","dp-sint"].forEach(function(t){
+  ["dp-scale","dp-radar","dp-interp","dp-rel","dp-impact","dp-risposte","dp-sint"].forEach(function(t){
     document.getElementById(t).classList.remove("act");
   });
   document.getElementById(id).classList.add("act");
@@ -651,6 +654,69 @@ function renderImpact() {
   document.getElementById("dp-impact").innerHTML = html;
 }
 
+
+function renderRisposte() {
+  var e = currentEntry;
+  if(!e.raw) {
+    document.getElementById("dp-risposte").innerHTML =
+      '<p class="lbl" style="margin-top:0;">Risposte individuali</p>'
+      +'<div style="padding:14px;background:#f8f8f7;border-radius:9px;font-size:13px;color:#888;text-align:center;">Le risposte dettagliate non sono disponibili per questa compilazione (salvata prima dell'aggiornamento dello strumento).</div>';
+    return;
+  }
+  var ITEMS = [
+    {t:"E rispettoso/a dei sentimenti degli altri",s:"PR",r:false},
+    {t:"E irrequieto/a, iperattivo/a, incapace di stare fermo per molto tempo",s:"IP",r:false},
+    {t:"Si lamenta spesso per mal di testa, mal di stomaco o nausea",s:"ES",r:false},
+    {t:"Condivide volentieri con gli altri (dolci, giocattoli, matite ecc.)",s:"PR",r:false},
+    {t:"Spesso ha crisi di collera o e di cattivo umore",s:"EC",r:false},
+    {t:"E piuttosto solitario/a, tende a giocare da solo",s:"C",r:false},
+    {t:"Generalmente obbediente, esegue di solito le richieste degli adulti",s:"EC",r:true},
+    {t:"Ha molte preoccupazioni, spesso sembra preoccupato/a",s:"ES",r:false},
+    {t:"E di aiuto se qualcuno si fa male, e arrabbiato o malato",s:"PR",r:false},
+    {t:"E costantemente in movimento o a disagio",s:"IP",r:false},
+    {t:"Ha almeno un buon amico o una buona amica",s:"C",r:true},
+    {t:"Spesso litiga con gli altri bambini o li infastidisce di proposito",s:"EC",r:false},
+    {t:"Spesso infelice, triste o in lacrime",s:"ES",r:false},
+    {t:"Generalmente ben accetto/a dagli altri bambini",s:"C",r:true},
+    {t:"Facilmente distratto/a, incapace di concentrarsi",s:"IP",r:false},
+    {t:"E nervoso/a o a disagio in situazioni nuove, si sente poco sicuro di se",s:"ES",r:false},
+    {t:"Gentile con i bambini piu piccoli",s:"PR",r:false},
+    {t:"Spesso dice bugie o inganna",s:"EC",r:false},
+    {t:"Preso/a di mira e preso/a in giro dagli altri bambini",s:"C",r:false},
+    {t:"Si offre spesso volontario per aiutare gli altri",s:"PR",r:false},
+    {t:"Pensa prima di fare qualcosa",s:"IP",r:true},
+    {t:"Ruba a casa, a scuola o in altri posti",s:"EC",r:false},
+    {t:"Ha migliori rapporti con gli adulti che con i bambini",s:"C",r:false},
+    {t:"Ha molte paure, si spaventa facilmente",s:"ES",r:false},
+    {t:"E in grado di portare a termine cio che gli viene richiesto, rimanendo concentrato per tutto il tempo necessario",s:"IP",r:true},
+  ];
+  var SCOL = {ES:"b-ES",IP:"b-IP",EC:"b-EC",C:"b-C",PR:"b-PR"};
+  var lvl = ["Non vero","Parz. vero","Assol. vero"];
+  var lvlCol = ["#888780","#BA7517","#A32D2D"];
+  var lvlBg  = ["#F1EFE8","#FAEEDA","#FCEBEB"];
+  var html = '<p class="lbl" style="margin-top:0;">Risposte individuali</p>';
+  html += '<table style="width:100%;border-collapse:collapse;font-size:13px;">';
+  html += '<thead><tr>'
+    +'<th style="text-align:left;padding:8px 4px;border-bottom:1px solid #f0f0ee;color:#888;font-weight:600;font-size:11px;width:50%;">Affermazione</th>'
+    +'<th style="text-align:center;padding:8px 4px;border-bottom:1px solid #f0f0ee;color:#888;font-weight:600;font-size:11px;width:10%;">Scala</th>'
+    +'<th style="text-align:right;padding:8px 4px;border-bottom:1px solid #f0f0ee;color:#888;font-weight:600;font-size:11px;width:20%;">Risposta</th>'
+    +'<th style="text-align:right;padding:8px 4px;border-bottom:1px solid #f0f0ee;color:#888;font-weight:600;font-size:11px;width:10%;">Punteggio</th>'
+    +'</tr></thead><tbody>';
+  ITEMS.forEach(function(item, i) {
+    var raw = e.raw[i];
+    if(raw == null) return;
+    var scored = item.r ? 2 - raw : raw;
+    var bg = i % 2 === 0 ? "#fff" : "#fafaf9";
+    html += '<tr style="background:'+bg+';">'
+      +'<td style="padding:8px 4px;border-bottom:1px solid #f5f5f3;color:#1a1a1a;line-height:1.4;">'+(i+1)+'. '+item.t+'</td>'
+      +'<td style="padding:8px 4px;border-bottom:1px solid #f5f5f3;text-align:center;"><span class="badge '+SCOL[item.s]+'">'+item.s+'</span></td>'
+      +'<td style="padding:8px 4px;border-bottom:1px solid #f5f5f3;text-align:right;"><span style="font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;background:'+lvlBg[raw]+';color:'+lvlCol[raw]+';">'+lvl[raw]+'</span></td>'
+      +'<td style="padding:8px 4px;border-bottom:1px solid #f5f5f3;text-align:right;font-weight:600;color:'+(scored>0?"#A32D2D":"#085041")+';">'+scored+'</td>'
+      +'</tr>';
+  });
+  html += '</tbody></table>';
+  document.getElementById("dp-risposte").innerHTML = html;
+}
 
 function renderSint(eA, eB) {
   var auto = eA.tipo==="educatore" ? eB : eA;

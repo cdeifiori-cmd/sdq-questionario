@@ -61,8 +61,13 @@ h1{font-size:22px;font-weight:600;margin-bottom:4px;}
     <p class="sub">Per ciascuna domanda metta una crocetta su una delle tre caselle. Risponda sulla base del comportamento del bambino negli ultimi sei mesi o durante il presente anno scolastico.</p>
 
     <div class="card">
+      <div style="margin-bottom:1rem;padding:1rem;background:#f8f8f7;border-radius:9px;border:2px solid #e8e8e6;">
+        <label style="font-size:13px;font-weight:600;color:#1a1a1a;display:block;margin-bottom:6px;">Codice pratica <span style="color:#c0392b;">*</span></label>
+        <input type="text" id="f-codice" placeholder="Es. 01" maxlength="4" style="font-size:24px;font-weight:700;letter-spacing:6px;width:120px;border:2px solid #d0d0ce;border-radius:8px;padding:8px 12px;background:#fff;color:#1a1a1a;">
+        <div style="font-size:12px;color:#888;margin-top:5px;">Inserisci il codice numerico ricevuto dal ragazzo/a</div>
+      </div>
       <div class="info-grid">
-        <div class="field"><label>Nome</label><input type="text" id="f-nome" placeholder="Es. Mario Rossi"></div>
+        <div class="field"><label>Nome del bambino/ragazzo</label><input type="text" id="f-nome" placeholder="Es. Mario Rossi"></div>
         <div class="field"><label>Data di nascita</label><input type="date" id="f-ddn"></div>
         <div class="field"><label>Sesso</label>
           <select id="f-sesso"><option value="">Seleziona...</option><option>Maschio</option><option>Femmina</option></select>
@@ -238,15 +243,22 @@ function getRad(name){const r=document.querySelector(`input[name="${name}"]:chec
 window.submitForm=async function(){
   const warn=document.getElementById("form-warn");
   for(let i=0;i<25;i++){if(!document.querySelector(`input[name="q${i}"]:checked`)){warn.style.display="block";warn.scrollIntoView({behavior:"smooth",block:"center"});return;}}
+  if(!document.getElementById("f-codice").value.trim()){
+    warn.textContent="Inserisci il codice pratica prima di inviare.";
+    warn.style.display="block";
+    document.getElementById("f-codice").focus();
+    return;
+  }
   warn.style.display="none";
   const btn=document.getElementById("submit-btn");
   btn.disabled=true;btn.innerHTML='<span class="spinner"></span>Invio in corso...';
   const sc={ES:0,IP:0,EC:0,C:0,PR:0};
-  ITEMS.forEach((item,i)=>{let v=parseInt(document.querySelector(`input[name="q${i}"]:checked`).value);if(item.r)v=2-v;sc[item.s]+=v;});
+  const raw=[];ITEMS.forEach((item,i)=>{let v=parseInt(document.querySelector(`input[name="q${i}"]:checked`).value);raw.push(v);if(item.r)v=2-v;sc[item.s]+=v;});
   const tot=sc.ES+sc.IP+sc.EC+sc.C;
   const dg=document.querySelector('input[name="diff_gen"]:checked');
   const entry={
     tipo:"educatore",
+    codice:(document.getElementById("f-codice").value||"00").padStart(2,"0"),
     nome:document.getElementById("f-nome").value||"Anonimo",
     ddn:document.getElementById("f-ddn").value,
     sesso:document.getElementById("f-sesso").value,
@@ -254,7 +266,7 @@ window.submitForm=async function(){
     compilatore:document.getElementById("f-compilatore").value||"",
     ruolo:document.getElementById("f-ruolo").value||"",
     timestamp:new Date(),
-    scores:sc,tot,
+    scores:sc,tot,raw:raw,
     impact:{diff_gen:dg?parseInt(dg.value):null,durata:getRad("durata"),soff:getRad("soff"),i_ami:getRad("i_ami"),i_scu:getRad("i_scu"),i_altri:getRad("i_altri")}
   };
   try{
