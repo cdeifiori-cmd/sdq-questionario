@@ -600,9 +600,16 @@ function renderRelazione() {
   if(C.bd!=="normale")  impl.push("Per l'integrazione sociale, possono essere utili attivita di gruppo strutturate e training sulle abilita sociali.");
   if(PR.bd==="basso")   impl.push("Il potenziamento prosociale puo avvenire tramite cooperative learning, role-playing e valorizzazione esplicita degli episodi di aiuto.");
   if(!impl.length) impl.push("Il profilo non evidenzia aree critiche. Si suggerisce di valorizzare i punti di forza e mantenere un monitoraggio periodico.");
+  var tipoLabel = e.tipo==="educatore" ? "Educatore/Operatore" : e.tipo==="genitore" ? "Genitore" : "Auto-report ragazzo/a";
+  var strumentoLabel = e.tipo==="educatore" ? "SDQ versione adulto (osservazione educatore) 4-17 anni" : e.tipo==="genitore" ? "SDQ versione genitori 4-17 anni" : "SDQ auto-report 11-17 anni";
+  var compilatoreInfo = (e.compilatore||e.ruolo) ? ("<br>Compilatore: <strong>"+(e.compilatore||"")+(e.ruolo?" ("+e.ruolo+")":"")+"</strong>") : "";
   var html = '<p class="lbl">Relazione psicoeducativa</p>'
     + '<div style="border:1px solid #e8e8e6;border-radius:12px;padding:1.25rem;">'
-    + '<div class="rel-section"><h4>Dati identificativi</h4><p>Nome: <strong>'+nome+'</strong>'+(e.ddn?' &middot; Nato/a: '+e.ddn:'')+(e.sesso?' &middot; '+e.sesso:'')+'.<br>Data somministrazione: '+e.data+'. Strumento: SDQ auto-report 11-17 anni, standardizzazione italiana.</p></div>'
+    + '<div style="background:#f8f8f7;border-radius:8px;padding:10px 14px;margin-bottom:1rem;display:flex;align-items:center;gap:10px;">'
+    + '<span style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;background:'+(e.tipo==="educatore"?"#EEEDFE":e.tipo==="genitore"?"#FAECE7":"#E1F5EE")+';color:'+(e.tipo==="educatore"?"#3C3489":e.tipo==="genitore"?"#712B13":"#085041")+';">'+tipoLabel+'</span>'
+    + '<span style="font-size:13px;color:#444;">Relazione riferita a <strong>'+nome+'</strong></span>'
+    + '</div>'
+    + '<div class="rel-section"><h4>Dati identificativi</h4><p>Nome: <strong>'+nome+'</strong>'+(e.ddn?' &middot; Nato/a: '+e.ddn:'')+(e.sesso?' &middot; '+e.sesso:'')+'.<br>Tipo compilazione: <strong>'+tipoLabel+'</strong>.'+compilatoreInfo+'<br>Data somministrazione: '+e.data+'. Strumento: '+strumentoLabel+'.</p></div>'
     + '<div class="rel-section"><h4>Presentazione dello strumento</h4><p>L\'SDQ (Goodman, 1997) e un questionario di screening psicologico validato internazionalmente. Valuta cinque dimensioni: sintomi emotivi, iperattivita/disattenzione, problemi di condotta, difficolta nelle relazioni con i pari e comportamento prosociale. Per la scala Prosociale, punteggi piu alti indicano funzionamento migliore.</p></div>'
     + '<div class="rel-section"><h4>Profilo dei punteggi</h4>'
     + '<p>Il punteggio totale di difficolta e <strong>'+TOT.v+'/40</strong>, collocandosi <strong>'+livTot+'</strong> secondo le norme italiane.</p>'
@@ -968,6 +975,38 @@ function renderSint(eA, eB) {
   html+='<div style="padding:14px;background:#FFF8E6;border-radius:9px;border-left:3px solid #FAC775;">'
     +'<p style="font-size:11px;font-weight:600;color:#854F0B;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">Raccomandazioni operative</p>'
     +'<p style="font-size:13px;color:#444;line-height:1.75;">'+racc+'</p></div>';
+
+  // Relazione di sintesi integrata
+  html += '<p class="lbl" style="margin-top:1.5rem;">Relazione di sintesi integrata</p>';
+  html += '<div style="padding:10px 14px;background:#f0faf6;border-radius:9px;margin-bottom:1rem;border-left:3px solid #1D9E75;">'
+    +'<p style="font-size:13px;color:#444;line-height:1.7;">Questo documento integra le valutazioni di <strong>'+nome+'</strong> provenienti da piu fonti: '
+    +'<span style="background:#E1F5EE;color:#085041;font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;">Auto-report ragazzo/a</span> '
+    +(edu.tipo==="genitore"?'e <span style="background:#FAECE7;color:#712B13;font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;">Genitore</span>':'e <span style="background:#EEEDFE;color:#3C3489;font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;">Educatore</span>')
+    +'. La valutazione multi-informante aumenta l\'attendibilita del profilo e consente di distinguere tra comportamenti situazionali e pattern stabili.</p></div>';
+
+  var autoLabel = "Auto-report ("+auto.nome+", "+auto.data+")";
+  var eduLabel = (edu.tipo==="genitore"?"Genitore":"Educatore")+(edu.compilatore?" — "+edu.compilatore:"")+" ("+edu.data+")";
+  html += '<div style="border:1px solid #e8e8e6;border-radius:12px;padding:1.25rem;font-size:13px;">';
+  html += '<div class="rel-section"><h4>Fonti della valutazione</h4>'
+    +'<p><strong>Fonte 1 — '+autoLabel+':</strong> Punteggio totale difficolta '+auto.tot+'/40 ('+bl(band("TOT",auto.tot))+').<br>'
+    +'<strong>Fonte 2 — '+eduLabel+':</strong> Punteggio totale difficolta '+edu.tot+'/40 ('+bl(band("TOT",edu.tot))+').</p></div>';
+  html += '<div class="rel-section"><h4>Livello di concordanza</h4>'
+    +'<p>'+concDesc+'</p></div>';
+  html += '<div class="rel-section"><h4>Direzione del profilo</h4>'
+    +'<p>Ragazzo/a (auto-report): <strong>'+dirA+'</strong>. '
+    +(edu.tipo==="genitore"?"Genitore":"Educatore")+': <strong>'+dirE+'</strong>. '
+    +(dirMatch?'I due profili concordano sulla direzione del disagio.':'I due profili indicano direzioni diverse: il disagio potrebbe manifestarsi in modo differente nei vari contesti.')+'</p></div>';
+  if(priorita.length>0){
+    html += '<div class="rel-section"><h4>Aree di intervento prioritarie</h4><ul style="padding-left:1rem;line-height:2;">';
+    priorita.forEach(function(p,idx){
+      html += '<li><strong>'+p.info.label+'</strong>: '+p.info.desc+'</li>';
+    });
+    html += '</ul></div>';
+  }
+  html += '<div class="rel-section" style="margin-bottom:0;"><h4>Note conclusive</h4>'
+    +'<p>La presente relazione di sintesi e redatta a scopo informativo e di supporto alla programmazione educativa. Non sostituisce una valutazione psicologica condotta da professionisti abilitati. Si raccomanda la massima riservatezza nel trattamento dei dati.</p></div>';
+  html += '</div>';
+
   document.getElementById("dp-sint").innerHTML=html;
 }
 
