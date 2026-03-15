@@ -162,9 +162,9 @@ h2{font-size:17px;font-weight:600;margin-bottom:12px;}
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, getDocs, deleteDoc, doc, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script>
 
 const FB = {
   apiKey: "AIzaSyBmsHeTkQMJVQyav3rF8VPMhLeIB45t3Io",
@@ -174,8 +174,8 @@ const FB = {
   messagingSenderId: "601788476480",
   appId: "1:601788476480:web:766d7dd791fa44acbd83a5"
 };
-const app = initializeApp(FB);
-const db = getFirestore(app);
+firebase.initializeApp(FB);
+const db = firebase.firestore();
 
 const SLBL = {ES:"Sintomi Emotivi",IP:"Iperattivita",EC:"Prob. Condotta",C:"Prob. Relazioni",PR:"Prosociale",TOT:"Tot. Difficolta",INT:"Internalizzazione",EST:"Esternalizzazione"};
 const BAR = {ES:"#1D9E75",IP:"#BA7517",EC:"#993C1D",C:"#185FA5",PR:"#534AB7"};
@@ -224,7 +224,7 @@ var allEntries = [];
 
 window.nuovaPratica = async function() {
   try {
-    var snap = await getDocs(collection(db,"risposte"));
+    var snap = await db.collection("risposte").get();
     var maxN = 0;
     snap.forEach(function(d){
       var dd = d.data();
@@ -233,7 +233,7 @@ window.nuovaPratica = async function() {
     });
     // Also check codici_pratiche collection
     try {
-      var snap2 = await getDocs(collection(db,"pratiche"));
+      var snap2 = await db.collection("pratiche").get();
       snap2.forEach(function(d){
         var n = parseInt(d.data().codice||"0");
         if(n > maxN) maxN = n;
@@ -241,7 +241,7 @@ window.nuovaPratica = async function() {
     } catch(e2){}
     var newCodice = String(maxN+1).padStart(2,"0");
     // Save the new pratica
-    await addDoc(collection(db,"pratiche"), {
+    await db.collection("pratiche").add( {
       codice: newCodice,
       creato: new Date(),
       creatoIl: new Date().toISOString().split("T")[0]
@@ -270,7 +270,7 @@ window.loadEntries = async function() {
   var el = document.getElementById("entries-list");
   el.innerHTML = '<div class="loading-center"><div class="spinner"></div></div>';
   try {
-    var snap = await getDocs(collection(db,"risposte"));
+    var snap = await db.collection("risposte").get();
     allEntries = [];
     snap.forEach(function(d){allEntries.push(Object.assign({id:d.id},d.data()));});
     allEntries.sort(function(a,b){return (b.timestamp&&a.timestamp)?(b.timestamp.seconds||0)-(a.timestamp.seconds||0):0;});
@@ -724,7 +724,7 @@ function renderRisposte() {
   if(!e.raw) {
     document.getElementById("dp-risposte").innerHTML =
       '<p class="lbl" style="margin-top:0;">Risposte individuali</p>'
-      +'<div style="padding:14px;background:#f8f8f7;border-radius:9px;font-size:13px;color:#888;text-align:center;">Le risposte dettagliate non sono disponibili per questa compilazione (salvata prima dell'aggiornamento dello strumento).</div>';
+      +"<div style=\"padding:14px;background:#f8f8f7;border-radius:9px;font-size:13px;color:#888;text-align:center;\">Le risposte dettagliate non sono disponibili per questa compilazione.</div>";
     return;
   }
   var ITEMS = [
@@ -930,7 +930,7 @@ function renderSint(eA, eB) {
 window.deleteEntry = async function() {
   if(!currentEntry||!confirm("Eliminare questa compilazione definitivamente?")) return;
   try {
-    await deleteDoc(doc(db,"risposte",currentEntry.id));
+    await db.collection("risposte").doc(currentEntry.id).delete();
     allEntries = allEntries.filter(function(e){return e.id!==currentEntry.id;});
     renderList();
     window.closeModal();
