@@ -303,20 +303,61 @@ window.loadEntries=async function(){
 function normalizeNome(n){return(n||"").trim().toLowerCase().replace(/\s+/g," ");}
 
 function groupMinori(){
-  // Group entries by codice (preferred) or nome
   var groups={};
-  allEntries.forEach(function(e){
-    var key=e.codice?("c:"+e.codice):("n:"+normalizeNome(e.nome));
-    if(!groups[key])groups[key]={codice:e.codice||"",nome:e.nome||"",entries:[]};
-    groups[key].entries.push(e);
-    if(!groups[key].nome&&e.nome)groups[key].nome=e.nome;
+
+  // First pass: index pratiche by codice
+  var praticheByCode={};
+  pratiche.forEach(function(p){
+    praticheByCode[p.codice]={codice:p.codice,nome:p.nome||"",entries:[]};
   });
-  // Also add pratiche that have no entries yet
+
+  // Build a map: normalized name -> codice (from pratiche)
+  var nameToCodice={};
+  pratiche.forEach(function(p){
+    if(p.nome)nameToCodice[normalizeNome(p.nome)]=p.codice;
+  });
+
+  // Second pass: assign each entry to a group
+  allEntries.forEach(function(e){
+    var cod=e.codice||"";
+    // If no codice, try to find by name match in pratiche
+    if(!cod&&e.nome){
+      var nc=nameToCodice[normalizeNome(e.nome)];
+      if(nc)cod=nc;
+    }
+    var key=cod?("c:"+cod):("n:"+normalizeNome(e.nome));
+    if(!groups[key]){
+      groups[key]={codice:cod,nome:e.nome||"",entries:[]};
+    }
+    if(cod&&!groups[key].codice)groups[key].codice=cod;
+    if(e.nome&&!groups[key].nome)groups[key].nome=e.nome;
+    groups[key].entries.push(e);
+  });
+
+  // Add pratiche that have no entries yet
   pratiche.forEach(function(p){
     var key="c:"+p.codice;
     if(!groups[key])groups[key]={codice:p.codice,nome:p.nome||"",entries:[]};
-    if(!groups[key].nome&&p.nome)groups[key].nome=p.nome;
+    if(p.nome&&!groups[key].nome)groups[key].nome=p.nome;
   });
+
+  // Third pass: merge name-keyed groups into codice-keyed groups if name matches
+  var toDelete=[];
+  Object.keys(groups).forEach(function(k){
+    if(k.startsWith("n:")){
+      var nn=k.slice(2);
+      var cod=nameToCodice[nn];
+      if(cod){
+        var ck="c:"+cod;
+        if(groups[ck]){
+          groups[k].entries.forEach(function(e){groups[ck].entries.push(e);});
+          toDelete.push(k);
+        }
+      }
+    }
+  });
+  toDelete.forEach(function(k){delete groups[k];});
+
   return Object.values(groups).sort(function(a,b){
     var ca=parseInt(a.codice||"999"),cb=parseInt(b.codice||"999");
     return ca-cb;
@@ -326,6 +367,8 @@ function groupMinori(){
 function renderList(){
   var el=document.getElementById("entries-list");
   var groups=groupMinori();
+  // Filter out empty unnamed groups (pratiche create senza nome e senza compilazioni)
+  groups=groups.filter(function(g){return g.entries.length>0||g.nome;});
   if(!groups.length){el.innerHTML='<div class="empty">Nessun questionario ricevuto ancora.</div>';return;}
   var html="";
   groups.forEach(function(g){
@@ -949,6 +992,28 @@ window.copiaCodicePratica=function(){
       setTimeout(function(){document.getElementById("copy-btn").textContent="Copia codice";},2000);
     }).catch(function(){prompt("Copia questo codice:",window.lastNewCodice);});
   }
+};
+
+window.migrazioneCodiceMancante=async function(){
+  var result=document.getElementById("migr-result");
+  result.style.display="none";
+  var nameToCodice={};
+  pratiche.forEach(function(p){if(p.nome)nameToCodice[normalizeNome(p.nome)]=p.codice;});
+  var toUpdate=allEntries.filter(function(e){return!e.codice&&e.nome&&nameToCodice[normalizeNome(e.nome)];});
+  if(!toUpdate.length){result.textContent="Nessun questionario da aggiornare.";result.style.display="block";return;}
+  var updated=0;
+  for(var i=0;i<toUpdate.length;i++){
+    var e=toUpdate[i];
+    var cod=nameToCodice[normalizeNome(e.nome)];
+    try{
+      await db.collection("risposte").doc(e.id).update({codice:cod});
+      e.codice=cod;
+      updated++;
+    }catch(err){}
+  }
+  result.textContent="Aggiornati "+updated+" questionari.";
+  result.style.display="block";
+  renderList();
 };
 
 window.changePin=function(){
