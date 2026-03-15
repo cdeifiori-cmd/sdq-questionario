@@ -594,11 +594,9 @@ function renderImpact() {
   ];
   var tbl = rows.map(function(r){return "<tr><td>"+r[0]+"</td><td>"+r[1]+"</td></tr>";}).join("");
   var nome = e.nome || "Il ragazzo/la ragazza";
-  var isEst = getBand_local("EC",e.scores.EC)!=="normale" || getBand_local("IP",e.scores.IP)!=="normale";
-  var isInt = getBand_local("ES",e.scores.ES)!=="normale" || getBand_local("C",e.scores.C)!=="normale";
-  function getBand_local(s,v){return band(s,v);}
-
-  function bloc(titolo, valore, borderCol, bgCol, txtCol, commento) {
+  var isEst = band("EC",e.scores.EC)!=="normale" || band("IP",e.scores.IP)!=="normale";
+  var isInt = band("ES",e.scores.ES)!=="normale" || band("C",e.scores.C)!=="normale";
+  var bloc = function(titolo, valore, borderCol, bgCol, txtCol, commento) {
     return "<div style=\"padding:11px 13px;background:"+bgCol+";border-radius:9px;border-left:3px solid "+borderCol+";margin-bottom:8px;\">"
       +"<div style=\"display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;\">"
       +"<span style=\"font-size:13px;font-weight:600;color:#1a1a1a;\">"+titolo+"</span>"
@@ -606,7 +604,7 @@ function renderImpact() {
       +"</div>"
       +"<p style=\"font-size:12px;color:#555;line-height:1.6;margin:0;\">"+commento+"</p>"
       +"</div>";
-  }
+  };
 
   var html = "<p class=\"lbl\">Sezione impatto</p>"
     +"<div class=\"card\"><table class=\"impact-table\" style=\"width:100%;\">"+tbl+"</table></div>"
@@ -808,14 +806,14 @@ function renderSint(eA, eB) {
   var intE=edu.scores.ES+edu.scores.C;   var estE=edu.scores.EC+edu.scores.IP;
   var intBdA=band("INT",intA); var estBdA=band("EST",estA);
   var intBdE=band("INT",intE); var estBdE=band("EST",estE);
-  function profDir(iv,ev,ib,eb){
+  var profDir = function(iv,ev,ib,eb){
     if(ib==="normale"&&eb==="normale") return "Profilo nella norma";
     if(iv>ev&&ib!=="normale") return "Prevalenza internalizzante";
     if(ev>iv&&eb!=="normale") return "Prevalenza esternalizzante";
     if(ib!=="normale"&&eb!=="normale") return "Profilo misto";
     if(ib!=="normale") return "Prevalenza internalizzante";
     return "Prevalenza esternalizzante";
-  }
+  };
   var dirA=profDir(intA,estA,intBdA,estBdA);
   var dirE=profDir(intE,estE,intBdE,estBdE);
   var dirMatch=dirA===dirE;
@@ -914,46 +912,4 @@ function renderSint(eA, eB) {
   var interp;
   if(totDiff<=4) interp="I due profili sono sostanzialmente concordanti (differenza totale: "+totDiff+" punti). La percezione di "+nome+" su se stesso e l'osservazione dell'educatore descrivono un quadro coerente, aumentando l'attendibilita della valutazione.";
   else if(totDiff>8) interp="I due profili mostrano una discrepanza rilevante nel punteggio totale (auto-report: "+auto.tot+", educatore: "+edu.tot+", differenza: "+totDiff+" punti). Questo scarto merita un approfondimento attraverso un colloquio diretto.";
-  else interp="I due profili mostrano una concordanza parziale (differenza totale: "+totDiff+" punti). Alcune scale convergono, altre mostrano differenze utili da esplorare nel contesto educativo.";
-  if(discr.length>0) interp+=" Le scale con maggiore discrepanza sono: <strong>"+discr.map(function(s){return slbl[s];}).join(", ")+"</strong>.";
-  html+='<div style="padding:14px;background:#f8f8f7;border-radius:9px;margin-bottom:8px;"><p style="font-size:13px;color:#444;line-height:1.75;">'+interp+'</p></div>';
-  var racc;
-  if(discr.length===0) racc="La coerenza tra i due profili permette di progettare interventi mirati. Si raccomanda di condividere i risultati in equipe e pianificare obiettivi educativi per le aree prioritarie emerse.";
-  else racc="La presenza di discrepanze suggerisce di avviare un colloquio diretto con "+nome+" per comprendere la sua percezione. E utile costruire una lettura condivisa del profilo in equipe, eventualmente coinvolgendo anche la famiglia.";
-  html+='<div style="padding:14px;background:#FFF8E6;border-radius:9px;border-left:3px solid #FAC775;">'
-    +'<p style="font-size:11px;font-weight:600;color:#854F0B;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">Raccomandazioni operative</p>'
-    +'<p style="font-size:13px;color:#444;line-height:1.75;">'+racc+'</p></div>';
-  document.getElementById("dp-sint").innerHTML=html;
-}
-
-window.deleteEntry = async function() {
-  if(!currentEntry||!confirm("Eliminare questa compilazione definitivamente?")) return;
-  try {
-    await deleteDoc(doc(db,"risposte",currentEntry.id));
-    allEntries = allEntries.filter(function(e){return e.id!==currentEntry.id;});
-    renderList();
-    window.closeModal();
-  } catch(e) {
-    alert("Errore nell'eliminazione.");
-  }
-};
-
-window.changePin = function() {
-  var old = document.getElementById("old-pin").value;
-  var nw  = document.getElementById("new-pin").value;
-  var cf  = document.getElementById("conf-pin").value;
-  var w   = document.getElementById("pin-ch-warn");
-  var ok  = document.getElementById("pin-ch-ok");
-  w.style.display="none"; ok.style.display="none";
-  if(old!==getPin()){w.textContent="PIN attuale errato.";w.style.display="block";return;}
-  if(nw.length<4){w.textContent="Almeno 4 cifre.";w.style.display="block";return;}
-  if(nw!==cf){w.textContent="I PIN non coincidono.";w.style.display="block";return;}
-  localStorage.setItem("sdq_pin2",nw);
-  document.getElementById("old-pin").value="";
-  document.getElementById("new-pin").value="";
-  document.getElementById("conf-pin").value="";
-  ok.style.display="block";
-};
-</script>
-</body>
-</html>
+  
