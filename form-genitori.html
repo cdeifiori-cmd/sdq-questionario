@@ -68,16 +68,19 @@ h1{font-size:22px;font-weight:600;margin-bottom:4px;}
       </div>
       <div class="info-grid">
         <div class="field"><label>Nome del bambino/ragazzo</label><input type="text" id="f-nome" placeholder="Es. Mario Rossi"></div>
-        <div class="field"><label>Data di nascita</label><input type="date" id="f-ddn"></div>
-        <div class="field"><label>Sesso</label>
-          <select id="f-sesso"><option value="">Seleziona...</option><option>Maschio</option><option>Femmina</option></select>
-        </div>
-        <div class="field"><label>Data compilazione</label><input type="date" id="f-data"></div>
+<div class="field"><label>Data compilazione</label><input type="date" id="f-data"></div>
       </div>
       <div class="field"><label>Compilatore</label><input type="text" id="f-compilatore" placeholder="Es. Maria Rossi"></div>
       <div style="margin-top:10px;">
-        <div class="field"><label>Ruolo</label>
-          <select id="f-ruolo"><option value="">Seleziona...</option><option>Madre</option><option>Padre</option><option>Altro</option></select>
+        <div class="field"><label>Parentela</label>
+          <select id="f-ruolo">
+            <option value="">Seleziona...</option>
+            <option>Mamma</option>
+            <option>Papa</option>
+            <option>Fratello</option>
+            <option>Sorella</option>
+            <option>Altro</option>
+          </select>
         </div>
       </div>
     </div>
@@ -302,8 +305,6 @@ window.submitForm = async function() {
     tipo: "genitore",
     codice: (document.getElementById("f-codice").value||"00").padStart(2,"0"),
     nome: document.getElementById("f-nome").value || "Anonimo",
-    ddn: document.getElementById("f-ddn").value,
-    sesso: document.getElementById("f-sesso").value,
     data: document.getElementById("f-data").value || new Date().toISOString().split("T")[0],
     compilatore: document.getElementById("f-compilatore").value || "",
     ruolo: document.getElementById("f-ruolo").value || "",

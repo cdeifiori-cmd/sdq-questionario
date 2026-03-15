@@ -101,16 +101,23 @@ h2{font-size:17px;font-weight:600;margin-bottom:12px;}
         </div>
       </div>
       <div id="nuova-pratica-panel" style="display:none;margin-bottom:1rem;padding:1rem;background:#f0faf6;border-radius:10px;border:1px solid #1D9E75;">
-        <p style="font-size:13px;font-weight:600;color:#0F6E56;margin-bottom:8px;">Nuova pratica creata</p>
-        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
-          <div>
-            <div style="font-size:11px;color:#666;margin-bottom:2px;">Codice da consegnare a ragazzo, educatore e genitore</div>
-            <div id="nuovo-codice-display" style="font-size:36px;font-weight:700;color:#1D9E75;letter-spacing:6px;"></div>
+        <p style="font-size:13px;font-weight:600;color:#0F6E56;margin-bottom:10px;">Crea nuova pratica</p>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:10px;">
+          <div class="field" style="max-width:320px;">
+            <label style="font-size:12px;color:#666;">Nome e cognome del ragazzo/a <span style="color:#c0392b;">*</span></label>
+            <input type="text" id="np-nome" placeholder="Es. Mario Rossi" style="border:1px solid #d0d0ce;border-radius:8px;padding:9px 12px;font-size:14px;background:#fff;color:#1a1a1a;">
           </div>
-          <button class="btn-sm" onclick="copiaCodicePratica()" id="copy-btn">Copia codice</button>
-          <button class="btn-sm" onclick="document.getElementById('nuova-pratica-panel').style.display='none'">Chiudi</button>
         </div>
-        <p style="font-size:12px;color:#666;margin-top:8px;">Comunica questo codice al ragazzo/a prima che compili il questionario. Educatore e genitore lo inseriranno nei loro form.</p>
+        <button class="btn-sm" style="background:#1D9E75;color:#fff;border-color:#1D9E75;padding:8px 16px;" onclick="confermaNuovaPratica()">Crea pratica</button>
+        <button class="btn-sm" style="margin-left:6px;" onclick="document.getElementById('nuova-pratica-panel').style.display='none';document.getElementById('np-nome').value=''">Annulla</button>
+        <div id="np-result" style="display:none;margin-top:12px;padding:12px;background:#fff;border-radius:9px;border:1px solid #c8e6d8;">
+          <div style="font-size:11px;color:#666;margin-bottom:4px;">Pratica creata — comunica codice e nome a tutti i compilatori</div>
+          <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+            <div id="nuovo-codice-display" style="font-size:32px;font-weight:700;color:#1D9E75;letter-spacing:6px;"></div>
+            <div id="np-nome-display" style="font-size:15px;font-weight:600;color:#1a1a1a;"></div>
+            <button class="btn-sm" onclick="copiaCodicePratica()" id="copy-btn">Copia codice</button>
+          </div>
+        </div>
       </div>
       <div id="entries-list"><div class="loading-center"><div class="spinner"></div></div></div>
     </div>
@@ -222,16 +229,23 @@ window.switchTab = function(btn, id) {
 
 var allEntries = [];
 
-window.nuovaPratica = async function() {
+window.nuovaPratica = function() {
+  document.getElementById("nuova-pratica-panel").style.display = "block";
+  document.getElementById("np-result").style.display = "none";
+  document.getElementById("np-nome").value = "";
+  document.getElementById("np-nome").focus();
+};
+
+window.confermaNuovaPratica = async function() {
+  var nome = document.getElementById("np-nome").value.trim();
+  if(!nome){ document.getElementById("np-nome").focus(); return; }
   try {
     var snap = await db.collection("risposte").get();
     var maxN = 0;
     snap.forEach(function(d){
-      var dd = d.data();
-      var n = parseInt(dd.codice||"0");
+      var n = parseInt(d.data().codice||"0");
       if(n > maxN) maxN = n;
     });
-    // Also check codici_pratiche collection
     try {
       var snap2 = await db.collection("pratiche").get();
       snap2.forEach(function(d){
@@ -240,18 +254,19 @@ window.nuovaPratica = async function() {
       });
     } catch(e2){}
     var newCodice = String(maxN+1).padStart(2,"0");
-    // Save the new pratica
-    await db.collection("pratiche").add( {
+    await db.collection("pratiche").add({
       codice: newCodice,
+      nome: nome,
       creato: new Date(),
       creatoIl: new Date().toISOString().split("T")[0]
     });
     document.getElementById("nuovo-codice-display").textContent = "#"+newCodice;
-    document.getElementById("nuova-pratica-panel").style.display = "block";
+    document.getElementById("np-nome-display").textContent = nome;
+    document.getElementById("np-result").style.display = "block";
     document.getElementById("copy-btn").textContent = "Copia codice";
     window.lastNewCodice = newCodice;
   } catch(e) {
-    alert("Errore nella creazione della pratica: "+e.message);
+    alert("Errore: "+e.message);
   }
 };
 
@@ -291,12 +306,12 @@ function renderList() {
       : e.tipo==="genitore"
       ? '<span style="background:#FAECE7;color:#712B13;font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;margin-left:6px;">Genitore</span>'
       : '<span style="background:#E1F5EE;color:#085041;font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;margin-left:6px;">Auto-report</span>';
-    var kk = e.nome.trim().toLowerCase();
+    var kk = (e.nome||'').trim().toLowerCase().replace(/\s+/g,' ');
     var eAutoReport = !e.tipo || e.tipo==="auto-report";
     var hasS = allEntries.some(function(x){
       var xAutoReport = !x.tipo || x.tipo==="auto-report";
       if(x.id===e.id) return false;
-      var sameGroup = (e.codice && x.codice) ? e.codice===x.codice : x.nome.trim().toLowerCase()===kk;
+      var sameGroup = (e.codice && x.codice) ? e.codice===x.codice : (x.nome||'').trim().toLowerCase().replace(/\s+/g,' ')===kk;
       return sameGroup && ((eAutoReport && !xAutoReport) || (!eAutoReport && xAutoReport));
     });
     var sintTag = hasS ? '<span style="background:#FAC775;color:#633806;font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;margin-left:6px;">Sintesi disponibile</span>' : '';
@@ -339,11 +354,11 @@ window.openDetail = function(id) {
   document.getElementById("dp-scale").classList.add("act");
   document.querySelectorAll(".modal-tab").forEach(function(b,i){b.classList.remove("act");if(i===0)b.classList.add("act");});
 
-  var kN = currentEntry.nome.trim().toLowerCase();
+  var kN = (currentEntry.nome||'').trim().toLowerCase().replace(/\s+/g,' ');
   var paired = allEntries.filter(function(x){
     if(x.id===currentEntry.id) return false;
     if(currentEntry.codice && x.codice) return currentEntry.codice===x.codice;
-    return x.nome.trim().toLowerCase()===kN;
+    return (x.nome||'').trim().toLowerCase().replace(/\s+/g,' ')===kN;
   });
   var curIsAuto = !currentEntry.tipo || currentEntry.tipo==="auto-report";
   var hasSint = paired.some(function(x){
