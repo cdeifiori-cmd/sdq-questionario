@@ -319,11 +319,11 @@ function groupMinori(){
 
   // Second pass: assign each entry to a group
   allEntries.forEach(function(e){
-    var cod=e.codice||"";
+    var cod=e.codice?String(parseInt(e.codice)||0).padStart(2,"0"):"";
     // If no codice, try to find by name match in pratiche
     if(!cod&&e.nome){
       var nc=nameToCodice[normalizeNome(e.nome)];
-      if(nc)cod=nc;
+      if(nc)cod=String(parseInt(nc)||0).padStart(2,"0");
     }
     var key=cod?("c:"+cod):("n:"+normalizeNome(e.nome));
     if(!groups[key]){
@@ -336,8 +336,9 @@ function groupMinori(){
 
   // Add pratiche that have no entries yet
   pratiche.forEach(function(p){
-    var key="c:"+p.codice;
-    if(!groups[key])groups[key]={codice:p.codice,nome:p.nome||"",entries:[]};
+    var pCod=p.codice?String(parseInt(p.codice)||0).padStart(2,"0"):p.codice;
+    var key="c:"+pCod;
+    if(!groups[key])groups[key]={codice:pCod,nome:p.nome||"",entries:[]};
     if(p.nome&&!groups[key].nome)groups[key].nome=p.nome;
   });
 
@@ -401,10 +402,16 @@ var radarCharts=[];
 
 window.openMinore=function(codice,nomeEnc){
   var nome=decodeURIComponent(nomeEnc);
-  // Find all entries for this minore
+  var normNome=normalizeNome(nome);
+  // Normalize codice: pad to 2 digits for comparison
+  var normCod=codice?String(parseInt(codice)||0).padStart(2,"0"):"";
+  // Find all entries: match by codice (normalized) OR by name
   var entries=allEntries.filter(function(e){
-    if(codice)return e.codice===codice;
-    return normalizeNome(e.nome)===normalizeNome(nome);
+    var eCod=e.codice?String(parseInt(e.codice)||0).padStart(2,"0"):"";
+    var eNome=normalizeNome(e.nome);
+    if(normCod && eCod) return eCod===normCod;
+    if(normCod && !eCod) return eNome===normNome;
+    return eNome===normNome;
   });
   var auto=entries.find(function(e){return!e.tipo||e.tipo==="auto-report";});
   var edu=entries.find(function(e){return e.tipo==="educatore";});
