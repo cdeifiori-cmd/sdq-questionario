@@ -72,16 +72,19 @@ h2{font-size:17px;font-weight:600;margin-bottom:12px;}
 @media print {
   body { background: #fff !important; font-size: 13px; }
   .container { padding: 0; max-width: 100%; }
-  #screen-login, #screen-dash .nav-bar, #screen-dash > div:first-child,
-  .btn-sm, .btn-danger, .modal-tabs, #tab-sint-btn,
+  #screen-dash { display: none !important; }
   #screen-login { display: none !important; }
+  #legenda-stampa { display: block !important; }
   .modal-bg { position: static !important; background: none !important; padding: 0 !important; }
   .modal { box-shadow: none !important; border-radius: 0 !important; padding: 0 !important; max-width: 100% !important; }
+  #modal-wrap { display: block !important; }
   .det-pane { display: block !important; margin-bottom: 2rem; border-bottom: 1px solid #ccc; padding-bottom: 1rem; }
+  #legenda-stampa + #modal-wrap .modal { page-break-before: always; }
   .det-pane + .det-pane { page-break-before: always; }
   canvas { max-width: 400px !important; }
   .print-hide { display: none !important; }
   .print-header { display: block !important; }
+  .modal-tabs, .btn-sm, .btn-danger, #tab-sint-btn { display: none !important; }
 }
 .print-header { display: none; margin-bottom: 1rem; }
 @media screen {
@@ -154,6 +157,109 @@ h2{font-size:17px;font-weight:600;margin-bottom:12px;}
         <p id="pin-ch-ok" style="font-size:12px;color:#0F6E56;display:none;margin-top:6px;">PIN aggiornato!</p>
         <button class="btn btn-primary" style="margin-top:12px;" onclick="changePin()">Aggiorna PIN</button>
       </div>
+    </div>
+  </div>
+</div>
+
+<div id="legenda-stampa" style="display:none;">
+  <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:720px;margin:0 auto;padding:2rem;font-size:13px;color:#1a1a1a;line-height:1.7;">
+    <div style="border-bottom:3px solid #1D9E75;padding-bottom:.75rem;margin-bottom:1.5rem;">
+      <div style="font-size:22px;font-weight:700;color:#1a1a1a;">Legenda SDQ</div>
+      <div style="font-size:13px;color:#666;margin-top:3px;">Guida alla lettura dei risultati del Questionario sui Punti di Forza e Difficolta</div>
+    </div>
+
+    <h3 style="font-size:14px;font-weight:700;margin-bottom:.5rem;color:#1D9E75;">Struttura dello strumento</h3>
+    <p>Lo SDQ si compone di <strong>25 item</strong> divisi in 5 scale da 5 domande ciascuna. Ogni risposta vale: <strong>0 = Non vero</strong>, <strong>1 = Parzialmente vero</strong>, <strong>2 = Assolutamente vero</strong> (alcune domande sono invertite in fase di correzione). Ogni scala produce un punteggio da 0 a 10.</p>
+    <ul style="margin:.5rem 0 1rem 1.2rem;">
+      <li>Sintomi Emotivi (ES)</li>
+      <li>Problemi di Condotta (EC)</li>
+      <li>Iperattivita / Disattenzione (IP)</li>
+      <li>Problemi con i Pari / Relazioni (C)</li>
+      <li>Comportamento Prosociale (PR)</li>
+    </ul>
+
+    <h3 style="font-size:14px;font-weight:700;margin-bottom:.75rem;color:#1D9E75;">1. Punteggio Totale Difficolta (0–40)</h3>
+    <p style="margin-bottom:.5rem;">Somma di ES + EC + IP + C. <strong>Il prosociale NON rientra nel totale.</strong></p>
+    <table style="width:100%;border-collapse:collapse;margin-bottom:1.25rem;font-size:12px;">
+      <thead><tr style="background:#f0faf6;">
+        <th style="padding:7px 10px;text-align:left;border:1px solid #d0e8dc;">Punteggio</th>
+        <th style="padding:7px 10px;text-align:left;border:1px solid #d0e8dc;">Interpretazione</th>
+      </tr></thead>
+      <tbody>
+        <tr><td style="padding:6px 10px;border:1px solid #e8e8e6;">0 – 13</td><td style="padding:6px 10px;border:1px solid #e8e8e6;"><span style="background:#E1F5EE;color:#085041;padding:2px 8px;border-radius:20px;font-weight:600;font-size:11px;">Nella norma</span></td></tr>
+        <tr><td style="padding:6px 10px;border:1px solid #e8e8e6;">14 – 16</td><td style="padding:6px 10px;border:1px solid #e8e8e6;"><span style="background:#FAC775;color:#633806;padding:2px 8px;border-radius:20px;font-weight:600;font-size:11px;">Borderline</span></td></tr>
+        <tr><td style="padding:6px 10px;border:1px solid #e8e8e6;">17 – 40</td><td style="padding:6px 10px;border:1px solid #e8e8e6;"><span style="background:#FCEBEB;color:#791F1F;padding:2px 8px;border-radius:20px;font-weight:600;font-size:11px;">Elevato / Rischio clinico</span></td></tr>
+      </tbody>
+    </table>
+
+    <h3 style="font-size:14px;font-weight:700;margin-bottom:.75rem;color:#1D9E75;">2. Scale singole</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.25rem;">
+      <div>
+        <p style="font-weight:600;margin-bottom:.35rem;">Sintomi Emotivi — ES<br><span style="font-weight:400;font-size:11px;color:#666;">(ansia, tristezza, paure)</span></p>
+        <table style="width:100%;border-collapse:collapse;font-size:11px;">
+          <tr style="background:#f8f8f7;"><th style="padding:5px 8px;border:1px solid #e0e0de;text-align:left;">Punteggio</th><th style="padding:5px 8px;border:1px solid #e0e0de;text-align:left;">Fascia</th></tr>
+          <tr><td style="padding:5px 8px;border:1px solid #e8e8e6;">0 – 3</td><td style="padding:5px 8px;border:1px solid #e8e8e6;">Normale</td></tr>
+          <tr><td style="padding:5px 8px;border:1px solid #e8e8e6;">4</td><td style="padding:5px 8px;border:1px solid #e8e8e6;">Borderline</td></tr>
+          <tr><td style="padding:5px 8px;border:1px solid #e8e8e6;">5 – 10</td><td style="padding:5px 8px;border:1px solid #e8e8e6;">Elevato</td></tr>
+        </table>
+      </div>
+      <div>
+        <p style="font-weight:600;margin-bottom:.35rem;">Problemi di Condotta — EC<br><span style="font-weight:400;font-size:11px;color:#666;">(oppositività, aggressivita, regole)</span></p>
+        <table style="width:100%;border-collapse:collapse;font-size:11px;">
+          <tr style="background:#f8f8f7;"><th style="padding:5px 8px;border:1px solid #e0e0de;text-align:left;">Punteggio</th><th style="padding:5px 8px;border:1px solid #e0e0de;text-align:left;">Fascia</th></tr>
+          <tr><td style="padding:5px 8px;border:1px solid #e8e8e6;">0 – 2</td><td style="padding:5px 8px;border:1px solid #e8e8e6;">Normale</td></tr>
+          <tr><td style="padding:5px 8px;border:1px solid #e8e8e6;">3</td><td style="padding:5px 8px;border:1px solid #e8e8e6;">Borderline</td></tr>
+          <tr><td style="padding:5px 8px;border:1px solid #e8e8e6;">4 – 10</td><td style="padding:5px 8px;border:1px solid #e8e8e6;">Elevato</td></tr>
+        </table>
+      </div>
+      <div>
+        <p style="font-weight:600;margin-bottom:.35rem;">Iperattivita / Disattenzione — IP</p>
+        <table style="width:100%;border-collapse:collapse;font-size:11px;">
+          <tr style="background:#f8f8f7;"><th style="padding:5px 8px;border:1px solid #e0e0de;text-align:left;">Punteggio</th><th style="padding:5px 8px;border:1px solid #e0e0de;text-align:left;">Fascia</th></tr>
+          <tr><td style="padding:5px 8px;border:1px solid #e8e8e6;">0 – 5</td><td style="padding:5px 8px;border:1px solid #e8e8e6;">Normale</td></tr>
+          <tr><td style="padding:5px 8px;border:1px solid #e8e8e6;">6</td><td style="padding:5px 8px;border:1px solid #e8e8e6;">Borderline</td></tr>
+          <tr><td style="padding:5px 8px;border:1px solid #e8e8e6;">7 – 10</td><td style="padding:5px 8px;border:1px solid #e8e8e6;">Elevato</td></tr>
+        </table>
+      </div>
+      <div>
+        <p style="font-weight:600;margin-bottom:.35rem;">Problemi con i Pari — C<br><span style="font-weight:400;font-size:11px;color:#666;">(isolamento, difficolta relazionali)</span></p>
+        <table style="width:100%;border-collapse:collapse;font-size:11px;">
+          <tr style="background:#f8f8f7;"><th style="padding:5px 8px;border:1px solid #e0e0de;text-align:left;">Punteggio</th><th style="padding:5px 8px;border:1px solid #e0e0de;text-align:left;">Fascia</th></tr>
+          <tr><td style="padding:5px 8px;border:1px solid #e8e8e6;">0 – 2</td><td style="padding:5px 8px;border:1px solid #e8e8e6;">Normale</td></tr>
+          <tr><td style="padding:5px 8px;border:1px solid #e8e8e6;">3</td><td style="padding:5px 8px;border:1px solid #e8e8e6;">Borderline</td></tr>
+          <tr><td style="padding:5px 8px;border:1px solid #e8e8e6;">4 – 10</td><td style="padding:5px 8px;border:1px solid #e8e8e6;">Elevato</td></tr>
+        </table>
+      </div>
+      <div style="grid-column:1/-1;">
+        <p style="font-weight:600;margin-bottom:.35rem;">Comportamento Prosociale — PR<br><span style="font-weight:400;font-size:11px;color:#666;">(questa scala e positiva: si legge al contrario)</span></p>
+        <table style="width:50%;border-collapse:collapse;font-size:11px;">
+          <tr style="background:#f8f8f7;"><th style="padding:5px 8px;border:1px solid #e0e0de;text-align:left;">Punteggio</th><th style="padding:5px 8px;border:1px solid #e0e0de;text-align:left;">Fascia</th></tr>
+          <tr><td style="padding:5px 8px;border:1px solid #e8e8e6;">6 – 10</td><td style="padding:5px 8px;border:1px solid #e8e8e6;">Adeguato</td></tr>
+          <tr><td style="padding:5px 8px;border:1px solid #e8e8e6;">5</td><td style="padding:5px 8px;border:1px solid #e8e8e6;">Borderline</td></tr>
+          <tr><td style="padding:5px 8px;border:1px solid #e8e8e6;">0 – 4</td><td style="padding:5px 8px;border:1px solid #e8e8e6;">Basso comportamento prosociale</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <h3 style="font-size:14px;font-weight:700;margin-bottom:.75rem;color:#1D9E75;">3. Indici compositi</h3>
+    <p style="margin-bottom:.75rem;">Due macro-dimensioni molto utilizzate nelle equipe educative europee:</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
+      <div style="padding:12px;border:1px solid #c8e6d8;border-radius:9px;background:#f0faf6;">
+        <p style="font-weight:700;color:#0F6E56;margin-bottom:4px;">Internalizzazione</p>
+        <p style="font-size:11px;color:#555;margin-bottom:6px;">Difficolta rivolte verso se stessi<br><strong>ES + C</strong> — Range 0–20</p>
+        <p style="font-size:11px;color:#555;">Indica: ansia, ritiro sociale, tristezza, isolamento.</p>
+        <p style="font-size:11px;margin-top:6px;"><span style="background:#E1F5EE;color:#085041;padding:1px 6px;border-radius:10px;">0–5 Normale</span> <span style="background:#FAC775;color:#633806;padding:1px 6px;border-radius:10px;">6–7 Borderline</span> <span style="background:#FCEBEB;color:#791F1F;padding:1px 6px;border-radius:10px;">8–20 Elevato</span></p>
+      </div>
+      <div style="padding:12px;border:1px solid #f0d8b4;border-radius:9px;background:#fff8f0;">
+        <p style="font-weight:700;color:#854F0B;margin-bottom:4px;">Esternalizzazione</p>
+        <p style="font-size:11px;color:#555;margin-bottom:6px;">Difficolta rivolte verso l'esterno<br><strong>EC + IP</strong> — Range 0–20</p>
+        <p style="font-size:11px;color:#555;">Indica: impulsivita, aggressivita, oppositività.</p>
+        <p style="font-size:11px;margin-top:6px;"><span style="background:#E1F5EE;color:#085041;padding:1px 6px;border-radius:10px;">0–5 Normale</span> <span style="background:#FAC775;color:#633806;padding:1px 6px;border-radius:10px;">6–7 Borderline</span> <span style="background:#FCEBEB;color:#791F1F;padding:1px 6px;border-radius:10px;">8–20 Elevato</span></p>
+      </div>
+    </div>
+
+    <div style="padding:10px 14px;background:#f8f8f7;border-radius:8px;font-size:11px;color:#888;margin-top:1rem;">
+      Lo SDQ (Strengths and Difficulties Questionnaire) e stato sviluppato da Robert Goodman (1997). I punteggi normativi fanno riferimento alla standardizzazione italiana. Questo documento e a scopo informativo e di supporto educativo: non sostituisce una valutazione clinica professionale.
     </div>
   </div>
 </div>
@@ -920,141 +1026,4 @@ function renderSint(eA, eB) {
     +'</div>'
     +(dirMatch
       ?'<p style="font-size:12px;color:#0F6E56;margin-top:8px;">I due osservatori concordano sulla direzione del profilo.</p>'
-      :'<p style="font-size:12px;color:#BA7517;margin-top:8px;">I due osservatori descrivono direzioni diverse: il disagio potrebbe manifestarsi diversamente nei vari contesti di vita.</p>')
-    +'</div>';
-  html+='<p class="lbl">Confronto per scala</p>';
-  scales.forEach(function(s){
-    var va=auto.scores[s]; var ve=edu.scores[s];
-    var ba=band(s,va); var be=band(s,ve);
-    var diff=Math.abs(va-ve);
-    var cL,cC,bgC;
-    if(ba===be){cL="Concordante";cC="#1D9E75";bgC="#E1F5EE";}
-    else if(diff<=2){cL="Lieve discrepanza";cC="#BA7517";bgC="#FAEEDA";}
-    else{cL="Discrepanza significativa";cC="#A32D2D";bgC="#FCEBEB";}
-    var cT;
-    if(ba===be) cT="I due profili concordano su questa scala.";
-    else if(diff<=2) cT="Lieve differenza: auto-report "+va+", educatore "+ve+".";
-    else cT="Differenza marcata: il ragazzo riferisce "+va+" ("+bl(ba)+"), l'educatore osserva "+ve+" ("+bl(be)+"). Questo scarto merita un approfondimento nel colloquio educativo.";
-    html+='<div style="padding:10px 12px;background:'+bgC+';border-radius:9px;border-left:3px solid '+cC+';margin-bottom:8px;">'
-      +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">'
-      +'<span style="font-size:13px;font-weight:600;">'+slbl[s]+'</span>'
-      +'<span style="font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;background:rgba(0,0,0,0.08);color:'+cC+';">'+cL+'</span></div>'
-      +'<div style="display:flex;gap:12px;margin-bottom:6px;">'
-      +'<div style="flex:1;"><div style="font-size:11px;color:#666;margin-bottom:3px;">Auto-report: <strong>'+va+'/10</strong> <span class="badge '+bc(ba)+'">'+bl(ba)+'</span></div><div style="background:rgba(0,0,0,0.08);border-radius:4px;height:6px;overflow:hidden;"><div style="height:6px;border-radius:4px;background:#1D9E75;width:'+(va/10*100)+'%;"></div></div></div>'
-      +'<div style="flex:1;"><div style="font-size:11px;color:#666;margin-bottom:3px;">Educatore: <strong>'+ve+'/10</strong> <span class="badge '+bc(be)+'">'+bl(be)+'</span></div><div style="background:rgba(0,0,0,0.08);border-radius:4px;height:6px;overflow:hidden;"><div style="height:6px;border-radius:4px;background:#534AB7;width:'+(ve/10*100)+'%;"></div></div></div>'
-      +'</div>'
-      +'<p style="font-size:12px;color:#555;line-height:1.5;">'+cT+'</p></div>';
-  });
-  html+='<p class="lbl">Aree educative prioritarie</p>';
-  if(priorita.length===0){
-    html+='<div style="padding:12px;background:#E1F5EE;border-radius:9px;font-size:13px;color:#085041;">Il profilo non evidenzia aree critiche in nessuna delle due valutazioni. Si raccomanda un monitoraggio periodico e il consolidamento dei punti di forza.</div>';
-  } else {
-    priorita.forEach(function(p,idx){
-      var pC=p.livello==="borderline"?"#BA7517":"#A32D2D";
-      var pB=p.livello==="borderline"?"#FAEEDA":"#FCEBEB";
-      var pT=p.livello==="borderline"?"Monitorare":"Priorita alta";
-      html+='<div style="padding:12px;background:'+pB+';border-radius:9px;border-left:3px solid '+pC+';margin-bottom:8px;">'
-        +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">'
-        +'<span style="font-size:13px;font-weight:600;color:'+pC+';">'+(idx+1)+'. '+p.info.label+'</span>'
-        +'<span style="font-size:10px;font-weight:600;padding:2px 7px;border-radius:20px;background:'+pC+';color:#fff;">'+pT+'</span>'
-        +'</div>'
-        +'<p style="font-size:12px;color:#555;line-height:1.55;">'+p.info.desc+'</p>'
-        +'</div>';
-    });
-  }
-  html+='<p class="lbl">Interpretazione integrata</p>';
-  var interp;
-  if(totDiff<=4) interp="I due profili sono sostanzialmente concordanti (differenza totale: "+totDiff+" punti). La percezione di "+nome+" su se stesso e l'osservazione dell'educatore descrivono un quadro coerente, aumentando l'attendibilita della valutazione.";
-  else if(totDiff>8) interp="I due profili mostrano una discrepanza rilevante nel punteggio totale (auto-report: "+auto.tot+", educatore: "+edu.tot+", differenza: "+totDiff+" punti). Questo scarto merita un approfondimento attraverso un colloquio diretto.";
-  else interp="I due profili mostrano una concordanza parziale (differenza totale: "+totDiff+" punti). Alcune scale convergono, altre mostrano differenze utili da esplorare nel contesto educativo.";
-  if(discr.length>0) interp+=" Le scale con maggiore discrepanza sono: <strong>"+discr.map(function(s){return slbl[s];}).join(", ")+"</strong>.";
-  html+='<div style="padding:14px;background:#f8f8f7;border-radius:9px;margin-bottom:8px;"><p style="font-size:13px;color:#444;line-height:1.75;">'+interp+'</p></div>';
-  var racc;
-  if(discr.length===0) racc="La coerenza tra i due profili permette di progettare interventi mirati. Si raccomanda di condividere i risultati in equipe e pianificare obiettivi educativi per le aree prioritarie emerse.";
-  else racc="La presenza di discrepanze suggerisce di avviare un colloquio diretto con "+nome+" per comprendere la sua percezione. E utile costruire una lettura condivisa del profilo in equipe, eventualmente coinvolgendo anche la famiglia.";
-  html+='<div style="padding:14px;background:#FFF8E6;border-radius:9px;border-left:3px solid #FAC775;">'
-    +'<p style="font-size:11px;font-weight:600;color:#854F0B;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">Raccomandazioni operative</p>'
-    +'<p style="font-size:13px;color:#444;line-height:1.75;">'+racc+'</p></div>';
-
-  // Relazione di sintesi integrata
-  html += '<p class="lbl" style="margin-top:1.5rem;">Relazione di sintesi integrata</p>';
-  html += '<div style="padding:10px 14px;background:#f0faf6;border-radius:9px;margin-bottom:1rem;border-left:3px solid #1D9E75;">'
-    +'<p style="font-size:13px;color:#444;line-height:1.7;">Questo documento integra le valutazioni di <strong>'+nome+'</strong> provenienti da piu fonti: '
-    +'<span style="background:#E1F5EE;color:#085041;font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;">Auto-report ragazzo/a</span> '
-    +(edu.tipo==="genitore"?'e <span style="background:#FAECE7;color:#712B13;font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;">Genitore</span>':'e <span style="background:#EEEDFE;color:#3C3489;font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;">Educatore</span>')
-    +'. La valutazione multi-informante aumenta l\'attendibilita del profilo e consente di distinguere tra comportamenti situazionali e pattern stabili.</p></div>';
-
-  var autoLabel = "Auto-report ("+auto.nome+", "+auto.data+")";
-  var eduLabel = (edu.tipo==="genitore"?"Genitore":"Educatore")+(edu.compilatore?" — "+edu.compilatore:"")+" ("+edu.data+")";
-  html += '<div style="border:1px solid #e8e8e6;border-radius:12px;padding:1.25rem;font-size:13px;">';
-  html += '<div class="rel-section"><h4>Fonti della valutazione</h4>'
-    +'<p><strong>Fonte 1 — '+autoLabel+':</strong> Punteggio totale difficolta '+auto.tot+'/40 ('+bl(band("TOT",auto.tot))+').<br>'
-    +'<strong>Fonte 2 — '+eduLabel+':</strong> Punteggio totale difficolta '+edu.tot+'/40 ('+bl(band("TOT",edu.tot))+').</p></div>';
-  html += '<div class="rel-section"><h4>Livello di concordanza</h4>'
-    +'<p>'+concDesc+'</p></div>';
-  html += '<div class="rel-section"><h4>Direzione del profilo</h4>'
-    +'<p>Ragazzo/a (auto-report): <strong>'+dirA+'</strong>. '
-    +(edu.tipo==="genitore"?"Genitore":"Educatore")+': <strong>'+dirE+'</strong>. '
-    +(dirMatch?'I due profili concordano sulla direzione del disagio.':'I due profili indicano direzioni diverse: il disagio potrebbe manifestarsi in modo differente nei vari contesti.')+'</p></div>';
-  if(priorita.length>0){
-    html += '<div class="rel-section"><h4>Aree di intervento prioritarie</h4><ul style="padding-left:1rem;line-height:2;">';
-    priorita.forEach(function(p,idx){
-      html += '<li><strong>'+p.info.label+'</strong>: '+p.info.desc+'</li>';
-    });
-    html += '</ul></div>';
-  }
-  html += '<div class="rel-section" style="margin-bottom:0;"><h4>Note conclusive</h4>'
-    +'<p>La presente relazione di sintesi e redatta a scopo informativo e di supporto alla programmazione educativa. Non sostituisce una valutazione psicologica condotta da professionisti abilitati. Si raccomanda la massima riservatezza nel trattamento dei dati.</p></div>';
-  html += '</div>';
-
-  document.getElementById("dp-sint").innerHTML=html;
-}
-
-window.stampaDettaglio = function() {
-  if(!currentEntry) return;
-  var nome = currentEntry.nome || "Anonimo";
-  var cod = currentEntry.codice ? "#"+currentEntry.codice+" - " : "";
-  var tipo = currentEntry.tipo==="educatore" ? "Educatore" : currentEntry.tipo==="genitore" ? "Genitore" : "Auto-report";
-  var header = "<div class='print-header' style='margin-bottom:1rem;padding-bottom:.75rem;border-bottom:2px solid #1D9E75;'>"
-    +"<div style='font-size:18px;font-weight:700;'>SDQ — Valutazione</div>"
-    +"<div style='font-size:14px;color:#444;margin-top:4px;'>"+cod+nome+" &nbsp;&middot;&nbsp; "+tipo+" &nbsp;&middot;&nbsp; "+currentEntry.data+"</div>"
-    +"</div>";
-  document.querySelectorAll(".det-pane").forEach(function(p){
-    var existing = p.querySelector(".print-header");
-    if(existing) existing.remove();
-    p.insertAdjacentHTML("afterbegin", header);
-  });
-  window.print();
-};
-
-window.deleteEntry = async function() {
-  if(!currentEntry||!confirm("Eliminare questa compilazione definitivamente?")) return;
-  try {
-    await db.collection("risposte").doc(currentEntry.id).delete();
-    allEntries = allEntries.filter(function(e){return e.id!==currentEntry.id;});
-    renderList();
-    window.closeModal();
-  } catch(e) {
-    alert("Errore nell'eliminazione.");
-  }
-};
-
-window.changePin = function() {
-  var old = document.getElementById("old-pin").value;
-  var nw  = document.getElementById("new-pin").value;
-  var cf  = document.getElementById("conf-pin").value;
-  var w   = document.getElementById("pin-ch-warn");
-  var ok  = document.getElementById("pin-ch-ok");
-  w.style.display="none"; ok.style.display="none";
-  if(old!==getPin()){w.textContent="PIN attuale errato.";w.style.display="block";return;}
-  if(nw.length<4){w.textContent="Almeno 4 cifre.";w.style.display="block";return;}
-  if(nw!==cf){w.textContent="I PIN non coincidono.";w.style.display="block";return;}
-  localStorage.setItem("sdq_pin2",nw);
-  document.getElementById("old-pin").value="";
-  document.getElementById("new-pin").value="";
-  document.getElementById("conf-pin").value="";
-  ok.style.display="block";
-};
-</script>
-</body>
-</html>
+      :'<p style="font-size:12px;color:#BA7517;margin-top:8px;">I due osservatori descrivono direzioni diverse: il disagio potrebbe manifestarsi diversamente nei vari contesti di vita.</p
