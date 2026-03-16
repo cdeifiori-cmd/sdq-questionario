@@ -80,18 +80,39 @@ h2{font-size:17px;font-weight:600;margin-bottom:12px;}
 .print-btn{background:#f8f8f7;border:1px solid #e0e0de;border-radius:7px;padding:5px 12px;font-size:12px;cursor:pointer;color:#444;}
 .print-btn:hover{background:#f0f0ee;}
 @media print{
-  body{background:#fff !important;}
+  @page{size:A4 portrait;margin:18mm 16mm 18mm 16mm;}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
+  body{background:#fff !important;font-size:12px !important;color:#1a1a1a !important;}
+  .container{display:none !important;}
   #screen-dash{display:none !important;}
   #screen-login{display:none !important;}
+  #modal-wrap{display:block !important;position:static !important;}
+  .modal-bg{position:static !important;background:none !important;padding:0 !important;display:block !important;}
+  .modal{box-shadow:none !important;border-radius:0 !important;padding:0 !important;max-width:100% !important;width:100% !important;}
+  /* Legenda: primo foglio */
   #legenda-stampa{display:block !important;}
-  .modal-bg{position:static !important;background:none !important;padding:0 !important;}
-  .modal{box-shadow:none !important;border-radius:0 !important;padding:0 !important;max-width:100% !important;}
-  #modal-wrap{display:block !important;}
-  .fonte-tabs,.sub-tabs,.btn-sm,.btn-danger,.print-btn{display:none !important;}
+  #legenda-stampa + #modal-wrap{page-break-before:always;}
+  /* Nasconde UI */
+  .fonte-tabs,.sub-tabs,.btn-sm,.btn-danger,.print-btn,#det-header > div:last-child{display:none !important;}
+  /* Mostra tutto il contenuto */
   .fonte-pane{display:block !important;}
-  .sub-pane{display:block !important; margin-bottom:1.5rem; border-bottom:1px solid #ddd; padding-bottom:1rem;}
-  .fonte-pane + .fonte-pane{page-break-before:always;}
+  .sub-pane{display:block !important;}
+  /* Separazioni tra sezioni */
+  .fonte-pane{page-break-before:always;}
+  .fonte-pane:first-child{page-break-before:avoid;}
+  .sub-pane{page-break-inside:avoid;}
+  .sub-pane + .sub-pane{page-break-before:always;}
+  /* Tabelle e blocchi non spezzati */
+  table{page-break-inside:auto;}
+  tr{page-break-inside:avoid;page-break-after:auto;}
+  .rel-section{page-break-inside:avoid;}
+  .interp-block{page-break-inside:avoid;}
+  /* Intestazione su ogni foglio */
+  .print-page-header{display:block !important;}
+  /* Fix modal header */
+  #det-header{display:block !important;}
 }
+.print-page-header{display:none;}
 </style>
 </head>
 <body>
@@ -212,8 +233,12 @@ h2{font-size:17px;font-weight:600;margin-bottom:12px;}
     <div class="modal">
       <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;">
         <div id="det-header"></div>
-        <div style="display:flex;gap:8px;align-items:center;">
-          <button class="print-btn" onclick="stampaDettaglio()">&#128438; Stampa</button>
+        <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;" id="print-btns-area">
+          <button class="print-btn" onclick="stampaDettaglio()" title="Stampa tutto">&#128438; Tutto</button>
+          <button class="print-btn" id="pbtn-auto" onclick="stampaDettaglio('auto')" style="display:none;">&#127891; Auto-report</button>
+          <button class="print-btn" id="pbtn-edu" onclick="stampaDettaglio('edu')" style="display:none;">&#128105;&#8205;&#127979; Educatore</button>
+          <button class="print-btn" id="pbtn-gen" onclick="stampaDettaglio('gen')" style="display:none;">&#128106; Genitore</button>
+          <button class="print-btn" id="pbtn-report" onclick="stampaDettaglio('report')" style="display:none;">&#9889; Report</button>
           <button onclick="closeModal()" style="font-size:24px;cursor:pointer;color:#aaa;background:none;border:none;line-height:1;padding:0 0 0 8px;">&#215;</button>
         </div>
       </div>
@@ -489,6 +514,13 @@ window.openMinore=function(codice,nomeEnc){
   radarCharts.forEach(function(c){try{c.destroy();}catch(e){}});
   radarCharts=[];
   setTimeout(function(){initRadarCharts(auto,edu,gen);},100);
+
+  // Show section-specific print buttons
+  document.getElementById("pbtn-auto").style.display=currentMinore.auto?"inline-block":"none";
+  document.getElementById("pbtn-edu").style.display=currentMinore.edu?"inline-block":"none";
+  document.getElementById("pbtn-gen").style.display=currentMinore.gen?"inline-block":"none";
+  var hasReport=(currentMinore.auto&&(currentMinore.edu||currentMinore.gen))||(currentMinore.edu&&currentMinore.gen);
+  document.getElementById("pbtn-report").style.display=hasReport?"inline-block":"none";
 
   document.getElementById("modal-wrap").style.display="block";
   document.body.style.overflow="hidden";
@@ -1133,26 +1165,34 @@ window.closeModal=function(){
 };
 window.closeModalBg=function(e){if(e.target===e.currentTarget)window.closeModal();};
 
-window.stampaDettaglio=function(){
+window.stampaDettaglio=function(soloTab){
+  // soloTab: undefined=tutto, oppure key specifica es "auto","edu","gen","report"
   document.getElementById("modal-wrap").style.display="block";
-  // Make sure radar-report is initialized
-  if(currentMinore){
-    var canvas=document.getElementById("radar-report");
-    if(canvas){
-      var fontiDisp=[];
-      if(currentMinore.auto)fontiDisp.push({e:currentMinore.auto,label:"Auto-report",color:"#1D9E75"});
-      if(currentMinore.edu)fontiDisp.push({e:currentMinore.edu,label:"Educatore",color:"#534AB7"});
-      if(currentMinore.gen)fontiDisp.push({e:currentMinore.gen,label:"Genitore",color:"#D85A30"});
-      var datasets=fontiDisp.map(function(f){
-        return{label:f.label,data:[f.e.scores.ES,f.e.scores.IP,f.e.scores.EC,f.e.scores.C,f.e.scores.PR],backgroundColor:f.color+"26",borderColor:f.color,borderWidth:2,pointBackgroundColor:f.color,pointRadius:4};
-      });
-      try{
-        var rc=new Chart(canvas,{type:"radar",data:{labels:["ES","IP","EC","C","PR"],datasets:datasets},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:"bottom"}},scales:{r:{min:0,max:10}}}});
-        radarCharts.push(rc);
-      }catch(e2){}
-    }
+  // Inizializza radar report se necessario
+  var canvas=document.getElementById("radar-report");
+  if(canvas&&!canvas._chartDone&&currentMinore){
+    canvas._chartDone=true;
+    var fd=[];
+    if(currentMinore.auto)fd.push({e:currentMinore.auto,label:"Auto-report",color:"#1D9E75"});
+    if(currentMinore.edu)fd.push({e:currentMinore.edu,label:"Educatore",color:"#534AB7"});
+    if(currentMinore.gen)fd.push({e:currentMinore.gen,label:"Genitore",color:"#D85A30"});
+    var ds=fd.map(function(f){return{label:f.label,data:[f.e.scores.ES,f.e.scores.IP,f.e.scores.EC,f.e.scores.C,f.e.scores.PR],backgroundColor:f.color+"26",borderColor:f.color,borderWidth:2,pointBackgroundColor:f.color,pointRadius:4};});
+    try{var rc=new Chart(canvas,{type:"radar",data:{labels:["ES","IP","EC","C","PR"],datasets:ds},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:"bottom"}},scales:{r:{min:0,max:10}}}});radarCharts.push(rc);}catch(e2){}
   }
-  window.print();
+  if(soloTab){
+    // Nascondi tutti i pane tranne quello selezionato
+    document.querySelectorAll(".fonte-pane").forEach(function(p){
+      p.dataset.printHidden = p.id!=="fp-"+soloTab?"1":"0";
+      if(p.id!=="fp-"+soloTab) p.style.setProperty("display","none","important");
+    });
+    window.print();
+    // Ripristina
+    document.querySelectorAll(".fonte-pane").forEach(function(p){
+      if(p.dataset.printHidden==="1") p.style.removeProperty("display");
+    });
+  } else {
+    window.print();
+  }
 };
 
 async function deleteEntry(id){
