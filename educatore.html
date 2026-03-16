@@ -98,7 +98,7 @@ h2{font-size:17px;font-weight:600;margin-bottom:12px;}
   #screen-dash{display:none !important;}
   #screen-login{display:none !important;}
   .fonte-tabs,.sub-tabs,.btn-sm,.btn-danger,.print-btn,.nav-bar{display:none !important;}
-  #det-header{display:none !important;}
+  #modal-header-bar{display:none !important;}
   #print-btns-area{display:none !important;}
 
   /* ── Mostra modal in layout statico ── */
@@ -400,7 +400,7 @@ h2{font-size:17px;font-weight:600;margin-bottom:12px;}
 <div id="modal-wrap" style="display:none;">
   <div class="modal-bg" onclick="closeModalBg(event)">
     <div class="modal">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;">
+      <div id="modal-header-bar" style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;">
         <div id="det-header"></div>
         <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;" id="print-btns-area">
           <button class="print-btn" onclick="stampaDettaglio()" title="Stampa tutto">&#128438; Tutto</button>
@@ -412,6 +412,7 @@ h2{font-size:17px;font-weight:600;margin-bottom:12px;}
         </div>
       </div>
       <!-- FONTE TABS -->
+      <div id="print-minore-title"></div>
       <div class="fonte-tabs" id="fonte-tabs-bar"></div>
       <!-- FONTE PANES -->
       <div id="fonte-panes"></div>
@@ -1756,16 +1757,11 @@ window.stampaDettaglio=function(soloTab){
     try{var rc=new Chart(canvas,{type:"radar",data:{labels:["Sintomi Emotivi","Iperattivita","Prob. Condotta","Prob. Relazioni","Prosociale"],datasets:ds},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:"bottom",labels:{font:{size:11}}}},scales:{r:{min:0,max:10,ticks:{stepSize:2,font:{size:9},color:"#aaa"},pointLabels:{font:{size:10}}}}}});radarCharts.push(rc);}catch(e2){}
   }
 
-  // Aggiungi titolo-minore in stampa (secondo foglio)
+  // Aggiorna titolo-minore per la stampa (è già nel DOM)
   var printTitle=document.getElementById("print-minore-title");
-  if(!printTitle){
-    printTitle=document.createElement("div");
-    printTitle.id="print-minore-title";
-    document.getElementById("modal-wrap").insertBefore(printTitle, document.getElementById("modal-wrap").firstChild);
-  }
   var m=currentMinore||{};
   var codStr=m.codice?'<span style="background:#1a1a1a;color:#fff;font-size:13px;font-weight:700;padding:3px 10px;border-radius:20px;margin-right:10px;">#'+m.codice+'</span>':"";
-  printTitle.innerHTML=codStr+'<span style="font-size:22px;font-weight:700;color:#1a1a1a;">'+( m.nome||"")+'</span>';
+  printTitle.innerHTML=codStr+'<span style="font-size:22px;font-weight:700;color:#1a1a1a;">'+(m.nome||"")+'</span>';
 
   // Gestione soloTab
   if(soloTab){
