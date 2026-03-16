@@ -80,9 +80,9 @@ h2{font-size:17px;font-weight:600;margin-bottom:12px;}
 .print-btn{background:#f8f8f7;border:1px solid #e0e0de;border-radius:7px;padding:5px 12px;font-size:12px;cursor:pointer;color:#444;}
 .print-btn:hover{background:#f0f0ee;}
 @media print{
-  @page{size:A4 portrait;margin:18mm 16mm 18mm 16mm;}
+  @page{size:A4 portrait;margin:15mm 14mm 15mm 14mm;}
   *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
-  body{background:#fff !important;font-size:12px !important;color:#1a1a1a !important;}
+  body{background:#fff !important;font-size:11px !important;color:#1a1a1a !important;}
   .container{display:none !important;}
   #screen-dash{display:none !important;}
   #screen-login{display:none !important;}
@@ -91,28 +91,43 @@ h2{font-size:17px;font-weight:600;margin-bottom:12px;}
   .modal{box-shadow:none !important;border-radius:0 !important;padding:0 !important;max-width:100% !important;width:100% !important;}
   /* Legenda: primo foglio */
   #legenda-stampa{display:block !important;}
+  #legenda-stampa > div{font-size:11px !important;}
   #legenda-stampa + #modal-wrap{page-break-before:always;}
-  /* Nasconde UI */
-  .fonte-tabs,.sub-tabs,.btn-sm,.btn-danger,.print-btn,#det-header > div:last-child{display:none !important;}
-  /* Mostra tutto il contenuto */
+  /* Nascondi UI chrome */
+  .fonte-tabs,.sub-tabs,.btn-sm,.btn-danger,.print-btn{display:none !important;}
+  #det-header > div:last-child{display:none !important;}
+  /* Mostra tutti i pane */
   .fonte-pane{display:block !important;}
   .sub-pane{display:block !important;}
-  /* Separazioni tra sezioni */
+  /* Ogni fonte inizia su nuova pagina */
   .fonte-pane{page-break-before:always;}
   .fonte-pane:first-child{page-break-before:avoid;}
-  .sub-pane{page-break-inside:avoid;}
-  .sub-pane + .sub-pane{page-break-before:always;}
-  /* Tabelle e blocchi non spezzati */
-  table{page-break-inside:auto;}
-  tr{page-break-inside:avoid;page-break-after:auto;}
+  /* Sub-pane: NON forzare pagina nuova — fluiscono naturalmente */
+  /* Solo aggiunge separazione visiva tra sub-pane */
+  .sub-pane{
+    page-break-inside:avoid;
+    border-bottom:1px dashed #ddd;
+    padding-bottom:8px;
+    margin-bottom:8px;
+  }
+  .sub-pane:last-child{border-bottom:none;}
+  /* Evita page break dentro elementi chiave */
   .rel-section{page-break-inside:avoid;}
-  .interp-block{page-break-inside:avoid;}
-  /* Intestazione su ogni foglio */
-  .print-page-header{display:block !important;}
-  /* Fix modal header */
-  #det-header{display:block !important;}
+  .interp-block{page-break-inside:avoid;margin-bottom:4px !important;padding:6px 8px !important;}
+  table{page-break-inside:auto;font-size:10px !important;}
+  tr{page-break-inside:avoid;}
+  /* Comprimi spaziature per stampa */
+  .lbl{margin:.5rem 0 .25rem !important;font-size:10px !important;}
+  .scale-row{padding:5px 0 !important;}
+  .bar-bg{height:5px !important;}
+  .bar-fill{height:5px !important;}
+  canvas{max-height:200px !important;}
+  /* Nascondi elementi inutili in stampa */
+  #det-header{margin-bottom:.5rem !important;}
+  /* Print header identificativo su ogni fonte-pane */
+  .fonte-print-header{display:block !important;font-size:13px;font-weight:700;border-bottom:2px solid #1a1a1a;padding-bottom:4px;margin-bottom:10px;}
 }
-.print-page-header{display:none;}
+.fonte-print-header{display:none;}
 </style>
 </head>
 <body>
@@ -557,7 +572,8 @@ function buildFontePane(key,e){
   var tipoColor=key==="edu"?"#534AB7":key==="gen"?"#D85A30":"#1D9E75";
   var tipoLabel=key==="edu"?"Educatore":key==="gen"?"Genitore/Parente":"Auto-report ragazzo/a";
   var compilatoreStr=(e.compilatore||e.ruolo)?(" &middot; "+(e.compilatore||"")+(e.ruolo?" ("+e.ruolo+")":"")):"";
-  var html='<div style="margin-bottom:1rem;">';
+  var html='<div class="fonte-print-header" style="color:'+tipoColor+';">'+tipoLabel+(e.nome?" — "+e.nome:"")+' ('+e.data+')</div>';
+  html+='<div style="margin-bottom:1rem;">';
   html+='<div class="sub-tabs">';
   html+='<button class="sub-tab act" onclick="subTab(this,\'st-scale-'+key+'\')">Scale SDQ</button>';
   html+='<button class="sub-tab" onclick="subTab(this,\'st-radar-'+key+'\')">Grafico radar</button>';
@@ -1303,9 +1319,13 @@ function buildRelazioneSintesi(auto,edu,gen,fontiDisp){
     var vals=fontiDisp.map(function(f){return getV(f.e,s);});
     return Math.max.apply(null,vals)-Math.min.apply(null,vals)>=3;
   });
+  // Concordant = same band AND no numeric discrepancy >= 3
   var concordScales=scales.filter(function(s){
+    var vals=fontiDisp.map(function(f){return getV(f.e,s);});
     var bds=fontiDisp.map(function(f){return band(s,getV(f.e,s));});
-    return bds.every(function(b){return b===bds[0];});
+    var sameBand=bds.every(function(b){return b===bds[0];});
+    var noNumericDiscr=Math.max.apply(null,vals)-Math.min.apply(null,vals)<3;
+    return sameBand&&noNumericDiscr;
   });
 
   // Aree critiche (elevato in almeno una fonte)
