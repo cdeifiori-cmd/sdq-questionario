@@ -127,7 +127,7 @@ h2{font-size:17px;font-weight:600;margin-bottom:12px;}
   /* Print header identificativo su ogni fonte-pane */
   .fonte-print-header{display:block !important;font-size:13px;font-weight:700;border-bottom:2px solid #1a1a1a;padding-bottom:4px;margin-bottom:10px;}
 }
-.fonte-print-header{display:none;}
+.fonte-print-header{display:none;margin:0;padding:0;height:0;overflow:hidden;}
 </style>
 </head>
 <body>
@@ -554,7 +554,25 @@ window.openMinore=function(codice,nomeEnc){
   // Init charts after render
   radarCharts.forEach(function(c){try{c.destroy();}catch(e){}});
   radarCharts=[];
-  setTimeout(function(){initRadarCharts(auto,edu,gen);},100);
+  setTimeout(function(){
+    initRadarCharts(auto,edu,gen);
+    // Also init combined radar if report tab exists
+    var canvas=document.getElementById("radar-report");
+    if(canvas&&!canvas._chartDone){
+      canvas._chartDone=true;
+      var fd=[];
+      if(auto)fd.push({e:auto,label:"Auto-report",color:"#1D9E75"});
+      if(edu)fd.push({e:edu,label:"Educatore",color:"#534AB7"});
+      if(gen)fd.push({e:gen,label:"Genitore",color:"#D85A30"});
+      if(fd.length>1){
+        var ds=fd.map(function(f){return{label:f.label,data:[f.e.scores.ES,f.e.scores.IP,f.e.scores.EC,f.e.scores.C,f.e.scores.PR],backgroundColor:f.color+"26",borderColor:f.color,borderWidth:2,pointBackgroundColor:f.color,pointRadius:4};});
+        try{
+          var rc=new Chart(canvas,{type:"radar",data:{labels:["Sintomi Emotivi","Iperattivita","Prob. Condotta","Prob. Relazioni","Prosociale"],datasets:ds},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:"bottom",labels:{font:{size:11}}}},scales:{r:{min:0,max:10,ticks:{stepSize:2,font:{size:9},color:"#aaa"},pointLabels:{font:{size:10}}}}}});
+          radarCharts.push(rc);
+        }catch(e2){}
+      }
+    }
+  },150);
 
   // Show section-specific print buttons
   document.getElementById("pbtn-auto").style.display=currentMinore.auto?"inline-block":"none";
@@ -1178,7 +1196,7 @@ function buildReportPane(auto,edu,gen){
   // ── SUB: Radar sovrapposti ──
   html+='<div id="sr-radar" class="sub-pane">';
   html+='<p class="lbl" style="margin-top:0;">Grafici radar sovrapposti</p>';
-  html+='<div style="position:relative;height:320px;"><canvas id="radar-report"></canvas></div>';
+  html+='<div style="position:relative;height:300px;min-height:300px;"><canvas id="radar-report" style="display:block;"></canvas></div>';
   html+='<div style="display:flex;gap:16px;justify-content:center;margin-top:10px;flex-wrap:wrap;">';
   fontiDisp.forEach(function(f){html+='<div style="display:flex;align-items:center;gap:6px;font-size:12px;"><div style="width:14px;height:3px;background:'+f.color+';border-radius:2px;"></div>'+f.label+'</div>';});
   html+='</div>';
