@@ -509,6 +509,25 @@ window.openMinore=function(codice,nomeEnc){
     };})(e.id,tipoLbl);
     delArea.appendChild(btn);
   });
+  // If no entries but pratica exists, show delete pratica button
+  if(entries.length===0 && codice){
+    var prat=pratiche.find(function(p){return String(parseInt(p.codice)||0).padStart(2,"0")===String(parseInt(codice)||0).padStart(2,"0");});
+    if(prat){
+      var btnP=document.createElement("button");
+      btnP.className="btn-danger";
+      btnP.textContent="Elimina pratica #"+codice;
+      btnP.onclick=(function(pid,pcod){return function(){
+        if(confirm("Eliminare la pratica #"+pcod+"? Questa azione non puo essere annullata.")){
+          db.collection("pratiche").doc(pid).delete().then(function(){
+            pratiche=pratiche.filter(function(p){return p.id!==pid;});
+            renderList();
+            window.closeModal();
+          }).catch(function(){alert("Errore nell'eliminazione.");});
+        }
+      };})(prat.id,codice);
+      delArea.appendChild(btnP);
+    }
+  }
 
   // Init charts after render
   radarCharts.forEach(function(c){try{c.destroy();}catch(e){}});
@@ -1199,6 +1218,24 @@ async function deleteEntry(id){
   try{
     await db.collection("risposte").doc(id).delete();
     allEntries=allEntries.filter(function(e){return e.id!==id;});
+    // If no more entries for this minore, offer to delete the pratica too
+    if(currentMinore){
+      var cod=currentMinore.codice;
+      var remaining=allEntries.filter(function(e){
+        var eCod=e.codice?String(parseInt(e.codice)||0).padStart(2,"0"):"";
+        return cod?eCod===cod:normalizeNome(e.nome)===normalizeNome(currentMinore.nome);
+      });
+      if(remaining.length===0 && cod){
+        var delPratica=confirm("Non ci sono altri questionari per questo minore. Vuoi eliminare anche la pratica #"+cod+"?");
+        if(delPratica){
+          var prat=pratiche.find(function(p){return String(parseInt(p.codice)||0).padStart(2,"0")===cod;});
+          if(prat){
+            await db.collection("pratiche").doc(prat.id).delete();
+            pratiche=pratiche.filter(function(p){return p.id!==prat.id;});
+          }
+        }
+      }
+    }
     renderList();
     window.closeModal();
   }catch(e){alert("Errore nell'eliminazione.");}
