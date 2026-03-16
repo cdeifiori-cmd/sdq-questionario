@@ -557,7 +557,7 @@ function buildFontePane(key,e){
   html+='<button class="sub-tab" onclick="subTab(this,\'st-interp-'+key+'\')">Interpretazione</button>';
   html+='<button class="sub-tab" onclick="subTab(this,\'st-rel-'+key+'\')">Relazione</button>';
   html+='<button class="sub-tab" onclick="subTab(this,\'st-impact-'+key+'\')">Impatto</button>';
-  if(e.raw)html+='<button class="sub-tab" onclick="subTab(this,\'st-risp-'+key+'\')">Risposte</button>';
+  html+='<button class="sub-tab" onclick="subTab(this,\'st-risp-'+key+'\')">Risposte</button>';
   html+='</div>';
   html+='<div id="st-scale-'+key+'" class="sub-pane act">'+renderScale(e,tipoColor,tipoLabel,compilatoreStr)+'</div>';
   html+='<div id="st-radar-'+key+'" class="sub-pane">';
@@ -580,7 +580,7 @@ function buildFontePane(key,e){
   html+='<div id="st-interp-'+key+'" class="sub-pane">'+renderInterp(e,tipoLabel)+'</div>';
   html+='<div id="st-rel-'+key+'" class="sub-pane">'+renderRelazione(e,tipoLabel)+'</div>';
   html+='<div id="st-impact-'+key+'" class="sub-pane">'+renderImpact(e)+'</div>';
-  if(e.raw)html+='<div id="st-risp-'+key+'" class="sub-pane">'+renderRisposte(e)+'</div>';
+  html+='<div id="st-risp-'+key+'" class="sub-pane">'+renderRisposte(e)+'</div>';
   html+='</div>';
   return html;
 }
@@ -1004,12 +1004,45 @@ function buildReportPane(auto,edu,gen){
   html+='</tbody></table>';
   html+='</div>';
 
+  // Commentary on scale comparison
+  html+='<p class="lbl">Lettura comparativa</p>';
+  // Find most discrepant scales
+  var topDiscr=scales.filter(function(s){
+    var v=fontiDisp.map(function(f){return f.e.scores[s];});
+    return Math.max.apply(null,v)-Math.min.apply(null,v)>=3;
+  });
+  var allAgree=scales.filter(function(s){
+    var bds=fontiDisp.map(function(f){return band(s,f.e.scores[s]);});
+    return bds.every(function(b){return b===bds[0];});
+  });
+  var totDiffs=fontiDisp.map(function(f){return f.e.tot;});
+  var maxTot=Math.max.apply(null,totDiffs);var minTot=Math.min.apply(null,totDiffs);
+  html+='<div style="padding:12px 14px;background:#f8f8f7;border-radius:9px;">';
+  html+='<p style="font-size:13px;color:#444;line-height:1.75;">';
+  if(topDiscr.length===0){
+    html+="I profili delle diverse fonti mostrano una <strong>concordanza complessiva</strong>: non emergono scale con discrepanze superiori a 3 punti. Questo aumenta l'attendibilita della valutazione.";
+  } else {
+    html+='Le scale con <strong>discrepanza significativa</strong> (diff. &ge;3 punti) tra le fonti sono: <strong>'+topDiscr.map(function(s){return SLBL[s];}).join(', ')+'</strong>. ';
+    html+="Questo segnala che le difficolta in queste aree si manifestano in modo diverso a seconda del contesto e dell'osservatore.";
+  }
+  if(allAgree.length>0)html+=' Le scale <strong>'+allAgree.map(function(s){return SLBL[s];}).join(', ')+'</strong> mostrano accordo tra tutte le fonti.';
+  html+=' La differenza nel punteggio totale tra la fonte piu alta ('+maxTot+'/40) e quella piu bassa ('+minTot+'/40) e di <strong>'+(maxTot-minTot)+' punti</strong>.';
+  html+='</p></div>';
+  html+='</div>';
+
   // ── SUB: Radar sovrapposti ──
   html+='<div id="sr-radar" class="sub-pane">';
   html+='<p class="lbl" style="margin-top:0;">Grafici radar sovrapposti</p>';
   html+='<div style="position:relative;height:320px;"><canvas id="radar-report"></canvas></div>';
   html+='<div style="display:flex;gap:16px;justify-content:center;margin-top:10px;flex-wrap:wrap;">';
   fontiDisp.forEach(function(f){html+='<div style="display:flex;align-items:center;gap:6px;font-size:12px;"><div style="width:14px;height:3px;background:'+f.color+';border-radius:2px;"></div>'+f.label+'</div>';});
+  html+='</div>';
+  // Radar commentary
+  html+='<div style="margin-top:12px;padding:12px 14px;background:#f8f8f7;border-radius:9px;">';
+  html+='<p style="font-size:13px;font-weight:600;margin-bottom:6px;">Lettura dei grafici sovrapposti</p>';
+  html+='<p style="font-size:13px;color:#444;line-height:1.75;">Il grafico sovrappone i profili di tutte le fonti disponibili. Ogni colore rappresenta un osservatore diverso. ';
+  html+='Quando le linee si sovrappongono, i profili concordano su quella dimensione; quando divergono, emergono differenze nella percezione del comportamento. ';
+  html+='Le aree del grafico piu estese verso l\'esterno indicano punteggi piu elevati (maggiori difficolta), tranne per la scala Prosociale dove un vertice piu esteso indica un punto di forza.</p>';
   html+='</div></div>';
 
   // ── SUB: Confronto interpretazioni ──
@@ -1030,6 +1063,12 @@ function buildReportPane(auto,edu,gen){
     });
     html+='</div>';
   });
+  html+='</div>';
+  html+='<div style="margin-top:1rem;padding:12px 14px;background:#f8f8f7;border-radius:9px;">';
+  html+='<p style="font-size:13px;font-weight:600;margin-bottom:6px;">Nota metodologica sul confronto</p>';
+  html+='<p style="font-size:13px;color:#444;line-height:1.75;">Il confronto delle interpretazioni per scala consente di identificare le aree in cui le percezioni dei diversi osservatori convergono o divergono. ';
+  html+='Quando le fasce sono concordi (es. tutti in fascia elevata), il dato e robusto e clinicamente significativo. ';
+  html+='Quando divergono, la discrepanza stessa e un dato clinico: puo indicare che la difficolta si manifesta solo in certi contesti, oppure che la soglia di sensibilita degli osservatori e diversa.</p>';
   html+='</div>';
 
   // ── SUB: Relazione sintesi ──
@@ -1065,6 +1104,25 @@ function buildReportPane(auto,edu,gen){
     html+='</tr>';
   });
   html+='</tbody></table>';
+  // Impact commentary
+  html+='<div style="margin-top:1rem;padding:12px 14px;background:#f8f8f7;border-radius:9px;">';
+  html+='<p style="font-size:13px;font-weight:600;margin-bottom:6px;">Lettura comparativa dell\'impatto</p>';
+  html+='<p style="font-size:13px;color:#444;line-height:1.75;">La sezione impatto misura quanto le difficolta interferiscono nella vita quotidiana del minore nei diversi contesti. ';
+  // Find max impact areas
+  var impKs=["i_fam","i_ami","i_scu","i_lib","i_altri"];
+  var impNames={"i_fam":"vita familiare","i_ami":"amicizie","i_scu":"scuola","i_lib":"tempo libero","i_altri":"carico sugli altri"};
+  var highImpact=impKs.filter(function(k){return fontiDisp.some(function(f){return (f.e.impact||{})[k]>=2;});});
+  if(highImpact.length>0){
+    html+='Le aree di maggiore interferenza segnalate sono: <strong>'+highImpact.map(function(k){return impNames[k];}).join(', ')+'</strong>. ';
+  }
+  // Check if ragazzo perceives sofferenza
+  if(auto&&auto.impact!=null&&auto.impact.soff!=null){
+    html+=auto.impact.soff===0?'Il minore non riferisce sofferenza soggettiva significativa (tipico dei profili esternalizzanti). '
+      :auto.impact.soff>=2?'Il minore riferisce un livello di sofferenza significativo: questo dato merita attenzione prioritaria negli interventi. '
+      :'Il minore riferisce una lieve sofferenza soggettiva. ';
+  }
+  html+='Il confronto tra le diverse fonti permette di valutare se l\'impatto e percepito in modo coerente o se emergono differenze nella lettura del disagio.</p>';
+  html+='</div>';
   html+='</div>';
 
   // ── SUB: Confronto risposte ──
