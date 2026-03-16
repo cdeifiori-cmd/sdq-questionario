@@ -855,8 +855,55 @@ function renderImpact(e){
     ["Carico sugli altri",imp.i_altri!=null?lvlMap[imp.i_altri]:"Non risposto"]
   ];
   var tbl=rows.map(function(r){return "<tr><td>"+r[0]+"</td><td>"+r[1]+"</td></tr>";}).join("");
-  return '<p class="lbl" style="margin-top:0;">Sezione impatto</p>'
-    +'<div class="card"><table class="impact-table" style="width:100%;">'+tbl+'</table></div>';
+  var imp=e.impact||{};
+  var dgMap={0:"No",1:"Si, piccole difficolta",2:"Si, difficolta importanti",3:"Si, difficolta molto grandi"};
+  var lvlMap={0:"Per niente",1:"Solo un po",2:"Abbastanza",3:"Molto"};
+  // Build commentary
+  var commento="";
+  var diffGen=imp.diff_gen!=null?imp.diff_gen:null;
+  var soff=imp.soff!=null?imp.soff:null;
+  var areeAlte=[];
+  if((imp.i_fam||0)>=2)areeAlte.push("vita familiare");
+  if((imp.i_ami||0)>=2)areeAlte.push("amicizie");
+  if((imp.i_scu||0)>=2)areeAlte.push("scuola");
+  if((imp.i_lib||0)>=2)areeAlte.push("tempo libero");
+  if((imp.i_altri||0)>=2)areeAlte.push("carico sugli altri");
+  var ES={v:e.scores.ES,bd:band("ES",e.scores.ES)};
+  var EC={v:e.scores.EC,bd:band("EC",e.scores.EC)};
+  var IP={v:e.scores.IP,bd:band("IP",e.scores.IP)};
+  var C={v:e.scores.C,bd:band("C",e.scores.C)};
+  var isEst=EC.bd!=="normale"||IP.bd!=="normale";
+  var isInt=ES.bd!=="normale"||C.bd!=="normale";
+  if(diffGen===0){
+    commento="Il soggetto non riconosce la presenza di difficolta significative. "+
+      (isEst?"Questo e frequente nei profili con difficolta esternalizzanti: il disagio tende a essere percepito dall'ambiente circostante piu che dal soggetto stesso.":
+       isInt?"E utile esplorare se questa assenza di consapevolezza rifletta un reale equilibrio oppure una difficolta nel riconoscimento del proprio disagio.":
+       "Il profilo SDQ e nella norma, coerentemente con l'assenza di difficolta percepite.");
+  } else if(diffGen!==null){
+    commento="Il soggetto riconosce la presenza di "+dgMap[diffGen].toLowerCase()+". ";
+    if(soff===0&&diffGen>=2){commento+="Nonostante le difficolta riconosciute, non riferisce sofferenza soggettiva: questo pattern suggerisce una possibile minimizzazione del disagio emotivo o una difficolta nella sua elaborazione. ";}
+    else if(soff>=2){commento+="Il livello di sofferenza soggettiva riferita e significativo ("+lvlMap[soff].toLowerCase()+"): il peso emotivo delle difficolta e avvertito con chiarezza e va tenuto in considerazione negli interventi. ";}
+    if(areeAlte.length>0){
+      commento+="Le aree di vita maggiormente interferite sono: <strong>"+areeAlte.join(", ")+"</strong>. ";
+      if(areeAlte.includes("scuola")&&isEst)commento+="L'impatto scolastico significativo in un profilo esternalizzante suggerisce che i comportamenti problematici si manifestano anche in contesto strutturato, richiedendo coordinamento tra equipe educativa e istituzione scolastica. ";
+      if(areeAlte.includes("amicizie")&&isInt)commento+="L'impatto sulle amicizie in un profilo internalizzante e coerente con le difficolta relazionali rilevate: l'isolamento sociale rischia di amplificare il disagio emotivo. ";
+    } else {
+      commento+="Non emergono aree di vita con interferenza significativa, nonostante la presenza di difficolta riconosciute: il funzionamento quotidiano risulta relativamente preservato. ";
+    }
+    if((imp.i_altri||0)>=2)commento+="Il carico sugli altri e elevato: e importante prevenire dinamiche di esaurimento o conflitto cronico nell'ambiente circostante. ";
+  }
+  var ipDuration=imp.durata!=null?[null,"Meno di 1 mese","1-5 mesi","6-12 mesi","Piu di 1 anno"][imp.durata]:null;
+  if(ipDuration){
+    commento+="La durata del problema ("+ipDuration.toLowerCase()+") "+
+      (imp.durata>=3?"indica un pattern stabile e consolidato nel tempo, che richiede un intervento strutturato e continuativo piuttosto che una risposta episodica.":
+       imp.durata===2?"suggerisce un disagio persistente ma relativamente recente. E importante capire se vi sia stato un evento scatenante.":
+       "suggerisce un disagio acuto e recente. Potrebbe trattarsi di una risposta a un evento specifico.");
+  }
+  return "<p class=\"lbl\" style=\"margin-top:0;\">Sezione impatto</p>"
+    +"<div class=\"card\"><table class=\"impact-table\" style=\"width:100%;\">"+tbl+"</table></div>"
+    +(commento?"<div style=\"margin-top:1rem;padding:12px 14px;background:#f8f8f7;border-radius:9px;border-left:3px solid #1D9E75;\">"
+      +"<p style=\"font-size:13px;font-weight:600;margin-bottom:6px;\">Lettura interpretativa</p>"
+      +"<p style=\"font-size:13px;color:#444;line-height:1.75;\">"+commento+"</p></div>":"");
 }
 
 function renderRisposte(e){
@@ -908,62 +955,112 @@ function renderRisposte(e){
   // Coherence analysis
   if(e.raw){
     var raw=e.raw;
-    // Check internal consistency: scales should show internal coherence
-    // Items per scale: ES=3,8,13,16,24; IP=2,10,15,21,25; EC=5,7,12,18,22; C=6,11,14,19,23; PR=1,4,9,17,20
-    var scaleItems={
-      ES:[2,7,12,15,23],   // 0-indexed
-      IP:[1,9,14,20,24],
-      EC:[4,6,11,17,21],
-      C:[5,10,13,18,22],
-      PR:[0,3,8,16,19]
-    };
-    var scaleReverse={EC:[6],C:[10,13],IP:[20,24]};
-    // Variance within each scale (high variance = possible inconsistency)
-    var coherenceIssues=[];
-    Object.keys(scaleItems).forEach(function(s){
-      var vals=scaleItems[s].map(function(i){return raw[i]!=null?raw[i]:0;});
-      var mean=vals.reduce(function(a,b){return a+b;},0)/vals.length;
-      var variance=vals.reduce(function(a,v){return a+(v-mean)*(v-mean);},0)/vals.length;
-      if(variance>1.2){
-        coherenceIssues.push({scala:s,variance:variance.toFixed(1),vals:vals});
-      }
-    });
-    // Check for extreme response sets (all 0 or all 2)
+    // Items 0-indexed per scala
+    var scaleItems={ES:[2,7,12,15,23],IP:[1,9,14,20,24],EC:[4,6,11,17,21],C:[5,10,13,18,22],PR:[0,3,8,16,19]};
+    // Reversed items (0-indexed): EC:6, C:10,13, IP:20,24
+    var reversedIdx=[6,10,13,20,24];
+    
+    // --- INDICATOR 1: All same response (acquiescence / disengagement) ---
     var allZero=raw.every(function(v){return v===0;});
     var allTwo=raw.every(function(v){return v===2;});
-    var mostlyExtreme=raw.filter(function(v){return v===0||v===2;}).length/raw.length;
-    var affidabilita,affCol,affBg;
-    if(allZero||allTwo){
-      affidabilita="Bassa: pattern di risposta estremo";affCol="#791F1F";affBg="#FCEBEB";
-    } else if(mostlyExtreme>0.85||coherenceIssues.length>=3){
-      affidabilita="Moderata: presenti alcuni indicatori di incoerenza";affCol="#633806";affBg="#FAEEDA";
-    } else if(coherenceIssues.length>=2||mostlyExtreme>0.7){
-      affidabilita="Discreta: alcune scale mostrano variabilita interna";affCol="#BA7517";affBg="#FFF8E6";
-    } else {
-      affidabilita="Buona: il pattern di risposta appare coerente";affCol="#085041";affBg="#E1F5EE";
+    var allOne=raw.every(function(v){return v===1;});
+    
+    // --- INDICATOR 2: Near-uniform responses (>80% same value) ---
+    var count0=raw.filter(function(v){return v===0;}).length;
+    var count1=raw.filter(function(v){return v===1;}).length;
+    var count2=raw.filter(function(v){return v===2;}).length;
+    var maxCount=Math.max(count0,count1,count2);
+    var nearUniform=maxCount/raw.length>0.80;
+    var dominantVal=count0>=count1&&count0>=count2?0:count2>=count1?2:1;
+    
+    // --- INDICATOR 3: Reversed items inconsistency ---
+    // For items that are reversed (inverted), a response of 2 contributes 0 to score
+    // If a subject says "Assolutamente vero" to both direct AND reversed items in same scale,
+    // that is internally inconsistent
+    var reversedInconsistencies=0;
+    // Check EC: item 4 (EC direct) vs item 6 (EC reversed)
+    // If raw[4]=2 AND raw[6]=2 => EC direct says "yes problem" but reversed says "yes problem" too
+    // => that's consistent actually. Let's check for logical contradiction:
+    // Item 7 (EC reversed = "obbediente"): if raw[6]=0 AND raw[4]=2 AND raw[11]=2 => consistent (disobedient + collera + litiga)
+    // Better: check if reversed items go OPPOSITE to scale average
+    var scaleNames=["ES","IP","EC","C","PR"];
+    var coherenceIssues=[];
+    scaleNames.forEach(function(s){
+      var idxs=scaleItems[s];
+      var vals=idxs.map(function(i){return raw[i];});
+      // Score each item accounting for reversal
+      var scored=idxs.map(function(i,j){
+        return reversedIdx.indexOf(i)>=0?2-raw[i]:raw[i];
+      });
+      var scaleTotal=scored.reduce(function(a,b){return a+b;},0);
+      var scaleAvgRaw=vals.reduce(function(a,b){return a+b;},0)/vals.length;
+      // High variance in RAW responses within scale IS meaningful - contradictory items
+      var mean=scaleAvgRaw;
+      var variance=vals.reduce(function(a,v){return a+(v-mean)*(v-mean);},0)/vals.length;
+      // Also check: if scale score is high but reversed items answered inconsistently
+      var reversedInScale=idxs.filter(function(i){return reversedIdx.indexOf(i)>=0;});
+      var directInScale=idxs.filter(function(i){return reversedIdx.indexOf(i)<0;});
+      if(reversedInScale.length>0&&directInScale.length>0){
+        var avgDirect=directInScale.reduce(function(a,i){return a+raw[i];},0)/directInScale.length;
+        var avgReversed=reversedInScale.reduce(function(a,i){return a+raw[i];},0)/reversedInScale.length;
+        // For problematic scales: high direct AND high reversed (before inversion) = inconsistent
+        // Because reversed items, when answered "2 - assolutamente vero", contribute 0 to score
+        // If avgDirect>1.2 AND avgReversed>1.2 => contradiction (says both "yes problem" and "yes positive")
+        if(avgDirect>1.2&&avgReversed>1.2){
+          coherenceIssues.push({scala:s,tipo:"contraddizione",avgD:avgDirect.toFixed(1),avgR:avgReversed.toFixed(1)});
+        }
+      }
+      if(variance>0.9&&vals.length>=4){
+        coherenceIssues.push({scala:s,tipo:"variabilita",variance:variance.toFixed(1)});
+      }
+    });
+    
+    // --- INDICATOR 4: Semantic check on specific item pairs ---
+    // Item 11 (C, reversed = "ha almeno un buon amico"): if raw[10]=0 AND raw[18]=0 => isolated but ok
+    // Item 14 (C, reversed = "ben accetto dai pari"): if raw[13]=0 (NOT accettato) AND raw[18]=2 (preso di mira) = consistent
+    // Inconsistency: raw[13]=2 (assolutamente accettato) AND raw[18]=2 (assolutamente preso di mira) - contradiction
+    var semanticContradictions=[];
+    if(raw[13]===2&&raw[18]===2) semanticContradictions.push("accettato dai pari (item 14) e preso di mira (item 19) entrambi al massimo");
+    if(raw[6]===2&&raw[4]===2&&raw[11]===2) semanticContradictions.push("obbediente (item 7) e crisi di collera (item 5) e litiga (item 12) tutti al massimo");
+    if(raw[20]===2&&raw[1]===2&&raw[14]===2) semanticContradictions.push("pensa prima di fare (item 21) e irrequieto (item 2) e distratto (item 15) tutti al massimo");
+    
+    // --- CALCULATE SCORE ---
+    var problems=0;
+    var problemDetails=[];
+    if(allZero){problems+=3;problemDetails.push("tutte le risposte sono 'Non vero': possibile tendenza a minimizzare o compilazione non attenta");}
+    if(allTwo){problems+=3;problemDetails.push("tutte le risposte sono 'Assolutamente vero': possibile tendenza ad amplificare o compilazione non attenta");}
+    if(allOne){problems+=2;problemDetails.push("tutte le risposte sono 'Parzialmente vero': risposta uniforme che non differenzia tra le aree");}
+    if(!allZero&&!allTwo&&nearUniform){
+      problems+=2;
+      var nomVal=dominantVal===0?"Non vero":dominantVal===2?"Assolutamente vero":"Parzialmente vero";
+      problemDetails.push(Math.round(maxCount/raw.length*100)+"% delle risposte e '"+nomVal+"': pattern quasi uniforme");
     }
+    var contraddC=coherenceIssues.filter(function(c){return c.tipo==="contraddizione";});
+    if(contraddC.length>=2){problems+=2;problemDetails.push("contraddizioni interne in "+contraddC.length+" scale (item diretti e invertiti discordanti)");}
+    else if(contraddC.length===1){problems+=1;problemDetails.push("contraddizione interna nella scala "+contraddC[0].scala);}
+    var varIssues=coherenceIssues.filter(function(c){return c.tipo==="variabilita";});
+    if(varIssues.length>=3){problems+=1;problemDetails.push("alta variabilita interna in "+varIssues.length+" scale");}
+    if(semanticContradictions.length>=2){problems+=2;problemDetails.push("contraddizioni semantiche tra item: "+semanticContradictions.join("; "));}
+    else if(semanticContradictions.length===1){problems+=1;problemDetails.push("contraddizione semantica: "+semanticContradictions[0]);}
+    
+    var affidabilita,affCol,affBg;
+    if(problems>=5){affidabilita="Molto bassa: segnali forti di incoerenza";affCol="#791F1F";affBg="#FCEBEB";}
+    else if(problems>=3){affidabilita="Bassa: presenti indicatori significativi di incoerenza";affCol="#A32D2D";affBg="#FCEBEB";}
+    else if(problems>=2){affidabilita="Moderata: alcune aree di incoerenza da valutare";affCol="#633806";affBg="#FAEEDA";}
+    else if(problems>=1){affidabilita="Discreta: lievi segnali da considerare nel contesto";affCol="#BA7517";affBg="#FFF8E6";}
+    else{affidabilita="Buona: nessun indicatore significativo di incoerenza";affCol="#085041";affBg="#E1F5EE";}
     html+="<div style=\"margin-top:1rem;padding:14px;background:"+affBg+";border-radius:9px;border-left:3px solid "+affCol+";\">"; 
     html+="<p style=\"font-size:13px;font-weight:600;color:"+affCol+";margin-bottom:6px;\">Valutazione dell'affidabilita delle risposte</p>";
     html+='<p style="font-size:13px;color:#444;margin-bottom:8px;"><strong>Indice di affidabilita:</strong> '+affidabilita+'</p>';
-    if(allZero){
-      html+='<p style="font-size:12px;color:#555;line-height:1.6;">Tutte le risposte sono "Non vero": pattern estremo che puo indicare tendenza a minimizzare o desiderabilita sociale. I risultati vanno interpretati con cautela.</p>';
-    } else if(allTwo){
-      html+='<p style="font-size:12px;color:#555;line-height:1.6;">Tutte le risposte sono "Assolutamente vero": pattern estremo che puo indicare tendenza ad amplificare le difficolta o risposta non attenta. I risultati vanno interpretati con cautela.</p>';
+    if(problemDetails.length>0){
+      html+="<ul style=\"font-size:12px;color:#555;margin:.25rem 0 .5rem 1.2rem;\">";
+      problemDetails.forEach(function(pd){
+        html+="<li>"+pd+"</li>";
+      });
+      html+="</ul>";
+      html+="<p style=\"font-size:12px;color:#555;line-height:1.6;\">I risultati di questo questionario vanno interpretati con particolare cautela, tenendo conto degli indicatori di incoerenza rilevati.</p>";
     } else {
-      if(coherenceIssues.length>0){
-        html+='<p style="font-size:12px;color:#555;line-height:1.6;margin-bottom:4px;">Le scale con maggiore variabilita interna (potenziale incoerenza tra item della stessa area) sono:</p>';
-        html+='<ul style="font-size:12px;color:#555;margin:.25rem 0 .5rem 1.2rem;">';
-        coherenceIssues.forEach(function(ci){
-          html+='<li><strong>'+SLBL[ci.scala]+'</strong>: varianza interna '+ci.variance+": le risposte agli item di questa scala presentano una dispersione maggiore del previsto.</li>";
-        });
-        html+='</ul>';
-      }
-      if(mostlyExtreme>0.7){
-        html+='<p style="font-size:12px;color:#555;line-height:1.6;">Il '+Math.round(mostlyExtreme*100)+'% delle risposte e alle posizioni estreme (0 o 2), il che puo indicare una tendenza alla risposta polarizzata.</p>';
-      }
-      if(coherenceIssues.length===0&&mostlyExtreme<=0.7){
-        html+='<p style="font-size:12px;color:#555;line-height:1.6;">Il pattern di risposta mostra una distribuzione equilibrata tra le tre opzioni, senza bias evidenti. Le risposte appaiono internamente coerenti.</p>';
-      }
+      html+="<p style=\"font-size:12px;color:#555;line-height:1.6;\">Il pattern di risposta non mostra indicatori significativi di incoerenza. Le risposte sono distribuite in modo differenziato tra le scale e gli item. Questo aumenta l'attendibilita del profilo.</p>";
     }
     html+="<p style=\"font-size:11px;color:#888;margin-top:8px;\">Nota: questa valutazione e basata su indici statistici interni e non sostituisce il giudizio clinico. La variabilita delle risposte puo riflettere un quadro eterogeneo o genuina incoerenza.</p>";
     html+='</div>';
