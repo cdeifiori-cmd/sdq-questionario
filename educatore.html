@@ -560,7 +560,23 @@ function buildFontePane(key,e){
   if(e.raw)html+='<button class="sub-tab" onclick="subTab(this,\'st-risp-'+key+'\')">Risposte</button>';
   html+='</div>';
   html+='<div id="st-scale-'+key+'" class="sub-pane act">'+renderScale(e,tipoColor,tipoLabel,compilatoreStr)+'</div>';
-  html+='<div id="st-radar-'+key+'" class="sub-pane"><div style="position:relative;height:280px;"><canvas id="radar-'+key+'"></canvas></div></div>';
+  html+='<div id="st-radar-'+key+'" class="sub-pane">';
+  html+='<div style="position:relative;height:280px;"><canvas id="radar-'+key+'"></canvas></div>';
+  // Radar commentary
+  var scEs=e.scores.ES,scIp=e.scores.IP,scEc=e.scores.EC,scC=e.scores.C,scPr=e.scores.PR;
+  var radarMax=[["ES",scEs],["IP",scIp],["EC",scEc],["C",scC]].sort(function(a,b){return b[1]-a[1];});
+  var topScale=radarMax[0];
+  var radarComment="Il grafico radar visualizza il profilo del soggetto sulle 5 dimensioni SDQ (range 0-10 per scala). ";
+  radarComment+="La scala con il punteggio piu elevato e <strong>"+SLBL[topScale[0]]+"</strong> ("+topScale[1]+"/10";
+  radarComment+=band(topScale[0],topScale[1])!=="normale"?", fascia "+bl(band(topScale[0],topScale[1]))+")":"  , nella norma)";
+  var lowPR=band("PR",scPr);
+  if(lowPR==="adeguato") radarComment+=". La scala Prosociale ("+scPr+"/10) indica un buon repertorio di comportamenti empatici e cooperativi — elemento visivamente identificabile come il vertice piu esteso nel grafico.";
+  else if(lowPR==="basso") radarComment+=". La scala Prosociale ("+scPr+"/10) risulta bassa — nel grafico appare come il vertice piu contratto rispetto alle attese.";
+  else radarComment+=".";
+  html+='<div style="margin-top:12px;padding:12px 14px;background:#f8f8f7;border-radius:9px;">';
+  html+='<p style="font-size:13px;font-weight:600;margin-bottom:4px;">Lettura del grafico</p>';
+  html+='<p style="font-size:13px;color:#444;line-height:1.75;">'+radarComment+'</p></div>';
+  html+='</div>';
   html+='<div id="st-interp-'+key+'" class="sub-pane">'+renderInterp(e,tipoLabel)+'</div>';
   html+='<div id="st-rel-'+key+'" class="sub-pane">'+renderRelazione(e,tipoLabel)+'</div>';
   html+='<div id="st-impact-'+key+'" class="sub-pane">'+renderImpact(e)+'</div>';
@@ -630,6 +646,28 @@ function renderScale(e,tipoColor,tipoLabel,compilatoreStr){
     +'<div style="font-size:11px;font-weight:600;color:#854F0B;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">Esternalizzazione</div>'
     +'<div style="font-size:11px;color:#555;margin-bottom:6px;">EC + IP</div>'
     +'<div><span style="font-size:20px;font-weight:700;">'+estV+'<span style="font-size:11px;color:#aaa;">/20</span></span> <span class="badge '+bc(estBd)+'">'+bl(estBd)+'</span></div></div></div>';
+  // Commento narrativo globale al profilo
+  var profDir2=intV>estV&&intBd!=="normale"?"prevalentemente internalizzante — il disagio si esprime principalmente verso l'interno (sintomi emotivi, ritiro, tristezza)":estV>intV&&estBd!=="normale"?"prevalentemente esternalizzante — il disagio si esprime principalmente verso l'esterno (comportamento, impulsivita, oppositivita)":intBd!=="normale"&&estBd!=="normale"?"misto — sono presenti sia componenti internalizzanti che esternalizzanti":"nella norma in entrambe le dimensioni";
+  html+='<div style="margin-top:1rem;padding:12px 14px;background:#f8f8f7;border-radius:9px;border-left:3px solid #1D9E75;">'
+    +'<p style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Lettura del profilo</p>'
+    +'<p style="font-size:13px;color:#444;line-height:1.75;">Il profilo risulta <strong>'+profDir2+'</strong>. '
+    +'Il punteggio totale di difficolta e <strong>'+e.tot+'/40</strong> (<span class="badge '+bc(TOT.bd)+'">'+bl(TOT.bd)+'</span>). ';
+  // Add narrative for each scale that is not normal
+  var noteScale=[];
+  if(ES.bd!=="normale")noteScale.push("i <strong>sintomi emotivi</strong> ("+ES.v+"/10, "+bl(ES.bd)+") indicano "+( ES.bd==="borderline"?"una presenza lieve di vissuti ansiosi o depressivi da monitorare":"una presenza significativa di disagio emotivo (ansia, preoccupazioni, tristezza) che richiede attenzione")  );
+  if(IP.bd!=="normale")noteScale.push("l'<strong>iperattivita/disattenzione</strong> ("+IP.v+"/10, "+bl(IP.bd)+") segnala "+(IP.bd==="borderline"?"alcune difficolta nella regolazione dell'attenzione e del comportamento motorio":"marcate difficolta di autoregolazione, concentrazione e controllo dell'impulsivita"));
+  if(EC.bd!=="normale")noteScale.push("i <strong>problemi di condotta</strong> ("+EC.v+"/10, "+bl(EC.bd)+") evidenziano "+(EC.bd==="borderline"?"alcuni comportamenti problematici da osservare nel contesto":"comportamenti aggressivi, oppositivi o antisociali che superano la norma"));
+  if(C.bd!=="normale")noteScale.push("le <strong>difficolta relazionali</strong> ("+C.v+"/10, "+bl(C.bd)+") indicano "+(C.bd==="borderline"?"una rete sociale limitata o qualche difficolta con i pari":"significative difficolta nel costruire e mantenere relazioni, con possibili vissuti di isolamento"));
+  if(PR.bd==="basso"||PR.bd==="borderline")noteScale.push("il <strong>comportamento prosociale</strong> ("+PR.v+"/10, "+bl(PR.bd)+") risulta "+(PR.bd==="basso"?"basso, con scarse manifestazioni di empatia e cooperazione":"borderline, con alcune difficolta nell'aiutare e cooperare con gli altri"));
+  if(noteScale.length){
+    html+="In particolare: "+noteScale.join("; ")+".";
+  } else {
+    html+="Nessuna scala risulta in fascia di attenzione.";
+  }
+  // PR as resource
+  if(PR.bd==="adeguato")html+=' Il <strong>comportamento prosociale</strong> ('+PR.v+'/10) rappresenta un punto di forza: il soggetto mostra buone capacita empatiche e cooperative.';
+  html+='</p></div>';
+  html+='<div style="margin-top:8px;padding:9px 12px;background:#f0faf6;border-radius:8px;font-size:12px;color:#666;line-height:1.5;">Nota: per la scala Prosociale punteggi alti (6-10) indicano funzionamento adeguato; punteggi bassi (0-4) indicano difficolta prosociali.</div>';
   return html;
 }
 
@@ -854,6 +892,71 @@ function renderRisposte(e){
       +'</tr>';
   });
   html+='</tbody></table>';
+
+  // Coherence analysis
+  if(e.raw){
+    var raw=e.raw;
+    // Check internal consistency: scales should show internal coherence
+    // Items per scale: ES=3,8,13,16,24; IP=2,10,15,21,25; EC=5,7,12,18,22; C=6,11,14,19,23; PR=1,4,9,17,20
+    var scaleItems={
+      ES:[2,7,12,15,23],   // 0-indexed
+      IP:[1,9,14,20,24],
+      EC:[4,6,11,17,21],
+      C:[5,10,13,18,22],
+      PR:[0,3,8,16,19]
+    };
+    var scaleReverse={EC:[6],C:[10,13],IP:[20,24]};
+    // Variance within each scale (high variance = possible inconsistency)
+    var coherenceIssues=[];
+    Object.keys(scaleItems).forEach(function(s){
+      var vals=scaleItems[s].map(function(i){return raw[i]!=null?raw[i]:0;});
+      var mean=vals.reduce(function(a,b){return a+b;},0)/vals.length;
+      var variance=vals.reduce(function(a,v){return a+(v-mean)*(v-mean);},0)/vals.length;
+      if(variance>1.2){
+        coherenceIssues.push({scala:s,variance:variance.toFixed(1),vals:vals});
+      }
+    });
+    // Check for extreme response sets (all 0 or all 2)
+    var allZero=raw.every(function(v){return v===0;});
+    var allTwo=raw.every(function(v){return v===2;});
+    var mostlyExtreme=raw.filter(function(v){return v===0||v===2;}).length/raw.length;
+    var affidabilita,affCol,affBg;
+    if(allZero||allTwo){
+      affidabilita="Bassa: pattern di risposta estremo";affCol="#791F1F";affBg="#FCEBEB";
+    } else if(mostlyExtreme>0.85||coherenceIssues.length>=3){
+      affidabilita="Moderata: presenti alcuni indicatori di incoerenza";affCol="#633806";affBg="#FAEEDA";
+    } else if(coherenceIssues.length>=2||mostlyExtreme>0.7){
+      affidabilita="Discreta: alcune scale mostrano variabilita interna";affCol="#BA7517";affBg="#FFF8E6";
+    } else {
+      affidabilita="Buona: il pattern di risposta appare coerente";affCol="#085041";affBg="#E1F5EE";
+    }
+    html+="<div style=\"margin-top:1rem;padding:14px;background:"+affBg+";border-radius:9px;border-left:3px solid "+affCol+";\">"; 
+    html+="<p style=\"font-size:13px;font-weight:600;color:"+affCol+";margin-bottom:6px;\">Valutazione dell'affidabilita delle risposte</p>";
+    html+='<p style="font-size:13px;color:#444;margin-bottom:8px;"><strong>Indice di affidabilita:</strong> '+affidabilita+'</p>';
+    if(allZero){
+      html+='<p style="font-size:12px;color:#555;line-height:1.6;">Tutte le risposte sono "Non vero": pattern estremo che puo indicare tendenza a minimizzare o desiderabilita sociale. I risultati vanno interpretati con cautela.</p>';
+    } else if(allTwo){
+      html+='<p style="font-size:12px;color:#555;line-height:1.6;">Tutte le risposte sono "Assolutamente vero": pattern estremo che puo indicare tendenza ad amplificare le difficolta o risposta non attenta. I risultati vanno interpretati con cautela.</p>';
+    } else {
+      if(coherenceIssues.length>0){
+        html+='<p style="font-size:12px;color:#555;line-height:1.6;margin-bottom:4px;">Le scale con maggiore variabilita interna (potenziale incoerenza tra item della stessa area) sono:</p>';
+        html+='<ul style="font-size:12px;color:#555;margin:.25rem 0 .5rem 1.2rem;">';
+        coherenceIssues.forEach(function(ci){
+          html+='<li><strong>'+SLBL[ci.scala]+'</strong>: varianza interna '+ci.variance+": le risposte agli item di questa scala presentano una dispersione maggiore del previsto.</li>";
+        });
+        html+='</ul>';
+      }
+      if(mostlyExtreme>0.7){
+        html+='<p style="font-size:12px;color:#555;line-height:1.6;">Il '+Math.round(mostlyExtreme*100)+'% delle risposte e alle posizioni estreme (0 o 2), il che puo indicare una tendenza alla risposta polarizzata.</p>';
+      }
+      if(coherenceIssues.length===0&&mostlyExtreme<=0.7){
+        html+='<p style="font-size:12px;color:#555;line-height:1.6;">Il pattern di risposta mostra una distribuzione equilibrata tra le tre opzioni, senza bias evidenti. Le risposte appaiono internamente coerenti.</p>';
+      }
+    }
+    html+="<p style=\"font-size:11px;color:#888;margin-top:8px;\">Nota: questa valutazione e basata su indici statistici interni e non sostituisce il giudizio clinico. La variabilita delle risposte puo riflettere un quadro eterogeneo o genuina incoerenza.</p>";
+    html+='</div>';
+  }
+
   return html;
 }
 
