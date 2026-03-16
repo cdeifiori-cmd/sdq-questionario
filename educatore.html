@@ -860,7 +860,13 @@ function renderImpact(e){
 }
 
 function renderRisposte(e){
-  if(!e.raw)return'<div class="empty">Risposte dettagliate non disponibili per questa compilazione.</div>';
+  if(!e.raw){
+    return "<p class=\"lbl\" style=\"margin-top:0;\">Risposte individuali</p>"
+      +"<div style=\"padding:14px;background:#FFF8E6;border-radius:9px;border-left:3px solid #BA7517;\">"
+      +"<p style=\"font-size:13px;font-weight:600;color:#633806;margin-bottom:6px;\">Risposte dettagliate non disponibili</p>"
+      +"<p style=\"font-size:13px;color:#555;line-height:1.7;\">Questo questionario e stato compilato prima che il sistema salvasse le risposte singole. "
+      +"Per visualizzare le risposte individuali e la valutazione di affidabilita, occorre una nuova compilazione con il modulo aggiornato.</p></div>";
+  }
   var ITEMS=[
     {t:"Rispettoso dei sentimenti degli altri",s:"PR",r:false},{t:"Irrequieto, iperattivo",s:"IP",r:false},
     {t:"Mal di testa, stomaco o nausea",s:"ES",r:false},{t:"Condivide volentieri",s:"PR",r:false},
@@ -971,6 +977,8 @@ function buildReportPane(auto,edu,gen){
   if(auto)fontiDisp.push({e:auto,label:"Auto-report",color:"#1D9E75"});
   if(edu)fontiDisp.push({e:edu,label:"Educatore",color:"#534AB7"});
   if(gen)fontiDisp.push({e:gen,label:"Genitore",color:"#D85A30"});
+  var scales=["ES","IP","EC","C","PR"];
+  var hasAllRaw=fontiDisp.every(function(f){return f.e&&f.e.raw;});
 
   var html='<div class="sub-tabs">';
   html+='<button class="sub-tab act" onclick="subTab(this,\'sr-scale\')">Confronto scale</button>';
@@ -978,7 +986,6 @@ function buildReportPane(auto,edu,gen){
   html+='<button class="sub-tab" onclick="subTab(this,\'sr-interp\')">Confronto interpretazioni</button>';
   html+='<button class="sub-tab" onclick="subTab(this,\'sr-rel\')">Relazione sintesi</button>';
   html+='<button class="sub-tab" onclick="subTab(this,\'sr-impact\')">Confronto impatto</button>';
-  var hasAllRaw=fontiDisp.every(function(f){return f.e.raw;});
   if(hasAllRaw)html+='<button class="sub-tab" onclick="subTab(this,\'sr-risp\')">Confronto risposte</button>';
   html+='</div>';
 
