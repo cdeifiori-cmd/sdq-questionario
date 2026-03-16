@@ -253,8 +253,28 @@ h2{font-size:17px;font-weight:600;margin-bottom:12px;}
 
   /* ── Nota conclusiva ── */
   div[style*="background:#f8f8f7"]{padding:6px 8px !important;}
+
+  /* ── Titolo minore (secondo foglio) ── */
+  #print-minore-title{
+    display:flex !important;
+    align-items:center !important;
+    padding:0 0 10px 0 !important;
+    margin-bottom:10px !important;
+    border-bottom:3px solid #1a1a1a !important;
+    page-break-after:avoid !important;
+    break-after:avoid !important;
+  }
+
+  /* ── SVG radar in stampa ── */
+  .radar-svg-print{display:block !important;width:100% !important;margin:4px 0 !important;}
+  canvas[id^="radar-"]{display:none !important;}
+
+  /* ── Evita foglio bianco finale ── */
+  .fonte-pane:last-child{page-break-after:avoid !important;break-after:avoid !important;}
+  #modal-wrap > *:last-child{page-break-after:avoid !important;break-after:avoid !important;}
 }
 .fonte-print-header{display:none;margin:0;padding:0;height:0;overflow:hidden;}
+#print-minore-title{display:none;}
 </style>
 </head>
 <body>
@@ -1645,9 +1665,85 @@ window.closeModal=function(){
 };
 window.closeModalBg=function(e){if(e.target===e.currentTarget)window.closeModal();};
 
+// ── SVG Radar helper ──────────────────────────────────────────────────────────
+function buildRadarSVG(datasets, labels, size){
+  size = size||300;
+  var cx=size/2, cy=size/2, r=size*0.36;
+  var n=labels.length;
+  var angles=labels.map(function(_,i){return(Math.PI*2/n)*i - Math.PI/2;});
+  function pt(val,maxVal,ang){
+    var d=(val/maxVal)*r;
+    return{x:cx+d*Math.cos(ang), y:cy+d*Math.sin(ang)};
+  }
+  var svgParts=['<svg xmlns="http://www.w3.org/2000/svg" width="'+size+'" height="'+(size+40)+'" style="display:block;margin:0 auto;">'];
+  // Grid rings
+  [2,4,6,8,10].forEach(function(v){
+    var pts=angles.map(function(a){var p=pt(v,10,a);return p.x+","+p.y;}).join(" ");
+    svgParts.push('<polygon points="'+pts+'" fill="none" stroke="#e0e0e0" stroke-width="0.8"/>');
+  });
+  // Axes
+  angles.forEach(function(a){
+    var p=pt(10,10,a);
+    svgParts.push('<line x1="'+cx+'" y1="'+cy+'" x2="'+p.x+'" y2="'+p.y+'" stroke="#e0e0e0" stroke-width="0.8"/>');
+  });
+  // Labels
+  angles.forEach(function(a,i){
+    var p=pt(10,10,a);
+    var lx=cx+(r+18)*Math.cos(a), ly=cy+(r+18)*Math.sin(a);
+    var anchor=Math.abs(Math.cos(a))<0.1?"middle":Math.cos(a)>0?"start":"end";
+    svgParts.push('<text x="'+lx+'" y="'+(ly+4)+'" text-anchor="'+anchor+'" font-size="9" fill="#555" font-family="sans-serif">'+labels[i]+'</text>');
+  });
+  // Datasets
+  datasets.forEach(function(ds){
+    var pts=angles.map(function(a,i){var p=pt(ds.data[i],10,a);return p.x+","+p.y;}).join(" ");
+    svgParts.push('<polygon points="'+pts+'" fill="'+ds.color+'33" stroke="'+ds.color+'" stroke-width="2" stroke-linejoin="round"/>');
+    angles.forEach(function(a,i){
+      var p=pt(ds.data[i],10,a);
+      svgParts.push('<circle cx="'+p.x+'" cy="'+p.y+'" r="3" fill="'+ds.color+'"/>');
+    });
+  });
+  // Legend
+  var lx=10, ly=size+14;
+  datasets.forEach(function(ds){
+    svgParts.push('<rect x="'+lx+'" y="'+(ly-8)+'" width="14" height="8" fill="'+ds.color+'" rx="2"/>');
+    svgParts.push('<text x="'+(lx+18)+'" y="'+ly+'" font-size="9" fill="#444" font-family="sans-serif">'+ds.label+'</text>');
+    lx+=ds.label.length*6+28;
+  });
+  svgParts.push('</svg>');
+  return svgParts.join("");
+}
+
+// Converte tutti i canvas radar in SVG inline per la stampa, li ripristina dopo
+function prepareRadarsForPrint(){
+  var replacements=[];
+  document.querySelectorAll("canvas[id^='radar-']").forEach(function(canvas){
+    var chart=radarCharts.find(function(c){return c.canvas===canvas;});
+    if(!chart)return;
+    var ds=chart.data.datasets.map(function(d){
+      return{data:d.data,color:d.borderColor,label:d.label};
+    });
+    var labels=chart.data.labels;
+    var svgHtml=buildRadarSVG(ds,labels,280);
+    var div=document.createElement("div");
+    div.className="radar-svg-print";
+    div.innerHTML=svgHtml;
+    div.style.width="100%";
+    canvas.parentNode.insertBefore(div,canvas);
+    canvas.style.display="none";
+    replacements.push({div:div,canvas:canvas});
+  });
+  return replacements;
+}
+function restoreRadarsAfterPrint(replacements){
+  replacements.forEach(function(r){
+    r.canvas.style.display="";
+    if(r.div.parentNode) r.div.parentNode.removeChild(r.div);
+  });
+}
+
 window.stampaDettaglio=function(soloTab){
-  // soloTab: undefined=tutto, oppure key specifica es "auto","edu","gen","report"
   document.getElementById("modal-wrap").style.display="block";
+
   // Inizializza radar report se necessario
   var canvas=document.getElementById("radar-report");
   if(canvas&&!canvas._chartDone&&currentMinore){
@@ -1657,22 +1753,39 @@ window.stampaDettaglio=function(soloTab){
     if(currentMinore.edu)fd.push({e:currentMinore.edu,label:"Educatore",color:"#534AB7"});
     if(currentMinore.gen)fd.push({e:currentMinore.gen,label:"Genitore",color:"#D85A30"});
     var ds=fd.map(function(f){return{label:f.label,data:[f.e.scores.ES,f.e.scores.IP,f.e.scores.EC,f.e.scores.C,f.e.scores.PR],backgroundColor:f.color+"26",borderColor:f.color,borderWidth:2,pointBackgroundColor:f.color,pointRadius:4};});
-    try{var rc=new Chart(canvas,{type:"radar",data:{labels:["ES","IP","EC","C","PR"],datasets:ds},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:"bottom"}},scales:{r:{min:0,max:10}}}});radarCharts.push(rc);}catch(e2){}
+    try{var rc=new Chart(canvas,{type:"radar",data:{labels:["Sintomi Emotivi","Iperattivita","Prob. Condotta","Prob. Relazioni","Prosociale"],datasets:ds},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:"bottom",labels:{font:{size:11}}}},scales:{r:{min:0,max:10,ticks:{stepSize:2,font:{size:9},color:"#aaa"},pointLabels:{font:{size:10}}}}}});radarCharts.push(rc);}catch(e2){}
   }
+
+  // Aggiungi titolo-minore in stampa (secondo foglio)
+  var printTitle=document.getElementById("print-minore-title");
+  if(!printTitle){
+    printTitle=document.createElement("div");
+    printTitle.id="print-minore-title";
+    document.getElementById("modal-wrap").insertBefore(printTitle, document.getElementById("modal-wrap").firstChild);
+  }
+  var m=currentMinore||{};
+  var codStr=m.codice?'<span style="background:#1a1a1a;color:#fff;font-size:13px;font-weight:700;padding:3px 10px;border-radius:20px;margin-right:10px;">#'+m.codice+'</span>':"";
+  printTitle.innerHTML=codStr+'<span style="font-size:22px;font-weight:700;color:#1a1a1a;">'+( m.nome||"")+'</span>';
+
+  // Gestione soloTab
   if(soloTab){
-    // Nascondi tutti i pane tranne quello selezionato
     document.querySelectorAll(".fonte-pane").forEach(function(p){
-      p.dataset.printHidden = p.id!=="fp-"+soloTab?"1":"0";
-      if(p.id!=="fp-"+soloTab) p.style.setProperty("display","none","important");
+      p.dataset.printHidden=p.id!=="fp-"+soloTab?"1":"0";
+      if(p.id!=="fp-"+soloTab)p.style.setProperty("display","none","important");
     });
-    window.print();
-    // Ripristina
-    document.querySelectorAll(".fonte-pane").forEach(function(p){
-      if(p.dataset.printHidden==="1") p.style.removeProperty("display");
-    });
-  } else {
-    window.print();
   }
+
+  // Converti canvas in SVG, stampa, ripristina
+  var replacements=prepareRadarsForPrint();
+  setTimeout(function(){
+    window.print();
+    restoreRadarsAfterPrint(replacements);
+    if(soloTab){
+      document.querySelectorAll(".fonte-pane").forEach(function(p){
+        if(p.dataset.printHidden==="1")p.style.removeProperty("display");
+      });
+    }
+  }, 80);
 };
 
 async function deleteEntry(id){
