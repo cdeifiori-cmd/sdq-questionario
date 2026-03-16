@@ -107,7 +107,11 @@ h2{font-size:17px;font-weight:600;margin-bottom:12px;}
   .modal{box-shadow:none !important;border-radius:0 !important;padding:0 !important;max-width:100% !important;width:100% !important;margin:0 !important;}
 
   /* ── Legenda (primo foglio) ── */
-  #legenda-stampa{display:block !important;}
+  #legenda-stampa{
+    display:block !important;
+    page-break-after:always !important;
+    break-after:always !important;
+  }
   #legenda-stampa > div{
     font-size:10px !important;
     line-height:1.5 !important;
@@ -120,8 +124,7 @@ h2{font-size:17px;font-weight:600;margin-bottom:12px;}
   #legenda-stampa table{width:100% !important;font-size:9.5px !important;margin-bottom:.5rem !important;}
   #legenda-stampa td,#legenda-stampa th{padding:3px 7px !important;}
 
-  /* Separatore tra legenda e modal */
-  #legenda-stampa + #modal-wrap{page-break-before:always !important;break-before:always !important;}
+  /* Separatore tra legenda e modal: gestito da page-break-after su #legenda-stampa */
 
   /* ── Fonte pane: ogni fonte su pagina nuova ── */
   .fonte-pane{
