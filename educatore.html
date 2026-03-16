@@ -1010,7 +1010,7 @@ function renderRisposte(e){
           coherenceIssues.push({scala:s,tipo:"contraddizione",avgD:avgDirect.toFixed(1),avgR:avgReversed.toFixed(1)});
         }
       }
-      if(variance>0.9&&vals.length>=4){
+      if(variance>0.55&&vals.length>=4){
         coherenceIssues.push({scala:s,tipo:"variabilita",variance:variance.toFixed(1)});
       }
     });
@@ -1020,9 +1020,24 @@ function renderRisposte(e){
     // Item 14 (C, reversed = "ben accetto dai pari"): if raw[13]=0 (NOT accettato) AND raw[18]=2 (preso di mira) = consistent
     // Inconsistency: raw[13]=2 (assolutamente accettato) AND raw[18]=2 (assolutamente preso di mira) - contradiction
     var semanticContradictions=[];
-    if(raw[13]===2&&raw[18]===2) semanticContradictions.push("accettato dai pari (item 14) e preso di mira (item 19) entrambi al massimo");
-    if(raw[6]===2&&raw[4]===2&&raw[11]===2) semanticContradictions.push("obbediente (item 7) e crisi di collera (item 5) e litiga (item 12) tutti al massimo");
-    if(raw[20]===2&&raw[1]===2&&raw[14]===2) semanticContradictions.push("pensa prima di fare (item 21) e irrequieto (item 2) e distratto (item 15) tutti al massimo");
+    // C scale: accepted by peers vs bullied
+    if(raw[13]===2&&raw[18]===2) semanticContradictions.push("ben accettato dai pari (item 14) e preso di mira dagli altri (item 19) entrambi al massimo");
+    // EC: obedient vs aggressive/lying
+    if(raw[6]===2&&raw[4]===2&&raw[11]===2) semanticContradictions.push("generalmente obbediente (item 7) e crisi di collera (item 5) e litiga (item 12) tutti al massimo");
+    if(raw[6]===2&&raw[17]===2) semanticContradictions.push("generalmente obbediente (item 7) e dice bugie (item 18) entrambi al massimo");
+    // IP: thinks before acting vs impulsive
+    if(raw[20]===2&&raw[1]===2) semanticContradictions.push("pensa prima di fare (item 21) e irrequieto/iperattivo (item 2) entrambi al massimo");
+    if(raw[20]===2&&raw[14]===2) semanticContradictions.push("pensa prima di fare (item 21) e facilmente distratto (item 15) entrambi al massimo");
+    if(raw[24]===2&&raw[9]===2) semanticContradictions.push("porta a termine i compiti (item 25) e costantemente in movimento (item 10) entrambi al massimo");
+    // PR: contradictions within prosocial
+    if(raw[8]===2&&raw[19]===0&&raw[0]===0) semanticContradictions.push("di aiuto (item 9) al massimo ma rispettoso (item 1) e volontario (item 20) entrambi a zero");
+    if(raw[0]===2&&raw[19]===0) semanticContradictions.push("rispettoso dei sentimenti (item 1) al massimo ma si offre volontario (item 20) a zero");
+    // C: has friends vs isolated
+    if(raw[10]===2&&raw[5]===2) semanticContradictions.push("ha almeno un buon amico (item 11) al massimo e solitario (item 6) al massimo");
+    if(raw[10]===0&&raw[13]===2) semanticContradictions.push("non ha un buon amico (item 11=0) ma ben accettato dai pari (item 14) al massimo");
+    // ES: emotional contradictions
+    if(raw[7]===0&&raw[12]===2) semanticContradictions.push("non ha preoccupazioni (item 8=0) ma spesso infelice (item 13) al massimo");
+    if(raw[2]===0&&raw[12]===2&&raw[15]===2) semanticContradictions.push("nessun sintomo fisico (item 3=0) ma infelice (item 13) e nervoso (item 16) entrambi al massimo");
     
     // --- CALCULATE SCORE ---
     var problems=0;
@@ -1039,7 +1054,9 @@ function renderRisposte(e){
     if(contraddC.length>=2){problems+=2;problemDetails.push("contraddizioni interne in "+contraddC.length+" scale (item diretti e invertiti discordanti)");}
     else if(contraddC.length===1){problems+=1;problemDetails.push("contraddizione interna nella scala "+contraddC[0].scala);}
     var varIssues=coherenceIssues.filter(function(c){return c.tipo==="variabilita";});
-    if(varIssues.length>=3){problems+=1;problemDetails.push("alta variabilita interna in "+varIssues.length+" scale");}
+    if(varIssues.length>=3){problems+=2;problemDetails.push("alta variabilita interna in "+varIssues.length+" scale (risposte contraddittorie tra item della stessa area)");}
+    else if(varIssues.length===2){problems+=1;problemDetails.push("variabilita interna in 2 scale: risposte contrastanti tra item della stessa area");}
+    else if(varIssues.length===1){problems+=1;problemDetails.push("variabilita interna nella scala "+varIssues[0].scala+": risposte non coerenti tra i 5 item dell'area");}
     if(semanticContradictions.length>=2){problems+=2;problemDetails.push("contraddizioni semantiche tra item: "+semanticContradictions.join("; "));}
     else if(semanticContradictions.length===1){problems+=1;problemDetails.push("contraddizione semantica: "+semanticContradictions[0]);}
     
