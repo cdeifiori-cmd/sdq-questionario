@@ -1010,7 +1010,7 @@ function renderRisposte(e){
           coherenceIssues.push({scala:s,tipo:"contraddizione",avgD:avgDirect.toFixed(1),avgR:avgReversed.toFixed(1)});
         }
       }
-      if(variance>0.55&&vals.length>=4){
+      if(variance>0.40&&vals.length>=4){
         coherenceIssues.push({scala:s,tipo:"variabilita",variance:variance.toFixed(1)});
       }
     });
@@ -1060,12 +1060,13 @@ function renderRisposte(e){
     if(semanticContradictions.length>=2){problems+=2;problemDetails.push("contraddizioni semantiche tra item: "+semanticContradictions.join("; "));}
     else if(semanticContradictions.length===1){problems+=1;problemDetails.push("contraddizione semantica: "+semanticContradictions[0]);}
     
+    // Buona only if truly no issues at all
     var affidabilita,affCol,affBg;
     if(problems>=5){affidabilita="Molto bassa: segnali forti di incoerenza";affCol="#791F1F";affBg="#FCEBEB";}
     else if(problems>=3){affidabilita="Bassa: presenti indicatori significativi di incoerenza";affCol="#A32D2D";affBg="#FCEBEB";}
     else if(problems>=2){affidabilita="Moderata: alcune aree di incoerenza da valutare";affCol="#633806";affBg="#FAEEDA";}
-    else if(problems>=1){affidabilita="Discreta: lievi segnali da considerare nel contesto";affCol="#BA7517";affBg="#FFF8E6";}
-    else{affidabilita="Buona: nessun indicatore significativo di incoerenza";affCol="#085041";affBg="#E1F5EE";}
+    else if(problems>=1||coherenceIssues.length>0){affidabilita="Discreta: lievi segnali da considerare nel contesto";affCol="#BA7517";affBg="#FFF8E6";}
+    else{affidabilita="Buona: nessun indicatore di incoerenza rilevato";affCol="#085041";affBg="#E1F5EE";}
     html+="<div style=\"margin-top:1rem;padding:14px;background:"+affBg+";border-radius:9px;border-left:3px solid "+affCol+";\">"; 
     html+="<p style=\"font-size:13px;font-weight:600;color:"+affCol+";margin-bottom:6px;\">Valutazione dell'affidabilita delle risposte</p>";
     html+='<p style="font-size:13px;color:#444;margin-bottom:8px;"><strong>Indice di affidabilita:</strong> '+affidabilita+'</p>';
