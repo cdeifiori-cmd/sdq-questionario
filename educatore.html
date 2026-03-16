@@ -80,52 +80,179 @@ h2{font-size:17px;font-weight:600;margin-bottom:12px;}
 .print-btn{background:#f8f8f7;border:1px solid #e0e0de;border-radius:7px;padding:5px 12px;font-size:12px;cursor:pointer;color:#444;}
 .print-btn:hover{background:#f0f0ee;}
 @media print{
-  @page{size:A4 portrait;margin:15mm 14mm 15mm 14mm;}
-  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
-  body{background:#fff !important;font-size:11px !important;color:#1a1a1a !important;}
+  @page{size:A4 portrait;margin:12mm 13mm 12mm 13mm;}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;box-sizing:border-box !important;}
+
+  /* ── Reset base ── */
+  body{
+    background:#fff !important;
+    font-size:10.5px !important;
+    line-height:1.45 !important;
+    color:#1a1a1a !important;
+    margin:0 !important;
+    padding:0 !important;
+  }
+
+  /* ── Nascondi interfaccia schermo ── */
   .container{display:none !important;}
   #screen-dash{display:none !important;}
   #screen-login{display:none !important;}
-  #modal-wrap{display:block !important;position:static !important;}
-  .modal-bg{position:static !important;background:none !important;padding:0 !important;display:block !important;}
-  .modal{box-shadow:none !important;border-radius:0 !important;padding:0 !important;max-width:100% !important;width:100% !important;}
-  /* Legenda: primo foglio */
-  #legenda-stampa{display:block !important;}
-  #legenda-stampa > div{font-size:11px !important;}
-  #legenda-stampa + #modal-wrap{page-break-before:always;}
-  /* Nascondi UI chrome */
-  .fonte-tabs,.sub-tabs,.btn-sm,.btn-danger,.print-btn{display:none !important;}
+  .fonte-tabs,.sub-tabs,.btn-sm,.btn-danger,.print-btn,.nav-bar{display:none !important;}
   #det-header > div:last-child{display:none !important;}
-  /* Mostra tutti i pane */
-  .fonte-pane{display:block !important;}
-  .sub-pane{display:block !important;}
-  /* Ogni fonte inizia su nuova pagina */
-  .fonte-pane{page-break-before:always;}
-  .fonte-pane:first-child{page-break-before:avoid;}
-  /* Sub-pane: NON forzare pagina nuova — fluiscono naturalmente */
-  /* Solo aggiunge separazione visiva tra sub-pane */
-  .sub-pane{
-    page-break-inside:avoid;
-    border-bottom:1px dashed #ddd;
-    padding-bottom:8px;
-    margin-bottom:8px;
+  #print-btns-area{display:none !important;}
+
+  /* ── Mostra modal in layout statico ── */
+  #modal-wrap{display:block !important;position:static !important;}
+  .modal-bg{position:static !important;background:none !important;padding:0 !important;display:block !important;overflow:visible !important;}
+  .modal{box-shadow:none !important;border-radius:0 !important;padding:0 !important;max-width:100% !important;width:100% !important;margin:0 !important;}
+
+  /* ── Legenda (primo foglio) ── */
+  #legenda-stampa{display:block !important;}
+  #legenda-stampa > div{
+    font-size:10px !important;
+    line-height:1.5 !important;
+    padding:0 !important;
+    max-width:100% !important;
+    margin:0 !important;
   }
-  .sub-pane:last-child{border-bottom:none;}
-  /* Evita page break dentro elementi chiave */
-  .rel-section{page-break-inside:avoid;}
-  .interp-block{page-break-inside:avoid;margin-bottom:4px !important;padding:6px 8px !important;}
-  table{page-break-inside:auto;font-size:10px !important;}
-  tr{page-break-inside:avoid;}
-  /* Comprimi spaziature per stampa */
-  .lbl{margin:.5rem 0 .25rem !important;font-size:10px !important;}
-  .scale-row{padding:5px 0 !important;}
-  .bar-bg{height:5px !important;}
-  .bar-fill{height:5px !important;}
-  canvas{max-height:200px !important;}
-  /* Nascondi elementi inutili in stampa */
-  #det-header{margin-bottom:.5rem !important;}
-  /* Print header identificativo su ogni fonte-pane */
-  .fonte-print-header{display:block !important;font-size:13px;font-weight:700;border-bottom:2px solid #1a1a1a;padding-bottom:4px;margin-bottom:10px;}
+  #legenda-stampa h3{margin:.5rem 0 .3rem !important;font-size:11px !important;}
+  #legenda-stampa p{margin-bottom:.4rem !important;}
+  #legenda-stampa table{width:100% !important;font-size:9.5px !important;margin-bottom:.5rem !important;}
+  #legenda-stampa td,#legenda-stampa th{padding:3px 7px !important;}
+
+  /* Separatore tra legenda e modal */
+  #legenda-stampa + #modal-wrap{page-break-before:always !important;break-before:always !important;}
+
+  /* ── Fonte pane: ogni fonte su pagina nuova ── */
+  .fonte-pane{
+    display:block !important;
+    page-break-before:always !important;
+    break-before:always !important;
+    margin:0 !important;
+    padding:0 !important;
+  }
+  .fonte-pane:first-child{
+    page-break-before:avoid !important;
+    break-before:avoid !important;
+  }
+
+  /* ── Sub-pane: fluiscono nella stessa pagina ── */
+  .sub-pane{
+    display:block !important;
+    page-break-inside:avoid !important;
+    break-inside:avoid !important;
+    border-bottom:1px dashed #ccc !important;
+    padding-bottom:6px !important;
+    margin-bottom:6px !important;
+  }
+  .sub-pane:last-child{border-bottom:none !important;margin-bottom:0 !important;}
+
+  /* ── Intestazione minore ── */
+  #det-header{
+    margin-bottom:6px !important;
+    padding-bottom:6px !important;
+  }
+
+  /* ── Scale ── */
+  .lbl{
+    margin:4px 0 2px !important;
+    font-size:9px !important;
+    letter-spacing:.04em !important;
+  }
+  .scale-row{
+    display:grid !important;
+    grid-template-columns:140px 1fr 50px 85px !important;
+    align-items:center !important;
+    gap:8px !important;
+    padding:4px 0 !important;
+    border-bottom:1px solid #f0f0ee !important;
+  }
+  .scale-row:last-child{border-bottom:none !important;}
+  .bar-bg{height:5px !important;border-radius:3px !important;}
+  .bar-fill{height:5px !important;border-radius:3px !important;}
+
+  /* Badge */
+  .badge{font-size:9px !important;padding:1px 5px !important;}
+
+  /* ── Blocchi interpretazione ── */
+  .interp-block{
+    page-break-inside:avoid !important;
+    break-inside:avoid !important;
+    margin-bottom:4px !important;
+    padding:5px 8px !important;
+    border-radius:5px !important;
+  }
+  .interp-header{margin-bottom:3px !important;}
+
+  /* ── Sezioni relazione ── */
+  .rel-section{
+    page-break-inside:avoid !important;
+    break-inside:avoid !important;
+    margin-bottom:7px !important;
+  }
+  .rel-section h4{
+    font-size:10px !important;
+    margin-bottom:4px !important;
+    padding-bottom:2px !important;
+  }
+  .rel-section p{font-size:10px !important;line-height:1.5 !important;margin-bottom:3px !important;}
+
+  /* ── Tabelle ── */
+  table{
+    page-break-inside:auto !important;
+    font-size:9.5px !important;
+    width:100% !important;
+    margin-bottom:5px !important;
+  }
+  thead{display:table-header-group !important;}
+  tr{page-break-inside:avoid !important;break-inside:avoid !important;}
+  td,th{padding:4px 7px !important;font-size:9.5px !important;}
+
+  /* ── Tabella impatto ── */
+  .impact-table td{
+    padding:4px 0 !important;
+    font-size:9.5px !important;
+  }
+
+  /* ── Canvas radar ── */
+  canvas{
+    max-height:180px !important;
+    max-width:100% !important;
+  }
+
+  /* ── Blocchi interni con bordo e padding ── */
+  div[style*="border-radius:12px"],
+  div[style*="border-radius:9px"]{
+    border-radius:5px !important;
+  }
+  /* Comprimi padding nei box colorati interni */
+  div[style*="padding:12px"]{padding:6px 9px !important;}
+  div[style*="padding:1.5rem"]{padding:8px !important;}
+  div[style*="padding:1.25rem"]{padding:7px !important;}
+
+  /* Grid a due colonne compositi */
+  div[style*="grid-template-columns:1fr 1fr"]{
+    gap:6px !important;
+  }
+
+  /* ── Print header per ogni fonte ── */
+  .fonte-print-header{
+    display:block !important;
+    font-size:12px !important;
+    font-weight:700 !important;
+    border-bottom:2px solid #1a1a1a !important;
+    padding-bottom:3px !important;
+    margin-bottom:8px !important;
+  }
+
+  /* ── Testi generali ── */
+  p{font-size:10px !important;line-height:1.5 !important;margin-bottom:3px !important;}
+  h4{font-size:11px !important;}
+  ul{margin:.3rem 0 .3rem 1.1rem !important;padding:0 !important;}
+  li{font-size:10px !important;line-height:1.45 !important;margin-bottom:1px !important;}
+
+  /* ── Nota conclusiva ── */
+  div[style*="background:#f8f8f7"]{padding:6px 8px !important;}
 }
 .fonte-print-header{display:none;margin:0;padding:0;height:0;overflow:hidden;}
 </style>
