@@ -50,13 +50,6 @@ h1{font-size:22px;font-weight:600;margin-bottom:4px;}
 .thanks-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;gap:1rem;text-align:center;padding:2rem;}
 .spinner{display:inline-block;width:20px;height:20px;border:2px solid #fff;border-top-color:transparent;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:8px;}
 @keyframes spin{to{transform:rotate(360deg);}}
-
-@media print {
-  body { background: #fff !important; }
-  #screen-form { display: none !important; }
-  #screen-thanks { display: block !important; }
-  .no-print { display: none !important; }
-}
 </style>
 </head>
 <body>
@@ -185,14 +178,13 @@ h1{font-size:22px;font-weight:600;margin-bottom:4px;}
       <div style="width:64px;height:64px;border-radius:50%;background:#E1F5EE;display:flex;align-items:center;justify-content:center;font-size:32px;">&#10003;</div>
       <h2 style="font-size:22px;font-weight:600;">Grazie per aver risposto!</h2>
       <p style="font-size:15px;color:#666;max-width:280px;line-height:1.6;">Le tue risposte sono state registrate correttamente. Puoi chiudere questa pagina.</p>
-          <button onclick="window.print()" class="no-print" style="margin-top:.5rem;padding:10px 24px;border-radius:9px;border:1px solid #1D9E75;background:transparent;color:#1D9E75;font-size:14px;font-weight:600;cursor:pointer;">&#128438; Stampa conferma</button>
     </div>
   </div>
 </div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const FB = {
   apiKey: "AIzaSyBmsHeTkQMJVQyav3rF8VPMhLeIB45t3Io",
@@ -276,12 +268,6 @@ function getRad(name) {
 
 window.submitForm = async function() {
   var warn = document.getElementById("form-warn");
-  if(!document.getElementById("f-codice").value.trim()){
-    warn.textContent="Inserisci il codice pratica prima di inviare.";
-    warn.style.display="block";
-    document.getElementById("f-codice").focus();
-    return;
-  }
   for(var i=0;i<25;i++){
     if(!document.querySelector("input[name=\"q"+i+"\"]:checked")){
       warn.textContent="Rispondi a tutte le 25 affermazioni prima di inviare.";
@@ -304,11 +290,29 @@ window.submitForm = async function() {
   });
   var tot = sc.ES+sc.IP+sc.EC+sc.C;
   var dg = document.querySelector("input[name=\"diff_gen\"]:checked");
-  var codice = (document.getElementById("f-codice").value||"00").padStart(2,"0");
+  // Auto-generate codice pratica
+  var codice = "01";
+  try {
+    var snap = await getDocs(collection(db,"risposte"));
+    var maxN = 0;
+    snap.forEach(function(d){
+      var n = parseInt(d.data().codice||"0");
+      if(n > maxN) maxN = n;
+    });
+    try {
+      var snap2 = await getDocs(collection(db,"pratiche"));
+      snap2.forEach(function(d){
+        var n = parseInt(d.data().codice||"0");
+        if(n > maxN) maxN = n;
+      });
+    } catch(e2){}
+    codice = String(maxN+1).padStart(2,"0");
+  } catch(e2){}
+  var nomeRagazzo = document.getElementById("f-nome").value||"Anonimo";
   var entry = {
     tipo: "auto-report",
     codice: codice,
-    nome: document.getElementById("f-nome").value||"Anonimo",
+    nome: nomeRagazzo,
     ddn: document.getElementById("f-ddn").value,
     sesso: document.getElementById("f-sesso").value,
     data: document.getElementById("f-data").value||new Date().toISOString().split("T")[0],
@@ -323,6 +327,15 @@ window.submitForm = async function() {
   };
   try {
     await addDoc(collection(db,"risposte"), entry);
+    // Also create pratica so valutatore sees it immediately
+    try {
+      await addDoc(collection(db,"pratiche"), {
+        codice: codice,
+        nome: nomeRagazzo,
+        creato: new Date(),
+        creatoIl: new Date().toISOString().split("T")[0]
+      });
+    } catch(e3){}
     document.getElementById("screen-form").style.display="none";
     document.getElementById("screen-thanks").style.display="block";
     window.scrollTo(0,0);
