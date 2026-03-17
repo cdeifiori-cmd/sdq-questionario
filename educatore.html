@@ -126,7 +126,7 @@ h2{font-size:17px;font-weight:600;margin-bottom:12px;}
 
   /* Separatore tra legenda e modal: gestito da page-break-after su #legenda-stampa */
 
-  /* ── Fonte pane: ogni fonte su pagina nuova ── */
+  /* ── Fonte pane: dalla seconda fonte in poi nuova pagina ── */
   .fonte-pane{
     display:block !important;
     page-break-before:always !important;
@@ -134,6 +134,7 @@ h2{font-size:17px;font-weight:600;margin-bottom:12px;}
     margin:0 !important;
     padding:0 !important;
   }
+  /* Il primo pane NON fa salto — ci pensa #print-minore-title */
   .fonte-pane:first-child{
     page-break-before:avoid !important;
     break-before:avoid !important;
@@ -257,13 +258,15 @@ h2{font-size:17px;font-weight:600;margin-bottom:12px;}
   /* ── Nota conclusiva ── */
   div[style*="background:#f8f8f7"]{padding:6px 8px !important;}
 
-  /* ── Titolo minore (secondo foglio) ── */
+  /* ── Titolo minore (inizio seconda pagina) ── */
   #print-minore-title{
     display:flex !important;
     align-items:center !important;
     padding:0 0 10px 0 !important;
-    margin-bottom:10px !important;
+    margin-bottom:12px !important;
     border-bottom:3px solid #1a1a1a !important;
+    page-break-before:always !important;
+    break-before:always !important;
     page-break-after:avoid !important;
     break-after:avoid !important;
   }
@@ -1759,17 +1762,15 @@ window.stampaDettaglio=function(soloTab){
     try{var rc=new Chart(canvas,{type:"radar",data:{labels:["Sintomi Emotivi","Iperattivita","Prob. Condotta","Prob. Relazioni","Prosociale"],datasets:ds},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:"bottom",labels:{font:{size:11}}}},scales:{r:{min:0,max:10,ticks:{stepSize:2,font:{size:9},color:"#aaa"},pointLabels:{font:{size:10}}}}}});radarCharts.push(rc);}catch(e2){}
   }
 
-  // Inietta titolo-minore come primo elemento del primo fonte-pane (seconda pagina)
+  // Inietta titolo-minore con page-break forzato, PRIMA di #fonte-panes
   document.querySelectorAll("#print-minore-title").forEach(function(el){el.parentNode.removeChild(el);});
-  var firstPane=document.querySelector("#fonte-panes .fonte-pane");
-  if(firstPane){
-    var m=currentMinore||{};
-    var codStr=m.codice?'<span style="background:#1a1a1a;color:#fff;font-size:13px;font-weight:700;padding:3px 10px;border-radius:20px;margin-right:10px;">#'+m.codice+'</span>':"";
-    var titleDiv=document.createElement("div");
-    titleDiv.id="print-minore-title";
-    titleDiv.innerHTML=codStr+'<span style="font-size:22px;font-weight:700;color:#1a1a1a;">'+(m.nome||"")+'</span>';
-    firstPane.insertBefore(titleDiv,firstPane.firstChild);
-  }
+  var m=currentMinore||{};
+  var codStr=m.codice?'<span style="background:#1a1a1a;color:#fff;font-size:13px;font-weight:700;padding:3px 10px;border-radius:20px;margin-right:10px;">#'+m.codice+'</span>':"";
+  var titleDiv=document.createElement("div");
+  titleDiv.id="print-minore-title";
+  titleDiv.innerHTML=codStr+'<span style="font-size:22px;font-weight:700;color:#1a1a1a;">'+(m.nome||"")+'</span>';
+  var fontePanes=document.getElementById("fonte-panes");
+  fontePanes.parentNode.insertBefore(titleDiv, fontePanes);
 
   // Gestione soloTab
   if(soloTab){
