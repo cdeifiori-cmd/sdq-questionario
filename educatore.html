@@ -1286,7 +1286,10 @@ function buildReportPane(auto,edu,gen){
   var scales=["ES","IP","EC","C","PR"];
   var hasAllRaw=fontiDisp.every(function(f){return f.e&&f.e.raw;});
 
-  var html='<div class="sub-tabs">';
+  var nome=(currentMinore&&currentMinore.nome)||'';
+  var codice=(currentMinore&&currentMinore.codice)||'';
+  var html='<div class="fonte-print-header" style="color:#1a1a1a;">Report sintesi'+(nome?' — '+nome:'')+'</div>';
+  html+='<div class="sub-tabs">';
   html+='<button class="sub-tab act" onclick="subTab(this,\'sr-scale\')">Confronto scale</button>';
   html+='<button class="sub-tab" onclick="subTab(this,\'sr-radar\')">Radar sovrapposti</button>';
   html+='<button class="sub-tab" onclick="subTab(this,\'sr-interp\')">Confronto interpretazioni</button>';
@@ -1315,9 +1318,8 @@ function buildReportPane(auto,edu,gen){
     html+='<td style="padding:8px;border-bottom:1px solid #f0f0ee;">'+discr+'</td></tr>';
   });
   html+='</tbody></table>';
-  html+='</div>';
 
-  // Commentary on scale comparison
+  // Commentary on scale comparison — INSIDE sr-scale sub-pane
   html+='<p class="lbl">Lettura comparativa</p>';
   // Find most discrepant scales
   var topDiscr=scales.filter(function(s){
@@ -1341,7 +1343,7 @@ function buildReportPane(auto,edu,gen){
   if(allAgree.length>0)html+=' Le scale <strong>'+allAgree.map(function(s){return SLBL[s];}).join(', ')+'</strong> mostrano accordo tra tutte le fonti.';
   html+=' La differenza nel punteggio totale tra la fonte piu alta ('+maxTot+'/40) e quella piu bassa ('+minTot+'/40) e di <strong>'+(maxTot-minTot)+' punti</strong>.';
   html+='</p></div>';
-  html+='</div>';
+  html+='</div>'; // close sr-scale
 
   // ── SUB: Radar sovrapposti ──
   html+='<div id="sr-radar" class="sub-pane">';
@@ -1376,13 +1378,14 @@ function buildReportPane(auto,edu,gen){
     });
     html+='</div>';
   });
-  html+='</div>';
+  // Nota metodologica — INSIDE sr-interp sub-pane
   html+='<div style="margin-top:1rem;padding:12px 14px;background:#f8f8f7;border-radius:9px;">';
   html+='<p style="font-size:13px;font-weight:600;margin-bottom:6px;">Nota metodologica sul confronto</p>';
   html+='<p style="font-size:13px;color:#444;line-height:1.75;">Il confronto delle interpretazioni per scala consente di identificare le aree in cui le percezioni dei diversi osservatori convergono o divergono. ';
   html+='Quando le fasce sono concordi (es. tutti in fascia elevata), il dato e robusto e clinicamente significativo. ';
   html+='Quando divergono, la discrepanza stessa e un dato clinico: puo indicare che la difficolta si manifesta solo in certi contesti, oppure che la soglia di sensibilita degli osservatori e diversa.</p>';
   html+='</div>';
+  html+='</div>'; // close sr-interp
 
   // ── SUB: Relazione sintesi ──
   html+='<div id="sr-rel" class="sub-pane">';
