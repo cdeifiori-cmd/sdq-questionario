@@ -415,7 +415,6 @@ h2{font-size:17px;font-weight:600;margin-bottom:12px;}
         </div>
       </div>
       <!-- FONTE TABS -->
-      <div id="print-minore-title"></div>
       <div class="fonte-tabs" id="fonte-tabs-bar"></div>
       <!-- FONTE PANES -->
       <div id="fonte-panes"></div>
@@ -1760,11 +1759,17 @@ window.stampaDettaglio=function(soloTab){
     try{var rc=new Chart(canvas,{type:"radar",data:{labels:["Sintomi Emotivi","Iperattivita","Prob. Condotta","Prob. Relazioni","Prosociale"],datasets:ds},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:"bottom",labels:{font:{size:11}}}},scales:{r:{min:0,max:10,ticks:{stepSize:2,font:{size:9},color:"#aaa"},pointLabels:{font:{size:10}}}}}});radarCharts.push(rc);}catch(e2){}
   }
 
-  // Aggiorna titolo-minore per la stampa (è già nel DOM)
-  var printTitle=document.getElementById("print-minore-title");
-  var m=currentMinore||{};
-  var codStr=m.codice?'<span style="background:#1a1a1a;color:#fff;font-size:13px;font-weight:700;padding:3px 10px;border-radius:20px;margin-right:10px;">#'+m.codice+'</span>':"";
-  printTitle.innerHTML=codStr+'<span style="font-size:22px;font-weight:700;color:#1a1a1a;">'+(m.nome||"")+'</span>';
+  // Inietta titolo-minore come primo elemento del primo fonte-pane (seconda pagina)
+  document.querySelectorAll("#print-minore-title").forEach(function(el){el.parentNode.removeChild(el);});
+  var firstPane=document.querySelector("#fonte-panes .fonte-pane");
+  if(firstPane){
+    var m=currentMinore||{};
+    var codStr=m.codice?'<span style="background:#1a1a1a;color:#fff;font-size:13px;font-weight:700;padding:3px 10px;border-radius:20px;margin-right:10px;">#'+m.codice+'</span>':"";
+    var titleDiv=document.createElement("div");
+    titleDiv.id="print-minore-title";
+    titleDiv.innerHTML=codStr+'<span style="font-size:22px;font-weight:700;color:#1a1a1a;">'+(m.nome||"")+'</span>';
+    firstPane.insertBefore(titleDiv,firstPane.firstChild);
+  }
 
   // Gestione soloTab
   if(soloTab){
