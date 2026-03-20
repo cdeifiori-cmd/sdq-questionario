@@ -1805,8 +1805,8 @@ window.openPiramideCollettiva=function(){
     var wordCount={};
     allMaslow.forEach(function(m){
       var txt=(m.livelli&&m.livelli[k])||"";
-      // Split by common separators: comma, semicolon, newline, slash
-      var words=txt.replace(/[\r\n]+/g,",").split(/[,;]+/).map(function(w){return w.trim().toLowerCase();}).filter(function(w){return w.length>1;});
+      // Split by common separators: comma, semicolon, newline, space
+      var words=txt.replace(/[\r\n]+/g," ").split(/[,;\s]+/).map(function(w){return w.trim().toLowerCase();}).filter(function(w){return w.length>1;});
       words.forEach(function(w){wordCount[w]=(wordCount[w]||0)+1;});
     });
     // Sort by count desc, then alpha
