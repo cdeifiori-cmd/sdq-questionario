@@ -1705,41 +1705,78 @@ window.openMaslow=function(id){
   var m=allMaslow.find(function(x){return x.id===id;});
   if(!m)return;
   var lv=m.livelli||{};
+  var t1=lv.l5_autorealizzazione||"";
+  var t2=lv.l4_stima||"";
+  var t3=lv.l3_appartenenza||"";
+  var t4=lv.l2_sicurezza||"";
+  var t5=lv.l1_fisiologici||"";
+
+  function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+  function wrapText(text,maxChars){
+    // split into lines of maxChars
+    var words=text.split(/\s+/);
+    var lines=[],cur="";
+    words.forEach(function(w){
+      if(!w)return;
+      if((cur+" "+w).trim().length<=maxChars){cur=(cur+" "+w).trim();}
+      else{if(cur)lines.push(cur);cur=w;}
+    });
+    if(cur)lines.push(cur);
+    return lines;
+  }
+  function textLines(text,cx,cy,maxChars,lineH,fill,fs,fw){
+    var lines=wrapText(esc(text),maxChars);
+    if(!lines.length)return"<text x='"+cx+"' y='"+cy+"' text-anchor='middle' fill='"+fill+"' font-size='"+fs+"' font-style='italic' opacity='.5' font-family='sans-serif'>non compilato</text>";
+    var total=lines.length*lineH;
+    var startY=cy-total/2+lineH/2;
+    return lines.map(function(l,i){
+      return"<text x='"+cx+"' y='"+(startY+i*lineH)+"' text-anchor='middle' fill='"+fill+"' font-size='"+fs+"' font-weight='"+(fw||"normal")+"' font-family='sans-serif'>"+(l)+"</text>";
+    }).join("");
+  }
+
+  // Big SVG pyramid with text inside bands
+  var W=560,svg="";
+  svg+="<svg viewBox='0 0 560 480' xmlns='http://www.w3.org/2000/svg' style='width:100%;display:block;margin:0 auto 1rem;'>";
+  // Band 5 - top (punta) - Autorealizzazione
+  svg+="<polygon points='280,10 344,80 216,80' fill='#4169A8'/>";
+  svg+=textLines(t1,280,45,18,14,"#fff",11,"bold");
+  // Band 4
+  svg+="<polygon points='214,86 346,86 386,148 174,148' fill='#5A8A3C'/>";
+  svg+=textLines(t2,280,117,28,14,"#fff",12,"normal");
+  // Band 3
+  svg+="<polygon points='172,154 388,154 428,216 132,216' fill='#D4A017'/>";
+  svg+=textLines(t3,280,185,38,14,"#fff",12,"normal");
+  // Band 2
+  svg+="<polygon points='130,222 430,222 470,282 90,282' fill='#C8621A'/>";
+  svg+=textLines(t4,280,252,48,14,"#fff",12,"normal");
+  // Band 1 - base
+  svg+="<rect x='88' y='288' width='384' height='64' fill='#A02020'/>";
+  svg+=textLines(t5,280,320,56,14,"#fff",12,"normal");
+  // Border lines between bands for 3D feel
+  svg+="<line x1='216' y1='80' x2='344' y2='80' stroke='rgba(255,255,255,0.3)' stroke-width='1'/>";
+  svg+="<line x1='174' y1='148' x2='386' y2='148' stroke='rgba(255,255,255,0.3)' stroke-width='1'/>";
+  svg+="<line x1='132' y1='216' x2='428' y2='216' stroke='rgba(255,255,255,0.3)' stroke-width='1'/>";
+  svg+="<line x1='90' y1='282' x2='470' y2='282' stroke='rgba(255,255,255,0.3)' stroke-width='1'/>";
+  svg+="</svg>";
+
+  // Level labels below
   var levels=[
-    {key:"l5_autorealizzazione",label:"🔵 Autorealizzazione",color:"#4682B4"},
-    {key:"l4_stima",label:"🟢 Stima e riconoscimento",color:"#6B8E23"},
-    {key:"l3_appartenenza",label:"🟡 Amore e appartenenza",color:"#DAA520"},
-    {key:"l2_sicurezza",label:"🟠 Sicurezza e protezione",color:"#D2691E"},
-    {key:"l1_fisiologici",label:"🔴 Bisogni fondamentali",color:"#B22222"}
+    {key:"l5_autorealizzazione",label:"Punta",color:"#4169A8",txt:t1},
+    {key:"l4_stima",label:"Quarto livello",color:"#5A8A3C",txt:t2},
+    {key:"l3_appartenenza",label:"Terzo livello",color:"#D4A017",txt:t3},
+    {key:"l2_sicurezza",label:"Secondo livello",color:"#C8621A",txt:t4},
+    {key:"l1_fisiologici",label:"Base",color:"#A02020",txt:t5}
   ];
-  var pyramidHTML='<svg viewBox="0 0 500 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:400px;display:block;margin:0 auto 1.5rem;">';
-  pyramidHTML+='<polygon points="250,10 310,80 190,80" fill="#4682B4" opacity=".85"/>';
-  pyramidHTML+='<polygon points="190,85 310,85 345,140 155,140" fill="#6B8E23" opacity=".85"/>';
-  pyramidHTML+='<polygon points="155,145 345,145 380,200 120,200" fill="#DAA520" opacity=".85"/>';
-  pyramidHTML+='<polygon points="120,205 380,205 415,255 85,255" fill="#D2691E" opacity=".85"/>';
-  pyramidHTML+='<rect x="60" y="258" width="380" height="2" fill="#B22222" opacity=".85"/>';
-  pyramidHTML+='<text x="250" y="52" text-anchor="middle" fill="white" font-size="9" font-weight="bold" font-family="sans-serif">AUTOREALIZZAZIONE</text>';
-  pyramidHTML+='<text x="250" y="116" text-anchor="middle" fill="white" font-size="9" font-weight="bold" font-family="sans-serif">STIMA</text>';
-  pyramidHTML+='<text x="250" y="176" text-anchor="middle" fill="white" font-size="9" font-weight="bold" font-family="sans-serif">AMORE E APPARTENENZA</text>';
-  pyramidHTML+='<text x="250" y="232" text-anchor="middle" fill="white" font-size="9" font-weight="bold" font-family="sans-serif">SICUREZZA</text>';
-  pyramidHTML+='<text x="250" y="252" text-anchor="middle" fill="#B22222" font-size="9" font-weight="bold" font-family="sans-serif">FISIOLOGICI</text>';
-  pyramidHTML+='</svg>';
   var detailHTML=levels.map(function(lv2){
-    var txt=lv[lv2.key]||"<em style=\"color:#aaa;\">Non compilato</em>";
-    return '<div style="padding:10px 14px;border-radius:9px;border-left:4px solid '+lv2.color+';background:'+lv2.color+'15;margin-bottom:8px;">';
-           '<div style="font-size:12px;font-weight:700;color:'+lv2.color+';margin-bottom:4px;">'+lv2.label+'</div>';
-           '<p style="font-size:13px;color:#444;line-height:1.65;">'+txt+'</p></div>';
+    return "<div style='padding:10px 14px;border-radius:9px;border-left:4px solid "+lv2.color+";background:"+lv2.color+"18;margin-bottom:6px;'>"
+      +"<div style='font-size:11px;font-weight:700;color:"+lv2.color+";text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px;'>"+lv2.label+"</div>"
+      +"<p style='font-size:13px;color:#444;line-height:1.6;'>"+esc(lv2.txt||"")+(lv2.txt?"":"<em style='color:#bbb;'>Non compilato</em>")+"</p></div>";
   }).join("");
 
-  // Show in a simple alert-style modal (reuse existing modal)
-  document.getElementById("det-header").innerHTML=
-    '<div style="font-size:16px;font-weight:600;">🔺 '+m.nome+'</div>';
-  document.getElementById("fonte-tabs-bar").innerHTML='';
-  document.getElementById("fonte-panes").innerHTML=
-    '<div style="padding:.5rem 0;">'+pyramidHTML+detailHTML+'</div>';
-  document.getElementById("delete-area").innerHTML=
-    '<button class="btn-danger" onclick="deleteMaslow(\''+id+'\')">'+
-    'Elimina piramide</button>';
+  document.getElementById("det-header").innerHTML="<div style='font-size:16px;font-weight:600;'>🔺 "+esc(m.nome)+"</div><div style='font-size:12px;color:#888;margin-top:2px;'>"+m.data+"</div>";
+  document.getElementById("fonte-tabs-bar").innerHTML="";
+  document.getElementById("fonte-panes").innerHTML="<div style='padding:.25rem 0;'>"+svg+detailHTML+"</div>";
+  document.getElementById("delete-area").innerHTML="<button class='btn-danger' onclick='deleteMaslow(\""+id+"\")'>Elimina piramide</button>";
   document.getElementById("pbtn-auto").style.display="none";
   document.getElementById("pbtn-edu").style.display="none";
   document.getElementById("pbtn-gen").style.display="none";
