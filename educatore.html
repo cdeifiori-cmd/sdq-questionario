@@ -80,204 +80,54 @@ h2{font-size:17px;font-weight:600;margin-bottom:12px;}
 .print-btn{background:#f8f8f7;border:1px solid #e0e0de;border-radius:7px;padding:5px 12px;font-size:12px;cursor:pointer;color:#444;}
 .print-btn:hover{background:#f0f0ee;}
 @media print{
-  @page{size:A4 portrait;margin:12mm 13mm 12mm 13mm;}
-  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;box-sizing:border-box !important;}
-
-  /* ── Reset base ── */
-  body{
-    background:#fff !important;
-    font-size:10.5px !important;
-    line-height:1.45 !important;
-    color:#1a1a1a !important;
-    margin:0 !important;
-    padding:0 !important;
-  }
-
-  /* ── Nascondi interfaccia schermo ── */
+  @page{size:A4 portrait;margin:15mm 14mm 15mm 14mm;}
+  *{-webkit-print-color-adjust:exact !important;print-color-adjust:exact !important;}
+  body{background:#fff !important;font-size:11px !important;color:#1a1a1a !important;}
   .container{display:none !important;}
   #screen-dash{display:none !important;}
   #screen-login{display:none !important;}
-  .fonte-tabs,.sub-tabs,.btn-sm,.btn-danger,.print-btn,.nav-bar{display:none !important;}
-  #modal-header-bar{display:none !important;}
-  #print-btns-area{display:none !important;}
-
-  /* ── Mostra modal in layout statico ── */
   #modal-wrap{display:block !important;position:static !important;}
-  .modal-bg{position:static !important;background:none !important;padding:0 !important;display:block !important;overflow:visible !important;}
-  .modal{box-shadow:none !important;border-radius:0 !important;padding:0 !important;max-width:100% !important;width:100% !important;margin:0 !important;}
-
-  /* ── Legenda (primo foglio) ── */
-  #legenda-stampa{
-    display:block !important;
-    page-break-after:always !important;
-    break-after:always !important;
-  }
-  #legenda-stampa > div{
-    font-size:10px !important;
-    line-height:1.5 !important;
-    padding:0 !important;
-    max-width:100% !important;
-    margin:0 !important;
-  }
-  #legenda-stampa h3{margin:.5rem 0 .3rem !important;font-size:11px !important;}
-  #legenda-stampa p{margin-bottom:.4rem !important;}
-  #legenda-stampa table{width:100% !important;font-size:9.5px !important;margin-bottom:.5rem !important;}
-  #legenda-stampa td,#legenda-stampa th{padding:3px 7px !important;}
-
-  /* Separatore tra legenda e modal: gestito da page-break-after su #legenda-stampa */
-
-  /* ── Fonte pane ── */
-  .fonte-pane{
-    display:block !important;
-    margin:0 !important;
-    padding:0 !important;
-  }
-
-  /* ── Sub-pane: fluiscono nella stessa pagina ── */
+  .modal-bg{position:static !important;background:none !important;padding:0 !important;display:block !important;}
+  .modal{box-shadow:none !important;border-radius:0 !important;padding:0 !important;max-width:100% !important;width:100% !important;}
+  /* Legenda: primo foglio */
+  #legenda-stampa{display:block !important;}
+  #legenda-stampa > div{font-size:11px !important;}
+  #legenda-stampa + #modal-wrap{page-break-before:always;}
+  /* Nascondi UI chrome */
+  .fonte-tabs,.sub-tabs,.btn-sm,.btn-danger,.print-btn{display:none !important;}
+  #det-header > div:last-child{display:none !important;}
+  /* Mostra tutti i pane */
+  .fonte-pane{display:block !important;}
+  .sub-pane{display:block !important;}
+  /* Ogni fonte inizia su nuova pagina */
+  .fonte-pane{page-break-before:always;}
+  .fonte-pane:first-child{page-break-before:avoid;}
+  /* Sub-pane: NON forzare pagina nuova — fluiscono naturalmente */
+  /* Solo aggiunge separazione visiva tra sub-pane */
   .sub-pane{
-    display:block !important;
-    page-break-inside:avoid !important;
-    break-inside:avoid !important;
-    border-bottom:1px dashed #ccc !important;
-    padding-bottom:6px !important;
-    margin-bottom:6px !important;
+    page-break-inside:avoid;
+    border-bottom:1px dashed #ddd;
+    padding-bottom:8px;
+    margin-bottom:8px;
   }
-  .sub-pane:last-child{border-bottom:none !important;margin-bottom:0 !important;}
-
-  /* ── Intestazione minore ── */
-  #det-header{
-    margin-bottom:6px !important;
-    padding-bottom:6px !important;
-  }
-
-  /* ── Scale ── */
-  .lbl{
-    margin:4px 0 2px !important;
-    font-size:9px !important;
-    letter-spacing:.04em !important;
-  }
-  .scale-row{
-    display:grid !important;
-    grid-template-columns:140px 1fr 50px 85px !important;
-    align-items:center !important;
-    gap:8px !important;
-    padding:4px 0 !important;
-    border-bottom:1px solid #f0f0ee !important;
-  }
-  .scale-row:last-child{border-bottom:none !important;}
-  .bar-bg{height:5px !important;border-radius:3px !important;}
-  .bar-fill{height:5px !important;border-radius:3px !important;}
-
-  /* Badge */
-  .badge{font-size:9px !important;padding:1px 5px !important;}
-
-  /* ── Blocchi interpretazione ── */
-  .interp-block{
-    page-break-inside:avoid !important;
-    break-inside:avoid !important;
-    margin-bottom:4px !important;
-    padding:5px 8px !important;
-    border-radius:5px !important;
-  }
-  .interp-header{margin-bottom:3px !important;}
-
-  /* ── Sezioni relazione ── */
-  .rel-section{
-    page-break-inside:avoid !important;
-    break-inside:avoid !important;
-    margin-bottom:7px !important;
-  }
-  .rel-section h4{
-    font-size:10px !important;
-    margin-bottom:4px !important;
-    padding-bottom:2px !important;
-  }
-  .rel-section p{font-size:10px !important;line-height:1.5 !important;margin-bottom:3px !important;}
-
-  /* ── Tabelle ── */
-  table{
-    page-break-inside:auto !important;
-    font-size:9.5px !important;
-    width:100% !important;
-    margin-bottom:5px !important;
-  }
-  thead{display:table-header-group !important;}
-  tr{page-break-inside:avoid !important;break-inside:avoid !important;}
-  td,th{padding:4px 7px !important;font-size:9.5px !important;}
-
-  /* ── Tabella impatto ── */
-  .impact-table td{
-    padding:4px 0 !important;
-    font-size:9.5px !important;
-  }
-
-  /* ── Canvas radar ── */
-  canvas{
-    max-height:180px !important;
-    max-width:100% !important;
-  }
-
-  /* ── Blocchi interni con bordo e padding ── */
-  div[style*="border-radius:12px"],
-  div[style*="border-radius:9px"]{
-    border-radius:5px !important;
-  }
-  /* Comprimi padding nei box colorati interni */
-  div[style*="padding:12px"]{padding:6px 9px !important;}
-  div[style*="padding:1.5rem"]{padding:8px !important;}
-  div[style*="padding:1.25rem"]{padding:7px !important;}
-
-  /* Grid a due colonne compositi */
-  div[style*="grid-template-columns:1fr 1fr"]{
-    gap:6px !important;
-  }
-
-  /* ── Print header: forza nuova pagina tranne il primo (che segue il titolo minore) ── */
-  .fonte-print-header{
-    display:block !important;
-    font-size:12px !important;
-    font-weight:700 !important;
-    border-bottom:2px solid #1a1a1a !important;
-    padding-bottom:3px !important;
-    margin-bottom:8px !important;
-    page-break-before:always !important;
-    break-before:always !important;
-  }
-  .first-fonte .fonte-print-header{
-    page-break-before:avoid !important;
-    break-before:avoid !important;
-  }
-
-  /* ── Testi generali ── */
-  p{font-size:10px !important;line-height:1.5 !important;margin-bottom:3px !important;}
-  h4{font-size:11px !important;}
-  ul{margin:.3rem 0 .3rem 1.1rem !important;padding:0 !important;}
-  li{font-size:10px !important;line-height:1.45 !important;margin-bottom:1px !important;}
-
-  /* ── Nota conclusiva ── */
-  div[style*="background:#f8f8f7"]{padding:6px 8px !important;}
-
-  /* ── Titolo minore (inizio seconda pagina) ── */
-  #print-minore-title{
-    display:flex !important;
-    align-items:center !important;
-    padding:0 0 10px 0 !important;
-    margin-bottom:12px !important;
-    border-bottom:3px solid #1a1a1a !important;
-    page-break-after:avoid !important;
-    break-after:avoid !important;
-  }
-
-  /* ── SVG radar in stampa ── */
-  .radar-svg-print{display:block !important;width:100% !important;margin:4px 0 !important;}
-  canvas[id^="radar-"]{display:none !important;}
-
-  /* ── Evita foglio bianco finale ── */
-  .fonte-pane:last-child{page-break-after:avoid !important;break-after:avoid !important;}
-  #modal-wrap > *:last-child{page-break-after:avoid !important;break-after:avoid !important;}
+  .sub-pane:last-child{border-bottom:none;}
+  /* Evita page break dentro elementi chiave */
+  .rel-section{page-break-inside:avoid;}
+  .interp-block{page-break-inside:avoid;margin-bottom:4px !important;padding:6px 8px !important;}
+  table{page-break-inside:auto;font-size:10px !important;}
+  tr{page-break-inside:avoid;}
+  /* Comprimi spaziature per stampa */
+  .lbl{margin:.5rem 0 .25rem !important;font-size:10px !important;}
+  .scale-row{padding:5px 0 !important;}
+  .bar-bg{height:5px !important;}
+  .bar-fill{height:5px !important;}
+  canvas{max-height:200px !important;}
+  /* Nascondi elementi inutili in stampa */
+  #det-header{margin-bottom:.5rem !important;}
+  /* Print header identificativo su ogni fonte-pane */
+  .fonte-print-header{display:block !important;font-size:13px;font-weight:700;border-bottom:2px solid #1a1a1a;padding-bottom:4px;margin-bottom:10px;}
 }
 .fonte-print-header{display:none;margin:0;padding:0;height:0;overflow:hidden;}
-#print-minore-title{display:none;}
 </style>
 </head>
 <body>
@@ -343,6 +193,7 @@ h2{font-size:17px;font-weight:600;margin-bottom:12px;}
     </div>
     <div class="nav-bar">
       <button class="nav-btn act" onclick="switchTab(this,'tab-list')">Minori</button>
+      <button class="nav-btn" onclick="switchTab(this,'tab-maslow')">🔺 Piramidi</button>
       <button class="nav-btn" onclick="switchTab(this,'tab-settings')">Impostazioni</button>
     </div>
 
@@ -376,6 +227,14 @@ h2{font-size:17px;font-weight:600;margin-bottom:12px;}
       <div id="entries-list"><div class="loading-center"><div class="spinner"></div></div></div>
     </div>
 
+    <div id="tab-maslow" class="tab-pane">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+        <h2 style="margin:0;">Piramidi di Maslow</h2>
+        <button class="btn-sm" onclick="loadMaslow()">&#8635; Aggiorna</button>
+      </div>
+      <div id="maslow-list"><div class="loading-center"><div class="spinner"></div></div></div>
+    </div>
+
     <div id="tab-settings" class="tab-pane">
       <h2>Impostazioni</h2>
       <div class="card">
@@ -403,7 +262,7 @@ h2{font-size:17px;font-weight:600;margin-bottom:12px;}
 <div id="modal-wrap" style="display:none;">
   <div class="modal-bg" onclick="closeModalBg(event)">
     <div class="modal">
-      <div id="modal-header-bar" style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;">
         <div id="det-header"></div>
         <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;" id="print-btns-area">
           <button class="print-btn" onclick="stampaDettaglio()" title="Stampa tutto">&#128438; Tutto</button>
@@ -478,6 +337,7 @@ window.switchTab=function(btn,id){
   btn.classList.add("act");
   document.querySelectorAll(".tab-pane").forEach(function(p){p.classList.remove("act");});
   document.getElementById(id).classList.add("act");
+  if(id==="tab-maslow")loadMaslow();
 };
 
 var allEntries=[];
@@ -1286,10 +1146,7 @@ function buildReportPane(auto,edu,gen){
   var scales=["ES","IP","EC","C","PR"];
   var hasAllRaw=fontiDisp.every(function(f){return f.e&&f.e.raw;});
 
-  var nome=(currentMinore&&currentMinore.nome)||'';
-  var codice=(currentMinore&&currentMinore.codice)||'';
-  var html='<div class="fonte-print-header" style="color:#1a1a1a;">Report sintesi'+(nome?' — '+nome:'')+'</div>';
-  html+='<div class="sub-tabs">';
+  var html='<div class="sub-tabs">';
   html+='<button class="sub-tab act" onclick="subTab(this,\'sr-scale\')">Confronto scale</button>';
   html+='<button class="sub-tab" onclick="subTab(this,\'sr-radar\')">Radar sovrapposti</button>';
   html+='<button class="sub-tab" onclick="subTab(this,\'sr-interp\')">Confronto interpretazioni</button>';
@@ -1318,8 +1175,9 @@ function buildReportPane(auto,edu,gen){
     html+='<td style="padding:8px;border-bottom:1px solid #f0f0ee;">'+discr+'</td></tr>';
   });
   html+='</tbody></table>';
+  html+='</div>';
 
-  // Commentary on scale comparison — INSIDE sr-scale sub-pane
+  // Commentary on scale comparison
   html+='<p class="lbl">Lettura comparativa</p>';
   // Find most discrepant scales
   var topDiscr=scales.filter(function(s){
@@ -1343,7 +1201,7 @@ function buildReportPane(auto,edu,gen){
   if(allAgree.length>0)html+=' Le scale <strong>'+allAgree.map(function(s){return SLBL[s];}).join(', ')+'</strong> mostrano accordo tra tutte le fonti.';
   html+=' La differenza nel punteggio totale tra la fonte piu alta ('+maxTot+'/40) e quella piu bassa ('+minTot+'/40) e di <strong>'+(maxTot-minTot)+' punti</strong>.';
   html+='</p></div>';
-  html+='</div>'; // close sr-scale
+  html+='</div>';
 
   // ── SUB: Radar sovrapposti ──
   html+='<div id="sr-radar" class="sub-pane">';
@@ -1378,14 +1236,13 @@ function buildReportPane(auto,edu,gen){
     });
     html+='</div>';
   });
-  // Nota metodologica — INSIDE sr-interp sub-pane
+  html+='</div>';
   html+='<div style="margin-top:1rem;padding:12px 14px;background:#f8f8f7;border-radius:9px;">';
   html+='<p style="font-size:13px;font-weight:600;margin-bottom:6px;">Nota metodologica sul confronto</p>';
   html+='<p style="font-size:13px;color:#444;line-height:1.75;">Il confronto delle interpretazioni per scala consente di identificare le aree in cui le percezioni dei diversi osservatori convergono o divergono. ';
   html+='Quando le fasce sono concordi (es. tutti in fascia elevata), il dato e robusto e clinicamente significativo. ';
   html+='Quando divergono, la discrepanza stessa e un dato clinico: puo indicare che la difficolta si manifesta solo in certi contesti, oppure che la soglia di sensibilita degli osservatori e diversa.</p>';
   html+='</div>';
-  html+='</div>'; // close sr-interp
 
   // ── SUB: Relazione sintesi ──
   html+='<div id="sr-rel" class="sub-pane">';
@@ -1671,85 +1528,9 @@ window.closeModal=function(){
 };
 window.closeModalBg=function(e){if(e.target===e.currentTarget)window.closeModal();};
 
-// ── SVG Radar helper ──────────────────────────────────────────────────────────
-function buildRadarSVG(datasets, labels, size){
-  size = size||300;
-  var cx=size/2, cy=size/2, r=size*0.36;
-  var n=labels.length;
-  var angles=labels.map(function(_,i){return(Math.PI*2/n)*i - Math.PI/2;});
-  function pt(val,maxVal,ang){
-    var d=(val/maxVal)*r;
-    return{x:cx+d*Math.cos(ang), y:cy+d*Math.sin(ang)};
-  }
-  var svgParts=['<svg xmlns="http://www.w3.org/2000/svg" width="'+size+'" height="'+(size+40)+'" style="display:block;margin:0 auto;">'];
-  // Grid rings
-  [2,4,6,8,10].forEach(function(v){
-    var pts=angles.map(function(a){var p=pt(v,10,a);return p.x+","+p.y;}).join(" ");
-    svgParts.push('<polygon points="'+pts+'" fill="none" stroke="#e0e0e0" stroke-width="0.8"/>');
-  });
-  // Axes
-  angles.forEach(function(a){
-    var p=pt(10,10,a);
-    svgParts.push('<line x1="'+cx+'" y1="'+cy+'" x2="'+p.x+'" y2="'+p.y+'" stroke="#e0e0e0" stroke-width="0.8"/>');
-  });
-  // Labels
-  angles.forEach(function(a,i){
-    var p=pt(10,10,a);
-    var lx=cx+(r+18)*Math.cos(a), ly=cy+(r+18)*Math.sin(a);
-    var anchor=Math.abs(Math.cos(a))<0.1?"middle":Math.cos(a)>0?"start":"end";
-    svgParts.push('<text x="'+lx+'" y="'+(ly+4)+'" text-anchor="'+anchor+'" font-size="9" fill="#555" font-family="sans-serif">'+labels[i]+'</text>');
-  });
-  // Datasets
-  datasets.forEach(function(ds){
-    var pts=angles.map(function(a,i){var p=pt(ds.data[i],10,a);return p.x+","+p.y;}).join(" ");
-    svgParts.push('<polygon points="'+pts+'" fill="'+ds.color+'33" stroke="'+ds.color+'" stroke-width="2" stroke-linejoin="round"/>');
-    angles.forEach(function(a,i){
-      var p=pt(ds.data[i],10,a);
-      svgParts.push('<circle cx="'+p.x+'" cy="'+p.y+'" r="3" fill="'+ds.color+'"/>');
-    });
-  });
-  // Legend
-  var lx=10, ly=size+14;
-  datasets.forEach(function(ds){
-    svgParts.push('<rect x="'+lx+'" y="'+(ly-8)+'" width="14" height="8" fill="'+ds.color+'" rx="2"/>');
-    svgParts.push('<text x="'+(lx+18)+'" y="'+ly+'" font-size="9" fill="#444" font-family="sans-serif">'+ds.label+'</text>');
-    lx+=ds.label.length*6+28;
-  });
-  svgParts.push('</svg>');
-  return svgParts.join("");
-}
-
-// Converte tutti i canvas radar in SVG inline per la stampa, li ripristina dopo
-function prepareRadarsForPrint(){
-  var replacements=[];
-  document.querySelectorAll("canvas[id^='radar-']").forEach(function(canvas){
-    var chart=radarCharts.find(function(c){return c.canvas===canvas;});
-    if(!chart)return;
-    var ds=chart.data.datasets.map(function(d){
-      return{data:d.data,color:d.borderColor,label:d.label};
-    });
-    var labels=chart.data.labels;
-    var svgHtml=buildRadarSVG(ds,labels,280);
-    var div=document.createElement("div");
-    div.className="radar-svg-print";
-    div.innerHTML=svgHtml;
-    div.style.width="100%";
-    canvas.parentNode.insertBefore(div,canvas);
-    canvas.style.display="none";
-    replacements.push({div:div,canvas:canvas});
-  });
-  return replacements;
-}
-function restoreRadarsAfterPrint(replacements){
-  replacements.forEach(function(r){
-    r.canvas.style.display="";
-    if(r.div.parentNode) r.div.parentNode.removeChild(r.div);
-  });
-}
-
 window.stampaDettaglio=function(soloTab){
+  // soloTab: undefined=tutto, oppure key specifica es "auto","edu","gen","report"
   document.getElementById("modal-wrap").style.display="block";
-
   // Inizializza radar report se necessario
   var canvas=document.getElementById("radar-report");
   if(canvas&&!canvas._chartDone&&currentMinore){
@@ -1759,43 +1540,22 @@ window.stampaDettaglio=function(soloTab){
     if(currentMinore.edu)fd.push({e:currentMinore.edu,label:"Educatore",color:"#534AB7"});
     if(currentMinore.gen)fd.push({e:currentMinore.gen,label:"Genitore",color:"#D85A30"});
     var ds=fd.map(function(f){return{label:f.label,data:[f.e.scores.ES,f.e.scores.IP,f.e.scores.EC,f.e.scores.C,f.e.scores.PR],backgroundColor:f.color+"26",borderColor:f.color,borderWidth:2,pointBackgroundColor:f.color,pointRadius:4};});
-    try{var rc=new Chart(canvas,{type:"radar",data:{labels:["Sintomi Emotivi","Iperattivita","Prob. Condotta","Prob. Relazioni","Prosociale"],datasets:ds},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:"bottom",labels:{font:{size:11}}}},scales:{r:{min:0,max:10,ticks:{stepSize:2,font:{size:9},color:"#aaa"},pointLabels:{font:{size:10}}}}}});radarCharts.push(rc);}catch(e2){}
+    try{var rc=new Chart(canvas,{type:"radar",data:{labels:["ES","IP","EC","C","PR"],datasets:ds},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:"bottom"}},scales:{r:{min:0,max:10}}}});radarCharts.push(rc);}catch(e2){}
   }
-
-  // Inietta titolo-minore come PRIMO figlio del primo fonte-pane
-  document.querySelectorAll("#print-minore-title").forEach(function(el){el.parentNode.removeChild(el);});
-  var m=currentMinore||{};
-  var codStr=m.codice?'<span style="background:#1a1a1a;color:#fff;font-size:13px;font-weight:700;padding:3px 10px;border-radius:20px;margin-right:10px;">#'+m.codice+'</span>':"";
-  var titleDiv=document.createElement("div");
-  titleDiv.id="print-minore-title";
-  titleDiv.innerHTML=codStr+'<span style="font-size:22px;font-weight:700;color:#1a1a1a;">'+(m.nome||"")+'</span>';
-  // Rimuovi first-fonte da eventuali pane precedenti
-  document.querySelectorAll(".fonte-pane.first-fonte").forEach(function(p){p.classList.remove("first-fonte");});
-  var firstPane=document.querySelector("#fonte-panes .fonte-pane");
-  if(firstPane){
-    firstPane.classList.add("first-fonte");
-    firstPane.insertBefore(titleDiv, firstPane.firstChild);
-  }
-
-  // Gestione soloTab
   if(soloTab){
+    // Nascondi tutti i pane tranne quello selezionato
     document.querySelectorAll(".fonte-pane").forEach(function(p){
-      p.dataset.printHidden=p.id!=="fp-"+soloTab?"1":"0";
-      if(p.id!=="fp-"+soloTab)p.style.setProperty("display","none","important");
+      p.dataset.printHidden = p.id!=="fp-"+soloTab?"1":"0";
+      if(p.id!=="fp-"+soloTab) p.style.setProperty("display","none","important");
     });
-  }
-
-  // Converti canvas in SVG, stampa, ripristina
-  var replacements=prepareRadarsForPrint();
-  setTimeout(function(){
     window.print();
-    restoreRadarsAfterPrint(replacements);
-    if(soloTab){
-      document.querySelectorAll(".fonte-pane").forEach(function(p){
-        if(p.dataset.printHidden==="1")p.style.removeProperty("display");
-      });
-    }
-  }, 80);
+    // Ripristina
+    document.querySelectorAll(".fonte-pane").forEach(function(p){
+      if(p.dataset.printHidden==="1") p.style.removeProperty("display");
+    });
+  } else {
+    window.print();
+  }
 };
 
 async function deleteEntry(id){
@@ -1909,6 +1669,93 @@ window.migrazioneCodiceMancante=async function(){
   result.textContent="Aggiornati "+updated+" questionari. Ricarica la lista.";
   result.style.display="block";
   renderList();
+};
+
+var allMaslow=[];
+
+window.loadMaslow=async function(){
+  var el=document.getElementById("maslow-list");
+  el.innerHTML='<div class="loading-center"><div class="spinner"></div></div>';
+  try{
+    var snap=await db.collection("maslow").get();
+    allMaslow=[];
+    snap.forEach(function(d){allMaslow.push(Object.assign({id:d.id},d.data()));});
+    allMaslow.sort(function(a,b){return(b.timestamp&&a.timestamp)?(b.timestamp.seconds||0)-(a.timestamp.seconds||0):0;});
+    renderMaslow();
+  }catch(e){
+    el.innerHTML='<div class="empty">Errore nel caricamento.</div>';
+  }
+};
+
+function renderMaslow(){
+  var el=document.getElementById("maslow-list");
+  if(!allMaslow.length){el.innerHTML='<div class="empty">Nessuna piramide compilata ancora.</div>';return;}
+  var html="";
+  allMaslow.forEach(function(m){
+    html+='<div class="minore-card" onclick="openMaslow(\''+m.id+'\')">';
+    html+='<div style="display:flex;justify-content:space-between;align-items:center;">';
+    html+='<div><div style="font-size:15px;font-weight:600;">🔺 '+m.nome+'</div>';
+    html+='<div style="font-size:12px;color:#888;margin-top:2px;">'+m.data+'</div></div>';
+    html+='<span style="color:#ccc;font-size:20px;">&#8250;</span></div></div>';
+  });
+  el.innerHTML=html;
+}
+
+window.openMaslow=function(id){
+  var m=allMaslow.find(function(x){return x.id===id;});
+  if(!m)return;
+  var lv=m.livelli||{};
+  var levels=[
+    {key:"l5_autorealizzazione",label:"🔵 Autorealizzazione",color:"#4682B4"},
+    {key:"l4_stima",label:"🟢 Stima e riconoscimento",color:"#6B8E23"},
+    {key:"l3_appartenenza",label:"🟡 Amore e appartenenza",color:"#DAA520"},
+    {key:"l2_sicurezza",label:"🟠 Sicurezza e protezione",color:"#D2691E"},
+    {key:"l1_fisiologici",label:"🔴 Bisogni fondamentali",color:"#B22222"}
+  ];
+  var pyramidHTML='<svg viewBox="0 0 500 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:400px;display:block;margin:0 auto 1.5rem;">';
+  pyramidHTML+='<polygon points="250,10 310,80 190,80" fill="#4682B4" opacity=".85"/>';
+  pyramidHTML+='<polygon points="190,85 310,85 345,140 155,140" fill="#6B8E23" opacity=".85"/>';
+  pyramidHTML+='<polygon points="155,145 345,145 380,200 120,200" fill="#DAA520" opacity=".85"/>';
+  pyramidHTML+='<polygon points="120,205 380,205 415,255 85,255" fill="#D2691E" opacity=".85"/>';
+  pyramidHTML+='<rect x="60" y="258" width="380" height="2" fill="#B22222" opacity=".85"/>';
+  pyramidHTML+='<text x="250" y="52" text-anchor="middle" fill="white" font-size="9" font-weight="bold" font-family="sans-serif">AUTOREALIZZAZIONE</text>';
+  pyramidHTML+='<text x="250" y="116" text-anchor="middle" fill="white" font-size="9" font-weight="bold" font-family="sans-serif">STIMA</text>';
+  pyramidHTML+='<text x="250" y="176" text-anchor="middle" fill="white" font-size="9" font-weight="bold" font-family="sans-serif">AMORE E APPARTENENZA</text>';
+  pyramidHTML+='<text x="250" y="232" text-anchor="middle" fill="white" font-size="9" font-weight="bold" font-family="sans-serif">SICUREZZA</text>';
+  pyramidHTML+='<text x="250" y="252" text-anchor="middle" fill="#B22222" font-size="9" font-weight="bold" font-family="sans-serif">FISIOLOGICI</text>';
+  pyramidHTML+='</svg>';
+  var detailHTML=levels.map(function(lv2){
+    var txt=lv[lv2.key]||"<em style=\"color:#aaa;\">Non compilato</em>";
+    return '<div style="padding:10px 14px;border-radius:9px;border-left:4px solid '+lv2.color+';background:'+lv2.color+'15;margin-bottom:8px;">';
+           '<div style="font-size:12px;font-weight:700;color:'+lv2.color+';margin-bottom:4px;">'+lv2.label+'</div>';
+           '<p style="font-size:13px;color:#444;line-height:1.65;">'+txt+'</p></div>';
+  }).join("");
+
+  // Show in a simple alert-style modal (reuse existing modal)
+  document.getElementById("det-header").innerHTML=
+    '<div style="font-size:16px;font-weight:600;">🔺 '+m.nome+'</div>';
+  document.getElementById("fonte-tabs-bar").innerHTML='';
+  document.getElementById("fonte-panes").innerHTML=
+    '<div style="padding:.5rem 0;">'+pyramidHTML+detailHTML+'</div>';
+  document.getElementById("delete-area").innerHTML=
+    '<button class="btn-danger" onclick="deleteMaslow(\''+id+'\')">'+
+    'Elimina piramide</button>';
+  document.getElementById("pbtn-auto").style.display="none";
+  document.getElementById("pbtn-edu").style.display="none";
+  document.getElementById("pbtn-gen").style.display="none";
+  document.getElementById("pbtn-report").style.display="none";
+  document.getElementById("modal-wrap").style.display="block";
+  document.body.style.overflow="hidden";
+};
+
+window.deleteMaslow=async function(id){
+  if(!confirm("Eliminare questa piramide?"))return;
+  try{
+    await db.collection("maslow").doc(id).delete();
+    allMaslow=allMaslow.filter(function(m){return m.id!==id;});
+    renderMaslow();
+    window.closeModal();
+  }catch(e){alert("Errore.");}
 };
 
 window.changePin=function(){

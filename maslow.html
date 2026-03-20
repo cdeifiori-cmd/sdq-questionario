@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>La mia Piramide dei Bisogni</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f8f6f2;color:#1a1a1a;min-height:100vh;}
+.container{max-width:680px;margin:0 auto;padding:2rem 1rem 4rem;}
+h1{font-size:22px;font-weight:700;margin-bottom:4px;}
+.sub{font-size:14px;color:#666;margin-bottom:2rem;line-height:1.5;}
+
+/* Name card */
+.name-card{background:#fff;border-radius:14px;padding:1.25rem;margin-bottom:1.5rem;border:1px solid #e8e8e6;}
+.field{display:flex;flex-direction:column;gap:6px;}
+.field label{font-size:13px;font-weight:600;color:#555;}
+.field input{border:1px solid #d0d0ce;border-radius:8px;padding:10px 14px;font-size:15px;background:#fff;color:#1a1a1a;}
+.field input:focus{outline:none;border-color:#E8A020;}
+
+/* Pyramid */
+.pyramid-wrap{position:relative;width:100%;margin-bottom:2rem;}
+.pyramid-svg{width:100%;height:auto;display:block;}
+
+/* Livelli */
+.level{background:#fff;border-radius:12px;padding:1rem 1.25rem;margin-bottom:10px;border-left:5px solid #ccc;transition:border-color .2s;}
+.level-title{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;}
+.level-sub{font-size:12px;color:#888;margin-bottom:10px;line-height:1.4;}
+.level textarea{width:100%;border:1px solid #e0e0de;border-radius:8px;padding:10px 12px;font-size:14px;font-family:inherit;color:#1a1a1a;background:#fafaf9;resize:none;line-height:1.6;transition:border-color .2s,background .2s;}
+.level textarea:focus{outline:none;border-color:inherit;background:#fff;}
+.level textarea::placeholder{color:#bbb;}
+
+/* Colors per level */
+.l1{border-left-color:#B22222;} .l1 .level-title{color:#B22222;} .l1 textarea:focus{border-color:#B22222;}
+.l2{border-left-color:#D2691E;} .l2 .level-title{color:#D2691E;} .l2 textarea:focus{border-color:#D2691E;}
+.l3{border-left-color:#DAA520;} .l3 .level-title{color:#DAA520;} .l3 textarea:focus{border-color:#DAA520;}
+.l4{border-left-color:#6B8E23;} .l4 .level-title{color:#6B8E23;} .l4 textarea:focus{border-color:#6B8E23;}
+.l5{border-left-color:#4682B4;} .l5 .level-title{color:#4682B4;} .l5 textarea:focus{border-color:#4682B4;}
+
+.btn{width:100%;padding:14px;font-size:16px;font-weight:700;border-radius:12px;border:none;cursor:pointer;background:#E8A020;color:#fff;margin-top:1rem;}
+.btn:hover{background:#C8881A;}
+.btn:disabled{background:#f0d090;cursor:not-allowed;}
+.warn{font-size:13px;color:#c0392b;padding:10px 14px;background:#fdf0ef;border-radius:8px;margin-top:8px;display:none;}
+.spinner{display:inline-block;width:18px;height:18px;border:2px solid #fff;border-top-color:transparent;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:8px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* Thanks */
+.thanks{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;gap:1rem;text-align:center;padding:2rem;}
+.thanks-icon{font-size:60px;}
+.thanks h2{font-size:22px;font-weight:700;}
+.thanks p{font-size:15px;color:#666;max-width:300px;line-height:1.6;}
+</style>
+</head>
+<body>
+<div class="container">
+  <div id="screen-form">
+    <h1>🔺 La mia Piramide dei Bisogni</h1>
+    <p class="sub">Inserisci alla <strong>base della piramide</strong> i tuoi bisogni più importanti. Man mano che si sale, inserisci i bisogni meno importanti, fino ad arrivare alla <strong>punta</strong> con quelli che senti meno urgenti.</p>
+
+    <div class="name-card">
+      <div class="field">
+        <label>Il tuo nome e cognome</label>
+        <input type="text" id="f-nome" placeholder="Es. Mario Rossi" autocomplete="name">
+      </div>
+    </div>
+
+    <!-- Pyramid visual -->
+    <div class="pyramid-wrap">
+      <svg class="pyramid-svg" viewBox="0 0 500 270" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="250,8 312,82 188,82" fill="#4682B4"/>
+        <polygon points="186,88 314,88 348,144 152,144" fill="#6B8E23"/>
+        <polygon points="150,150 350,150 384,206 116,206" fill="#DAA520"/>
+        <polygon points="114,212 386,212 420,262 80,262" fill="#D2691E"/>
+        <polygon points="78,268 422,268 422,270 78,270" fill="#B22222"/>
+        <rect x="78" y="262" width="344" height="8" fill="#B22222"/>
+      </svg>
+    </div>
+
+    <!-- Livelli - dall'alto verso il basso della piramide -->
+    <div class="level l5">
+      <div class="level-title">🔵 Punta della piramide — bisogni meno urgenti</div>
+      <textarea id="l5" rows="3" placeholder="Scrivi qui i bisogni che senti meno urgenti o importanti..."></textarea>
+    </div>
+
+    <div class="level l4">
+      <div class="level-title">🟢 Quarto livello</div>
+      <textarea id="l4" rows="3" placeholder="Scrivi qui i tuoi bisogni..."></textarea>
+    </div>
+
+    <div class="level l3">
+      <div class="level-title">🟡 Terzo livello</div>
+      <textarea id="l3" rows="3" placeholder="Scrivi qui i tuoi bisogni..."></textarea>
+    </div>
+
+    <div class="level l2">
+      <div class="level-title">🟠 Secondo livello</div>
+      <textarea id="l2" rows="3" placeholder="Scrivi qui i tuoi bisogni..."></textarea>
+    </div>
+
+    <div class="level l1">
+      <div class="level-title">🔴 Base della piramide — bisogni più importanti</div>
+      <textarea id="l1" rows="3" placeholder="Scrivi qui i bisogni che senti più importanti e urgenti..."></textarea>
+    </div>
+
+    <p class="warn" id="form-warn">Inserisci il tuo nome prima di inviare.</p>
+    <button class="btn" id="submit-btn" onclick="submitMaslow()">Invia la mia piramide</button>
+  </div>
+
+  <div id="screen-thanks" style="display:none;">
+    <div class="thanks">
+      <div class="thanks-icon">🔺</div>
+      <h2>Grazie!</h2>
+      <p>La tua piramide personale è stata salvata. Il tuo educatore potrà vederla nel pannello.</p>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const FB = {
+  apiKey: "AIzaSyBmsHeTkQMJVQyav3rF8VPMhLeIB45t3Io",
+  authDomain: "sdq-questionario.firebaseapp.com",
+  projectId: "sdq-questionario",
+  storageBucket: "sdq-questionario.firebasestorage.app",
+  messagingSenderId: "601788476480",
+  appId: "1:601788476480:web:766d7dd791fa44acbd83a5"
+};
+const app = initializeApp(FB);
+const db = getFirestore(app);
+
+window.submitMaslow = async function() {
+  const warn = document.getElementById("form-warn");
+  const nome = document.getElementById("f-nome").value.trim();
+  if(!nome) {
+    warn.style.display = "block";
+    document.getElementById("f-nome").focus();
+    return;
+  }
+  warn.style.display = "none";
+  const btn = document.getElementById("submit-btn");
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Invio in corso...';
+
+  const entry = {
+    tipo: "maslow",
+    nome: nome,
+    data: new Date().toISOString().split("T")[0],
+    timestamp: new Date(),
+    livelli: {
+      l1_fisiologici: document.getElementById("l1").value.trim(),
+      l2_sicurezza: document.getElementById("l2").value.trim(),
+      l3_appartenenza: document.getElementById("l3").value.trim(),
+      l4_stima: document.getElementById("l4").value.trim(),
+      l5_autorealizzazione: document.getElementById("l5").value.trim()
+    }
+  };
+
+  try {
+    await addDoc(collection(db, "maslow"), entry);
+    document.getElementById("screen-form").style.display = "none";
+    document.getElementById("screen-thanks").style.display = "block";
+    window.scrollTo(0,0);
+  } catch(e) {
+    btn.disabled = false;
+    btn.innerHTML = "Invia la mia piramide";
+    alert("Errore nell'invio. Controlla la connessione e riprova.");
+  }
+};
+</script>
+</body>
+</html>
