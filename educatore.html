@@ -1828,17 +1828,19 @@ window.openPiramideCollettiva=function(){
     if(!entries.length)return"<text x='"+cx+"' y='"+cy+"' text-anchor='middle' fill='"+fill+"' font-size='12' font-style='italic' opacity='.5' font-family='Georgia,serif'>nessuna risposta</text>";
     // Build tokens: word + superscript if count > 1
     var tokens=entries.map(function(e){return e[1]>1?(e[0]+superscript(e[1])):e[0];});
-    // Wrap into lines fitting bandW
-    var lines=[],cur="";
+    // Estimate visual width: strip superscript chars for width calc, they're narrow
+    function visLen(s){return s.replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹]/g,"").length*7.2+s.replace(/[^⁰¹²³⁴⁵⁶⁷⁸⁹]/g,"").length*5;}
+    // Wrap into lines fitting bandW, using · as separator
+    var lines=[],curTokens=[];
     tokens.forEach(function(t){
-      var test=cur?cur+"  "+t:t;
-      if(test.length*7.5<bandW-20){cur=test;}
-      else{if(cur)lines.push(cur);cur=t;}
+      var test=curTokens.concat(t).join(" · ");
+      if(visLen(test)<bandW-16){curTokens.push(t);}
+      else{if(curTokens.length)lines.push(curTokens.join(" · "));curTokens=[t];}
     });
-    if(cur)lines.push(cur);
+    if(curTokens.length)lines.push(curTokens.join(" · "));
     // Max 4 lines
     lines=lines.slice(0,4);
-    var lineH=16,total=lines.length*lineH;
+    var lineH=17,total=lines.length*lineH;
     var startY=cy-total/2+lineH/2;
     return lines.map(function(l,i){
       return"<text x='"+cx+"' y='"+(startY+i*lineH)+"' text-anchor='middle' fill='"+fill+"' font-size='13' font-weight='bold' font-family='Georgia,serif'>"+l+"</text>";
