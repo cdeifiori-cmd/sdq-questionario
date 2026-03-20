@@ -1734,29 +1734,37 @@ window.openMaslow=function(id){
     }).join("");
   }
 
-  // Big SVG pyramid with text inside bands
-  var W=560,svg="";
-  svg+="<svg viewBox='0 0 560 480' xmlns='http://www.w3.org/2000/svg' style='width:100%;display:block;margin:0 auto 1rem;'>";
-  // Band 5 - top (punta) - Autorealizzazione
-  svg+="<polygon points='280,10 344,80 216,80' fill='#4169A8'/>";
-  svg+=textLines(t1,280,45,18,14,"#fff",11,"bold");
-  // Band 4
-  svg+="<polygon points='214,86 346,86 386,148 174,148' fill='#5A8A3C'/>";
-  svg+=textLines(t2,280,117,28,14,"#fff",12,"normal");
-  // Band 3
-  svg+="<polygon points='172,154 388,154 428,216 132,216' fill='#D4A017'/>";
-  svg+=textLines(t3,280,185,38,14,"#fff",12,"normal");
-  // Band 2
-  svg+="<polygon points='130,222 430,222 470,282 90,282' fill='#C8621A'/>";
-  svg+=textLines(t4,280,252,48,14,"#fff",12,"normal");
-  // Band 1 - base
-  svg+="<rect x='88' y='288' width='384' height='64' fill='#A02020'/>";
-  svg+=textLines(t5,280,320,56,14,"#fff",12,"normal");
-  // Border lines between bands for 3D feel
-  svg+="<line x1='216' y1='80' x2='344' y2='80' stroke='rgba(255,255,255,0.3)' stroke-width='1'/>";
-  svg+="<line x1='174' y1='148' x2='386' y2='148' stroke='rgba(255,255,255,0.3)' stroke-width='1'/>";
-  svg+="<line x1='132' y1='216' x2='428' y2='216' stroke='rgba(255,255,255,0.3)' stroke-width='1'/>";
-  svg+="<line x1='90' y1='282' x2='470' y2='282' stroke='rgba(255,255,255,0.3)' stroke-width='1'/>";
+  // Pyramid: tall bands, proportional like Maslow reference image
+  // Total height 520px. Band heights: L5=80, L4=90, L3=100, L2=110, L1=120
+  // Each band is a trapezoid, width grows as we go down
+  // Slope: 52px per side per 100px height
+  // Vertices computed from top:
+  // y0=10 (apex), each band bottom = y0 + cumulative heights
+  // half-width at y: (y - 10) * 0.52 + 10  (min 10 at apex)
+  function hw(y){return Math.max(10,(y-10)*0.52+10);}
+  var ys=[10,90,180,280,390,510];
+  function trap(i,fill,text,maxC,fsize){
+    var y0=ys[i],y1=ys[i+1];
+    var w0=hw(y0),w1=hw(y1);
+    var pts=(280-w0)+","+y0+" "+(280+w0)+","+y0+" "+(280+w1)+","+y1+" "+(280-w1)+","+y1;
+    var cy=(y0+y1)/2;
+    // available width at center of band
+    var wMid=hw(cy)*2;
+    var chars=Math.floor(wMid/7.5);
+    return "<polygon points='"+pts+"' fill='"+fill+"'/>"
+      +textLines(text,280,cy,chars,16,"#1a1a1a",fsize||14,"bold")
+      +"<line x1='"+(280-w1)+"' y1='"+y1+"' x2='"+(280+w1)+"' y2='"+y1+"' stroke='#fff' stroke-width='3'/>";
+  }
+
+  var svg="";
+  svg+="<svg viewBox='0 0 560 530' xmlns='http://www.w3.org/2000/svg' style='width:100%;display:block;margin:0 auto 1rem;font-family:Georgia,serif;'>";
+  // Bands top to bottom (punta → base)
+  svg+=trap(0,"#F5E642",t1,12,12);   // L5 giallo punta
+  svg+=trap(1,"#F0A030",t2,22,13);   // L4 arancione
+  svg+=trap(2,"#E8607A",t3,32,13);   // L3 rosa-rosso
+  svg+=trap(3,"#9BB8D4",t4,42,13);   // L2 azzurro
+  svg+=trap(4,"#9BA0D8",t5,54,14);   // L1 viola base
+  // Remove last divider line (at bottom)
   svg+="</svg>";
 
   // Level labels below
