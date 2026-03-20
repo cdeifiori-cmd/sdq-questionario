@@ -230,7 +230,10 @@ h2{font-size:17px;font-weight:600;margin-bottom:12px;}
     <div id="tab-maslow" class="tab-pane">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
         <h2 style="margin:0;">Piramidi di Maslow</h2>
-        <button class="btn-sm" onclick="loadMaslow()">&#8635; Aggiorna</button>
+        <div style="display:flex;gap:8px;">
+          <button class="btn-sm" style="background:#E8A020;color:#fff;border-color:#E8A020;" onclick="openPiramideCollettiva()">&#9650; Piramide collettiva</button>
+          <button class="btn-sm" onclick="loadMaslow()">&#8635; Aggiorna</button>
+        </div>
       </div>
       <div id="maslow-list"><div class="loading-center"><div class="spinner"></div></div></div>
     </div>
@@ -1793,6 +1796,91 @@ window.openMaslow=function(id){
   document.body.style.overflow="hidden";
 };
 
+window.openPiramideCollettiva=function(){
+  if(!allMaslow.length){alert("Nessuna piramide compilata ancora.");return;}
+
+  // Aggregate all words per level, count occurrences (case-insensitive)
+  var levelKeys=["l1_fisiologici","l2_sicurezza","l3_appartenenza","l4_stima","l5_autorealizzazione"];
+  var levelData=levelKeys.map(function(k){
+    var wordCount={};
+    allMaslow.forEach(function(m){
+      var txt=(m.livelli&&m.livelli[k])||"";
+      // Split by common separators: comma, semicolon, newline, slash
+      var words=txt.replace(/[\r\n]+/g,",").split(/[,;]+/).map(function(w){return w.trim().toLowerCase();}).filter(function(w){return w.length>1;});
+      words.forEach(function(w){wordCount[w]=(wordCount[w]||0)+1;});
+    });
+    // Sort by count desc, then alpha
+    return Object.entries(wordCount).sort(function(a,b){return b[1]-a[1]||a[0].localeCompare(b[0]);});
+  });
+
+  // Build SVG with collective pyramid
+  function hw(y){return Math.max(10,(y-10)*0.52+10);}
+  var ys=[10,90,180,280,390,510];
+  var colors=["#F5E642","#F0A030","#E8607A","#9BB8D4","#9BA0D8"];
+  var levelLabels=["Punta","Quarto livello","Terzo livello","Secondo livello","Base"];
+
+  function superscript(n){
+    var sups={"0":"⁰","1":"¹","2":"²","3":"³","4":"⁴","5":"⁵","6":"⁶","7":"⁷","8":"⁸","9":"⁹"};
+    return String(n).split("").map(function(c){return sups[c]||c;}).join("");
+  }
+
+  function buildBandText(entries,cx,cy,bandW,fill){
+    if(!entries.length)return"<text x='"+cx+"' y='"+cy+"' text-anchor='middle' fill='"+fill+"' font-size='12' font-style='italic' opacity='.5' font-family='Georgia,serif'>nessuna risposta</text>";
+    // Build tokens: word + superscript if count > 1
+    var tokens=entries.map(function(e){return e[1]>1?(e[0]+superscript(e[1])):e[0];});
+    // Wrap into lines fitting bandW
+    var lines=[],cur="";
+    tokens.forEach(function(t){
+      var test=cur?cur+"  "+t:t;
+      if(test.length*7.5<bandW-20){cur=test;}
+      else{if(cur)lines.push(cur);cur=t;}
+    });
+    if(cur)lines.push(cur);
+    // Max 4 lines
+    lines=lines.slice(0,4);
+    var lineH=16,total=lines.length*lineH;
+    var startY=cy-total/2+lineH/2;
+    return lines.map(function(l,i){
+      return"<text x='"+cx+"' y='"+(startY+i*lineH)+"' text-anchor='middle' fill='"+fill+"' font-size='13' font-weight='bold' font-family='Georgia,serif'>"+l+"</text>";
+    }).join("");
+  }
+
+  var svg="<svg viewBox='0 0 560 540' xmlns='http://www.w3.org/2000/svg' style='width:100%;display:block;margin:0 auto 1rem;'>";
+  // Draw bands from top (index 4=L5) to bottom (index 0=L1)
+  // Level order in pyramid: top=l5, bottom=l1
+  var pyramidOrder=[4,3,2,1,0]; // indices into levelData and colors arrays
+  pyramidOrder.forEach(function(li,bandIdx){
+    var y0=ys[bandIdx],y1=ys[bandIdx+1];
+    var w0=hw(y0),w1=hw(y1);
+    var pts=(280-w0)+","+y0+" "+(280+w0)+","+y0+" "+(280+w1)+","+y1+" "+(280-w1)+","+y1;
+    var cy=(y0+y1)/2;
+    var bandW=hw(cy)*2;
+    var textFill="#1a1a1a";
+    svg+="<polygon points='"+pts+"' fill='"+colors[4-li]+"'/>";
+    svg+=buildBandText(levelData[li],280,cy,bandW,textFill);
+    if(bandIdx<4)svg+="<line x1='"+(280-w1)+"' y1='"+y1+"' x2='"+(280+w1)+"' y2='"+y1+"' stroke='#fff' stroke-width='3'/>";
+  });
+  svg+="</svg>";
+
+  // Legend
+  var legend="<div style='margin-top:.5rem;padding:10px 14px;background:#f8f8f7;border-radius:9px;font-size:12px;color:#666;'>";
+  legend+="<strong>"+allMaslow.length+(allMaslow.length>1?" piramidi compilate":" piramide compilata")+"</strong> &middot; ";
+  legend+="Le parole scritte da piu ragazzi mostrano il numero in apice (es. famiglia&#178; = scritta da 2 ragazzi)";
+  legend+="</div>";
+
+  // Show in modal
+  document.getElementById("det-header").innerHTML="<div style='font-size:16px;font-weight:600;'>&#9650; Piramide collettiva — "+allMaslow.length+" ragazz"+(allMaslow.length===1?"o":"i")+"</div>";
+  document.getElementById("fonte-tabs-bar").innerHTML="";
+  document.getElementById("fonte-panes").innerHTML="<div style='padding:.25rem 0;'>"+svg+legend+"</div>";
+  document.getElementById("delete-area").innerHTML="";
+  document.getElementById("pbtn-auto").style.display="none";
+  document.getElementById("pbtn-edu").style.display="none";
+  document.getElementById("pbtn-gen").style.display="none";
+  document.getElementById("pbtn-report").style.display="none";
+  document.getElementById("modal-wrap").style.display="block";
+  document.body.style.overflow="hidden";
+};
+
 window.deleteMaslow=async function(id){
   if(!confirm("Eliminare questa piramide?"))return;
   try{
@@ -1843,4 +1931,4 @@ document.addEventListener("click",function(ev){
 });
 </script>
 </body>
-</html>
+      var words=txt.replace(/[\r\n]+/g,",").split(/[,;]+/).map(function(w){return w.trim().toLowerCase();}).filter(function(w){return w.length>1;});
