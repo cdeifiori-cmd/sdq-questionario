@@ -1708,11 +1708,27 @@ window.openMaslow=function(id){
   var m=allMaslow.find(function(x){return x.id===id;});
   if(!m)return;
   var lv=m.livelli||{};
-  var t1=lv.l5_autorealizzazione||"";
-  var t2=lv.l4_stima||"";
-  var t3=lv.l3_appartenenza||"";
-  var t4=lv.l2_sicurezza||"";
-  var t5=lv.l1_fisiologici||"";
+
+  // Helper: parse raw text into unique words (split by any separator including space)
+  function parseWords(txt){
+    return txt.replace(/[\r\n]+/g," ").split(/[,;\s]+/)
+      .map(function(w){return w.trim().toLowerCase();})
+      .filter(function(w){return w.length>1;});
+  }
+  // Deduplicate words across levels: each word appears only in the first (highest) level where it was written
+  var usedWords={};
+  function cleanLevel(txt){
+    var words=parseWords(txt);
+    var unique=[];
+    words.forEach(function(w){if(!usedWords[w]){usedWords[w]=true;unique.push(w);}});
+    return unique.join(" ");
+  }
+  // Process top-down (l5 = highest priority)
+  var t1=cleanLevel(lv.l5_autorealizzazione||"");
+  var t2=cleanLevel(lv.l4_stima||"");
+  var t3=cleanLevel(lv.l3_appartenenza||"");
+  var t4=cleanLevel(lv.l2_sicurezza||"");
+  var t5=cleanLevel(lv.l1_fisiologici||"");
 
   function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
   function wrapText(text,maxChars){
@@ -1800,18 +1816,24 @@ window.openPiramideCollettiva=function(){
   if(!allMaslow.length){alert("Nessuna piramide compilata ancora.");return;}
 
   // Aggregate all words per level, count occurrences (case-insensitive)
-  var levelKeys=["l1_fisiologici","l2_sicurezza","l3_appartenenza","l4_stima","l5_autorealizzazione"];
-  var levelData=levelKeys.map(function(k){
+  // levelKeys ordered from TOP (l5) to BOTTOM (l1): a word belongs only to the highest level where it appears
+  var levelKeysTopDown=["l5_autorealizzazione","l4_stima","l3_appartenenza","l2_sicurezza","l1_fisiologici"];
+  var globalUsed={};
+  var levelDataTopDown=levelKeysTopDown.map(function(k){
     var wordCount={};
     allMaslow.forEach(function(m){
       var txt=(m.livelli&&m.livelli[k])||"";
-      // Split by common separators: comma, semicolon, newline, space
       var words=txt.replace(/[\r\n]+/g," ").split(/[,;\s]+/).map(function(w){return w.trim().toLowerCase();}).filter(function(w){return w.length>1;});
-      words.forEach(function(w){wordCount[w]=(wordCount[w]||0)+1;});
+      words.forEach(function(w){
+        if(!globalUsed[w]){wordCount[w]=(wordCount[w]||0)+1;}
+      });
     });
-    // Sort by count desc, then alpha
+    // Mark all words found at this level as used
+    Object.keys(wordCount).forEach(function(w){globalUsed[w]=true;});
     return Object.entries(wordCount).sort(function(a,b){return b[1]-a[1]||a[0].localeCompare(b[0]);});
   });
+  // Reorder back to bottom-up for pyramid drawing (l1 index 0, l5 index 4)
+  var levelData=[levelDataTopDown[4],levelDataTopDown[3],levelDataTopDown[2],levelDataTopDown[1],levelDataTopDown[0]];
 
   // Build SVG with collective pyramid
   function hw(y){return Math.max(10,(y-10)*0.52+10);}
