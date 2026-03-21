@@ -7,7 +7,7 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f8f6f2;color:#1a1a1a;min-height:100vh;}
-.container{max-width:680px;margin:0 auto;padding:2rem 1rem 4rem;}
+.container{max-width:740px;margin:0 auto;padding:2rem 1rem 4rem;}
 h1{font-size:22px;font-weight:700;margin-bottom:4px;}
 .sub{font-size:14px;color:#666;margin-bottom:2rem;line-height:1.5;}
 
@@ -18,28 +18,101 @@ h1{font-size:22px;font-weight:700;margin-bottom:4px;}
 .field input{border:1px solid #d0d0ce;border-radius:8px;padding:10px 14px;font-size:15px;background:#fff;color:#1a1a1a;}
 .field input:focus{outline:none;border-color:#E8A020;}
 
-/* Pyramid */
-.pyramid-wrap{position:relative;width:100%;margin-bottom:2rem;}
+/* Pyramid + arrow layout */
+.pyramid-section{position:relative;margin-bottom:2rem;}
+
+/* Arrow on the left */
+.arrow-wrap{
+  position:absolute;
+  left:-8px;
+  top:0;
+  bottom:0;
+  width:56px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  z-index:2;
+}
+.arrow-shaft{
+  flex:1;
+  width:28px;
+  background:linear-gradient(to bottom, #2E7FCC 0%, #5CB85C 25%, #F5C800 50%, #F07020 75%, #E8221A 100%);
+  border-radius:4px 4px 0 0;
+  position:relative;
+}
+.arrow-head{
+  width:0;
+  height:0;
+  border-left:20px solid transparent;
+  border-right:20px solid transparent;
+  border-bottom:30px solid #2E7FCC;
+  margin-top:-1px;
+  order:-1;
+}
+/* reorder: head on top, shaft below */
+.arrow-wrap{flex-direction:column;}
+
+.arrow-label-top{
+  font-size:10px;
+  font-weight:700;
+  color:#1A5599;
+  text-align:center;
+  line-height:1.3;
+  margin-bottom:4px;
+  letter-spacing:.02em;
+  text-transform:uppercase;
+}
+.arrow-label-bottom{
+  font-size:10px;
+  font-weight:700;
+  color:#C01810;
+  text-align:center;
+  line-height:1.3;
+  margin-top:4px;
+  letter-spacing:.02em;
+  text-transform:uppercase;
+}
+
+.pyramid-wrap{
+  margin-left:60px;
+  position:relative;
+  width:calc(100% - 60px);
+}
 .pyramid-svg{width:100%;height:auto;display:block;}
 
 /* Livelli */
+.levels-wrap{margin-left:60px;}
 .level{background:#fff;border-radius:12px;padding:1rem 1.25rem;margin-bottom:10px;border-left:5px solid #ccc;transition:border-color .2s;}
-.level-title{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;}
+.level-title{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;}
 .level-sub{font-size:12px;color:#888;margin-bottom:10px;line-height:1.4;}
-.level textarea{width:100%;border:1px solid #e0e0de;border-radius:8px;padding:10px 12px;font-size:14px;font-family:inherit;color:#1a1a1a;background:#fafaf9;resize:none;line-height:1.6;transition:border-color .2s,background .2s;}
-.level textarea:focus{outline:none;border-color:inherit;background:#fff;}
-.level textarea::placeholder{color:#bbb;}
+.level textarea{width:100%;border:1px solid #e0e0de;border-radius:8px;padding:10px 12px;font-size:14px;font-family:inherit;color:#1a1a1a;background:#fafaf9;resize:vertical;min-height:80px;line-height:1.6;transition:border-color .2s,background .2s;}
+.level textarea:focus{outline:none;background:#fff;}
 
-/* Colors per level */
-.l1{border-left-color:#B22222;} .l1 .level-title{color:#B22222;} .l1 textarea:focus{border-color:#B22222;}
-.l2{border-left-color:#D2691E;} .l2 .level-title{color:#D2691E;} .l2 textarea:focus{border-color:#D2691E;}
-.l3{border-left-color:#DAA520;} .l3 .level-title{color:#DAA520;} .l3 textarea:focus{border-color:#DAA520;}
-.l4{border-left-color:#6B8E23;} .l4 .level-title{color:#6B8E23;} .l4 textarea:focus{border-color:#6B8E23;}
-.l5{border-left-color:#4682B4;} .l5 .level-title{color:#4682B4;} .l5 textarea:focus{border-color:#4682B4;}
+/* Colors per level — red(base)→orange→yellow→green→blue(top) */
+.l1{border-left-color:#E8221A;} .l1 .level-title{color:#C01810;} .l1 textarea:focus{border-color:#E8221A;}
+.l2{border-left-color:#F07020;} .l2 .level-title{color:#C05510;} .l2 textarea:focus{border-color:#F07020;}
+.l3{border-left-color:#F5C800;} .l3 .level-title{color:#9A7E00;} .l3 textarea:focus{border-color:#F5C800;}
+.l4{border-left-color:#5CB85C;} .l4 .level-title{color:#2E7D2E;} .l4 textarea:focus{border-color:#5CB85C;}
+.l5{border-left-color:#2E7FCC;} .l5 .level-title{color:#1A5599;} .l5 textarea:focus{border-color:#2E7FCC;}
 
-.btn{width:100%;padding:14px;font-size:16px;font-weight:700;border-radius:12px;border:none;cursor:pointer;background:#E8A020;color:#fff;margin-top:1rem;}
-.btn:hover{background:#C8881A;}
-.btn:disabled{background:#f0d090;cursor:not-allowed;}
+/* importance badge on each level */
+.level-badge{
+  display:inline-block;
+  font-size:10px;
+  font-weight:700;
+  padding:2px 7px;
+  border-radius:20px;
+  margin-left:8px;
+  vertical-align:middle;
+  text-transform:none;
+  letter-spacing:0;
+}
+.badge-high{background:#fde8e8;color:#C01810;}
+.badge-low{background:#ddeeff;color:#1A5599;}
+
+.btn{width:100%;padding:14px;font-size:16px;font-weight:700;border-radius:12px;border:none;cursor:pointer;background:#E8221A;color:#fff;margin-top:1rem;}
+.btn:hover{background:#C01810;}
+.btn:disabled{background:#f5a0a0;cursor:not-allowed;}
 .warn{font-size:13px;color:#c0392b;padding:10px 14px;background:#fdf0ef;border-radius:8px;margin-top:8px;display:none;}
 .spinner{display:inline-block;width:18px;height:18px;border:2px solid #fff;border-top-color:transparent;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:8px;}
 @keyframes spin{to{transform:rotate(360deg);}}
@@ -49,6 +122,14 @@ h1{font-size:22px;font-weight:700;margin-bottom:4px;}
 .thanks-icon{font-size:60px;}
 .thanks h2{font-size:22px;font-weight:700;}
 .thanks p{font-size:15px;color:#666;max-width:300px;line-height:1.6;}
+
+@media(max-width:500px){
+  .arrow-wrap{left:-4px;width:44px;}
+  .arrow-shaft{width:22px;}
+  .arrow-head{border-left-width:15px;border-right-width:15px;border-bottom-width:22px;}
+  .pyramid-wrap,.levels-wrap{margin-left:48px;}
+  .arrow-label-top,.arrow-label-bottom{font-size:9px;}
+}
 </style>
 </head>
 <body>
@@ -64,54 +145,88 @@ h1{font-size:22px;font-weight:700;margin-bottom:4px;}
       </div>
     </div>
 
-    <!-- Pyramid visual -->
-    <div class="pyramid-wrap">
-      <svg class="pyramid-svg" viewBox="0 0 560 530" xmlns="http://www.w3.org/2000/svg">
-        <!-- L5 tip -->
-        <polygon points="280,10 290,90 270,90" fill="#F5E642"/>
-        <!-- Computed trapezoids using slope 0.52 -->
-        <!-- y0=10,y1=90: hw0=10, hw1=52.16 -->
-        <polygon points="270,10 290,10 332,90 228,90" fill="#F5E642"/>
-        <!-- y1=90,y2=180: hw1=52.16, hw2=88.64 -->
-        <polygon points="228,90 332,90 373,180 187,180" fill="#F0A030"/>
-        <!-- y2=180,y3=280: hw2=88.64, hw3=140.8 -->
-        <polygon points="187,180 373,180 425,280 135,280" fill="#E8607A"/>
-        <!-- y3=280,y4=390: hw3=140.8, hw4=197.8 -->
-        <polygon points="135,280 425,280 478,390 82,390" fill="#9BB8D4"/>
-        <!-- y4=390,y5=510: hw4=197.8, hw5=260.24 -->
-        <polygon points="82,390 478,390 540,510 20,510" fill="#9BA0D8"/>
-        <!-- White dividers -->
-        <line x1="228" y1="90"  x2="332" y2="90"  stroke="#fff" stroke-width="3"/>
-        <line x1="187" y1="180" x2="373" y2="180" stroke="#fff" stroke-width="3"/>
-        <line x1="135" y1="280" x2="425" y2="280" stroke="#fff" stroke-width="3"/>
-        <line x1="82"  y1="390" x2="478" y2="390" stroke="#fff" stroke-width="3"/>
-      </svg>
+    <!-- Pyramid + arrow -->
+    <div class="pyramid-section">
+
+      <!-- Left arrow -->
+      <div class="arrow-wrap">
+        <div class="arrow-label-top">bisogni<br>meno<br>importanti</div>
+        <div class="arrow-head"></div>
+        <div class="arrow-shaft"></div>
+        <div class="arrow-label-bottom">bisogni<br>più<br>importanti</div>
+      </div>
+
+      <!-- Pyramid SVG — bigger viewBox for more text room -->
+      <div class="pyramid-wrap">
+        <svg class="pyramid-svg" viewBox="0 0 560 620" xmlns="http://www.w3.org/2000/svg">
+          <!--
+            True triangle: apex (280,10), base y=610, half-width=270
+            hw(y) = (y-10)*270/600
+            Proportions from reference image (top section biggest):
+            L5: 10→220 (h=210)  hw(220)=95.5
+            L4: 220→320 (h=100) hw(320)=140.5
+            L3: 320→420 (h=100) hw(420)=185.5
+            L2: 420→510 (h=90)  hw(510)=226.5
+            L1: 510→610 (h=100) hw(610)=270
+          -->
+
+          <!-- L5: BLU — punta grande -->
+          <polygon points="280,10 184.5,220 375.5,220" fill="#2E7FCC"/>
+
+          <!-- L4: VERDE -->
+          <polygon points="184.5,220 375.5,220 420.5,320 139.5,320" fill="#5CB85C"/>
+
+          <!-- L3: GIALLO -->
+          <polygon points="139.5,320 420.5,320 465.5,420 94.5,420" fill="#F5C800"/>
+
+          <!-- L2: ARANCIONE -->
+          <polygon points="94.5,420 465.5,420 506.5,510 53.5,510" fill="#F07020"/>
+
+          <!-- L1: ROSSO base -->
+          <polygon points="53.5,510 506.5,510 550,610 10,610" fill="#E8221A"/>
+
+          <!-- White dividers -->
+          <line x1="184.5" y1="220" x2="375.5" y2="220" stroke="#fff" stroke-width="3"/>
+          <line x1="139.5" y1="320" x2="420.5" y2="320" stroke="#fff" stroke-width="3"/>
+          <line x1="94.5"  y1="420" x2="465.5" y2="420" stroke="#fff" stroke-width="3"/>
+          <line x1="53.5"  y1="510" x2="506.5" y2="510" stroke="#fff" stroke-width="3"/>
+        </svg>
+      </div>
     </div>
 
-    <!-- Livelli - dall'alto verso il basso della piramide -->
-    <div class="level l5">
-      <div class="level-title">🔵 Punta della piramide — bisogni meno urgenti</div>
-      <textarea id="l5" rows="3" placeholder="Scrivi qui i bisogni che senti meno urgenti o importanti..."></textarea>
-    </div>
+    <!-- Livelli — dall'alto (punta) verso il basso (base) -->
+    <div class="levels-wrap">
 
-    <div class="level l4">
-      <div class="level-title">🟢 Quarto livello</div>
-      <textarea id="l4" rows="3" placeholder="Scrivi qui i tuoi bisogni..."></textarea>
-    </div>
+      <div class="level l5">
+        <div class="level-title">🔵 Punta della piramide <span class="level-badge badge-low">meno urgenti</span></div>
+        <div class="level-sub">Scrivi i bisogni che senti meno urgenti o importanti in questo momento.</div>
+        <textarea id="l5" rows="3" placeholder="Es. viaggiare, imparare nuove cose..."></textarea>
+      </div>
 
-    <div class="level l3">
-      <div class="level-title">🟡 Terzo livello</div>
-      <textarea id="l3" rows="3" placeholder="Scrivi qui i tuoi bisogni..."></textarea>
-    </div>
+      <div class="level l4">
+        <div class="level-title">🟢 Quarto livello</div>
+        <div class="level-sub">Bisogni abbastanza importanti, ma non urgenti.</div>
+        <textarea id="l4" rows="3" placeholder="Scrivi qui i tuoi bisogni..."></textarea>
+      </div>
 
-    <div class="level l2">
-      <div class="level-title">🟠 Secondo livello</div>
-      <textarea id="l2" rows="3" placeholder="Scrivi qui i tuoi bisogni..."></textarea>
-    </div>
+      <div class="level l3">
+        <div class="level-title">🟡 Terzo livello</div>
+        <div class="level-sub">Bisogni importanti, che senti spesso.</div>
+        <textarea id="l3" rows="3" placeholder="Scrivi qui i tuoi bisogni..."></textarea>
+      </div>
 
-    <div class="level l1">
-      <div class="level-title">🔴 Base della piramide — bisogni più importanti</div>
-      <textarea id="l1" rows="3" placeholder="Scrivi qui i bisogni che senti più importanti e urgenti..."></textarea>
+      <div class="level l2">
+        <div class="level-title">🟠 Secondo livello</div>
+        <div class="level-sub">Bisogni molto importanti, che senti quasi ogni giorno.</div>
+        <textarea id="l2" rows="3" placeholder="Scrivi qui i tuoi bisogni..."></textarea>
+      </div>
+
+      <div class="level l1">
+        <div class="level-title">🔴 Base della piramide <span class="level-badge badge-high">più urgenti</span></div>
+        <div class="level-sub">Scrivi qui i bisogni che senti più urgenti e fondamentali: quelli che vengono prima di tutto.</div>
+        <textarea id="l1" rows="4" placeholder="Es. dormire, mangiare, sentirsi al sicuro, essere amato/a..."></textarea>
+      </div>
+
     </div>
 
     <p class="warn" id="form-warn">Inserisci il tuo nome prima di inviare.</p>
@@ -161,10 +276,10 @@ window.submitMaslow = async function() {
     data: new Date().toISOString().split("T")[0],
     timestamp: new Date(),
     livelli: {
-      l1_fisiologici: document.getElementById("l1").value.trim(),
-      l2_sicurezza: document.getElementById("l2").value.trim(),
-      l3_appartenenza: document.getElementById("l3").value.trim(),
-      l4_stima: document.getElementById("l4").value.trim(),
+      l1_fisiologici:    document.getElementById("l1").value.trim(),
+      l2_sicurezza:      document.getElementById("l2").value.trim(),
+      l3_appartenenza:   document.getElementById("l3").value.trim(),
+      l4_stima:          document.getElementById("l4").value.trim(),
       l5_autorealizzazione: document.getElementById("l5").value.trim()
     }
   };
