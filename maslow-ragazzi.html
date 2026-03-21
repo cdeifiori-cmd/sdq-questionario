@@ -162,30 +162,34 @@ h1{font-size:22px;font-weight:700;margin-bottom:4px;}
           <!--
             True triangle: apex (280,10), base y=610, half-width=270
             hw(y) = (y-10)*270/600
-            Band dividers: L5=10→200(h=190), L4=200→290(h=90), L3=290→370(h=80), L2=370→450(h=80), L1=450→610(h=160)
-            hw(200)=85.5  hw(290)=126  hw(370)=162  hw(450)=198  hw(610)=270
+            Proportions from reference image (top section biggest):
+            L5: 10→220 (h=210)  hw(220)=95.5
+            L4: 220→320 (h=100) hw(320)=140.5
+            L3: 320→420 (h=100) hw(420)=185.5
+            L2: 420→510 (h=90)  hw(510)=226.5
+            L1: 510→610 (h=100) hw(610)=270
           -->
 
-          <!-- L5: apex BLU 10→200 (più alta) -->
-          <polygon points="280,10 194.5,200 365.5,200" fill="#2E7FCC"/>
+          <!-- L5: BLU — punta grande -->
+          <polygon points="280,10 184.5,220 375.5,220" fill="#2E7FCC"/>
 
-          <!-- L4: VERDE 200→290 -->
-          <polygon points="194.5,200 365.5,200 406,290 154,290" fill="#5CB85C"/>
+          <!-- L4: VERDE -->
+          <polygon points="184.5,220 375.5,220 420.5,320 139.5,320" fill="#5CB85C"/>
 
-          <!-- L3: GIALLO 290→370 -->
-          <polygon points="154,290 406,290 442,370 118,370" fill="#F5C800"/>
+          <!-- L3: GIALLO -->
+          <polygon points="139.5,320 420.5,320 465.5,420 94.5,420" fill="#F5C800"/>
 
-          <!-- L2: ARANCIONE 370→450 -->
-          <polygon points="118,370 442,370 478,450 82,450" fill="#F07020"/>
+          <!-- L2: ARANCIONE -->
+          <polygon points="94.5,420 465.5,420 506.5,510 53.5,510" fill="#F07020"/>
 
-          <!-- L1: ROSSO 450→610 -->
-          <polygon points="82,450 478,450 550,610 10,610" fill="#E8221A"/>
+          <!-- L1: ROSSO base -->
+          <polygon points="53.5,510 506.5,510 550,610 10,610" fill="#E8221A"/>
 
           <!-- White dividers -->
-          <line x1="194.5" y1="200" x2="365.5" y2="200" stroke="#fff" stroke-width="3"/>
-          <line x1="154"   y1="290" x2="406"   y2="290" stroke="#fff" stroke-width="3"/>
-          <line x1="118"   y1="370" x2="442"   y2="370" stroke="#fff" stroke-width="3"/>
-          <line x1="82"    y1="450" x2="478"   y2="450" stroke="#fff" stroke-width="3"/>
+          <line x1="184.5" y1="220" x2="375.5" y2="220" stroke="#fff" stroke-width="3"/>
+          <line x1="139.5" y1="320" x2="420.5" y2="320" stroke="#fff" stroke-width="3"/>
+          <line x1="94.5"  y1="420" x2="465.5" y2="420" stroke="#fff" stroke-width="3"/>
+          <line x1="53.5"  y1="510" x2="506.5" y2="510" stroke="#fff" stroke-width="3"/>
         </svg>
       </div>
     </div>
