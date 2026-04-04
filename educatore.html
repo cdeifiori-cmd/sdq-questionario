@@ -20,12 +20,11 @@ h2{font-size:17px;font-weight:600;margin-bottom:12px;}
 .btn-primary:hover{background:#0F6E56;}
 .btn-sm{padding:5px 12px;font-size:12px;background:#f0f0ee;color:#444;border-radius:7px;border:1px solid #e0e0de;cursor:pointer;}
 .btn-danger{background:#fdf0ef;color:#c0392b;border:1px solid #f5c6c2;border-radius:7px;padding:6px 14px;font-size:12px;cursor:pointer;}
-.nav-bar{display:flex;gap:8px;margin-bottom:1.5rem;border-bottom:1px solid #e8e8e6;padding-bottom:1rem;}
+.nav-bar{display:flex;gap:8px;margin-bottom:1.5rem;border-bottom:1px solid #e8e8e6;padding-bottom:1rem;flex-wrap:wrap;}
 .nav-btn{padding:6px 14px;font-size:13px;border-radius:8px;border:1px solid #e0e0de;background:transparent;color:#666;cursor:pointer;}
 .nav-btn.act{background:#f0faf6;color:#0F6E56;border-color:#1D9E75;font-weight:600;}
 .tab-pane{display:none;}
 .tab-pane.act{display:block;}
-/* Minore card nella lista */
 .minore-card{background:#fff;border-radius:12px;padding:14px 16px;margin-bottom:10px;border:1px solid #e8e8e6;cursor:pointer;transition:border-color .15s,box-shadow .15s;}
 .minore-card:hover{border-color:#1D9E75;box-shadow:0 2px 8px rgba(29,158,117,.1);}
 .minore-nome{font-size:15px;font-weight:600;margin-bottom:6px;}
@@ -38,10 +37,8 @@ h2{font-size:17px;font-weight:600;margin-bottom:12px;}
 .b-edu{background:#EEEDFE;color:#3C3489;}
 .b-gen{background:#FAECE7;color:#712B13;}
 .b-attesa{background:#f0f0ee;color:#888;}
-/* Modal */
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.4);display:flex;align-items:flex-start;justify-content:center;padding:1.5rem 1rem;overflow-y:auto;z-index:100;}
 .modal{background:#fff;border-radius:16px;padding:1.5rem;max-width:720px;width:100%;margin-bottom:2rem;}
-/* Tabs del minore: Auto-report | Educatore | Genitore | Report */
 .fonte-tabs{display:flex;gap:0;margin-bottom:1.25rem;border-bottom:2px solid #e8e8e6;}
 .fonte-tab{padding:10px 18px;font-size:13px;font-weight:600;border:none;background:transparent;color:#888;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .15s;}
 .fonte-tab.act{color:#1D9E75;border-bottom-color:#1D9E75;}
@@ -50,13 +47,11 @@ h2{font-size:17px;font-weight:600;margin-bottom:12px;}
 .fonte-tab.t-report.act{color:#1a1a1a;border-bottom-color:#1a1a1a;}
 .fonte-pane{display:none;}
 .fonte-pane.act{display:block;}
-/* Sub-tabs dentro ogni fonte */
 .sub-tabs{display:flex;gap:6px;margin-bottom:1rem;flex-wrap:wrap;padding-bottom:.5rem;border-bottom:1px solid #f0f0ee;}
 .sub-tab{padding:5px 12px;font-size:12px;border-radius:8px;border:1px solid #e0e0de;background:transparent;color:#666;cursor:pointer;}
 .sub-tab.act{background:#f0faf6;color:#0F6E56;border-color:#1D9E75;font-weight:600;}
 .sub-pane{display:none;}
 .sub-pane.act{display:block;}
-/* Scale */
 .scale-row{display:grid;grid-template-columns:150px 1fr 55px 95px;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #f0f0ee;}
 .scale-row:last-child{border-bottom:none;}
 .bar-bg{background:#f0f0ee;border-radius:4px;height:8px;overflow:hidden;}
@@ -89,42 +84,27 @@ h2{font-size:17px;font-weight:600;margin-bottom:12px;}
   #modal-wrap{display:block !important;position:static !important;}
   .modal-bg{position:static !important;background:none !important;padding:0 !important;display:block !important;}
   .modal{box-shadow:none !important;border-radius:0 !important;padding:0 !important;max-width:100% !important;width:100% !important;}
-  /* Legenda: primo foglio */
   #legenda-stampa{display:block !important;}
   #legenda-stampa > div{font-size:11px !important;}
   #legenda-stampa + #modal-wrap{page-break-before:always;}
-  /* Nascondi UI chrome */
   .fonte-tabs,.sub-tabs,.btn-sm,.btn-danger,.print-btn{display:none !important;}
   #det-header > div:last-child{display:none !important;}
-  /* Mostra tutti i pane */
   .fonte-pane{display:block !important;}
   .sub-pane{display:block !important;}
-  /* Ogni fonte inizia su nuova pagina */
   .fonte-pane{page-break-before:always;}
   .fonte-pane:first-child{page-break-before:avoid;}
-  /* Sub-pane: NON forzare pagina nuova — fluiscono naturalmente */
-  /* Solo aggiunge separazione visiva tra sub-pane */
-  .sub-pane{
-    page-break-inside:avoid;
-    border-bottom:1px dashed #ddd;
-    padding-bottom:8px;
-    margin-bottom:8px;
-  }
+  .sub-pane{page-break-inside:avoid;border-bottom:1px dashed #ddd;padding-bottom:8px;margin-bottom:8px;}
   .sub-pane:last-child{border-bottom:none;}
-  /* Evita page break dentro elementi chiave */
   .rel-section{page-break-inside:avoid;}
   .interp-block{page-break-inside:avoid;margin-bottom:4px !important;padding:6px 8px !important;}
   table{page-break-inside:auto;font-size:10px !important;}
   tr{page-break-inside:avoid;}
-  /* Comprimi spaziature per stampa */
   .lbl{margin:.5rem 0 .25rem !important;font-size:10px !important;}
   .scale-row{padding:5px 0 !important;}
   .bar-bg{height:5px !important;}
   .bar-fill{height:5px !important;}
   canvas{max-height:200px !important;}
-  /* Nascondi elementi inutili in stampa */
   #det-header{margin-bottom:.5rem !important;}
-  /* Print header identificativo su ogni fonte-pane */
   .fonte-print-header{display:block !important;font-size:13px;font-weight:700;border-bottom:2px solid #1a1a1a;padding-bottom:4px;margin-bottom:10px;}
 }
 .fonte-print-header{display:none;margin:0;padding:0;height:0;overflow:hidden;}
@@ -132,42 +112,23 @@ h2{font-size:17px;font-weight:600;margin-bottom:12px;}
 </head>
 <body>
 
-<!-- LEGENDA STAMPA (nascosta a schermo) -->
 <div id="legenda-stampa" style="display:none;">
   <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:720px;margin:0 auto;padding:2rem;font-size:13px;color:#1a1a1a;line-height:1.7;">
     <div style="border-bottom:3px solid #1D9E75;padding-bottom:.75rem;margin-bottom:1.5rem;">
       <div style="font-size:22px;font-weight:700;">Legenda SDQ</div>
       <div style="font-size:13px;color:#666;margin-top:3px;">Guida alla lettura dei risultati del Questionario sui Punti di Forza e Difficolta</div>
     </div>
-
     <h3 style="font-size:14px;font-weight:700;color:#1D9E75;margin-bottom:.5rem;">Che cos'e lo SDQ</h3>
-    <p style="margin-bottom:.75rem;">Lo <strong>SDQ (Strengths and Difficulties Questionnaire)</strong> e uno strumento di screening psicologico sviluppato da <strong>Robert Goodman</strong> nel 1997 presso l'Institute of Psychiatry di Londra. E attualmente uno degli strumenti di valutazione piu utilizzati a livello internazionale per la fascia di eta 4-17 anni.</p>
-    <p style="margin-bottom:.75rem;">Lo SDQ e stato <strong>validato scientificamente</strong> in oltre 40 paesi, tra cui l'Italia, ed e disponibile in piu di 80 lingue. La standardizzazione italiana e stata condotta su campioni rappresentativi della popolazione e consente di confrontare i punteggi ottenuti con norme di riferimento nazionali.</p>
-    <p style="margin-bottom:1rem;">Lo strumento misura sia le <strong>difficolta</strong> (sintomi emotivi, problemi di condotta, iperattivita, difficolta relazionali) sia i <strong>punti di forza</strong> (comportamento prosociale), fornendo un profilo multidimensionale del funzionamento psicologico e comportamentale del minore. Puo essere compilato dal minore stesso (auto-report, 11-17 anni), da un genitore o da un educatore/insegnante (4-17 anni).</p>
-    <p style="margin-bottom:1rem;padding:8px 12px;background:#f0faf6;border-radius:8px;border-left:3px solid #1D9E75;font-size:13px;"><strong>Importante:</strong> Lo SDQ e uno strumento di <em>screening</em> e non consente di formulare diagnosi cliniche. I risultati vanno sempre interpretati da professionisti qualificati e integrati con altre fonti di informazione sul minore.</p>
-
-    <h3 style="font-size:14px;font-weight:700;color:#1D9E75;margin-bottom:.5rem;">Struttura dello strumento</h3>
-    <p>25 item divisi in 5 scale da 5 domande. Ogni risposta: <strong>0=Non vero, 1=Parzialmente vero, 2=Assolutamente vero</strong> (alcune invertite). Ogni scala: 0–10.</p>
-    <h3 style="font-size:14px;font-weight:700;color:#1D9E75;margin:.75rem 0 .5rem;">Punteggio Totale Difficolta (ES+EC+IP+C) — range 0–40</h3>
+    <p style="margin-bottom:.75rem;">Lo <strong>SDQ (Strengths and Difficulties Questionnaire)</strong> e uno strumento di screening psicologico sviluppato da <strong>Robert Goodman</strong> nel 1997. E attualmente uno degli strumenti piu utilizzati a livello internazionale per la fascia 4-17 anni.</p>
+    <p style="margin-bottom:1rem;padding:8px 12px;background:#f0faf6;border-radius:8px;border-left:3px solid #1D9E75;font-size:13px;"><strong>Importante:</strong> Lo SDQ e uno strumento di <em>screening</em> e non consente diagnosi cliniche.</p>
+    <h3 style="font-size:14px;font-weight:700;color:#1D9E75;margin-bottom:.5rem;">Punteggio Totale Difficolta — range 0-40</h3>
     <table style="border-collapse:collapse;font-size:12px;margin-bottom:.75rem;">
       <tr style="background:#f0faf6;"><th style="padding:5px 12px;border:1px solid #d0e8dc;">Punteggio</th><th style="padding:5px 12px;border:1px solid #d0e8dc;">Fascia</th></tr>
-      <tr><td style="padding:5px 12px;border:1px solid #e8e8e6;">0–13</td><td style="padding:5px 12px;border:1px solid #e8e8e6;">Normale</td></tr>
-      <tr><td style="padding:5px 12px;border:1px solid #e8e8e6;">14–16</td><td style="padding:5px 12px;border:1px solid #e8e8e6;">Borderline</td></tr>
-      <tr><td style="padding:5px 12px;border:1px solid #e8e8e6;">17–40</td><td style="padding:5px 12px;border:1px solid #e8e8e6;">Elevato/Rischio clinico</td></tr>
+      <tr><td style="padding:5px 12px;border:1px solid #e8e8e6;">0-13</td><td style="padding:5px 12px;border:1px solid #e8e8e6;">Normale</td></tr>
+      <tr><td style="padding:5px 12px;border:1px solid #e8e8e6;">14-16</td><td style="padding:5px 12px;border:1px solid #e8e8e6;">Borderline</td></tr>
+      <tr><td style="padding:5px 12px;border:1px solid #e8e8e6;">17-40</td><td style="padding:5px 12px;border:1px solid #e8e8e6;">Elevato/Rischio clinico</td></tr>
     </table>
-    <h3 style="font-size:14px;font-weight:700;color:#1D9E75;margin:.75rem 0 .5rem;">Scale singole (0–10 ciascuna)</h3>
-    <table style="border-collapse:collapse;font-size:12px;margin-bottom:.75rem;width:100%;">
-      <tr style="background:#f0faf6;"><th style="padding:5px 10px;border:1px solid #d0e8dc;">Scala</th><th style="padding:5px 10px;border:1px solid #d0e8dc;">Normale</th><th style="padding:5px 10px;border:1px solid #d0e8dc;">Borderline</th><th style="padding:5px 10px;border:1px solid #d0e8dc;">Elevato</th></tr>
-      <tr><td style="padding:5px 10px;border:1px solid #e8e8e6;">Sintomi Emotivi (ES)</td><td style="padding:5px 10px;border:1px solid #e8e8e6;">0–3</td><td style="padding:5px 10px;border:1px solid #e8e8e6;">4</td><td style="padding:5px 10px;border:1px solid #e8e8e6;">5–10</td></tr>
-      <tr><td style="padding:5px 10px;border:1px solid #e8e8e6;">Problemi Condotta (EC)</td><td style="padding:5px 10px;border:1px solid #e8e8e6;">0–2</td><td style="padding:5px 10px;border:1px solid #e8e8e6;">3</td><td style="padding:5px 10px;border:1px solid #e8e8e6;">4–10</td></tr>
-      <tr><td style="padding:5px 10px;border:1px solid #e8e8e6;">Iperattivita (IP)</td><td style="padding:5px 10px;border:1px solid #e8e8e6;">0–5</td><td style="padding:5px 10px;border:1px solid #e8e8e6;">6</td><td style="padding:5px 10px;border:1px solid #e8e8e6;">7–10</td></tr>
-      <tr><td style="padding:5px 10px;border:1px solid #e8e8e6;">Prob. Relazioni (C)</td><td style="padding:5px 10px;border:1px solid #e8e8e6;">0–2</td><td style="padding:5px 10px;border:1px solid #e8e8e6;">3</td><td style="padding:5px 10px;border:1px solid #e8e8e6;">4–10</td></tr>
-      <tr><td style="padding:5px 10px;border:1px solid #e8e8e6;">Prosociale (PR) *invertita*</td><td style="padding:5px 10px;border:1px solid #e8e8e6;">6–10</td><td style="padding:5px 10px;border:1px solid #e8e8e6;">5</td><td style="padding:5px 10px;border:1px solid #e8e8e6;">0–4 (basso)</td></tr>
-    </table>
-    <h3 style="font-size:14px;font-weight:700;color:#1D9E75;margin:.75rem 0 .5rem;">Indici compositi (0–20 ciascuno)</h3>
-    <p><strong>Internalizzazione</strong> (ES+C): ansia, ritiro, tristezza — Normale 0–5, Borderline 6–7, Elevato 8–20</p>
-    <p><strong>Esternalizzazione</strong> (EC+IP): impulsivita, aggressivita, oppositività — Normale 0–5, Borderline 6–7, Elevato 8–20</p>
-    <div style="margin-top:1rem;padding:10px;background:#f8f8f7;border-radius:8px;font-size:11px;color:#888;">SDQ — Goodman (1997). Standardizzazione italiana. Documento a scopo informativo, non sostituisce valutazione clinica professionale.</div>
+    <div style="margin-top:1rem;padding:10px;background:#f8f8f7;border-radius:8px;font-size:11px;color:#888;">SDQ — Goodman (1997). Documento informativo, non sostituisce valutazione clinica.</div>
   </div>
 </div>
 
@@ -191,12 +152,16 @@ h2{font-size:17px;font-weight:600;margin-bottom:12px;}
       <h1>SDQ — Area valutatore</h1>
       <button class="btn-sm" onclick="logout()">Esci</button>
     </div>
+
+    <!-- ═══ NAV-BAR con 🪞 Autostima ═══ -->
     <div class="nav-bar">
       <button class="nav-btn act" onclick="switchTab(this,'tab-list')">Minori</button>
       <button class="nav-btn" onclick="switchTab(this,'tab-maslow')">🔺 Piramidi</button>
       <button class="nav-btn" onclick="switchTab(this,'tab-settings')">Impostazioni</button>
+      <button class="nav-btn" onclick="switchTab(this,'tab-autostima')">🪞 Autostima</button>
     </div>
 
+    <!-- TAB: Minori -->
     <div id="tab-list" class="tab-pane act">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
         <h2 style="margin:0;">Minori in carico</h2>
@@ -227,6 +192,7 @@ h2{font-size:17px;font-weight:600;margin-bottom:12px;}
       <div id="entries-list"><div class="loading-center"><div class="spinner"></div></div></div>
     </div>
 
+    <!-- TAB: Piramidi -->
     <div id="tab-maslow" class="tab-pane">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
         <h2 style="margin:0;">Piramidi di Maslow</h2>
@@ -238,11 +204,12 @@ h2{font-size:17px;font-weight:600;margin-bottom:12px;}
       <div id="maslow-list"><div class="loading-center"><div class="spinner"></div></div></div>
     </div>
 
+    <!-- TAB: Impostazioni -->
     <div id="tab-settings" class="tab-pane">
       <h2>Impostazioni</h2>
       <div class="card">
         <p class="lbl">Associa codici mancanti</p>
-        <p style="font-size:13px;color:#666;margin-bottom:10px;">Assegna automaticamente il codice pratica ai questionari senza codice, cercando la corrispondenza per nome con le pratiche create.</p>
+        <p style="font-size:13px;color:#666;margin-bottom:10px;">Assegna automaticamente il codice pratica ai questionari senza codice.</p>
         <button class="btn-sm" onclick="migrazioneCodiceMancante()" style="padding:8px 14px;">Esegui associazione</button>
         <p id="migr-result" style="font-size:12px;color:#0F6E56;margin-top:8px;display:none;"></p>
       </div>
@@ -258,8 +225,29 @@ h2{font-size:17px;font-weight:600;margin-bottom:12px;}
         <button class="btn btn-primary" style="margin-top:12px;" onclick="changePin()">Aggiorna PIN</button>
       </div>
     </div>
-  </div>
-</div>
+
+    <!-- ═══ TAB: 🪞 AUTOSTIMA (NUOVO) ═══ -->
+    <div id="tab-autostima" class="tab-pane">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:10px;">
+        <div>
+          <h2 style="margin-bottom:2px;">🪞 Autostima</h2>
+          <p style="font-size:13px;color:#666;">Schede individuali, risultati e motivazioni dei ragazzi.</p>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="btn-sm" onclick="aggiornaAutostima()">&#8635; Aggiorna</button>
+          <a href="autostima-ragazzi.html" target="_blank"
+             style="padding:5px 12px;font-size:12px;font-weight:600;border-radius:7px;border:1px solid #e07b39;background:#fff5ef;color:#e07b39;text-decoration:none;">
+            🔗 Form ragazzi
+          </a>
+        </div>
+      </div>
+      <div id="autostima-content">
+        <div class="loading-center"><div class="spinner"></div></div>
+      </div>
+    </div>
+
+  </div><!-- /screen-dash -->
+</div><!-- /container -->
 
 <!-- MODAL MINORE -->
 <div id="modal-wrap" style="display:none;">
@@ -276,9 +264,7 @@ h2{font-size:17px;font-weight:600;margin-bottom:12px;}
           <button onclick="closeModal()" style="font-size:24px;cursor:pointer;color:#aaa;background:none;border:none;line-height:1;padding:0 0 0 8px;">&#215;</button>
         </div>
       </div>
-      <!-- FONTE TABS -->
       <div class="fonte-tabs" id="fonte-tabs-bar"></div>
-      <!-- FONTE PANES -->
       <div id="fonte-panes"></div>
       <div style="margin-top:1.25rem;border-top:1px solid #f0f0ee;padding-top:1rem;" id="delete-area"></div>
     </div>
@@ -290,1662 +276,343 @@ h2{font-size:17px;font-weight:600;margin-bottom:12px;}
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 <script>
 "use strict";
-var FB = {
-  apiKey: "AIzaSyBmsHeTkQMJVQyav3rF8VPMhLeIB45t3Io",
-  authDomain: "sdq-questionario.firebaseapp.com",
-  projectId: "sdq-questionario",
-  storageBucket: "sdq-questionario.firebasestorage.app",
-  messagingSenderId: "601788476480",
-  appId: "1:601788476480:web:766d7dd791fa44acbd83a5"
-};
+var FB={apiKey:"AIzaSyBmsHeTkQMJVQyav3rF8VPMhLeIB45t3Io",authDomain:"sdq-questionario.firebaseapp.com",projectId:"sdq-questionario",storageBucket:"sdq-questionario.firebasestorage.app",messagingSenderId:"601788476480",appId:"1:601788476480:web:766d7dd791fa44acbd83a5"};
 firebase.initializeApp(FB);
-var db = firebase.firestore();
+var db=firebase.firestore();
 
-var SLBL = {ES:"Sintomi Emotivi",IP:"Iperattivita",EC:"Prob. Condotta",C:"Prob. Relazioni",PR:"Prosociale",TOT:"Tot. Difficolta",INT:"Internalizzazione",EST:"Esternalizzazione"};
-var BAR = {ES:"#1D9E75",IP:"#BA7517",EC:"#993C1D",C:"#185FA5",PR:"#534AB7"};
-var SCOL = {ES:"b-ES",IP:"b-IP",EC:"b-EC",C:"b-C",PR:"b-PR"};
+var SLBL={ES:"Sintomi Emotivi",IP:"Iperattivita",EC:"Prob. Condotta",C:"Prob. Relazioni",PR:"Prosociale",TOT:"Tot. Difficolta",INT:"Internalizzazione",EST:"Esternalizzazione"};
+var BAR={ES:"#1D9E75",IP:"#BA7517",EC:"#993C1D",C:"#185FA5",PR:"#534AB7"};
+var SCOL={ES:"b-ES",IP:"b-IP",EC:"b-EC",C:"b-C",PR:"b-PR"};
 
-function band(s,v){
-  if(s==="PR"){if(v>=6)return"adeguato";if(v===5)return"borderline";return"basso";}
-  if(s==="TOT"){if(v<=15)return"normale";if(v<=19)return"borderline";return"elevato";}
-  if(s==="INT"||s==="EST"){if(v<=5)return"normale";if(v<=7)return"borderline";return"elevato";}
-  var r={ES:[3,5],IP:[5,7],EC:[2,3],C:[2,3]}[s];
-  if(v<=r[0])return"normale";if(v<=r[1])return"borderline";return"elevato";
-}
+function band(s,v){if(s==="PR"){if(v>=6)return"adeguato";if(v===5)return"borderline";return"basso";}if(s==="TOT"){if(v<=15)return"normale";if(v<=19)return"borderline";return"elevato";}if(s==="INT"||s==="EST"){if(v<=5)return"normale";if(v<=7)return"borderline";return"elevato";}var r={ES:[3,5],IP:[5,7],EC:[2,3],C:[2,3]}[s];if(v<=r[0])return"normale";if(v<=r[1])return"borderline";return"elevato";}
 function bc(b){return b==="normale"||b==="adeguato"?"bn":b==="borderline"?"bb":"be";}
 function bl(b){var m={normale:"Nella norma",adeguato:"Adeguato",borderline:"Borderline",basso:"Basso",elevato:"Elevato"};return m[b]||b;}
 function getPin(){return localStorage.getItem("sdq_pin2")||"1234";}
 
-window.checkPin = function(){
-  var v=document.getElementById("pin-in").value;
-  if(v===getPin()){
-    document.getElementById("pin-warn").style.display="none";
-    document.getElementById("pin-in").value="";
-    document.getElementById("screen-login").style.display="none";
-    document.getElementById("screen-dash").style.display="block";
-    loadEntries();
-  } else {
-    document.getElementById("pin-warn").style.display="block";
-  }
-};
+window.checkPin=function(){var v=document.getElementById("pin-in").value;if(v===getPin()){document.getElementById("pin-warn").style.display="none";document.getElementById("pin-in").value="";document.getElementById("screen-login").style.display="none";document.getElementById("screen-dash").style.display="block";loadEntries();}else{document.getElementById("pin-warn").style.display="block";}};
 document.getElementById("pin-in").addEventListener("keydown",function(e){if(e.key==="Enter")window.checkPin();});
+window.logout=function(){document.getElementById("screen-dash").style.display="none";document.getElementById("screen-login").style.display="block";};
 
-window.logout=function(){
-  document.getElementById("screen-dash").style.display="none";
-  document.getElementById("screen-login").style.display="block";
-};
-
+/* ══════════════════════════════════════════════════
+   switchTab — aggiornato con supporto tab-autostima
+══════════════════════════════════════════════════ */
 window.switchTab=function(btn,id){
   document.querySelectorAll(".nav-btn").forEach(function(b){b.classList.remove("act");});
   btn.classList.add("act");
   document.querySelectorAll(".tab-pane").forEach(function(p){p.classList.remove("act");});
   document.getElementById(id).classList.add("act");
   if(id==="tab-maslow")loadMaslow();
+  if(id==="tab-autostima")loadAutostima();
 };
 
-var allEntries=[];
-var pratiche=[];
+/* ══════════════════════════════════════════════════
+   🪞 MODULO AUTOSTIMA — inline nel dashboard
+══════════════════════════════════════════════════ */
+var allAutostima=[];
+var autostimaLoaded=false;
 
-window.loadEntries=async function(){
-  var el=document.getElementById("entries-list");
+var DOMS_AUTO=[
+  {id:1,testo:"Mi accetto come persona.",area:"accettazione"},
+  {id:2,testo:"Ho fiducia in me stesso/a.",area:"accettazione"},
+  {id:3,testo:"Mi so affermare di fronte agli altri.",area:"assertivita"},
+  {id:4,testo:"Sono benvoluto/a praticamente da tutti.",area:"relazioni"},
+  {id:5,testo:"Mi esprimo senza fatica all'interno di un gruppo.",area:"relazioni"},
+  {id:6,testo:"Merito di essere felice.",area:"accettazione"},
+  {id:7,testo:"Ritengo che la mia opinione sia importante quanto quella degli altri.",area:"assertivita"},
+  {id:8,testo:"Mi dico \u00abErrare humanum est\u00bb quando mi capita di commettere un errore.",area:"resilienza"},
+  {id:9,testo:"Mi riesce facile ascoltare una critica giustificata che mi viene mossa.",area:"resilienza"},
+  {id:10,testo:"Sono capace di dire a un adulto che trovo inaccettabile il suo comportamento.",area:"assertivita"},
+  {id:11,testo:"Quando una relazione si fa insostenibile, sono capace di interromperla.",area:"assertivita"},
+  {id:12,testo:"Sono capace di dire no quando serve.",area:"assertivita"}
+];
+var VAL_LBL_A={1:"Mai",2:"A volte",3:"Spesso",4:"Sempre"};
+var VAL_COL_A={1:"#f4a261",2:"#f9c74f",3:"#90be6d",4:"#43aa8b"};
+var VAL_BG_A={1:"#fff5ef",2:"#fffbef",3:"#f3faf0",4:"#f0faf6"};
+var VAL_TC_A={1:"#c75b2c",2:"#8a6500",3:"#3d6b35",4:"#0F6E56"};
+var FASCE_A=[
+  {label:"Da 0 a 15 punti",min:12,max:27,col:"#c75b2c",bg:"#fff5ef",desc:"È necessario superare alcuni ostacoli. Avrete la possibilità di guadagnare altri punti lavorando su questo quaderno. La vita vi risulterà più semplice!"},
+  {label:"Da 16 a 25 punti",min:28,max:37,col:"#8a6500",bg:"#fffbef",desc:"Siete sulla buona strada. Dovete ancora perfezionare alcuni punti importanti."},
+  {label:"Da 26 a 36 punti",min:38,max:48,col:"#0F6E56",bg:"#f0faf6",desc:"La vostra autostima è già più \u00abrispettabile\u00bb! Identificando gli aspetti da migliorare, troverete sempre più piacevole vivere in mezzo agli altri."}
+];
+var AREE_LBL_A={accettazione:"Accettazione di sé",assertivita:"Assertività",relazioni:"Relazioni",resilienza:"Resilienza"};
+var AREE_MAX_A={accettazione:12,assertivita:20,relazioni:8,resilienza:8};
+var AREE_COL_A={accettazione:"#6aaa5e",assertivita:"#1D9E75",relazioni:"#5b8dd9",resilienza:"#e07b39"};
+
+function fasciaA(tot){return FASCE_A.find(function(f){return tot>=f.min&&tot<=f.max;})||FASCE_A[FASCE_A.length-1];}
+function ptOrigA(tot){return Math.round((tot-12)/(48-12)*36);}
+function escA(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+
+window.loadAutostima=async function(){
+  var el=document.getElementById("autostima-content");
+  if(!el)return;
   el.innerHTML='<div class="loading-center"><div class="spinner"></div></div>';
   try{
-    var snap=await db.collection("risposte").get();
-    allEntries=[];
-    snap.forEach(function(d){allEntries.push(Object.assign({id:d.id},d.data()));});
-    allEntries.sort(function(a,b){return(b.timestamp&&a.timestamp)?(b.timestamp.seconds||0)-(a.timestamp.seconds||0):0;});
-    // load pratiche
-    try{
-      var snap2=await db.collection("pratiche").get();
-      pratiche=[];
-      snap2.forEach(function(d){pratiche.push(Object.assign({id:d.id},d.data()));});
-    }catch(e2){}
-    renderList();
+    var snap=await db.collection("autostima").get();
+    allAutostima=[];
+    snap.forEach(function(d){allAutostima.push(Object.assign({id:d.id},d.data()));});
+    allAutostima.sort(function(a,b){return(b.timestamp||"").localeCompare(a.timestamp||"");});
+    autostimaLoaded=true;
+    renderAutostima();
   }catch(e){
     el.innerHTML='<div class="empty">Errore nel caricamento. Riprova.</div>';
+    console.error(e);
   }
 };
+
+window.aggiornaAutostima=function(){autostimaLoaded=false;loadAutostima();};
+
+function renderAutostima(){
+  var el=document.getElementById("autostima-content");
+  if(!el)return;
+  if(!allAutostima.length){el.innerHTML='<div class="empty">Nessun questionario autostima compilato ancora.</div>';return;}
+  var n=allAutostima.length;
+  var totali=allAutostima.map(function(r){return ptOrigA(r.totale||0);});
+  var media=(totali.reduce(function(a,b){return a+b;},0)/n).toFixed(1);
+  var conMot=allAutostima.filter(function(r){return r.motivazioni&&Object.keys(r.motivazioni).length>0;}).length;
+
+  var html='';
+
+  /* LEGENDA */
+  html+='<div style="background:#fff;border-radius:12px;border:1px solid #e8e8e6;padding:1rem 1.25rem;margin-bottom:1rem;">';
+  html+='<p style="font-size:11px;font-weight:700;color:#888;text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px;">📋 Legenda dei risultati</p>';
+  html+='<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:8px;">';
+  FASCE_A.forEach(function(f){
+    html+='<div style="padding:10px 12px;border-radius:9px;border-left:4px solid '+f.col+';background:'+f.bg+';">';
+    html+='<div style="font-size:12px;font-weight:800;color:'+f.col+';margin-bottom:4px;">'+f.label+'</div>';
+    html+='<div style="font-size:11px;color:#555;line-height:1.55;">'+f.desc+'</div></div>';
+  });
+  html+='</div>';
+  html+='<p style="font-size:11px;color:#aaa;">12 domande × 1-4 pt = 12-48, convertito automaticamente in scala 0-36.</p>';
+  html+='</div>';
+
+  /* STATS */
+  html+='<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1rem;">';
+  html+='<div style="background:#fff;border-radius:10px;padding:12px 14px;border:1px solid #e8e8e6;text-align:center;"><div style="font-size:22px;font-weight:700;color:#1D9E75;">'+n+'</div><div style="font-size:11px;color:#888;font-weight:600;margin-top:2px;">Compilazioni</div></div>';
+  html+='<div style="background:#fff;border-radius:10px;padding:12px 14px;border:1px solid #e8e8e6;text-align:center;"><div style="font-size:22px;font-weight:700;color:#1D9E75;">'+media+'</div><div style="font-size:11px;color:#888;font-weight:600;margin-top:2px;">Media punti (0-36)</div></div>';
+  html+='<div style="background:#fff;border-radius:10px;padding:12px 14px;border:1px solid #e8e8e6;text-align:center;"><div style="font-size:22px;font-weight:700;color:#e07b39;">'+conMot+'</div><div style="font-size:11px;color:#888;font-weight:600;margin-top:2px;">Con motivazioni</div></div>';
+  html+='</div>';
+
+  /* TABS INTERNI */
+  html+='<div style="display:flex;gap:0;border-bottom:2px solid #e8e8e6;margin-bottom:1rem;">';
+  html+='<button id="atab-schede" style="padding:8px 18px;font-size:13px;font-weight:700;border:none;background:transparent;color:#1D9E75;border-bottom:2px solid #1D9E75;margin-bottom:-2px;cursor:pointer;" onclick="aShowTab(\'schede\')">👤 Schede individuali</button>';
+  html+='<button id="atab-totali" style="padding:8px 18px;font-size:13px;font-weight:700;border:none;background:transparent;color:#888;border-bottom:2px solid transparent;margin-bottom:-2px;cursor:pointer;" onclick="aShowTab(\'totali\')">📊 Totali per domanda</button>';
+  html+='</div>';
+  html+='<div id="a-schede">'+buildSchedeHTML()+'</div>';
+  html+='<div id="a-totali" style="display:none;">'+buildTotaliHTML()+'</div>';
+
+  el.innerHTML=html;
+}
+
+window.aShowTab=function(tab){
+  document.getElementById("a-schede").style.display=tab==="schede"?"block":"none";
+  document.getElementById("a-totali").style.display=tab==="totali"?"block":"none";
+  var sa=document.getElementById("atab-schede"),st=document.getElementById("atab-totali");
+  if(sa){sa.style.color=tab==="schede"?"#1D9E75":"#888";sa.style.borderBottomColor=tab==="schede"?"#1D9E75":"transparent";}
+  if(st){st.style.color=tab==="totali"?"#1D9E75":"#888";st.style.borderBottomColor=tab==="totali"?"#1D9E75":"transparent";}
+};
+
+/* ── SCHEDE INDIVIDUALI ── */
+function buildSchedeHTML(){
+  var html="";
+  allAutostima.forEach(function(r,idx){
+    var f=fasciaA(r.totale||0),pt=ptOrigA(r.totale||0);
+    var nMot=r.motivazioni?Object.keys(r.motivazioni).filter(function(k){return r.motivazioni[k];}).length:0;
+    html+='<div style="background:#fff;border-radius:12px;border:1px solid #e8e8e6;margin-bottom:10px;">';
+    /* header */
+    html+='<div style="padding:12px 16px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;" onclick="toggleSchedaA('+idx+')">';
+    html+='<div>';
+    html+='<div style="font-size:14px;font-weight:700;">'+escA(r.nome||"Anonimo")+
+      (r.codice?'&nbsp;<span style="background:#1a1a1a;color:#fff;font-size:10px;font-weight:700;padding:1px 7px;border-radius:20px;">#'+r.codice+'</span>':'')+
+      '</div>';
+    html+='<div style="font-size:11px;color:#888;margin-top:2px;">'+(r.data||"—")+' &middot; '+(r.sesso||"—")+
+      ' &middot; <span style="color:#e07b39;">'+nMot+' motivazion'+(nMot===1?"e":"i")+'</span></div></div>';
+    html+='<div style="display:flex;align-items:center;gap:10px;">';
+    html+='<div><div style="font-size:20px;font-weight:800;color:'+f.col+'">'+pt+'<span style="font-size:11px;font-weight:400;color:#aaa;">/36</span></div>';
+    html+='<div style="font-size:10px;font-weight:700;color:'+f.col+';text-align:right;">'+f.label+'</div></div>';
+    html+='<span id="chev-a-'+idx+'" style="color:#ccc;font-size:18px;font-weight:700;">&#8250;</span>';
+    html+='</div></div>';
+    /* corpo */
+    html+='<div id="scheda-a-'+idx+'" style="display:none;padding:0 16px 16px;">';
+    /* barra punteggio */
+    var pinPct=Math.max(2,Math.min(98,(r.totale-12)/(48-12)*100));
+    html+='<div style="background:'+f.bg+';border-left:4px solid '+f.col+';border-radius:10px;padding:12px 16px;margin-bottom:12px;">';
+    html+='<div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">';
+    html+='<div style="font-size:28px;font-weight:900;color:'+f.col+'">'+pt+'<span style="font-size:13px;font-weight:400;color:#aaa;">/36</span></div>';
+    html+='<div style="flex:1;">';
+    html+='<div style="height:12px;background:linear-gradient(90deg,#f4a261 0%,#f9c74f 33%,#90be6d 66%,#43aa8b 100%);border-radius:99px;position:relative;margin-bottom:4px;">';
+    html+='<div style="position:absolute;top:50%;left:'+pinPct+'%;transform:translate(-50%,-50%);width:18px;height:18px;background:#fff;border:3px solid #333;border-radius:50%;box-shadow:0 2px 6px rgba(0,0,0,.2);"></div></div>';
+    html+='<div style="display:flex;justify-content:space-between;font-size:10px;color:#aaa;font-weight:700;"><span>0</span><span>15</span><span>25</span><span>36</span></div></div></div>';
+    html+='<p style="font-size:12px;color:#555;margin-top:8px;line-height:1.6;">'+f.desc+'</p></div>';
+    /* aree */
+    var aree=r.aree||{};
+    html+='<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px;">';
+    Object.keys(AREE_MAX_A).forEach(function(k){
+      var v=aree[k]||0,max=AREE_MAX_A[k],pct=Math.round(v/max*100);
+      html+='<div style="background:#f8f8f6;border-radius:9px;padding:10px 12px;">';
+      html+='<div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:#aaa;margin-bottom:3px;">'+AREE_LBL_A[k]+'</div>';
+      html+='<div style="font-size:17px;font-weight:800;color:'+AREE_COL_A[k]+'">'+v+'<span style="font-size:10px;color:#aaa;font-weight:400;">/'+max+'</span></div>';
+      html+='<div style="background:#e8e8e6;border-radius:4px;height:5px;margin-top:5px;overflow:hidden;"><div style="height:5px;border-radius:4px;background:'+AREE_COL_A[k]+';width:'+pct+'%;"></div></div></div>';
+    });
+    html+='</div>';
+    /* tabella risposte + perché */
+    var risposte=r.risposte||{},motivaz=r.motivazioni||{};
+    html+='<table style="width:100%;border-collapse:collapse;font-size:12px;">';
+    html+='<thead><tr style="background:#f8f8f6;">';
+    html+='<th style="padding:7px 8px;border:1px solid #e8e8e6;text-align:center;font-size:11px;color:#666;">#</th>';
+    html+='<th style="padding:7px 8px;border:1px solid #e8e8e6;text-align:left;font-size:11px;color:#666;">Domanda</th>';
+    html+='<th style="padding:7px 8px;border:1px solid #e8e8e6;text-align:center;font-size:11px;color:#666;">Risposta</th>';
+    html+='<th style="padding:7px 8px;border:1px solid #e8e8e6;text-align:left;font-size:11px;color:#666;">&#9999;&#65039; Perché?</th>';
+    html+='</tr></thead><tbody>';
+    DOMS_AUTO.forEach(function(d){
+      var qk="q"+d.id,v=risposte[qk],m=motivaz[qk];
+      if(v==null)return;
+      html+='<tr>';
+      html+='<td style="padding:7px 8px;border:1px solid #f0f0ee;color:#aaa;font-size:11px;text-align:center;">'+d.id+'</td>';
+      html+='<td style="padding:7px 8px;border:1px solid #f0f0ee;font-size:12px;color:#444;">'+escA(d.testo)+'</td>';
+      html+='<td style="padding:7px 8px;border:1px solid #f0f0ee;text-align:center;">';
+      html+='<span style="display:inline-block;padding:2px 8px;border-radius:99px;font-size:11px;font-weight:700;background:'+VAL_BG_A[v]+';color:'+VAL_TC_A[v]+'">'+VAL_LBL_A[v]+'</span>';
+      html+='<div style="font-size:10px;color:#aaa;font-weight:700;margin-top:1px;">'+v+' pt</div></td>';
+      html+='<td style="padding:7px 8px;border:1px solid #f0f0ee;">';
+      if(m){html+='<div style="font-size:11px;color:#555;font-style:italic;background:#fdf9f5;padding:5px 8px;border-radius:6px;border-left:2px solid #e8ddd0;">&ldquo;'+escA(m)+'&rdquo;</div>';}
+      else{html+='<span style="font-size:11px;color:#ddd;">&mdash;</span>';}
+      html+='</td></tr>';
+    });
+    html+='</tbody></table>';
+    /* PULSANTE ELIMINA */
+    html+='<div style="margin-top:14px;padding-top:12px;border-top:1px solid #f0f0ee;">';
+    html+='<button class="btn-danger" onclick="eliminaAutostima(\''+r.id+'\',\''+escA(r.nome||'Anonimo')+'\','+idx+')">🗑 Elimina questo questionario</button>';
+    html+='</div>';
+
+    html+='</div>'; /* fine corpo */
+    html+='</div>'; /* fine card */
+  });
+  return html;
+}
+
+window.eliminaAutostima=async function(id,nome,idx){
+  if(!confirm('Eliminare il questionario autostima di '+nome+'?\nQuesta azione non può essere annullata.'))return;
+  try{
+    await db.collection("autostima").doc(id).delete();
+    allAutostima=allAutostima.filter(function(r){return r.id!==id;});
+    renderAutostima();
+  }catch(e){
+    alert('Errore durante l\'eliminazione. Riprova.');
+    console.error(e);
+  }
+};
+
+window.toggleSchedaA=function(idx){
+  var corpo=document.getElementById("scheda-a-"+idx);
+  var chev=document.getElementById("chev-a-"+idx);
+  if(!corpo||!chev)return;
+  var aperta=corpo.style.display!=="none";
+  corpo.style.display=aperta?"none":"block";
+  chev.innerHTML=aperta?"&#8250;":" &#8964;";
+};
+
+/* ── TOTALI PER DOMANDA ── */
+function buildTotaliHTML(){
+  var html="",n=allAutostima.length;
+  DOMS_AUTO.forEach(function(d){
+    var qk="q"+d.id,counts={1:0,2:0,3:0,4:0},perche=[];
+    allAutostima.forEach(function(r){
+      var v=(r.risposte||{})[qk];
+      if(v!=null)counts[v]++;
+      var m=(r.motivazioni||{})[qk];
+      if(m&&m.trim())perche.push({nome:r.nome||"Anonimo",val:v,testo:m.trim()});
+    });
+    var totRis=Object.values(counts).reduce(function(a,b){return a+b;},0);
+    var media=totRis?(Object.entries(counts).reduce(function(a,e){return a+Number(e[0])*e[1];},0)/totRis).toFixed(2):"—";
+
+    html+='<div style="background:#fff;border-radius:12px;border:1px solid #e8e8e6;margin-bottom:14px;overflow:hidden;">';
+    html+='<div style="padding:12px 16px;background:#f8f8f6;border-bottom:1px solid #e8e8e6;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">';
+    html+='<div><div style="font-size:10px;font-weight:800;color:#aaa;text-transform:uppercase;letter-spacing:.05em;">Dom. '+d.id+' &mdash; '+AREE_LBL_A[d.area]+'</div>';
+    html+='<div style="font-size:13px;font-weight:700;color:#1a1a1a;margin-top:2px;">'+escA(d.testo)+'</div></div>';
+    html+='<div style="text-align:right;"><div style="font-size:20px;font-weight:800;color:#1D9E75;">'+media+'</div>';
+    html+='<div style="font-size:10px;color:#aaa;">media pt (n='+n+')</div></div></div>';
+    html+='<div style="padding:12px 16px;">';
+    /* barre */
+    [1,2,3,4].forEach(function(v){
+      var pct=totRis?Math.round(counts[v]/totRis*100):0;
+      html+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">';
+      html+='<div style="min-width:70px;"><span style="display:inline-block;padding:2px 8px;border-radius:99px;font-size:11px;font-weight:700;background:'+VAL_BG_A[v]+';color:'+VAL_TC_A[v]+'">'+VAL_LBL_A[v]+'</span></div>';
+      html+='<div style="flex:1;background:#eee;border-radius:4px;height:10px;overflow:hidden;"><div style="height:10px;border-radius:4px;background:'+VAL_COL_A[v]+';width:'+pct+'%;"></div></div>';
+      html+='<div style="min-width:22px;font-size:12px;font-weight:700;color:#555;">'+counts[v]+'</div>';
+      html+='<div style="min-width:32px;font-size:11px;color:#aaa;">'+pct+'%</div></div>';
+    });
+    /* perché sommati */
+    if(perche.length){
+      html+='<div style="margin-top:10px;padding:10px 12px;background:#fdf9f5;border-radius:9px;border:1px solid #f0e8e0;">';
+      html+='<div style="font-size:10px;font-weight:800;color:#e07b39;text-transform:uppercase;letter-spacing:.05em;margin-bottom:7px;">&#9999;&#65039; Motivazioni scritte ('+perche.length+')</div>';
+      perche.forEach(function(p){
+        html+='<div style="display:flex;gap:8px;align-items:flex-start;padding:5px 0;border-bottom:1px solid #f0e8df;font-size:12px;line-height:1.5;">';
+        html+='<div style="font-size:10px;font-weight:700;color:#bbb;min-width:55px;margin-top:1px;">'+escA((p.nome||"").split(" ")[0])+'</div>';
+        html+='<div><span style="display:inline-block;padding:1px 6px;border-radius:99px;font-size:10px;font-weight:700;background:'+VAL_BG_A[p.val]+';color:'+VAL_TC_A[p.val]+';margin-right:5px;">'+VAL_LBL_A[p.val]+'</span>&ldquo;'+escA(p.testo)+'&rdquo;</div></div>';
+      });
+      html+='</div>';
+    }else{
+      html+='<div style="margin-top:8px;font-size:12px;color:#ddd;font-style:italic;">Nessuna motivazione scritta per questa domanda.</div>';
+    }
+    html+='</div></div>';
+  });
+  return html;
+}
+/* ═══════════════════════════════════════════════ */
+
+var allEntries=[],pratiche=[];
+
+window.loadEntries=async function(){var el=document.getElementById("entries-list");el.innerHTML='<div class="loading-center"><div class="spinner"></div></div>';try{var snap=await db.collection("risposte").get();allEntries=[];snap.forEach(function(d){allEntries.push(Object.assign({id:d.id},d.data()));});allEntries.sort(function(a,b){return(b.timestamp&&a.timestamp)?(b.timestamp.seconds||0)-(a.timestamp.seconds||0):0;});try{var snap2=await db.collection("pratiche").get();pratiche=[];snap2.forEach(function(d){pratiche.push(Object.assign({id:d.id},d.data()));});}catch(e2){}renderList();}catch(e){el.innerHTML='<div class="empty">Errore nel caricamento. Riprova.</div>';}};
 
 function normalizeNome(n){return(n||"").trim().toLowerCase().replace(/\s+/g," ");}
 
-function groupMinori(){
-  var groups={};
+function groupMinori(){var groups={};var nameToCodice={};pratiche.forEach(function(p){if(p.nome)nameToCodice[normalizeNome(p.nome)]=p.codice;});allEntries.forEach(function(e){var cod=e.codice?String(parseInt(e.codice)||0).padStart(2,"0"):"";if(!cod&&e.nome){var nc=nameToCodice[normalizeNome(e.nome)];if(nc)cod=String(parseInt(nc)||0).padStart(2,"0");}var key=cod?("c:"+cod):("n:"+normalizeNome(e.nome));if(!groups[key]){groups[key]={codice:cod,nome:e.nome||"",entries:[]};}if(cod&&!groups[key].codice)groups[key].codice=cod;if(e.nome&&!groups[key].nome)groups[key].nome=e.nome;groups[key].entries.push(e);});pratiche.forEach(function(p){var pCod=p.codice?String(parseInt(p.codice)||0).padStart(2,"0"):p.codice;var key="c:"+pCod;if(!groups[key])groups[key]={codice:pCod,nome:p.nome||"",entries:[]};if(p.nome&&!groups[key].nome)groups[key].nome=p.nome;});var toDelete=[];Object.keys(groups).forEach(function(k){if(k.startsWith("n:")){var nn=k.slice(2);var cod=nameToCodice[nn];if(cod){var ck="c:"+cod;if(groups[ck]){groups[k].entries.forEach(function(e){groups[ck].entries.push(e);});toDelete.push(k);}}}});toDelete.forEach(function(k){delete groups[k];});return Object.values(groups).sort(function(a,b){var ca=parseInt(a.codice||"999"),cb=parseInt(b.codice||"999");return ca-cb;});}
 
-  // First pass: index pratiche by codice
-  var praticheByCode={};
-  pratiche.forEach(function(p){
-    praticheByCode[p.codice]={codice:p.codice,nome:p.nome||"",entries:[]};
-  });
+function renderList(){var el=document.getElementById("entries-list");var groups=groupMinori();groups=groups.filter(function(g){return g.entries.length>0||g.nome;});if(!groups.length){el.innerHTML='<div class="empty">Nessun questionario ricevuto ancora.</div>';return;}var html="";groups.forEach(function(g){var auto=g.entries.find(function(e){return!e.tipo||e.tipo==="auto-report";});var edu=g.entries.find(function(e){return e.tipo==="educatore";});var gen=g.entries.find(function(e){return e.tipo==="genitore";});var codBadge=g.codice?'<span style="background:#1a1a1a;color:#fff;font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;margin-right:8px;">#'+g.codice+'</span>':"";var badges="";badges+=auto?'<span class="badge b-auto">&#10003; Auto-report</span>':'<span class="badge b-attesa">&#9711; Auto-report</span>';badges+=edu?'<span class="badge b-edu">&#10003; Educatore</span>':'<span class="badge b-attesa">&#9711; Educatore</span>';badges+=gen?'<span class="badge b-gen">&#10003; Genitore</span>':'<span class="badge b-attesa">&#9711; Genitore</span>';var totals="";if(auto)totals+='<span style="font-size:11px;color:#666;">Auto: <strong>'+auto.tot+'</strong> <span class="badge '+bc(band("TOT",auto.tot))+'">'+bl(band("TOT",auto.tot))+'</span></span> ';if(edu)totals+='<span style="font-size:11px;color:#666;">Edu: <strong>'+edu.tot+'</strong> <span class="badge '+bc(band("TOT",edu.tot))+'">'+bl(band("TOT",edu.tot))+'</span></span> ';if(gen)totals+='<span style="font-size:11px;color:#666;">Gen: <strong>'+gen.tot+'</strong> <span class="badge '+bc(band("TOT",gen.tot))+'">'+bl(band("TOT",gen.tot))+'</span></span>';html+='<div class="minore-card" onclick="openMinore(\''+g.codice+'\',\''+encodeURIComponent(g.nome)+'\')">'+'<div style="display:flex;justify-content:space-between;align-items:center;">'+'<div class="minore-nome">'+codBadge+(g.nome||"Senza nome")+'</div>'+'<span style="color:#ccc;font-size:20px;">&#8250;</span>'+'</div>'+'<div class="minore-badges" style="margin-bottom:6px;">'+badges+'</div>'+'<div style="display:flex;gap:10px;flex-wrap:wrap;">'+totals+'</div>'+'</div>';});el.innerHTML=html;}
 
-  // Build a map: normalized name -> codice (from pratiche)
-  var nameToCodice={};
-  pratiche.forEach(function(p){
-    if(p.nome)nameToCodice[normalizeNome(p.nome)]=p.codice;
-  });
+var currentMinore=null,radarCharts=[];
 
-  // Second pass: assign each entry to a group
-  allEntries.forEach(function(e){
-    var cod=e.codice?String(parseInt(e.codice)||0).padStart(2,"0"):"";
-    // If no codice, try to find by name match in pratiche
-    if(!cod&&e.nome){
-      var nc=nameToCodice[normalizeNome(e.nome)];
-      if(nc)cod=String(parseInt(nc)||0).padStart(2,"0");
-    }
-    var key=cod?("c:"+cod):("n:"+normalizeNome(e.nome));
-    if(!groups[key]){
-      groups[key]={codice:cod,nome:e.nome||"",entries:[]};
-    }
-    if(cod&&!groups[key].codice)groups[key].codice=cod;
-    if(e.nome&&!groups[key].nome)groups[key].nome=e.nome;
-    groups[key].entries.push(e);
-  });
+window.openMinore=function(codice,nomeEnc){var nome=decodeURIComponent(nomeEnc);var normNome=normalizeNome(nome);var normCod=codice?String(parseInt(codice)||0).padStart(2,"0"):"";var entries=allEntries.filter(function(e){var eCod=e.codice?String(parseInt(e.codice)||0).padStart(2,"0"):"";var eNome=normalizeNome(e.nome);if(normCod&&eCod)return eCod===normCod;if(normCod&&!eCod)return eNome===normNome;return eNome===normNome;});var auto=entries.find(function(e){return!e.tipo||e.tipo==="auto-report";});var edu=entries.find(function(e){return e.tipo==="educatore";});var gen=entries.find(function(e){return e.tipo==="genitore";});currentMinore={codice:codice,nome:nome,auto:auto,edu:edu,gen:gen};var codBadge=codice?'<span style="background:#1a1a1a;color:#fff;font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;margin-right:8px;">#'+codice+'</span>':"";document.getElementById("det-header").innerHTML='<div style="font-size:16px;font-weight:600;">'+codBadge+nome+'</div>'+'<div style="font-size:12px;color:#888;margin-top:2px;">'+(auto?'Auto-report: '+auto.data+' ':'')+( edu?'&middot; Edu: '+edu.data+' ':'')+( gen?'&middot; Gen: '+gen.data:'')+'</div>';var tabsBar=document.getElementById("fonte-tabs-bar");var panesEl=document.getElementById("fonte-panes");tabsBar.innerHTML="";panesEl.innerHTML="";var fonti=[];if(auto)fonti.push({key:"auto",label:"&#127891; Auto-report",cls:"t-auto",entry:auto});if(edu)fonti.push({key:"edu",label:"&#128105;&#8205;&#127979; Educatore",cls:"t-edu",entry:edu});if(gen)fonti.push({key:"gen",label:"&#128106; Genitore",cls:"t-gen",entry:gen});var hasReport=(auto&&(edu||gen))||(edu&&gen);if(hasReport)fonti.push({key:"report",label:"&#9889; Report sintesi",cls:"t-report",entry:null});fonti.forEach(function(f,i){var btn=document.createElement("button");btn.className="fonte-tab "+f.cls+(i===0?" act":"");btn.innerHTML=f.label;btn.onclick=(function(fk){return function(){document.querySelectorAll(".fonte-tab").forEach(function(b){b.classList.remove("act");});btn.classList.add("act");document.querySelectorAll(".fonte-pane").forEach(function(p){p.classList.remove("act");});document.getElementById("fp-"+fk).classList.add("act");};})(f.key);tabsBar.appendChild(btn);var pane=document.createElement("div");pane.className="fonte-pane"+(i===0?" act":"");pane.id="fp-"+f.key;if(f.key==="report"){pane.innerHTML=buildReportPane(auto,edu,gen);}else{pane.innerHTML=buildFontePane(f.key,f.entry);}panesEl.appendChild(pane);});var delArea=document.getElementById("delete-area");delArea.innerHTML='';entries.forEach(function(e){var tipoLbl=e.tipo==="educatore"?"Educatore":e.tipo==="genitore"?"Genitore":"Auto-report";var btn=document.createElement("button");btn.className="btn-danger";btn.style.marginRight="8px";btn.textContent="Elimina "+tipoLbl;btn.onclick=(function(eid,tnome){return function(){if(confirm("Eliminare il questionario "+tnome+" di "+nome+"?"))deleteEntry(eid);};})(e.id,tipoLbl);delArea.appendChild(btn);});if(entries.length===0&&codice){var prat=pratiche.find(function(p){return String(parseInt(p.codice)||0).padStart(2,"0")===String(parseInt(codice)||0).padStart(2,"0");});if(prat){var btnP=document.createElement("button");btnP.className="btn-danger";btnP.textContent="Elimina pratica #"+codice;btnP.onclick=(function(pid,pcod){return function(){if(confirm("Eliminare la pratica #"+pcod+"?")){db.collection("pratiche").doc(pid).delete().then(function(){pratiche=pratiche.filter(function(p){return p.id!==pid;});renderList();window.closeModal();}).catch(function(){alert("Errore.");});}};})(prat.id,codice);delArea.appendChild(btnP);}}radarCharts.forEach(function(c){try{c.destroy();}catch(e){}});radarCharts=[];setTimeout(function(){initRadarCharts(auto,edu,gen);var canvas=document.getElementById("radar-report");if(canvas&&!canvas._chartDone){canvas._chartDone=true;var fd=[];if(auto)fd.push({e:auto,label:"Auto-report",color:"#1D9E75"});if(edu)fd.push({e:edu,label:"Educatore",color:"#534AB7"});if(gen)fd.push({e:gen,label:"Genitore",color:"#D85A30"});if(fd.length>1){var ds=fd.map(function(f){return{label:f.label,data:[f.e.scores.ES,f.e.scores.IP,f.e.scores.EC,f.e.scores.C,f.e.scores.PR],backgroundColor:f.color+"26",borderColor:f.color,borderWidth:2,pointBackgroundColor:f.color,pointRadius:4};});try{var rc=new Chart(canvas,{type:"radar",data:{labels:["Sintomi Emotivi","Iperattivita","Prob. Condotta","Prob. Relazioni","Prosociale"],datasets:ds},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:"bottom",labels:{font:{size:11}}}},scales:{r:{min:0,max:10,ticks:{stepSize:2,font:{size:9},color:"#aaa"},pointLabels:{font:{size:10}}}}}});radarCharts.push(rc);}catch(e2){}}}},150);document.getElementById("pbtn-auto").style.display=currentMinore.auto?"inline-block":"none";document.getElementById("pbtn-edu").style.display=currentMinore.edu?"inline-block":"none";document.getElementById("pbtn-gen").style.display=currentMinore.gen?"inline-block":"none";var hasReport2=(currentMinore.auto&&(currentMinore.edu||currentMinore.gen))||(currentMinore.edu&&currentMinore.gen);document.getElementById("pbtn-report").style.display=hasReport2?"inline-block":"none";document.getElementById("modal-wrap").style.display="block";document.body.style.overflow="hidden";};
 
-  // Add pratiche that have no entries yet
-  pratiche.forEach(function(p){
-    var pCod=p.codice?String(parseInt(p.codice)||0).padStart(2,"0"):p.codice;
-    var key="c:"+pCod;
-    if(!groups[key])groups[key]={codice:pCod,nome:p.nome||"",entries:[]};
-    if(p.nome&&!groups[key].nome)groups[key].nome=p.nome;
-  });
+function buildFontePane(key,e){if(!e)return'<div class="empty">Questionario non ancora compilato.</div>';var tipoColor=key==="edu"?"#534AB7":key==="gen"?"#D85A30":"#1D9E75";var tipoLabel=key==="edu"?"Educatore":key==="gen"?"Genitore/Parente":"Auto-report ragazzo/a";var compilatoreStr=(e.compilatore||e.ruolo)?(" &middot; "+(e.compilatore||"")+(e.ruolo?" ("+e.ruolo+")":"")):"";var html='<div class="fonte-print-header" style="color:'+tipoColor+';">'+tipoLabel+(e.nome?" — "+e.nome:"")+" ("+e.data+")</div>";html+='<div style="margin-bottom:1rem;"><div class="sub-tabs"><button class="sub-tab act" onclick="subTab(this,\'st-scale-'+key+'\')">Scale SDQ</button><button class="sub-tab" onclick="subTab(this,\'st-radar-'+key+'\')">Grafico radar</button><button class="sub-tab" onclick="subTab(this,\'st-interp-'+key+'\')">Interpretazione</button><button class="sub-tab" onclick="subTab(this,\'st-rel-'+key+'\')">Relazione</button><button class="sub-tab" onclick="subTab(this,\'st-impact-'+key+'\')">Impatto</button><button class="sub-tab" onclick="subTab(this,\'st-risp-'+key+'\')">Risposte</button></div>';html+='<div id="st-scale-'+key+'" class="sub-pane act">'+renderScale(e,tipoColor,tipoLabel,compilatoreStr)+'</div>';html+='<div id="st-radar-'+key+'" class="sub-pane"><div style="position:relative;height:280px;"><canvas id="radar-'+key+'"></canvas></div></div>';html+='<div id="st-interp-'+key+'" class="sub-pane">'+renderInterp(e,tipoLabel)+'</div>';html+='<div id="st-rel-'+key+'" class="sub-pane">'+renderRelazione(e,tipoLabel)+'</div>';html+='<div id="st-impact-'+key+'" class="sub-pane">'+renderImpact(e)+'</div>';html+='<div id="st-risp-'+key+'" class="sub-pane">'+renderRisposte(e)+'</div>';html+='</div>';return html;}
 
-  // Third pass: merge name-keyed groups into codice-keyed groups if name matches
-  var toDelete=[];
-  Object.keys(groups).forEach(function(k){
-    if(k.startsWith("n:")){
-      var nn=k.slice(2);
-      var cod=nameToCodice[nn];
-      if(cod){
-        var ck="c:"+cod;
-        if(groups[ck]){
-          groups[k].entries.forEach(function(e){groups[ck].entries.push(e);});
-          toDelete.push(k);
-        }
-      }
-    }
-  });
-  toDelete.forEach(function(k){delete groups[k];});
+window.subTab=function(btn,id){var pane=btn.closest(".fonte-pane");pane.querySelectorAll(".sub-tab").forEach(function(b){b.classList.remove("act");});btn.classList.add("act");pane.querySelectorAll(".sub-pane").forEach(function(p){p.classList.remove("act");});document.getElementById(id).classList.add("act");};
 
-  return Object.values(groups).sort(function(a,b){
-    var ca=parseInt(a.codice||"999"),cb=parseInt(b.codice||"999");
-    return ca-cb;
-  });
-}
+function initRadarCharts(auto,edu,gen){var configs=[{key:"auto",e:auto,color:"#1D9E75"},{key:"edu",e:edu,color:"#534AB7"},{key:"gen",e:gen,color:"#D85A30"}];configs.forEach(function(c){if(!c.e)return;var canvas=document.getElementById("radar-"+c.key);if(!canvas)return;var chart=new Chart(canvas,{type:"radar",data:{labels:["Sintomi Emotivi","Iperattivita","Prob. Condotta","Prob. Relazioni","Prosociale"],datasets:[{label:c.key==="auto"?"Auto-report":c.key==="edu"?"Educatore":"Genitore",data:[c.e.scores.ES,c.e.scores.IP,c.e.scores.EC,c.e.scores.C,c.e.scores.PR],backgroundColor:c.color+"26",borderColor:c.color,borderWidth:2,pointBackgroundColor:c.color,pointRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{r:{min:0,max:10,ticks:{stepSize:2,font:{size:10},color:"#aaa"},pointLabels:{font:{size:11},color:"#555"},grid:{color:"rgba(0,0,0,0.07)"},angleLines:{color:"rgba(0,0,0,0.07)"}}}}});radarCharts.push(chart);});}
 
-function renderList(){
-  var el=document.getElementById("entries-list");
-  var groups=groupMinori();
-  // Filter out empty unnamed groups (pratiche create senza nome e senza compilazioni)
-  groups=groups.filter(function(g){return g.entries.length>0||g.nome;});
-  if(!groups.length){el.innerHTML='<div class="empty">Nessun questionario ricevuto ancora.</div>';return;}
-  var html="";
-  groups.forEach(function(g){
-    var auto=g.entries.find(function(e){return!e.tipo||e.tipo==="auto-report";});
-    var edu=g.entries.find(function(e){return e.tipo==="educatore";});
-    var gen=g.entries.find(function(e){return e.tipo==="genitore";});
-    var codBadge=g.codice?'<span style="background:#1a1a1a;color:#fff;font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;margin-right:8px;">#'+g.codice+'</span>':"";
-    var badges="";
-    badges+=auto?'<span class="badge b-auto">&#10003; Auto-report</span>':'<span class="badge b-attesa">&#9711; Auto-report</span>';
-    badges+=edu?'<span class="badge b-edu">&#10003; Educatore</span>':'<span class="badge b-attesa">&#9711; Educatore</span>';
-    badges+=gen?'<span class="badge b-gen">&#10003; Genitore</span>':'<span class="badge b-attesa">&#9711; Genitore</span>';
-    var totals="";
-    if(auto)totals+='<span style="font-size:11px;color:#666;">Auto: <strong>'+auto.tot+'</strong> <span class="badge '+bc(band("TOT",auto.tot))+'">'+bl(band("TOT",auto.tot))+'</span></span> ';
-    if(edu)totals+='<span style="font-size:11px;color:#666;">Edu: <strong>'+edu.tot+'</strong> <span class="badge '+bc(band("TOT",edu.tot))+'">'+bl(band("TOT",edu.tot))+'</span></span> ';
-    if(gen)totals+='<span style="font-size:11px;color:#666;">Gen: <strong>'+gen.tot+'</strong> <span class="badge '+bc(band("TOT",gen.tot))+'">'+bl(band("TOT",gen.tot))+'</span></span>';
-    html+='<div class="minore-card" onclick="openMinore(\''+g.codice+'\',\''+encodeURIComponent(g.nome)+'\')">'
-      +'<div style="display:flex;justify-content:space-between;align-items:center;">'
-      +'<div class="minore-nome">'+codBadge+(g.nome||"Senza nome")+'</div>'
-      +'<span style="color:#ccc;font-size:20px;">&#8250;</span>'
-      +'</div>'
-      +'<div class="minore-badges" style="margin-bottom:6px;">'+badges+'</div>'
-      +'<div style="display:flex;gap:10px;flex-wrap:wrap;">'+totals+'</div>'
-      +'</div>';
-  });
-  el.innerHTML=html;
-}
+function renderScale(e,tipoColor,tipoLabel,compilatoreStr){var ES={v:e.scores.ES,bd:band("ES",e.scores.ES)};var IP={v:e.scores.IP,bd:band("IP",e.scores.IP)};var EC={v:e.scores.EC,bd:band("EC",e.scores.EC)};var C={v:e.scores.C,bd:band("C",e.scores.C)};var PR={v:e.scores.PR,bd:band("PR",e.scores.PR)};var TOT={v:e.tot,bd:band("TOT",e.tot)};var html='<div style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;display:inline-block;margin-bottom:12px;background:'+tipoColor+'20;color:'+tipoColor+';">'+tipoLabel+'</div>';if(compilatoreStr)html+='<span style="font-size:12px;color:#888;margin-left:8px;">'+compilatoreStr+'</span>';html+='<p class="lbl">Punteggi per scala</p>';["ES","IP","EC","C","PR"].forEach(function(s){var v=e.scores[s];var pct=Math.round(v/10*100);var bd=band(s,v);html+='<div class="scale-row"><div><span class="badge '+SCOL[s]+'">'+s+'</span><div style="font-size:12px;color:#888;margin-top:3px;">'+SLBL[s]+'</div></div><div class="bar-bg"><div class="bar-fill" style="width:'+pct+'%;background:'+BAR[s]+';"></div></div><div style="font-size:15px;font-weight:600;text-align:center;">'+v+'<span style="font-size:11px;color:#aaa;">/10</span></div><div style="text-align:right;"><span class="badge '+bc(bd)+'">'+bl(bd)+'</span></div></div>';});var totBd=band("TOT",e.tot);var intV=e.scores.ES+e.scores.C;var estV=e.scores.EC+e.scores.IP;var intBd=band("INT",intV);var estBd=band("EST",estV);html+='<div style="margin-top:1rem;padding:12px;background:#f8f8f7;border-radius:9px;display:flex;justify-content:space-between;align-items:center;"><div style="font-size:13px;font-weight:600;color:#666;">Punteggio totale difficolta</div><div style="display:flex;align-items:center;gap:10px;"><span style="font-size:24px;font-weight:700;">'+e.tot+'<span style="font-size:12px;color:#aaa;font-weight:400;">/40</span></span><span class="badge '+bc(totBd)+'">'+bl(totBd)+'</span></div></div>';html+='<div style="margin-top:8px;display:grid;grid-template-columns:1fr 1fr;gap:8px;"><div style="padding:12px;background:#f0faf6;border-radius:9px;border-left:3px solid #1D9E75;"><div style="font-size:11px;font-weight:600;color:#0F6E56;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">Internalizzazione</div><div style="font-size:11px;color:#555;margin-bottom:6px;">ES + C</div><div><span style="font-size:20px;font-weight:700;">'+intV+'<span style="font-size:11px;color:#aaa;">/20</span></span> <span class="badge '+bc(intBd)+'">'+bl(intBd)+'</span></div></div><div style="padding:12px;background:#fff8f0;border-radius:9px;border-left:3px solid #BA7517;"><div style="font-size:11px;font-weight:600;color:#854F0B;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">Esternalizzazione</div><div style="font-size:11px;color:#555;margin-bottom:6px;">EC + IP</div><div><span style="font-size:20px;font-weight:700;">'+estV+'<span style="font-size:11px;color:#aaa;">/20</span></span> <span class="badge '+bc(estBd)+'">'+bl(estBd)+'</span></div></div></div>';return html;}
 
-var currentMinore=null;
-var radarCharts=[];
+var INTERP={ES:{normale:"Il livello di sintomatologia emotiva rientra nella fascia normativa.",borderline:"Sono presenti alcuni indicatori di disagio emotivo che meritano monitoraggio.",elevato:"Il punteggio indica una presenza significativa di sintomi emotivi che richiedono approfondimento."},IP:{normale:"Il livello di attenzione e controllo motorio e adeguato.",borderline:"Sono presenti alcune difficolta nel mantenere l'attenzione.",elevato:"Difficolta marcate nell'autoregolazione e nel controllo dell'impulsivita."},EC:{normale:"Il comportamento e generalmente adeguato alle regole sociali.",borderline:"Sono presenti alcune condotte problematiche in area borderline.",elevato:"Il punteggio segnala comportamenti aggressivi, oppositivi o antisociali."},C:{normale:"Mostra un buon inserimento nel gruppo dei pari.",borderline:"Sono presenti alcune difficolta nelle relazioni con i pari.",elevato:"Difficolta significative nel costruire e mantenere relazioni con i coetanei."},PR:{adeguato:"Buon livello di comportamento prosociale.",borderline:"Il comportamento prosociale risulta parzialmente sviluppato.",basso:"Il punteggio prosociale e basso."},TOT:{normale:"Il punteggio totale rientra nella fascia normativa.",borderline:"Il punteggio totale si colloca in area borderline.",elevato:"Il punteggio totale e clinicamente significativo."},INT:{normale:"Il punteggio di internalizzazione rientra nella norma.",borderline:"Il punteggio di internalizzazione si colloca in area borderline.",elevato:"Il punteggio di internalizzazione e clinicamente significativo."},EST:{normale:"Il punteggio di esternalizzazione rientra nella norma.",borderline:"Il punteggio di esternalizzazione si colloca in area borderline.",elevato:"Il punteggio di esternalizzazione e clinicamente significativo."}};
 
-window.openMinore=function(codice,nomeEnc){
-  var nome=decodeURIComponent(nomeEnc);
-  var normNome=normalizeNome(nome);
-  // Normalize codice: pad to 2 digits for comparison
-  var normCod=codice?String(parseInt(codice)||0).padStart(2,"0"):"";
-  // Find all entries: match by codice (normalized) OR by name
-  var entries=allEntries.filter(function(e){
-    var eCod=e.codice?String(parseInt(e.codice)||0).padStart(2,"0"):"";
-    var eNome=normalizeNome(e.nome);
-    if(normCod && eCod) return eCod===normCod;
-    if(normCod && !eCod) return eNome===normNome;
-    return eNome===normNome;
-  });
-  var auto=entries.find(function(e){return!e.tipo||e.tipo==="auto-report";});
-  var edu=entries.find(function(e){return e.tipo==="educatore";});
-  var gen=entries.find(function(e){return e.tipo==="genitore";});
-  currentMinore={codice:codice,nome:nome,auto:auto,edu:edu,gen:gen};
+function renderInterp(e,tipoLabel){var allSc={ES:e.scores.ES,IP:e.scores.IP,EC:e.scores.EC,C:e.scores.C,PR:e.scores.PR,TOT:e.tot,INT:e.scores.ES+e.scores.C,EST:e.scores.EC+e.scores.IP};var html='<p class="lbl" style="margin-top:0;">Interpretazione clinica — '+tipoLabel+'</p>';["ES","IP","EC","C","PR","TOT","INT","EST"].forEach(function(s){var v=allSc[s];var bd=band(s,v);var col=bd==="normale"||bd==="adeguato"?"#1D9E75":bd==="borderline"?"#BA7517":"#A32D2D";html+='<div class="interp-block" style="border-left-color:'+col+';"><div class="interp-header"><span style="font-size:13px;font-weight:600;">'+SLBL[s]+'</span><div style="display:flex;align-items:center;gap:6px;"><span style="font-size:13px;font-weight:700;">'+v+'</span><span class="badge '+bc(bd)+'">'+bl(bd)+'</span></div></div><p style="font-size:13px;color:#555;line-height:1.65;">'+(INTERP[s][bd]||"")+'</p></div>';});return html;}
+function renderRelazione(e,tipoLabel){return'<p class="lbl" style="margin-top:0;">Relazione psicoeducativa</p><div style="padding:20px;background:#f8f8f7;border-radius:9px;font-size:13px;color:#666;">Vedi sezione Interpretazione per i dettagli clinici.</div>';}
+function renderImpact(e){var imp=e.impact||{};var dgMap={0:"No",1:"Si, piccole difficolta",2:"Si, difficolta importanti",3:"Si, difficolta molto grandi"};var durMap={1:"Meno di 1 mese",2:"1-5 mesi",3:"6-12 mesi",4:"Piu di 1 anno"};var lvlMap={0:"Per niente",1:"Solo un po",2:"Abbastanza",3:"Molto"};var rows=[["Difficolta percepita",imp.diff_gen!=null?dgMap[imp.diff_gen]:"Non risposto"],["Durata",imp.durata!=null?durMap[imp.durata]:"Non risposto"],["Sofferenza soggettiva",imp.soff!=null?lvlMap[imp.soff]:"Non risposto"],["Vita familiare",imp.i_fam!=null?lvlMap[imp.i_fam]:"Non risposto"],["Amicizie",imp.i_ami!=null?lvlMap[imp.i_ami]:"Non risposto"],["Scuola",imp.i_scu!=null?lvlMap[imp.i_scu]:"Non risposto"],["Tempo libero",imp.i_lib!=null?lvlMap[imp.i_lib]:"Non risposto"],["Carico sugli altri",imp.i_altri!=null?lvlMap[imp.i_altri]:"Non risposto"]];var tbl=rows.map(function(r){return"<tr><td>"+r[0]+"</td><td>"+r[1]+"</td></tr>";}).join("");return'<p class="lbl" style="margin-top:0;">Sezione impatto</p><div class="card"><table class="impact-table" style="width:100%;">'+tbl+'</table></div>';}
+function renderRisposte(e){if(!e.raw)return'<div class="empty">Risposte dettagliate non disponibili.</div>';return'<p class="lbl" style="margin-top:0;">Risposte ('+e.raw.length+' item)</p><div style="font-size:13px;color:#888;">Dati disponibili nel database.</div>';}
+function buildReportPane(auto,edu,gen){var fontiDisp=[];if(auto)fontiDisp.push({e:auto,label:"Auto-report",color:"#1D9E75"});if(edu)fontiDisp.push({e:edu,label:"Educatore",color:"#534AB7"});if(gen)fontiDisp.push({e:gen,label:"Genitore",color:"#D85A30"});var html='<div class="sub-tabs"><button class="sub-tab act" onclick="subTab(this,\'sr-scale\')">Confronto scale</button><button class="sub-tab" onclick="subTab(this,\'sr-radar\')">Radar sovrapposti</button></div>';html+='<div id="sr-scale" class="sub-pane act"><p class="lbl" style="margin-top:0;">Confronto punteggi</p><table style="width:100%;border-collapse:collapse;font-size:13px;"><thead><tr><th style="text-align:left;padding:8px;border-bottom:1px solid #e8e8e6;font-size:11px;color:#888;">Scala</th>';fontiDisp.forEach(function(f){html+='<th style="text-align:center;padding:8px;border-bottom:1px solid #e8e8e6;font-size:11px;color:'+f.color+';">'+f.label+'</th>';});html+='</tr></thead><tbody>';["ES","IP","EC","C","PR","TOT"].forEach(function(s){html+='<tr><td style="padding:8px;font-weight:600;border-bottom:1px solid #f0f0ee;">'+SLBL[s]+'</td>';fontiDisp.forEach(function(f){var v=s==="TOT"?f.e.tot:f.e.scores[s];var bd=band(s,v);html+='<td style="text-align:center;padding:8px;border-bottom:1px solid #f0f0ee;"><span style="font-weight:700;font-size:15px;">'+v+'</span><br><span class="badge '+bc(bd)+'" style="font-size:10px;">'+bl(bd)+'</span></td>';});html+='</tr>';});html+='</tbody></table></div>';html+='<div id="sr-radar" class="sub-pane"><div style="position:relative;height:300px;"><canvas id="radar-report"></canvas></div></div>';return html;}
 
-  // Header
-  var codBadge=codice?'<span style="background:#1a1a1a;color:#fff;font-size:11px;font-weight:700;padding:2px 9px;border-radius:20px;margin-right:8px;">#'+codice+'</span>':"";
-  document.getElementById("det-header").innerHTML=
-    '<div style="font-size:16px;font-weight:600;">'+codBadge+nome+'</div>'
-    +'<div style="font-size:12px;color:#888;margin-top:2px;">'+
-    (auto?'Auto-report: '+auto.data+' ':'')+
-    (edu?'&middot; Edu: '+edu.data+' ':'')+
-    (gen?'&middot; Gen: '+gen.data:'')+
-    '</div>';
-
-  // Build tabs
-  var tabsBar=document.getElementById("fonte-tabs-bar");
-  var panesEl=document.getElementById("fonte-panes");
-  tabsBar.innerHTML="";
-  panesEl.innerHTML="";
-
-  var fonti=[];
-  if(auto)fonti.push({key:"auto",label:"&#127891; Auto-report",cls:"t-auto",entry:auto});
-  if(edu)fonti.push({key:"edu",label:"&#128105;&#8205;&#127979; Educatore",cls:"t-edu",entry:edu});
-  if(gen)fonti.push({key:"gen",label:"&#128106; Genitore",cls:"t-gen",entry:gen});
-  var hasReport=(auto&&(edu||gen))||(edu&&gen);
-  if(hasReport)fonti.push({key:"report",label:"&#9889; Report sintesi",cls:"t-report",entry:null});
-
-  fonti.forEach(function(f,i){
-    var btn=document.createElement("button");
-    btn.className="fonte-tab "+f.cls+(i===0?" act":"");
-    btn.innerHTML=f.label;
-    btn.onclick=(function(fk){return function(){
-      document.querySelectorAll(".fonte-tab").forEach(function(b){b.classList.remove("act");});
-      btn.classList.add("act");
-      document.querySelectorAll(".fonte-pane").forEach(function(p){p.classList.remove("act");});
-      document.getElementById("fp-"+fk).classList.add("act");
-    };})(f.key);
-    tabsBar.appendChild(btn);
-
-    var pane=document.createElement("div");
-    pane.className="fonte-pane"+(i===0?" act":"");
-    pane.id="fp-"+f.key;
-    if(f.key==="report"){
-      pane.innerHTML=buildReportPane(auto,edu,gen);
-    } else {
-      pane.innerHTML=buildFontePane(f.key,f.entry);
-    }
-    panesEl.appendChild(pane);
-  });
-
-  // Delete area
-  var delArea=document.getElementById("delete-area");
-  delArea.innerHTML='';
-  entries.forEach(function(e){
-    var tipoLbl=e.tipo==="educatore"?"Educatore":e.tipo==="genitore"?"Genitore":"Auto-report";
-    var btn=document.createElement("button");
-    btn.className="btn-danger";
-    btn.style.marginRight="8px";
-    btn.textContent="Elimina "+tipoLbl;
-    btn.onclick=(function(eid,tnome){return function(){
-      if(confirm("Eliminare il questionario "+tnome+" di "+nome+"?"))deleteEntry(eid);
-    };})(e.id,tipoLbl);
-    delArea.appendChild(btn);
-  });
-  // If no entries but pratica exists, show delete pratica button
-  if(entries.length===0 && codice){
-    var prat=pratiche.find(function(p){return String(parseInt(p.codice)||0).padStart(2,"0")===String(parseInt(codice)||0).padStart(2,"0");});
-    if(prat){
-      var btnP=document.createElement("button");
-      btnP.className="btn-danger";
-      btnP.textContent="Elimina pratica #"+codice;
-      btnP.onclick=(function(pid,pcod){return function(){
-        if(confirm("Eliminare la pratica #"+pcod+"? Questa azione non puo essere annullata.")){
-          db.collection("pratiche").doc(pid).delete().then(function(){
-            pratiche=pratiche.filter(function(p){return p.id!==pid;});
-            renderList();
-            window.closeModal();
-          }).catch(function(){alert("Errore nell'eliminazione.");});
-        }
-      };})(prat.id,codice);
-      delArea.appendChild(btnP);
-    }
-  }
-
-  // Init charts after render
-  radarCharts.forEach(function(c){try{c.destroy();}catch(e){}});
-  radarCharts=[];
-  setTimeout(function(){
-    initRadarCharts(auto,edu,gen);
-    // Also init combined radar if report tab exists
-    var canvas=document.getElementById("radar-report");
-    if(canvas&&!canvas._chartDone){
-      canvas._chartDone=true;
-      var fd=[];
-      if(auto)fd.push({e:auto,label:"Auto-report",color:"#1D9E75"});
-      if(edu)fd.push({e:edu,label:"Educatore",color:"#534AB7"});
-      if(gen)fd.push({e:gen,label:"Genitore",color:"#D85A30"});
-      if(fd.length>1){
-        var ds=fd.map(function(f){return{label:f.label,data:[f.e.scores.ES,f.e.scores.IP,f.e.scores.EC,f.e.scores.C,f.e.scores.PR],backgroundColor:f.color+"26",borderColor:f.color,borderWidth:2,pointBackgroundColor:f.color,pointRadius:4};});
-        try{
-          var rc=new Chart(canvas,{type:"radar",data:{labels:["Sintomi Emotivi","Iperattivita","Prob. Condotta","Prob. Relazioni","Prosociale"],datasets:ds},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:"bottom",labels:{font:{size:11}}}},scales:{r:{min:0,max:10,ticks:{stepSize:2,font:{size:9},color:"#aaa"},pointLabels:{font:{size:10}}}}}});
-          radarCharts.push(rc);
-        }catch(e2){}
-      }
-    }
-  },150);
-
-  // Show section-specific print buttons
-  document.getElementById("pbtn-auto").style.display=currentMinore.auto?"inline-block":"none";
-  document.getElementById("pbtn-edu").style.display=currentMinore.edu?"inline-block":"none";
-  document.getElementById("pbtn-gen").style.display=currentMinore.gen?"inline-block":"none";
-  var hasReport=(currentMinore.auto&&(currentMinore.edu||currentMinore.gen))||(currentMinore.edu&&currentMinore.gen);
-  document.getElementById("pbtn-report").style.display=hasReport?"inline-block":"none";
-
-  document.getElementById("modal-wrap").style.display="block";
-  document.body.style.overflow="hidden";
-};
-
-function buildFontePane(key,e){
-  if(!e)return'<div class="empty">Questionario non ancora compilato.</div>';
-  var tipoColor=key==="edu"?"#534AB7":key==="gen"?"#D85A30":"#1D9E75";
-  var tipoLabel=key==="edu"?"Educatore":key==="gen"?"Genitore/Parente":"Auto-report ragazzo/a";
-  var compilatoreStr=(e.compilatore||e.ruolo)?(" &middot; "+(e.compilatore||"")+(e.ruolo?" ("+e.ruolo+")":"")):"";
-  var html='<div class="fonte-print-header" style="color:'+tipoColor+';">'+tipoLabel+(e.nome?" — "+e.nome:"")+' ('+e.data+')</div>';
-  html+='<div style="margin-bottom:1rem;">';
-  html+='<div class="sub-tabs">';
-  html+='<button class="sub-tab act" onclick="subTab(this,\'st-scale-'+key+'\')">Scale SDQ</button>';
-  html+='<button class="sub-tab" onclick="subTab(this,\'st-radar-'+key+'\')">Grafico radar</button>';
-  html+='<button class="sub-tab" onclick="subTab(this,\'st-interp-'+key+'\')">Interpretazione</button>';
-  html+='<button class="sub-tab" onclick="subTab(this,\'st-rel-'+key+'\')">Relazione</button>';
-  html+='<button class="sub-tab" onclick="subTab(this,\'st-impact-'+key+'\')">Impatto</button>';
-  html+='<button class="sub-tab" onclick="subTab(this,\'st-risp-'+key+'\')">Risposte</button>';
-  html+='</div>';
-  html+='<div id="st-scale-'+key+'" class="sub-pane act">'+renderScale(e,tipoColor,tipoLabel,compilatoreStr)+'</div>';
-  html+='<div id="st-radar-'+key+'" class="sub-pane">';
-  html+='<div style="position:relative;height:280px;"><canvas id="radar-'+key+'"></canvas></div>';
-  // Radar commentary
-  var scEs=e.scores.ES,scIp=e.scores.IP,scEc=e.scores.EC,scC=e.scores.C,scPr=e.scores.PR;
-  var radarMax=[["ES",scEs],["IP",scIp],["EC",scEc],["C",scC]].sort(function(a,b){return b[1]-a[1];});
-  var topScale=radarMax[0];
-  var radarComment="Il grafico radar visualizza il profilo del soggetto sulle 5 dimensioni SDQ (range 0-10 per scala). ";
-  radarComment+="La scala con il punteggio piu elevato e <strong>"+SLBL[topScale[0]]+"</strong> ("+topScale[1]+"/10";
-  radarComment+=band(topScale[0],topScale[1])!=="normale"?", fascia "+bl(band(topScale[0],topScale[1]))+")":"  , nella norma)";
-  var lowPR=band("PR",scPr);
-  if(lowPR==="adeguato") radarComment+=". La scala Prosociale ("+scPr+"/10) indica un buon repertorio di comportamenti empatici e cooperativi — elemento visivamente identificabile come il vertice piu esteso nel grafico.";
-  else if(lowPR==="basso") radarComment+=". La scala Prosociale ("+scPr+"/10) risulta bassa — nel grafico appare come il vertice piu contratto rispetto alle attese.";
-  else radarComment+=".";
-  html+='<div style="margin-top:12px;padding:12px 14px;background:#f8f8f7;border-radius:9px;">';
-  html+='<p style="font-size:13px;font-weight:600;margin-bottom:4px;">Lettura del grafico</p>';
-  html+='<p style="font-size:13px;color:#444;line-height:1.75;">'+radarComment+'</p></div>';
-  html+='</div>';
-  html+='<div id="st-interp-'+key+'" class="sub-pane">'+renderInterp(e,tipoLabel)+'</div>';
-  html+='<div id="st-rel-'+key+'" class="sub-pane">'+renderRelazione(e,tipoLabel)+'</div>';
-  html+='<div id="st-impact-'+key+'" class="sub-pane">'+renderImpact(e)+'</div>';
-  html+='<div id="st-risp-'+key+'" class="sub-pane">'+renderRisposte(e)+'</div>';
-  html+='</div>';
-  return html;
-}
-
-window.subTab=function(btn,id){
-  var pane=btn.closest(".fonte-pane");
-  pane.querySelectorAll(".sub-tab").forEach(function(b){b.classList.remove("act");});
-  btn.classList.add("act");
-  pane.querySelectorAll(".sub-pane").forEach(function(p){p.classList.remove("act");});
-  document.getElementById(id).classList.add("act");
-};
-
-function initRadarCharts(auto,edu,gen){
-  var configs=[
-    {key:"auto",e:auto,color:"#1D9E75"},
-    {key:"edu",e:edu,color:"#534AB7"},
-    {key:"gen",e:gen,color:"#D85A30"}
-  ];
-  configs.forEach(function(c){
-    if(!c.e)return;
-    var canvas=document.getElementById("radar-"+c.key);
-    if(!canvas)return;
-    var chart=new Chart(canvas,{
-      type:"radar",
-      data:{
-        labels:["Sintomi Emotivi","Iperattivita","Prob. Condotta","Prob. Relazioni","Prosociale"],
-        datasets:[{label:c.key==="auto"?"Auto-report":c.key==="edu"?"Educatore":"Genitore",
-          data:[c.e.scores.ES,c.e.scores.IP,c.e.scores.EC,c.e.scores.C,c.e.scores.PR],
-          backgroundColor:c.color+"26",borderColor:c.color,borderWidth:2,pointBackgroundColor:c.color,pointRadius:4}]
-      },
-      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
-        scales:{r:{min:0,max:10,ticks:{stepSize:2,font:{size:10},color:"#aaa"},
-          pointLabels:{font:{size:11},color:"#555"},
-          grid:{color:"rgba(0,0,0,0.07)"},angleLines:{color:"rgba(0,0,0,0.07)"}}}}
-    });
-    radarCharts.push(chart);
-  });
-}
-
-function renderScale(e,tipoColor,tipoLabel,compilatoreStr){
-  var ES={v:e.scores.ES,bd:band("ES",e.scores.ES)};
-  var IP={v:e.scores.IP,bd:band("IP",e.scores.IP)};
-  var EC={v:e.scores.EC,bd:band("EC",e.scores.EC)};
-  var C={v:e.scores.C, bd:band("C",e.scores.C)};
-  var PR={v:e.scores.PR,bd:band("PR",e.scores.PR)};
-  var TOT={v:e.tot,bd:band("TOT",e.tot)};
-  var html='<div style="font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;display:inline-block;margin-bottom:12px;background:'+tipoColor+'20;color:'+tipoColor+';">'+tipoLabel+'</div>';
-  if(compilatoreStr)html+='<span style="font-size:12px;color:#888;margin-left:8px;">'+compilatoreStr+'</span>';
-  html+='<p class="lbl">Punteggi per scala</p>';
-  ["ES","IP","EC","C","PR"].forEach(function(s){
-    var v=e.scores[s];var pct=Math.round(v/10*100);var bd=band(s,v);
-    html+='<div class="scale-row"><div><span class="badge '+SCOL[s]+'">'+s+'</span><div style="font-size:12px;color:#888;margin-top:3px;">'+SLBL[s]+'</div></div>'
-      +'<div class="bar-bg"><div class="bar-fill" style="width:'+pct+'%;background:'+BAR[s]+';"></div></div>'
-      +'<div style="font-size:15px;font-weight:600;text-align:center;">'+v+'<span style="font-size:11px;color:#aaa;">/10</span></div>'
-      +'<div style="text-align:right;"><span class="badge '+bc(bd)+'">'+bl(bd)+'</span></div></div>';
-  });
-  var totBd=band("TOT",e.tot);
-  var intV=e.scores.ES+e.scores.C;var estV=e.scores.EC+e.scores.IP;
-  var intBd=band("INT",intV);var estBd=band("EST",estV);
-  html+='<div style="margin-top:1rem;padding:12px;background:#f8f8f7;border-radius:9px;display:flex;justify-content:space-between;align-items:center;">'
-    +'<div style="font-size:13px;font-weight:600;color:#666;">Punteggio totale difficolta</div>'
-    +'<div style="display:flex;align-items:center;gap:10px;"><span style="font-size:24px;font-weight:700;">'+e.tot+'<span style="font-size:12px;color:#aaa;font-weight:400;">/40</span></span><span class="badge '+bc(totBd)+'">'+bl(totBd)+'</span></div></div>';
-  html+='<div style="margin-top:8px;display:grid;grid-template-columns:1fr 1fr;gap:8px;">'
-    +'<div style="padding:12px;background:#f0faf6;border-radius:9px;border-left:3px solid #1D9E75;">'
-    +'<div style="font-size:11px;font-weight:600;color:#0F6E56;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">Internalizzazione</div>'
-    +'<div style="font-size:11px;color:#555;margin-bottom:6px;">ES + C</div>'
-    +'<div><span style="font-size:20px;font-weight:700;">'+intV+'<span style="font-size:11px;color:#aaa;">/20</span></span> <span class="badge '+bc(intBd)+'">'+bl(intBd)+'</span></div></div>'
-    +'<div style="padding:12px;background:#fff8f0;border-radius:9px;border-left:3px solid #BA7517;">'
-    +'<div style="font-size:11px;font-weight:600;color:#854F0B;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">Esternalizzazione</div>'
-    +'<div style="font-size:11px;color:#555;margin-bottom:6px;">EC + IP</div>'
-    +'<div><span style="font-size:20px;font-weight:700;">'+estV+'<span style="font-size:11px;color:#aaa;">/20</span></span> <span class="badge '+bc(estBd)+'">'+bl(estBd)+'</span></div></div></div>';
-  // Commento narrativo globale al profilo
-  var profDir2=intV>estV&&intBd!=="normale"?"prevalentemente internalizzante — il disagio si esprime principalmente verso l'interno (sintomi emotivi, ritiro, tristezza)":estV>intV&&estBd!=="normale"?"prevalentemente esternalizzante — il disagio si esprime principalmente verso l'esterno (comportamento, impulsivita, oppositivita)":intBd!=="normale"&&estBd!=="normale"?"misto — sono presenti sia componenti internalizzanti che esternalizzanti":"nella norma in entrambe le dimensioni";
-  html+='<div style="margin-top:1rem;padding:12px 14px;background:#f8f8f7;border-radius:9px;border-left:3px solid #1D9E75;">'
-    +'<p style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:4px;">Lettura del profilo</p>'
-    +'<p style="font-size:13px;color:#444;line-height:1.75;">Il profilo risulta <strong>'+profDir2+'</strong>. '
-    +'Il punteggio totale di difficolta e <strong>'+e.tot+'/40</strong> (<span class="badge '+bc(TOT.bd)+'">'+bl(TOT.bd)+'</span>). ';
-  // Add narrative for each scale that is not normal
-  var noteScale=[];
-  if(ES.bd!=="normale")noteScale.push("i <strong>sintomi emotivi</strong> ("+ES.v+"/10, "+bl(ES.bd)+") indicano "+( ES.bd==="borderline"?"una presenza lieve di vissuti ansiosi o depressivi da monitorare":"una presenza significativa di disagio emotivo (ansia, preoccupazioni, tristezza) che richiede attenzione")  );
-  if(IP.bd!=="normale")noteScale.push("l'<strong>iperattivita/disattenzione</strong> ("+IP.v+"/10, "+bl(IP.bd)+") segnala "+(IP.bd==="borderline"?"alcune difficolta nella regolazione dell'attenzione e del comportamento motorio":"marcate difficolta di autoregolazione, concentrazione e controllo dell'impulsivita"));
-  if(EC.bd!=="normale")noteScale.push("i <strong>problemi di condotta</strong> ("+EC.v+"/10, "+bl(EC.bd)+") evidenziano "+(EC.bd==="borderline"?"alcuni comportamenti problematici da osservare nel contesto":"comportamenti aggressivi, oppositivi o antisociali che superano la norma"));
-  if(C.bd!=="normale")noteScale.push("le <strong>difficolta relazionali</strong> ("+C.v+"/10, "+bl(C.bd)+") indicano "+(C.bd==="borderline"?"una rete sociale limitata o qualche difficolta con i pari":"significative difficolta nel costruire e mantenere relazioni, con possibili vissuti di isolamento"));
-  if(PR.bd==="basso"||PR.bd==="borderline")noteScale.push("il <strong>comportamento prosociale</strong> ("+PR.v+"/10, "+bl(PR.bd)+") risulta "+(PR.bd==="basso"?"basso, con scarse manifestazioni di empatia e cooperazione":"borderline, con alcune difficolta nell'aiutare e cooperare con gli altri"));
-  if(noteScale.length){
-    html+="In particolare: "+noteScale.join("; ")+".";
-  } else {
-    html+="Nessuna scala risulta in fascia di attenzione.";
-  }
-  // PR as resource
-  if(PR.bd==="adeguato")html+=' Il <strong>comportamento prosociale</strong> ('+PR.v+'/10) rappresenta un punto di forza: il soggetto mostra buone capacita empatiche e cooperative.';
-  html+='</p></div>';
-  html+='<div style="margin-top:8px;padding:9px 12px;background:#f0faf6;border-radius:8px;font-size:12px;color:#666;line-height:1.5;">Nota: per la scala Prosociale punteggi alti (6-10) indicano funzionamento adeguato; punteggi bassi (0-4) indicano difficolta prosociali.</div>';
-  return html;
-}
-
-var INTERP={
-  ES:{normale:"Il livello di sintomatologia emotiva rientra nella fascia normativa attesa per la fascia di eta.",borderline:"Sono presenti alcuni indicatori di disagio emotivo che meritano monitoraggio.",elevato:"Il punteggio indica una presenza significativa di sintomi emotivi: preoccupazioni ricorrenti, vissuti di tristezza o manifestazioni somatiche che richiedono approfondimento."},
-  IP:{normale:"Il livello di attenzione e controllo motorio e adeguato. Non emergono difficolta significative.",borderline:"Sono presenti alcune difficolta nel mantenere l'attenzione e nel regolare l'attivita motoria.",elevato:"Difficolta marcate nell'autoregolazione, nella concentrazione e nel controllo dell'impulsivita, con possibili ricadute sull'apprendimento."},
-  EC:{normale:"Il comportamento e generalmente adeguato alle regole sociali. Non emergono pattern problematici.",borderline:"Sono presenti alcune condotte problematiche in area borderline. Opportuno osservare frequenza e contesto.",elevato:"Il punteggio segnala la presenza di comportamenti aggressivi, oppositivi o antisociali che superano la norma. Richiede attenzione educativa strutturata."},
-  C:{normale:"Mostra un buon inserimento nel gruppo dei pari e relazioni soddisfacenti con i coetanei.",borderline:"Sono presenti alcune difficolta nelle relazioni con i pari. Possibile rete sociale limitata.",elevato:"Difficolta significative nel costruire e mantenere relazioni con i coetanei, con possibili vissuti di isolamento."},
-  PR:{adeguato:"Buon livello di comportamento prosociale: empatia, disponibilita ad aiutare e attenzione ai bisogni degli altri.",borderline:"Il comportamento prosociale risulta parzialmente sviluppato.",basso:"Il punteggio prosociale e basso: scarse manifestazioni di comportamento d'aiuto, empatia e cooperazione."},
-  TOT:{normale:"Il punteggio totale di difficolta rientra nella fascia normativa.",borderline:"Il punteggio totale si colloca in area borderline: condizione di rischio che merita monitoraggio sistematico.",elevato:"Il punteggio totale e clinicamente significativo. Si raccomanda un approfondimento valutativo professionale."},
-  INT:{normale:"Il punteggio di internalizzazione rientra nella norma.",borderline:"Il punteggio di internalizzazione si colloca in area borderline.",elevato:"Il punteggio di internalizzazione e clinicamente significativo: sofferenza interiore rilevante da approfondire."},
-  EST:{normale:"Il punteggio di esternalizzazione rientra nella norma.",borderline:"Il punteggio di esternalizzazione si colloca in area borderline.",elevato:"Il punteggio di esternalizzazione e clinicamente significativo: difficolta marcate nell'autoregolazione."}
-};
-
-function renderInterp(e,tipoLabel){
-  var allSc={ES:e.scores.ES,IP:e.scores.IP,EC:e.scores.EC,C:e.scores.C,PR:e.scores.PR,TOT:e.tot,INT:e.scores.ES+e.scores.C,EST:e.scores.EC+e.scores.IP};
-  var html='<p class="lbl" style="margin-top:0;">Interpretazione clinica — '+tipoLabel+'</p>';
-  ["ES","IP","EC","C","PR","TOT","INT","EST"].forEach(function(s){
-    var v=allSc[s];var bd=band(s,v);
-    var col=bd==="normale"||bd==="adeguato"?"#1D9E75":bd==="borderline"?"#BA7517":"#A32D2D";
-    html+='<div class="interp-block" style="border-left-color:'+col+';">'
-      +'<div class="interp-header"><span style="font-size:13px;font-weight:600;">'+SLBL[s]+'</span>'
-      +'<div style="display:flex;align-items:center;gap:6px;"><span style="font-size:13px;font-weight:700;">'+v+'</span><span class="badge '+bc(bd)+'">'+bl(bd)+'</span></div></div>'
-      +'<p style="font-size:13px;color:#555;line-height:1.65;">'+(INTERP[s][bd]||"")+'</p></div>';
-  });
-  return html;
-}
-
-function renderRelazione(e,tipoLabel){
-  var nome=e.nome||"Il ragazzo/la ragazza";
-  var tipoColor=e.tipo==="educatore"?"#534AB7":e.tipo==="genitore"?"#D85A30":"#1D9E75";
-  var compilatoreInfo=(e.compilatore||e.ruolo)?((e.compilatore||"")+(e.ruolo?" ("+e.ruolo+")":"")):"—";
-  var ES={v:e.scores.ES,bd:band("ES",e.scores.ES)};
-  var IP={v:e.scores.IP,bd:band("IP",e.scores.IP)};
-  var EC={v:e.scores.EC,bd:band("EC",e.scores.EC)};
-  var C={v:e.scores.C, bd:band("C",e.scores.C)};
-  var PR={v:e.scores.PR,bd:band("PR",e.scores.PR)};
-  var TOT={v:e.tot,bd:band("TOT",e.tot)};
-  var intV=e.scores.ES+e.scores.C; var estV=e.scores.EC+e.scores.IP;
-  var intBd=band("INT",intV); var estBd=band("EST",estV);
-
-  // Fascia testuale
-  var fascTot=TOT.bd==="normale"?"nella norma":TOT.bd==="borderline"?"borderline":"elevata/clinicamente significativa";
-
-  // Aree critiche e risorse
-  var areeCrit=[];
-  if(ES.bd!=="normale")areeCrit.push("emotiva (sintomi emotivi: "+ES.v+"/10 — "+bl(ES.bd)+")");
-  if(IP.bd!=="normale")areeCrit.push("autoregolazione e attenzione (iperattivita: "+IP.v+"/10 — "+bl(IP.bd)+")");
-  if(EC.bd!=="normale")areeCrit.push("comportamentale (condotta: "+EC.v+"/10 — "+bl(EC.bd)+")");
-  if(C.bd!=="normale")areeCrit.push("relazionale con i pari ("+C.v+"/10 — "+bl(C.bd)+")");
-  if(PR.bd==="basso"||PR.bd==="borderline")areeCrit.push("prosociale ("+PR.v+"/10 — "+bl(PR.bd)+")");
-  var areeCritStr=areeCrit.length?"<ul style='margin:.4rem 0 .4rem 1.2rem;'>"+areeCrit.map(function(a){return"<li>"+a+"</li>";}).join("")+"</ul>":"Nessuna area critica rilevata.";
-
-  var risorse=[];
-  if(ES.bd==="normale")risorse.push("buon equilibrio emotivo (ES: "+ES.v+"/10)");
-  if(IP.bd==="normale")risorse.push("buona capacita attentiva e autoregolazione (IP: "+IP.v+"/10)");
-  if(EC.bd==="normale")risorse.push("comportamento adeguato alle regole sociali (EC: "+EC.v+"/10)");
-  if(C.bd==="normale")risorse.push("relazioni positive con i pari (C: "+C.v+"/10)");
-  if(PR.bd==="adeguato")risorse.push("buon comportamento prosociale ed empatico (PR: "+PR.v+"/10)");
-  var risorseStr=risorse.length?"<ul style='margin:.4rem 0 .4rem 1.2rem;'>"+risorse.map(function(r){return"<li>"+r+"</li>";}).join("")+"</ul>":"Nessuna risorsa identificata come punto di forza.";
-
-  // Direzione profilo
-  var dirLabel=intV>estV&&intBd!=="normale"?"prevalentemente internalizzante (disagio rivolto verso se stesso: ansia, ritiro, tristezza)":estV>intV&&estBd!=="normale"?"prevalentemente esternalizzante (disagio rivolto verso l'esterno: impulsivita, aggressivita, oppositività)":intBd!=="normale"&&estBd!=="normale"?"misto (componenti sia internalizzanti che esternalizzanti)":"nella norma in entrambe le dimensioni";
-
-  // Interpretazione specifica per tipo
-  var interpretazioneSpecifica="";
-  var notaMetodologica="";
-  if(!e.tipo||e.tipo==="auto-report"){
-    interpretazioneSpecifica="Il profilo restituito dall'auto-valutazione del minore suggerisce che le principali difficolta percepite riguardano "+
-      (areeCrit.length?"le aree: "+areeCrit.map(function(a){return a.split(" (")[0];}).join(", ")+".":"nessuna area in modo significativo.")+"<br><br>"+
-      "Il minore percepisce difficolta in particolare relative a:"+areeCritStr+
-      "Allo stesso tempo emergono alcune risorse personali:"+risorseStr;
-    notaMetodologica="Si segnala che l'auto-report riflette la percezione soggettiva del minore e deve essere integrato con l'osservazione degli adulti di riferimento. La discrepanza tra auto-percezione e osservazione esterna e essa stessa un dato clinicamente rilevante.";
-  } else if(e.tipo==="educatore"){
-    interpretazioneSpecifica="L'osservazione educativa evidenzia principalmente difficolta nell'area "+
-      (areeCrit.length?areeCrit.map(function(a){return a.split(" (")[0];}).join(", "):". nessuna area critica significativa")+".<br><br>"+
-      "Le difficolta osservate si manifestano soprattutto attraverso:"+areeCritStr+
-      "Tra gli elementi di risorsa si evidenziano:"+risorseStr;
-    notaMetodologica="L'osservazione dell'educatore e contestualizzata nel contesto della comunita educativa. I comportamenti rilevati possono differire da quelli manifestati in altri contesti (familiare, scolastico). Il confronto con l'auto-report del minore e con la valutazione familiare e fondamentale per una lettura integrata del profilo.";
-  } else {
-    interpretazioneSpecifica="Dal punto di vista del contesto familiare emergono in particolare difficolta nell'area "+
-      (areeCrit.length?areeCrit.map(function(a){return a.split(" (")[0];}).join(", "):"nessuna area critica significativa")+".<br><br>"+
-      "Il comportamento del minore appare caratterizzato da:"+areeCritStr+
-      "Vengono inoltre segnalati i seguenti elementi positivi:"+risorseStr;
-    notaMetodologica="La valutazione familiare riflette la percezione del contesto domestico. E importante considerare che il comportamento del minore puo variare significativamente tra il contesto familiare e quello educativo/scolastico. Tale variabilita e un dato prezioso nell'analisi multi-informante.";
-  }
-
-  // Raccomandazioni
-  var rec=[];
-  if(ES.bd!=="normale")rec.push("un approfondimento della dimensione emotiva e dei vissuti ansiosi, con attivazione di spazi di ascolto strutturati e tecniche di psicoeducazione emotiva");
-  if(IP.bd!=="normale")rec.push("una valutazione delle capacita attentive e dell'autoregolazione, con strutturazione dell'ambiente attraverso routine chiare e strategie metacognitive");
-  if(EC.bd!=="normale")rec.push("un intervento strutturato sulla gestione del comportamento, con applicazione di regole chiare, conseguenze prevedibili e rinforzo positivo sistematico");
-  if(C.bd!=="normale")rec.push("un supporto alle abilita sociali e al senso di appartenenza al gruppo, attraverso attivita cooperative e training relazionale");
-  if(PR.bd==="basso")rec.push("un potenziamento delle competenze empatiche e prosociali, tramite role-playing e valorizzazione esplicita dei comportamenti d'aiuto");
-  if(!rec.length)rec.push("un monitoraggio periodico nel tempo per verificare la stabilita del profilo, valorizzando i punti di forza rilevati");
-  var recStr="<ul style='margin:.4rem 0 .4rem 1.2rem;'>"+rec.map(function(r){return"<li>"+r+"</li>";}).join("")+"</ul>";
-
-  var strumento=e.tipo==="educatore"?"Strengths and Difficulties Questionnaire — versione adulto (osservazione educatore) 4-17 anni":e.tipo==="genitore"?"Strengths and Difficulties Questionnaire — versione genitori 4-17 anni":"Strengths and Difficulties Questionnaire — auto-report 11-17 anni, standardizzazione italiana";
-  var titoloRel=e.tipo==="educatore"?"SDQ — Valutazione dell'educatore":e.tipo==="genitore"?"SDQ — Valutazione del genitore o familiare":"SDQ — Auto-report del ragazzo";
-
-  return '<p class="lbl" style="margin-top:0;">Relazione psicoeducativa</p>'
-    +'<div style="border:1px solid #e8e8e6;border-radius:12px;padding:1.5rem;">'
-
-    // Intestazione
-    +'<div style="border-bottom:2px solid '+tipoColor+';padding-bottom:.75rem;margin-bottom:1.25rem;">'
-    +'<div style="font-size:17px;font-weight:700;">'+titoloRel+'</div>'
-    +'<div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;">'
-    +'<span style="font-size:12px;color:#666;">Minore: <strong>'+nome+'</strong></span>'
-    +(e.ddn?'<span style="font-size:12px;color:#aaa;">&middot;</span><span style="font-size:12px;color:#666;">Nato/a: '+e.ddn+'</span>':'')
-    +(e.sesso?'<span style="font-size:12px;color:#aaa;">&middot;</span><span style="font-size:12px;color:#666;">'+e.sesso+'</span>':'')
-    +'</div>'
-    +(e.tipo==="educatore"||e.tipo==="genitore"?'<div style="font-size:12px;color:#666;margin-top:4px;">Compilatore: <strong>'+compilatoreInfo+'</strong></div>':'')
-    +'<div style="font-size:12px;color:#666;margin-top:4px;">Data compilazione: <strong>'+e.data+'</strong> &nbsp;&middot;&nbsp; Strumento: '+strumento+'</div>'
-    +'</div>'
-
-    // Esito
-    +'<div class="rel-section"><h4>Esito della somministrazione</h4>'
-    +'<p>Dalla compilazione del questionario emerge un <strong>punteggio totale di difficolta pari a '+TOT.v+'/40</strong>, collocabile nella fascia <span class="badge '+bc(TOT.bd)+'">'+fascTot+'</span>.</p>'
-    +'<p style="margin-top:8px;">Il profilo dimensionale evidenzia una predominanza <strong>'+dirLabel+'</strong> (Internalizzazione: '+intV+'/20 <span class="badge '+bc(intBd)+'">'+bl(intBd)+'</span> &nbsp; Esternalizzazione: '+estV+'/20 <span class="badge '+bc(estBd)+'">'+bl(estBd)+'</span>).</p>'
-    +'</div>'
-
-    // Tabella scale
-    +'<div class="rel-section"><h4>Analisi delle scale</h4>'
-    +'<table style="width:100%;border-collapse:collapse;font-size:13px;margin-bottom:.5rem;">'
-    +'<thead><tr style="background:#f8f8f7;">'
-    +'<th style="text-align:left;padding:8px 10px;border:1px solid #e8e8e6;">Scala</th>'
-    +'<th style="text-align:center;padding:8px 10px;border:1px solid #e8e8e6;">Punteggio</th>'
-    +'<th style="text-align:center;padding:8px 10px;border:1px solid #e8e8e6;">Fascia</th>'
-    +'<th style="text-align:left;padding:8px 10px;border:1px solid #e8e8e6;">Nota interpretativa</th>'
-    +'</tr></thead><tbody>'
-    +'<tr><td style="padding:7px 10px;border:1px solid #e8e8e6;">Sintomi emotivi</td><td style="text-align:center;padding:7px 10px;border:1px solid #e8e8e6;font-weight:700;">'+ES.v+'/10</td><td style="text-align:center;padding:7px 10px;border:1px solid #e8e8e6;"><span class="badge '+bc(ES.bd)+'">'+bl(ES.bd)+'</span></td><td style="padding:7px 10px;border:1px solid #e8e8e6;font-size:12px;color:#555;">'+(INTERP.ES[ES.bd]||"")+'</td></tr>'
-    +'<tr style="background:#fafaf9;"><td style="padding:7px 10px;border:1px solid #e8e8e6;">Problemi di condotta</td><td style="text-align:center;padding:7px 10px;border:1px solid #e8e8e6;font-weight:700;">'+EC.v+'/10</td><td style="text-align:center;padding:7px 10px;border:1px solid #e8e8e6;"><span class="badge '+bc(EC.bd)+'">'+bl(EC.bd)+'</span></td><td style="padding:7px 10px;border:1px solid #e8e8e6;font-size:12px;color:#555;">'+(INTERP.EC[EC.bd]||"")+'</td></tr>'
-    +'<tr><td style="padding:7px 10px;border:1px solid #e8e8e6;">Iperattivita / Disattenzione</td><td style="text-align:center;padding:7px 10px;border:1px solid #e8e8e6;font-weight:700;">'+IP.v+'/10</td><td style="text-align:center;padding:7px 10px;border:1px solid #e8e8e6;"><span class="badge '+bc(IP.bd)+'">'+bl(IP.bd)+'</span></td><td style="padding:7px 10px;border:1px solid #e8e8e6;font-size:12px;color:#555;">'+(INTERP.IP[IP.bd]||"")+'</td></tr>'
-    +'<tr style="background:#fafaf9;"><td style="padding:7px 10px;border:1px solid #e8e8e6;">Problemi con i pari</td><td style="text-align:center;padding:7px 10px;border:1px solid #e8e8e6;font-weight:700;">'+C.v+'/10</td><td style="text-align:center;padding:7px 10px;border:1px solid #e8e8e6;"><span class="badge '+bc(C.bd)+'">'+bl(C.bd)+'</span></td><td style="padding:7px 10px;border:1px solid #e8e8e6;font-size:12px;color:#555;">'+(INTERP.C[C.bd]||"")+'</td></tr>'
-    +'<tr><td style="padding:7px 10px;border:1px solid #e8e8e6;">Comportamento prosociale</td><td style="text-align:center;padding:7px 10px;border:1px solid #e8e8e6;font-weight:700;">'+PR.v+'/10</td><td style="text-align:center;padding:7px 10px;border:1px solid #e8e8e6;"><span class="badge '+bc(PR.bd)+'">'+bl(PR.bd)+'</span></td><td style="padding:7px 10px;border:1px solid #e8e8e6;font-size:12px;color:#555;">'+(INTERP.PR[PR.bd]||"")+'</td></tr>'
-    +'</tbody></table>'
-    +'<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;">'
-    +'<div style="padding:10px 12px;background:#f0faf6;border-radius:8px;border-left:3px solid #1D9E75;">'
-    +'<div style="font-size:11px;font-weight:600;color:#0F6E56;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">Internalizzazione (ES+C)</div>'
-    +'<div><span style="font-size:20px;font-weight:700;">'+intV+'/20</span> <span class="badge '+bc(intBd)+'">'+bl(intBd)+'</span></div>'
-    +'<p style="font-size:11px;color:#555;margin-top:4px;">'+(INTERP.INT[intBd]||"")+'</p></div>'
-    +'<div style="padding:10px 12px;background:#fff8f0;border-radius:8px;border-left:3px solid #BA7517;">'
-    +'<div style="font-size:11px;font-weight:600;color:#854F0B;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px;">Esternalizzazione (EC+IP)</div>'
-    +'<div><span style="font-size:20px;font-weight:700;">'+estV+'/20</span> <span class="badge '+bc(estBd)+'">'+bl(estBd)+'</span></div>'
-    +'<p style="font-size:11px;color:#555;margin-top:4px;">'+(INTERP.EST[estBd]||"")+'</p></div>'
-    +'</div></div>'
-
-    // Interpretazione specifica per fonte
-    +'<div class="rel-section"><h4>Interpretazione</h4>'
-    +'<p style="line-height:1.75;font-size:13px;color:#444;">'+interpretazioneSpecifica+'</p></div>'
-
-    // Raccomandazioni
-    +'<div class="rel-section"><h4>Raccomandazioni di intervento</h4>'
-    +'<p style="font-size:13px;color:#444;">Sulla base del profilo emerso, si suggerisce di orientare il lavoro educativo verso:</p>'
-    +recStr+'</div>'
-
-    // Nota metodologica
-    +'<div class="rel-section" style="margin-bottom:0;"><h4>Nota metodologica</h4>'
-    +'<p style="font-size:13px;color:#555;line-height:1.7;">'+notaMetodologica+'</p>'
-    +'<p style="font-size:12px;color:#888;margin-top:8px;padding:8px 10px;background:#f8f8f7;border-radius:6px;">Lo SDQ e uno strumento di screening standardizzato (Goodman, 1997) e non consente diagnosi cliniche. I risultati vanno sempre contestualizzati in una valutazione globale del minore nel suo contesto. Si raccomanda la massima riservatezza nel trattamento dei dati.</p>'
-    +'</div>'
-    +'</div>';
-}
-
-
-function renderImpact(e){
-  var imp=e.impact||{};
-  var dgMap={0:"No",1:"Si, piccole difficolta",2:"Si, difficolta importanti",3:"Si, difficolta molto grandi"};
-  var durMap={1:"Meno di 1 mese",2:"1-5 mesi",3:"6-12 mesi",4:"Piu di 1 anno"};
-  var lvlMap={0:"Per niente",1:"Solo un po",2:"Abbastanza",3:"Molto"};
-  var rows=[
-    ["Difficolta percepita",imp.diff_gen!=null?dgMap[imp.diff_gen]:"Non risposto"],
-    ["Durata",imp.durata!=null?durMap[imp.durata]:"Non risposto"],
-    ["Sofferenza soggettiva",imp.soff!=null?lvlMap[imp.soff]:"Non risposto"],
-    ["Vita familiare",imp.i_fam!=null?lvlMap[imp.i_fam]:"Non risposto"],
-    ["Amicizie",imp.i_ami!=null?lvlMap[imp.i_ami]:"Non risposto"],
-    ["Scuola",imp.i_scu!=null?lvlMap[imp.i_scu]:"Non risposto"],
-    ["Tempo libero",imp.i_lib!=null?lvlMap[imp.i_lib]:"Non risposto"],
-    ["Carico sugli altri",imp.i_altri!=null?lvlMap[imp.i_altri]:"Non risposto"]
-  ];
-  var tbl=rows.map(function(r){return "<tr><td>"+r[0]+"</td><td>"+r[1]+"</td></tr>";}).join("");
-  var imp=e.impact||{};
-  var dgMap={0:"No",1:"Si, piccole difficolta",2:"Si, difficolta importanti",3:"Si, difficolta molto grandi"};
-  var lvlMap={0:"Per niente",1:"Solo un po",2:"Abbastanza",3:"Molto"};
-  // Build commentary
-  var commento="";
-  var diffGen=imp.diff_gen!=null?imp.diff_gen:null;
-  var soff=imp.soff!=null?imp.soff:null;
-  var areeAlte=[];
-  if((imp.i_fam||0)>=2)areeAlte.push("vita familiare");
-  if((imp.i_ami||0)>=2)areeAlte.push("amicizie");
-  if((imp.i_scu||0)>=2)areeAlte.push("scuola");
-  if((imp.i_lib||0)>=2)areeAlte.push("tempo libero");
-  if((imp.i_altri||0)>=2)areeAlte.push("carico sugli altri");
-  var ES={v:e.scores.ES,bd:band("ES",e.scores.ES)};
-  var EC={v:e.scores.EC,bd:band("EC",e.scores.EC)};
-  var IP={v:e.scores.IP,bd:band("IP",e.scores.IP)};
-  var C={v:e.scores.C,bd:band("C",e.scores.C)};
-  var isEst=EC.bd!=="normale"||IP.bd!=="normale";
-  var isInt=ES.bd!=="normale"||C.bd!=="normale";
-  if(diffGen===0){
-    commento="Il soggetto non riconosce la presenza di difficolta significative. "+
-      (isEst?"Questo e frequente nei profili con difficolta esternalizzanti: il disagio tende a essere percepito dall'ambiente circostante piu che dal soggetto stesso.":
-       isInt?"E utile esplorare se questa assenza di consapevolezza rifletta un reale equilibrio oppure una difficolta nel riconoscimento del proprio disagio.":
-       "Il profilo SDQ e nella norma, coerentemente con l'assenza di difficolta percepite.");
-  } else if(diffGen!==null){
-    commento="Il soggetto riconosce la presenza di "+dgMap[diffGen].toLowerCase()+". ";
-    if(soff===0&&diffGen>=2){commento+="Nonostante le difficolta riconosciute, non riferisce sofferenza soggettiva: questo pattern suggerisce una possibile minimizzazione del disagio emotivo o una difficolta nella sua elaborazione. ";}
-    else if(soff>=2){commento+="Il livello di sofferenza soggettiva riferita e significativo ("+lvlMap[soff].toLowerCase()+"): il peso emotivo delle difficolta e avvertito con chiarezza e va tenuto in considerazione negli interventi. ";}
-    if(areeAlte.length>0){
-      commento+="Le aree di vita maggiormente interferite sono: <strong>"+areeAlte.join(", ")+"</strong>. ";
-      if(areeAlte.includes("scuola")&&isEst)commento+="L'impatto scolastico significativo in un profilo esternalizzante suggerisce che i comportamenti problematici si manifestano anche in contesto strutturato, richiedendo coordinamento tra equipe educativa e istituzione scolastica. ";
-      if(areeAlte.includes("amicizie")&&isInt)commento+="L'impatto sulle amicizie in un profilo internalizzante e coerente con le difficolta relazionali rilevate: l'isolamento sociale rischia di amplificare il disagio emotivo. ";
-    } else {
-      commento+="Non emergono aree di vita con interferenza significativa, nonostante la presenza di difficolta riconosciute: il funzionamento quotidiano risulta relativamente preservato. ";
-    }
-    if((imp.i_altri||0)>=2)commento+="Il carico sugli altri e elevato: e importante prevenire dinamiche di esaurimento o conflitto cronico nell'ambiente circostante. ";
-  }
-  var ipDuration=imp.durata!=null?[null,"Meno di 1 mese","1-5 mesi","6-12 mesi","Piu di 1 anno"][imp.durata]:null;
-  if(ipDuration){
-    commento+="La durata del problema ("+ipDuration.toLowerCase()+") "+
-      (imp.durata>=3?"indica un pattern stabile e consolidato nel tempo, che richiede un intervento strutturato e continuativo piuttosto che una risposta episodica.":
-       imp.durata===2?"suggerisce un disagio persistente ma relativamente recente. E importante capire se vi sia stato un evento scatenante.":
-       "suggerisce un disagio acuto e recente. Potrebbe trattarsi di una risposta a un evento specifico.");
-  }
-  return "<p class=\"lbl\" style=\"margin-top:0;\">Sezione impatto</p>"
-    +"<div class=\"card\"><table class=\"impact-table\" style=\"width:100%;\">"+tbl+"</table></div>"
-    +(commento?"<div style=\"margin-top:1rem;padding:12px 14px;background:#f8f8f7;border-radius:9px;border-left:3px solid #1D9E75;\">"
-      +"<p style=\"font-size:13px;font-weight:600;margin-bottom:6px;\">Lettura interpretativa</p>"
-      +"<p style=\"font-size:13px;color:#444;line-height:1.75;\">"+commento+"</p></div>":"");
-}
-
-function renderRisposte(e){
-  if(!e.raw){
-    return "<p class=\"lbl\" style=\"margin-top:0;\">Risposte individuali</p>"
-      +"<div style=\"padding:14px;background:#FFF8E6;border-radius:9px;border-left:3px solid #BA7517;\">"
-      +"<p style=\"font-size:13px;font-weight:600;color:#633806;margin-bottom:6px;\">Risposte dettagliate non disponibili</p>"
-      +"<p style=\"font-size:13px;color:#555;line-height:1.7;\">Questo questionario e stato compilato prima che il sistema salvasse le risposte singole. "
-      +"Per visualizzare le risposte individuali e la valutazione di affidabilita, occorre una nuova compilazione con il modulo aggiornato.</p></div>";
-  }
-  var ITEMS=[
-    {t:"Rispettoso dei sentimenti degli altri",s:"PR",r:false},{t:"Irrequieto, iperattivo",s:"IP",r:false},
-    {t:"Mal di testa, stomaco o nausea",s:"ES",r:false},{t:"Condivide volentieri",s:"PR",r:false},
-    {t:"Crisi di collera o cattivo umore",s:"EC",r:false},{t:"Solitario, tende a giocare da solo",s:"C",r:false},
-    {t:"Generalmente obbediente",s:"EC",r:true},{t:"Ha molte preoccupazioni",s:"ES",r:false},
-    {t:"Di aiuto se qualcuno e in difficolta",s:"PR",r:false},{t:"Costantemente in movimento",s:"IP",r:false},
-    {t:"Ha almeno un buon amico",s:"C",r:true},{t:"Spesso litiga con gli altri",s:"EC",r:false},
-    {t:"Spesso infelice o triste",s:"ES",r:false},{t:"Generalmente ben accetto dai pari",s:"C",r:true},
-    {t:"Facilmente distratto",s:"IP",r:false},{t:"Nervoso in situazioni nuove",s:"ES",r:false},
-    {t:"Gentile con i bambini piccoli",s:"PR",r:false},{t:"Spesso dice bugie o inganna",s:"EC",r:false},
-    {t:"Preso di mira dagli altri",s:"C",r:false},{t:"Si offre volontario per aiutare",s:"PR",r:false},
-    {t:"Pensa prima di fare",s:"IP",r:true},{t:"Ruba",s:"EC",r:false},
-    {t:"Migliori rapporti con adulti",s:"C",r:false},{t:"Ha molte paure",s:"ES",r:false},
-    {t:"Porta a termine i compiti",s:"IP",r:true}
-  ];
-  var lvl=["Non vero","Parz. vero","Assol. vero"];
-  var lvlCol=["#888780","#BA7517","#A32D2D"];
-  var lvlBg=["#F1EFE8","#FAEEDA","#FCEBEB"];
-  var html='<p class="lbl" style="margin-top:0;">Risposte individuali</p>';
-  html+='<table style="width:100%;border-collapse:collapse;font-size:13px;">';
-  html+='<thead><tr>'
-    +'<th style="text-align:left;padding:7px 4px;border-bottom:1px solid #f0f0ee;color:#888;font-weight:600;font-size:11px;">Affermazione</th>'
-    +'<th style="text-align:center;padding:7px 4px;border-bottom:1px solid #f0f0ee;color:#888;font-weight:600;font-size:11px;">Scala</th>'
-    +'<th style="text-align:right;padding:7px 4px;border-bottom:1px solid #f0f0ee;color:#888;font-weight:600;font-size:11px;">Risposta</th>'
-    +'<th style="text-align:right;padding:7px 4px;border-bottom:1px solid #f0f0ee;color:#888;font-weight:600;font-size:11px;">Pt.</th>'
-    +'</tr></thead><tbody>';
-  ITEMS.forEach(function(item,i){
-    var raw=e.raw[i];if(raw==null)return;
-    var scored=item.r?2-raw:raw;
-    html+='<tr style="background:'+(i%2===0?"#fff":"#fafaf9")+';">'
-      +'<td style="padding:7px 4px;border-bottom:1px solid #f5f5f3;color:#1a1a1a;line-height:1.4;">'+(i+1)+'. '+item.t+(item.r?' <span style="font-size:10px;color:#aaa;">(inv.)</span>':'')+'</td>'
-      +'<td style="padding:7px 4px;border-bottom:1px solid #f5f5f3;text-align:center;"><span class="badge '+SCOL[item.s]+'">'+item.s+'</span></td>'
-      +'<td style="padding:7px 4px;border-bottom:1px solid #f5f5f3;text-align:right;"><span style="font-size:11px;font-weight:600;padding:2px 7px;border-radius:20px;background:'+lvlBg[raw]+';color:'+lvlCol[raw]+';">'+lvl[raw]+'</span></td>'
-      +'<td style="padding:7px 4px;border-bottom:1px solid #f5f5f3;text-align:right;font-weight:600;color:'+(scored>0?"#A32D2D":"#085041")+';">'+scored+'</td>'
-      +'</tr>';
-  });
-  html+='</tbody></table>';
-
-  // Coherence analysis
-  if(e.raw){
-    var raw=e.raw;
-    // Items 0-indexed per scala
-    var scaleItems={ES:[2,7,12,15,23],IP:[1,9,14,20,24],EC:[4,6,11,17,21],C:[5,10,13,18,22],PR:[0,3,8,16,19]};
-    // Reversed items (0-indexed): EC:6, C:10,13, IP:20,24
-    var reversedIdx=[6,10,13,20,24];
-    
-    // --- INDICATOR 1: All same response (acquiescence / disengagement) ---
-    var allZero=raw.every(function(v){return v===0;});
-    var allTwo=raw.every(function(v){return v===2;});
-    var allOne=raw.every(function(v){return v===1;});
-    
-    // --- INDICATOR 2: Near-uniform responses (>80% same value) ---
-    var count0=raw.filter(function(v){return v===0;}).length;
-    var count1=raw.filter(function(v){return v===1;}).length;
-    var count2=raw.filter(function(v){return v===2;}).length;
-    var maxCount=Math.max(count0,count1,count2);
-    var nearUniform=maxCount/raw.length>0.80;
-    var dominantVal=count0>=count1&&count0>=count2?0:count2>=count1?2:1;
-    
-    // --- INDICATOR 3: Reversed items inconsistency ---
-    // For items that are reversed (inverted), a response of 2 contributes 0 to score
-    // If a subject says "Assolutamente vero" to both direct AND reversed items in same scale,
-    // that is internally inconsistent
-    var reversedInconsistencies=0;
-    // Check EC: item 4 (EC direct) vs item 6 (EC reversed)
-    // If raw[4]=2 AND raw[6]=2 => EC direct says "yes problem" but reversed says "yes problem" too
-    // => that's consistent actually. Let's check for logical contradiction:
-    // Item 7 (EC reversed = "obbediente"): if raw[6]=0 AND raw[4]=2 AND raw[11]=2 => consistent (disobedient + collera + litiga)
-    // Better: check if reversed items go OPPOSITE to scale average
-    var scaleNames=["ES","IP","EC","C","PR"];
-    var coherenceIssues=[];
-    scaleNames.forEach(function(s){
-      var idxs=scaleItems[s];
-      var vals=idxs.map(function(i){return raw[i];});
-      // Score each item accounting for reversal
-      var scored=idxs.map(function(i,j){
-        return reversedIdx.indexOf(i)>=0?2-raw[i]:raw[i];
-      });
-      var scaleTotal=scored.reduce(function(a,b){return a+b;},0);
-      var scaleAvgRaw=vals.reduce(function(a,b){return a+b;},0)/vals.length;
-      // High variance in RAW responses within scale IS meaningful - contradictory items
-      var mean=scaleAvgRaw;
-      var variance=vals.reduce(function(a,v){return a+(v-mean)*(v-mean);},0)/vals.length;
-      // Also check: if scale score is high but reversed items answered inconsistently
-      var reversedInScale=idxs.filter(function(i){return reversedIdx.indexOf(i)>=0;});
-      var directInScale=idxs.filter(function(i){return reversedIdx.indexOf(i)<0;});
-      if(reversedInScale.length>0&&directInScale.length>0){
-        var avgDirect=directInScale.reduce(function(a,i){return a+raw[i];},0)/directInScale.length;
-        var avgReversed=reversedInScale.reduce(function(a,i){return a+raw[i];},0)/reversedInScale.length;
-        // For problematic scales: high direct AND high reversed (before inversion) = inconsistent
-        // Because reversed items, when answered "2 - assolutamente vero", contribute 0 to score
-        // If avgDirect>1.2 AND avgReversed>1.2 => contradiction (says both "yes problem" and "yes positive")
-        if(avgDirect>1.2&&avgReversed>1.2){
-          coherenceIssues.push({scala:s,tipo:"contraddizione",avgD:avgDirect.toFixed(1),avgR:avgReversed.toFixed(1)});
-        }
-      }
-      if(variance>0.40&&vals.length>=4){
-        coherenceIssues.push({scala:s,tipo:"variabilita",variance:variance.toFixed(1)});
-      }
-    });
-    
-    // --- INDICATOR 4: Semantic check on specific item pairs ---
-    // Item 11 (C, reversed = "ha almeno un buon amico"): if raw[10]=0 AND raw[18]=0 => isolated but ok
-    // Item 14 (C, reversed = "ben accetto dai pari"): if raw[13]=0 (NOT accettato) AND raw[18]=2 (preso di mira) = consistent
-    // Inconsistency: raw[13]=2 (assolutamente accettato) AND raw[18]=2 (assolutamente preso di mira) - contradiction
-    var semanticContradictions=[];
-    // C scale: accepted by peers vs bullied
-    if(raw[13]===2&&raw[18]===2) semanticContradictions.push("ben accettato dai pari (item 14) e preso di mira dagli altri (item 19) entrambi al massimo");
-    // EC: obedient vs aggressive/lying
-    if(raw[6]===2&&raw[4]===2&&raw[11]===2) semanticContradictions.push("generalmente obbediente (item 7) e crisi di collera (item 5) e litiga (item 12) tutti al massimo");
-    if(raw[6]===2&&raw[17]===2) semanticContradictions.push("generalmente obbediente (item 7) e dice bugie (item 18) entrambi al massimo");
-    // IP: thinks before acting vs impulsive
-    if(raw[20]===2&&raw[1]===2) semanticContradictions.push("pensa prima di fare (item 21) e irrequieto/iperattivo (item 2) entrambi al massimo");
-    if(raw[20]===2&&raw[14]===2) semanticContradictions.push("pensa prima di fare (item 21) e facilmente distratto (item 15) entrambi al massimo");
-    if(raw[24]===2&&raw[9]===2) semanticContradictions.push("porta a termine i compiti (item 25) e costantemente in movimento (item 10) entrambi al massimo");
-    // PR: contradictions within prosocial
-    if(raw[8]===2&&raw[19]===0&&raw[0]===0) semanticContradictions.push("di aiuto (item 9) al massimo ma rispettoso (item 1) e volontario (item 20) entrambi a zero");
-    if(raw[0]===2&&raw[19]===0) semanticContradictions.push("rispettoso dei sentimenti (item 1) al massimo ma si offre volontario (item 20) a zero");
-    // C: has friends vs isolated
-    if(raw[10]===2&&raw[5]===2) semanticContradictions.push("ha almeno un buon amico (item 11) al massimo e solitario (item 6) al massimo");
-    if(raw[10]===0&&raw[13]===2) semanticContradictions.push("non ha un buon amico (item 11=0) ma ben accettato dai pari (item 14) al massimo");
-    // ES: emotional contradictions
-    if(raw[7]===0&&raw[12]===2) semanticContradictions.push("non ha preoccupazioni (item 8=0) ma spesso infelice (item 13) al massimo");
-    if(raw[2]===0&&raw[12]===2&&raw[15]===2) semanticContradictions.push("nessun sintomo fisico (item 3=0) ma infelice (item 13) e nervoso (item 16) entrambi al massimo");
-    
-    // --- CALCULATE SCORE ---
-    var problems=0;
-    var problemDetails=[];
-    if(allZero){problems+=3;problemDetails.push("tutte le risposte sono 'Non vero': possibile tendenza a minimizzare o compilazione non attenta");}
-    if(allTwo){problems+=3;problemDetails.push("tutte le risposte sono 'Assolutamente vero': possibile tendenza ad amplificare o compilazione non attenta");}
-    if(allOne){problems+=2;problemDetails.push("tutte le risposte sono 'Parzialmente vero': risposta uniforme che non differenzia tra le aree");}
-    if(!allZero&&!allTwo&&nearUniform){
-      problems+=2;
-      var nomVal=dominantVal===0?"Non vero":dominantVal===2?"Assolutamente vero":"Parzialmente vero";
-      problemDetails.push(Math.round(maxCount/raw.length*100)+"% delle risposte e '"+nomVal+"': pattern quasi uniforme");
-    }
-    var contraddC=coherenceIssues.filter(function(c){return c.tipo==="contraddizione";});
-    if(contraddC.length>=2){problems+=2;problemDetails.push("contraddizioni interne in "+contraddC.length+" scale (item diretti e invertiti discordanti)");}
-    else if(contraddC.length===1){problems+=1;problemDetails.push("contraddizione interna nella scala "+contraddC[0].scala);}
-    var varIssues=coherenceIssues.filter(function(c){return c.tipo==="variabilita";});
-    if(varIssues.length>=3){problems+=2;problemDetails.push("alta variabilita interna in "+varIssues.length+" scale (risposte contraddittorie tra item della stessa area)");}
-    else if(varIssues.length===2){problems+=1;problemDetails.push("variabilita interna in 2 scale: risposte contrastanti tra item della stessa area");}
-    else if(varIssues.length===1){problems+=1;problemDetails.push("variabilita interna nella scala "+varIssues[0].scala+": risposte non coerenti tra i 5 item dell'area");}
-    if(semanticContradictions.length>=2){problems+=2;problemDetails.push("contraddizioni semantiche tra item: "+semanticContradictions.join("; "));}
-    else if(semanticContradictions.length===1){problems+=1;problemDetails.push("contraddizione semantica: "+semanticContradictions[0]);}
-    
-    // Buona only if truly no issues at all
-    var affidabilita,affCol,affBg;
-    if(problems>=5){affidabilita="Molto bassa: segnali forti di incoerenza";affCol="#791F1F";affBg="#FCEBEB";}
-    else if(problems>=3){affidabilita="Bassa: presenti indicatori significativi di incoerenza";affCol="#A32D2D";affBg="#FCEBEB";}
-    else if(problems>=2){affidabilita="Moderata: alcune aree di incoerenza da valutare";affCol="#633806";affBg="#FAEEDA";}
-    else if(problems>=1||coherenceIssues.length>0){affidabilita="Discreta: lievi segnali da considerare nel contesto";affCol="#BA7517";affBg="#FFF8E6";}
-    else{affidabilita="Buona: nessun indicatore di incoerenza rilevato";affCol="#085041";affBg="#E1F5EE";}
-    html+="<div style=\"margin-top:1rem;padding:14px;background:"+affBg+";border-radius:9px;border-left:3px solid "+affCol+";\">"; 
-    html+="<p style=\"font-size:13px;font-weight:600;color:"+affCol+";margin-bottom:6px;\">Valutazione dell'affidabilita delle risposte</p>";
-    html+='<p style="font-size:13px;color:#444;margin-bottom:8px;"><strong>Indice di affidabilita:</strong> '+affidabilita+'</p>';
-    if(problemDetails.length>0){
-      html+="<ul style=\"font-size:12px;color:#555;margin:.25rem 0 .5rem 1.2rem;\">";
-      problemDetails.forEach(function(pd){
-        html+="<li>"+pd+"</li>";
-      });
-      html+="</ul>";
-      html+="<p style=\"font-size:12px;color:#555;line-height:1.6;\">I risultati di questo questionario vanno interpretati con particolare cautela, tenendo conto degli indicatori di incoerenza rilevati.</p>";
-    } else {
-      html+="<p style=\"font-size:12px;color:#555;line-height:1.6;\">Il pattern di risposta non mostra indicatori significativi di incoerenza. Le risposte sono distribuite in modo differenziato tra le scale e gli item. Questo aumenta l'attendibilita del profilo.</p>";
-    }
-    html+="<p style=\"font-size:11px;color:#888;margin-top:8px;\">Nota: questa valutazione e basata su indici statistici interni e non sostituisce il giudizio clinico. La variabilita delle risposte puo riflettere un quadro eterogeneo o genuina incoerenza.</p>";
-    html+='</div>';
-  }
-
-  return html;
-}
-
-function buildReportPane(auto,edu,gen){
-  var fontiDisp=[];
-  if(auto)fontiDisp.push({e:auto,label:"Auto-report",color:"#1D9E75"});
-  if(edu)fontiDisp.push({e:edu,label:"Educatore",color:"#534AB7"});
-  if(gen)fontiDisp.push({e:gen,label:"Genitore",color:"#D85A30"});
-  var scales=["ES","IP","EC","C","PR"];
-  var hasAllRaw=fontiDisp.every(function(f){return f.e&&f.e.raw;});
-
-  var html='<div class="sub-tabs">';
-  html+='<button class="sub-tab act" onclick="subTab(this,\'sr-scale\')">Confronto scale</button>';
-  html+='<button class="sub-tab" onclick="subTab(this,\'sr-radar\')">Radar sovrapposti</button>';
-  html+='<button class="sub-tab" onclick="subTab(this,\'sr-interp\')">Confronto interpretazioni</button>';
-  html+='<button class="sub-tab" onclick="subTab(this,\'sr-rel\')">Relazione sintesi</button>';
-  html+='<button class="sub-tab" onclick="subTab(this,\'sr-impact\')">Confronto impatto</button>';
-  if(hasAllRaw)html+='<button class="sub-tab" onclick="subTab(this,\'sr-risp\')">Confronto risposte</button>';
-  html+='</div>';
-
-  // ── SUB: Confronto scale ──
-  html+='<div id="sr-scale" class="sub-pane act">';
-  html+='<p class="lbl" style="margin-top:0;">Confronto punteggi per scala</p>';
-  var scale=["ES","IP","EC","C","PR","TOT"];
-  html+='<table style="width:100%;border-collapse:collapse;font-size:13px;">';
-  html+='<thead><tr><th style="text-align:left;padding:8px;border-bottom:1px solid #e8e8e6;font-size:11px;color:#888;">Scala</th>';
-  fontiDisp.forEach(function(f){html+='<th style="text-align:center;padding:8px;border-bottom:1px solid #e8e8e6;font-size:11px;color:'+f.color+';">'+f.label+'</th>';});
-  html+='<th style="padding:8px;border-bottom:1px solid #e8e8e6;font-size:11px;color:#888;">Note</th></tr></thead><tbody>';
-  scale.forEach(function(s){
-    var vals=fontiDisp.map(function(f){return s==="TOT"?f.e.tot:f.e.scores[s];});
-    var max=Math.max.apply(null,vals);var min=Math.min.apply(null,vals);
-    var discr=max-min>=3?"<span style='color:#A32D2D;font-size:11px;font-weight:600;'>Discrepanza</span>":max-min>=2?"<span style='color:#BA7517;font-size:11px;'>Lieve diff.</span>":"<span style='color:#1D9E75;font-size:11px;'>Concordanti</span>";
-    html+='<tr><td style="padding:8px;border-bottom:1px solid #f0f0ee;font-weight:600;">'+SLBL[s]+'</td>';
-    fontiDisp.forEach(function(f,i){
-      var v=vals[i];var bd=band(s,v);
-      html+='<td style="text-align:center;padding:8px;border-bottom:1px solid #f0f0ee;"><span style="font-weight:700;font-size:15px;">'+v+'</span><br><span class="badge '+bc(bd)+'" style="font-size:10px;">'+bl(bd)+'</span></td>';
-    });
-    html+='<td style="padding:8px;border-bottom:1px solid #f0f0ee;">'+discr+'</td></tr>';
-  });
-  html+='</tbody></table>';
-  html+='</div>';
-
-  // Commentary on scale comparison
-  html+='<p class="lbl">Lettura comparativa</p>';
-  // Find most discrepant scales
-  var topDiscr=scales.filter(function(s){
-    var v=fontiDisp.map(function(f){return f.e.scores[s];});
-    return Math.max.apply(null,v)-Math.min.apply(null,v)>=3;
-  });
-  var allAgree=scales.filter(function(s){
-    var bds=fontiDisp.map(function(f){return band(s,f.e.scores[s]);});
-    return bds.every(function(b){return b===bds[0];});
-  });
-  var totDiffs=fontiDisp.map(function(f){return f.e.tot;});
-  var maxTot=Math.max.apply(null,totDiffs);var minTot=Math.min.apply(null,totDiffs);
-  html+='<div style="padding:12px 14px;background:#f8f8f7;border-radius:9px;">';
-  html+='<p style="font-size:13px;color:#444;line-height:1.75;">';
-  if(topDiscr.length===0){
-    html+="I profili delle diverse fonti mostrano una <strong>concordanza complessiva</strong>: non emergono scale con discrepanze superiori a 3 punti. Questo aumenta l'attendibilita della valutazione.";
-  } else {
-    html+='Le scale con <strong>discrepanza significativa</strong> (diff. &ge;3 punti) tra le fonti sono: <strong>'+topDiscr.map(function(s){return SLBL[s];}).join(', ')+'</strong>. ';
-    html+="Questo segnala che le difficolta in queste aree si manifestano in modo diverso a seconda del contesto e dell'osservatore.";
-  }
-  if(allAgree.length>0)html+=' Le scale <strong>'+allAgree.map(function(s){return SLBL[s];}).join(', ')+'</strong> mostrano accordo tra tutte le fonti.';
-  html+=' La differenza nel punteggio totale tra la fonte piu alta ('+maxTot+'/40) e quella piu bassa ('+minTot+'/40) e di <strong>'+(maxTot-minTot)+' punti</strong>.';
-  html+='</p></div>';
-  html+='</div>';
-
-  // ── SUB: Radar sovrapposti ──
-  html+='<div id="sr-radar" class="sub-pane">';
-  html+='<p class="lbl" style="margin-top:0;">Grafici radar sovrapposti</p>';
-  html+='<div style="position:relative;height:300px;min-height:300px;"><canvas id="radar-report" style="display:block;"></canvas></div>';
-  html+='<div style="display:flex;gap:16px;justify-content:center;margin-top:10px;flex-wrap:wrap;">';
-  fontiDisp.forEach(function(f){html+='<div style="display:flex;align-items:center;gap:6px;font-size:12px;"><div style="width:14px;height:3px;background:'+f.color+';border-radius:2px;"></div>'+f.label+'</div>';});
-  html+='</div>';
-  // Radar commentary
-  html+='<div style="margin-top:12px;padding:12px 14px;background:#f8f8f7;border-radius:9px;">';
-  html+='<p style="font-size:13px;font-weight:600;margin-bottom:6px;">Lettura dei grafici sovrapposti</p>';
-  html+='<p style="font-size:13px;color:#444;line-height:1.75;">Il grafico sovrappone i profili di tutte le fonti disponibili. Ogni colore rappresenta un osservatore diverso. ';
-  html+='Quando le linee si sovrappongono, i profili concordano su quella dimensione; quando divergono, emergono differenze nella percezione del comportamento. ';
-  html+='Le aree del grafico piu estese verso l\'esterno indicano punteggi piu elevati (maggiori difficolta), tranne per la scala Prosociale dove un vertice piu esteso indica un punto di forza.</p>';
-  html+='</div></div>';
-
-  // ── SUB: Confronto interpretazioni ──
-  html+='<div id="sr-interp" class="sub-pane">';
-  html+='<p class="lbl" style="margin-top:0;">Confronto interpretazioni per scala</p>';
-  ["ES","IP","EC","C","PR","TOT","INT","EST"].forEach(function(s){
-    html+='<div style="margin-bottom:1rem;">';
-    html+='<div style="font-size:13px;font-weight:600;color:#1a1a1a;margin-bottom:6px;">'+SLBL[s]+'</div>';
-    fontiDisp.forEach(function(f){
-      var v=s==="TOT"?f.e.tot:s==="INT"?f.e.scores.ES+f.e.scores.C:s==="EST"?f.e.scores.EC+f.e.scores.IP:f.e.scores[s];
-      var bd=band(s,v);
-      var col=bd==="normale"||bd==="adeguato"?"#1D9E75":bd==="borderline"?"#BA7517":"#A32D2D";
-      html+='<div style="padding:8px 12px;border-radius:8px;border-left:3px solid '+f.color+';background:'+f.color+'0d;margin-bottom:4px;">'
-        +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">'
-        +'<span style="font-size:11px;font-weight:600;color:'+f.color+';">'+f.label+'</span>'
-        +'<span style="font-size:12px;font-weight:700;">'+v+' <span class="badge '+bc(bd)+'">'+bl(bd)+'</span></span></div>'
-        +'<p style="font-size:12px;color:#555;line-height:1.5;">'+(INTERP[s][bd]||"")+'</p></div>';
-    });
-    html+='</div>';
-  });
-  html+='</div>';
-  html+='<div style="margin-top:1rem;padding:12px 14px;background:#f8f8f7;border-radius:9px;">';
-  html+='<p style="font-size:13px;font-weight:600;margin-bottom:6px;">Nota metodologica sul confronto</p>';
-  html+='<p style="font-size:13px;color:#444;line-height:1.75;">Il confronto delle interpretazioni per scala consente di identificare le aree in cui le percezioni dei diversi osservatori convergono o divergono. ';
-  html+='Quando le fasce sono concordi (es. tutti in fascia elevata), il dato e robusto e clinicamente significativo. ';
-  html+='Quando divergono, la discrepanza stessa e un dato clinico: puo indicare che la difficolta si manifesta solo in certi contesti, oppure che la soglia di sensibilita degli osservatori e diversa.</p>';
-  html+='</div>';
-
-  // ── SUB: Relazione sintesi ──
-  html+='<div id="sr-rel" class="sub-pane">';
-  html+=buildRelazioneSintesi(auto,edu,gen,fontiDisp);
-  html+='</div>';
-
-  // ── SUB: Confronto impatto ──
-  html+='<div id="sr-impact" class="sub-pane">';
-  html+='<p class="lbl" style="margin-top:0;">Confronto impatto</p>';
-  var impKeys=[["diff_gen","Difficolta percepita"],["durata","Durata"],["soff","Sofferenza"],["i_fam","Vita familiare"],["i_ami","Amicizie"],["i_scu","Scuola"],["i_lib","Tempo libero"],["i_altri","Carico sugli altri"]];
-  var dgMap={0:"No",1:"Piccole",2:"Importanti",3:"Severe"};
-  var durMap={1:"<1 mese",2:"1-5 mesi",3:"6-12 mesi",4:">1 anno"};
-  var lvlMap2={0:"Per niente",1:"Un po",2:"Abbastanza",3:"Molto"};
-  html+='<table style="width:100%;border-collapse:collapse;font-size:12px;">';
-  html+='<thead><tr><th style="text-align:left;padding:7px 8px;border-bottom:1px solid #e8e8e6;color:#888;font-size:11px;">Voce</th>';
-  fontiDisp.forEach(function(f){html+='<th style="text-align:center;padding:7px 8px;border-bottom:1px solid #e8e8e6;color:'+f.color+';font-size:11px;">'+f.label+'</th>';});
-  html+='</tr></thead><tbody>';
-  impKeys.forEach(function(kv){
-    html+='<tr><td style="padding:7px 8px;border-bottom:1px solid #f0f0ee;color:#666;">'+kv[1]+'</td>';
-    fontiDisp.forEach(function(f){
-      var imp=f.e.impact||{};
-      var v=imp[kv[0]];
-      var txt="—";
-      if(v!=null){
-        if(kv[0]==="diff_gen")txt=dgMap[v]||v;
-        else if(kv[0]==="durata")txt=durMap[v]||v;
-        else txt=lvlMap2[v]||v;
-      }
-      var col=v>=3?"#A32D2D":v===2?"#BA7517":v===1?"#666":"#085041";
-      html+='<td style="text-align:center;padding:7px 8px;border-bottom:1px solid #f0f0ee;font-weight:600;color:'+col+';">'+txt+'</td>';
-    });
-    html+='</tr>';
-  });
-  html+='</tbody></table>';
-  // Impact commentary
-  html+='<div style="margin-top:1rem;padding:12px 14px;background:#f8f8f7;border-radius:9px;">';
-  html+='<p style="font-size:13px;font-weight:600;margin-bottom:6px;">Lettura comparativa dell\'impatto</p>';
-  html+='<p style="font-size:13px;color:#444;line-height:1.75;">La sezione impatto misura quanto le difficolta interferiscono nella vita quotidiana del minore nei diversi contesti. ';
-  // Find max impact areas
-  var impKs=["i_fam","i_ami","i_scu","i_lib","i_altri"];
-  var impNames={"i_fam":"vita familiare","i_ami":"amicizie","i_scu":"scuola","i_lib":"tempo libero","i_altri":"carico sugli altri"};
-  var highImpact=impKs.filter(function(k){return fontiDisp.some(function(f){return (f.e.impact||{})[k]>=2;});});
-  if(highImpact.length>0){
-    html+='Le aree di maggiore interferenza segnalate sono: <strong>'+highImpact.map(function(k){return impNames[k];}).join(', ')+'</strong>. ';
-  }
-  // Check if ragazzo perceives sofferenza
-  if(auto&&auto.impact!=null&&auto.impact.soff!=null){
-    html+=auto.impact.soff===0?'Il minore non riferisce sofferenza soggettiva significativa (tipico dei profili esternalizzanti). '
-      :auto.impact.soff>=2?'Il minore riferisce un livello di sofferenza significativo: questo dato merita attenzione prioritaria negli interventi. '
-      :'Il minore riferisce una lieve sofferenza soggettiva. ';
-  }
-  html+='Il confronto tra le diverse fonti permette di valutare se l\'impatto e percepito in modo coerente o se emergono differenze nella lettura del disagio.</p>';
-  html+='</div>';
-  html+='</div>';
-
-  // ── SUB: Confronto risposte ──
-  if(hasAllRaw){
-    html+='<div id="sr-risp" class="sub-pane">';
-    html+='<p class="lbl" style="margin-top:0;">Confronto risposte item per item</p>';
-    var ITEMS_SHORT=["Rispettoso sentimenti","Irrequieto/iperattivo","Mal di testa/stomaco","Condivide volentieri","Crisi di collera","Solitario","Obbediente","Molte preoccupazioni","Di aiuto","Costante movimento","Ha un buon amico","Spesso litiga","Spesso infelice","Ben accetto dai pari","Facilmente distratto","Nervoso in situazioni nuove","Gentile con piccoli","Dice bugie","Preso di mira","Volontario aiuto","Pensa prima","Ruba","Rapporti con adulti","Molte paure","Porta a termine compiti"];
-    var ITEMS_S=["PR","IP","ES","PR","EC","C","EC","ES","PR","IP","C","EC","ES","C","IP","ES","PR","EC","C","PR","IP","EC","C","ES","IP"];
-    var ITEMS_R=[false,false,false,false,false,false,true,false,false,false,true,false,false,true,false,false,false,false,false,false,true,false,false,false,true];
-    var lvl=["Non vero","Parz. vero","Assol. vero"];
-    html+='<table style="width:100%;border-collapse:collapse;font-size:12px;">';
-    html+='<thead><tr><th style="text-align:left;padding:6px 4px;border-bottom:1px solid #e8e8e6;font-size:10px;color:#888;">#</th>';
-    html+='<th style="text-align:left;padding:6px 4px;border-bottom:1px solid #e8e8e6;font-size:10px;color:#888;">Item</th>';
-    fontiDisp.forEach(function(f){html+='<th style="text-align:center;padding:6px 4px;border-bottom:1px solid #e8e8e6;font-size:10px;color:'+f.color+';">'+f.label+'</th>';});
-    html+='</tr></thead><tbody>';
-    for(var i=0;i<25;i++){
-      var vals2=fontiDisp.map(function(f){return f.e.raw?f.e.raw[i]:null;});
-      var allSame=vals2.every(function(v){return v===vals2[0];});
-      var rowBg=allSame?"":" style='background:#fffbf0;'";
-      html+='<tr'+rowBg+'><td style="padding:5px 4px;border-bottom:1px solid #f5f5f3;color:#aaa;font-size:11px;">'+(i+1)+'</td>';
-      html+='<td style="padding:5px 4px;border-bottom:1px solid #f5f5f3;font-size:12px;color:#444;">'+ITEMS_SHORT[i]+(ITEMS_R[i]?" <span style='font-size:9px;color:#aaa;'>(inv.)</span>":"")+'</td>';
-      fontiDisp.forEach(function(f,fi){
-        var v=vals2[fi];
-        var bg=v===0?"#F1EFE8":v===1?"#FAEEDA":"#FCEBEB";
-        var col=v===0?"#888780":v===1?"#BA7517":"#A32D2D";
-        html+='<td style="text-align:center;padding:5px 4px;border-bottom:1px solid #f5f5f3;">'
-          +(v!=null?'<span style="font-size:10px;padding:1px 6px;border-radius:10px;background:'+bg+';color:'+col+';font-weight:600;">'+lvl[v]+'</span>':"—")+'</td>';
-      });
-      html+='</tr>';
-    }
-    html+='</tbody></table></div>';
-  }
-
-  return html;
-}
-
-function buildRelazioneSintesi(auto,edu,gen,fontiDisp){
-  var nome=(auto||edu||gen).nome||"Il minore";
-  var today=new Date().toISOString().split("T")[0];
-
-  // Raccolta punteggi per fonte
-  var scales=["ES","IP","EC","C","PR"];
-
-  // Confronto punteggi
-  function getV(e,s){return s==="TOT"?e.tot:s==="INT"?e.scores.ES+e.scores.C:s==="EST"?e.scores.EC+e.scores.IP:e.scores[s];}
-
-  // Discrepanze significative (diff >= 3)
-  var discrScales=scales.filter(function(s){
-    var vals=fontiDisp.map(function(f){return getV(f.e,s);});
-    return Math.max.apply(null,vals)-Math.min.apply(null,vals)>=3;
-  });
-  // Concordant = same band AND no numeric discrepancy >= 3
-  var concordScales=scales.filter(function(s){
-    var vals=fontiDisp.map(function(f){return getV(f.e,s);});
-    var bds=fontiDisp.map(function(f){return band(s,getV(f.e,s));});
-    var sameBand=bds.every(function(b){return b===bds[0];});
-    var noNumericDiscr=Math.max.apply(null,vals)-Math.min.apply(null,vals)<3;
-    return sameBand&&noNumericDiscr;
-  });
-
-  // Aree critiche (elevato in almeno una fonte)
-  var areeCrit=scales.filter(function(s){return fontiDisp.some(function(f){return band(s,getV(f.e,s))==="elevato";});});
-  var areeBord=scales.filter(function(s){return !areeCrit.includes(s)&&fontiDisp.some(function(f){return band(s,getV(f.e,s))==="borderline";});});
-
-  // Profilo per fonte
-  function getDirLabel(e){
-    var intV=e.scores.ES+e.scores.C; var estV=e.scores.EC+e.scores.IP;
-    var ib=band("INT",intV); var eb=band("EST",estV);
-    if(intV>estV&&ib!=="normale") return "prevalentemente internalizzante";
-    if(estV>intV&&eb!=="normale") return "prevalentemente esternalizzante";
-    if(ib!=="normale"&&eb!=="normale") return "misto";
-    return "nella norma";
-  }
-
-  // Situazione tipica (4 pattern)
-  var tuttiVedonoProblema=fontiDisp.length>=2&&fontiDisp.every(function(f){return band("TOT",f.e.tot)!=="normale";});
-  var ragazzoMinimizza=auto&&(edu||gen)&&band("TOT",auto.tot)==="normale"&&fontiDisp.filter(function(f){return f.label!=="Auto-report";}).some(function(f){return band("TOT",f.e.tot)!=="normale";});
-  var adultiMinimizzano=auto&&(edu||gen)&&band("TOT",auto.tot)!=="normale"&&fontiDisp.filter(function(f){return f.label!=="Auto-report";}).every(function(f){return band("TOT",f.e.tot)==="normale";});
-  var eduGenDivergono=edu&&gen&&Math.abs(edu.tot-gen.tot)>=6;
-
-  var patternLabel="";
-  var patternDesc="";
-  if(tuttiVedonoProblema){
-    patternLabel="Quadro stabile e concordante";
-    patternDesc="Tutte le fonti rilevano difficolta significative. Questo pattern indica un disagio stabile e trasversale ai contesti di vita del minore, aumentando l'attendibilita complessiva della valutazione e la priorita di un intervento strutturato.";
-  } else if(ragazzoMinimizza){
-    patternLabel="Il minore minimizza (bassa consapevolezza)";
-    patternDesc="Il minore non riferisce difficolta significative nella propria auto-valutazione, mentre gli adulti di riferimento le osservano. Questo pattern puo indicare scarsa consapevolezza del proprio disagio, tendenza a minimizzare, o difficolta nell'introspection. Puo anche riflettere una diversa espressione del disagio nei vari contesti.";
-  } else if(adultiMinimizzano){
-    patternLabel="Disagio nascosto (gli adulti non vedono)";
-    patternDesc="Il minore riferisce difficolta significative che gli adulti di riferimento non sembrano cogliere. Questo pattern segnala un possibile disagio interiorizzato e silenzioso, particolarmente frequente nei profili internalizzanti. Richiede attenzione prioritaria e spazi di ascolto dedicati al minore.";
-  } else if(eduGenDivergono){
-    patternLabel="Problema situazionale (divergenza educatore-genitore)";
-    patternDesc="Si rileva una divergenza significativa tra l'osservazione dell'educatore e quella del genitore. Questo pattern suggerisce che le difficolta del minore si manifestano in modo diverso nei vari contesti (comunita vs famiglia), orientando l'intervento verso una lettura contestuale e sistemica del comportamento.";
-  } else if(concordScales.length===scales.length){
-    patternLabel="Profilo concordante nella norma";
-    patternDesc="Tutte le fonti concordano nel non rilevare difficolta significative. Il profilo e stabile e adeguato ai valori normativi.";
-  } else {
-    patternLabel="Profilo con aree di attenzione";
-    patternDesc="Il profilo evidenzia alcune aree di attenzione con discrepanze parziali tra le fonti. Una lettura integrata e contestualizzata risulta particolarmente utile.";
-  }
-
-  // Raccomandazioni
-  var areaMap={
-    ES:{label:"Supporto emotivo",desc:"Creare spazi di ascolto strutturati e dedicati. Tecniche di psicoeducazione emotiva, mindfulness adattata all'eta, e interventi sul riconoscimento e la gestione delle emozioni."},
-    IP:{label:"Autoregolazione e attenzione",desc:"Strutturare l'ambiente con routine chiare e prevedibili. Pause programmate, strategie metacognitive, riduzione degli stimoli distrattivi. Valutare eventuale consulenza specialistica."},
-    EC:{label:"Gestione del comportamento",desc:"Applicare un sistema di regole chiare con conseguenze prevedibili e coerenti. Privilegiare il rinforzo positivo sistematico. Interventi di economia a gettoni o contratto educativo."},
-    C:{label:"Abilita sociali e integrazione",desc:"Attivita di gruppo strutturate, training sulle abilita sociali, monitoraggio del clima relazionale nel gruppo. Supporto all'inserimento e al senso di appartenenza."},
-    PR:{label:"Competenze prosociali",desc:"Cooperative learning, role-playing su scenari relazionali, valorizzazione esplicita dei comportamenti d'aiuto e dell'empatia. Incarichi di responsabilita verso altri."}
-  };
-  var suggestAree=areeCrit.concat(areeBord.filter(function(s){return !areeCrit.includes(s);}));
-
-  var html='<p class="lbl" style="margin-top:0;">Relazione di sintesi integrata</p>';
-
-  // Intestazione
-  html+='<div style="border:1px solid #e8e8e6;border-radius:12px;padding:1.5rem;">';
-  html+='<div style="border-bottom:2px solid #1a1a1a;padding-bottom:.75rem;margin-bottom:1.25rem;">';
-  html+='<div style="font-size:17px;font-weight:700;">SDQ — Sintesi delle tre valutazioni</div>';
-  html+='<div style="font-size:13px;color:#666;margin-top:6px;">Minore: <strong>'+nome+'</strong></div>';
-  html+='<div style="font-size:12px;color:#666;margin-top:4px;">Strumento: Strengths and Difficulties Questionnaire &nbsp;&middot;&nbsp; Fonti di valutazione: ';
-  fontiDisp.forEach(function(f,i){if(i>0)html+=" / ";html+=f.label;});
-  html+='</div></div>';
-
-  // Confronto valutazioni - tabella
-  html+='<div class="rel-section"><h4>Confronto delle valutazioni</h4>';
-  html+='<table style="width:100%;border-collapse:collapse;font-size:13px;margin-bottom:.75rem;">';
-  html+='<thead><tr style="background:#f8f8f7;">';
-  html+='<th style="text-align:left;padding:8px 10px;border:1px solid #e8e8e6;">Area</th>';
-  fontiDisp.forEach(function(f){html+='<th style="text-align:center;padding:8px 10px;border:1px solid #e8e8e6;color:'+f.color+';">'+f.label+'</th>';});
-  html+='<th style="padding:8px 10px;border:1px solid #e8e8e6;font-size:11px;color:#888;">Concordanza</th>';
-  html+='</tr></thead><tbody>';
-  scales.forEach(function(s,i){
-    var vals=fontiDisp.map(function(f){return getV(f.e,s);});
-    var bds=fontiDisp.map(function(f){return band(s,getV(f.e,s));});
-    var allSameBd=bds.every(function(b){return b===bds[0];});
-    var maxDiff=Math.max.apply(null,vals)-Math.min.apply(null,vals);
-    var concLabel=allSameBd?'<span style="color:#1D9E75;font-size:11px;font-weight:600;">Concordanti</span>':maxDiff>=3?'<span style="color:#A32D2D;font-size:11px;font-weight:600;">Discrepanza</span>':'<span style="color:#BA7517;font-size:11px;">Lieve diff.</span>';
-    html+='<tr style="background:'+(i%2===0?"#fff":"#fafaf9")+';">';
-    html+='<td style="padding:7px 10px;border:1px solid #e8e8e6;font-weight:600;">'+SLBL[s]+'</td>';
-    fontiDisp.forEach(function(f,fi){
-      var v=vals[fi];var bd=bds[fi];
-      html+='<td style="text-align:center;padding:7px 10px;border:1px solid #e8e8e6;"><span style="font-weight:700;">'+v+'</span><br><span class="badge '+bc(bd)+'" style="font-size:10px;">'+bl(bd)+'</span></td>';
-    });
-    html+='<td style="text-align:center;padding:7px 10px;border:1px solid #e8e8e6;">'+concLabel+'</td></tr>';
-  });
-  // Totali
-  ["TOT","INT","EST"].forEach(function(s,i){
-    var vals=fontiDisp.map(function(f){return getV(f.e,s);});
-    var bds=fontiDisp.map(function(f){return band(s,getV(f.e,s));});
-    var allSameBd=bds.every(function(b){return b===bds[0];});
-    var maxDiff=Math.max.apply(null,vals)-Math.min.apply(null,vals);
-    var concLabel=allSameBd?'<span style="color:#1D9E75;font-size:11px;font-weight:600;">Concordanti</span>':maxDiff>=4?'<span style="color:#A32D2D;font-size:11px;font-weight:600;">Discrepanza</span>':'<span style="color:#BA7517;font-size:11px;">Lieve diff.</span>';
-    html+='<tr style="background:#f0f0ee;">';
-    html+='<td style="padding:7px 10px;border:1px solid #e0e0de;font-weight:700;">'+SLBL[s]+(s==="TOT"?" (0-40)":(s==="INT"||s==="EST")?" (0-20)":"")+'</td>';
-    fontiDisp.forEach(function(f,fi){
-      var v=vals[fi];var bd=bds[fi];
-      html+='<td style="text-align:center;padding:7px 10px;border:1px solid #e0e0de;"><span style="font-weight:700;font-size:15px;">'+v+'</span><br><span class="badge '+bc(bd)+'" style="font-size:10px;">'+bl(bd)+'</span></td>';
-    });
-    html+='<td style="text-align:center;padding:7px 10px;border:1px solid #e0e0de;">'+concLabel+'</td></tr>';
-  });
-  html+='</tbody></table>';
-
-  // Profili per fonte
-  html+='<div style="display:grid;grid-template-columns:repeat('+fontiDisp.length+',1fr);gap:8px;margin-top:8px;">';
-  fontiDisp.forEach(function(f){
-    html+='<div style="padding:10px 12px;border-radius:9px;border-left:3px solid '+f.color+';background:'+f.color+'0d;">';
-    html+='<div style="font-size:11px;font-weight:600;color:'+f.color+';text-transform:uppercase;margin-bottom:4px;">'+f.label+'</div>';
-    html+='<div style="font-size:13px;font-weight:600;">Totale: '+f.e.tot+'/40 <span class="badge '+bc(band("TOT",f.e.tot))+'">'+bl(band("TOT",f.e.tot))+'</span></div>';
-    html+='<div style="font-size:12px;color:#555;margin-top:4px;">Direzione: '+getDirLabel(f.e)+'</div></div>';
-  });
-  html+='</div></div>';
-
-  // Pattern epistemologico
-  html+='<div class="rel-section"><h4>Lettura comparativa</h4>';
-  html+='<div style="padding:12px 14px;background:#f0faf6;border-radius:9px;border-left:3px solid #1D9E75;margin-bottom:.75rem;">';
-  html+='<div style="font-size:12px;font-weight:700;color:#0F6E56;margin-bottom:4px;">'+patternLabel+'</div>';
-  html+='<p style="font-size:13px;color:#444;line-height:1.7;">'+patternDesc+'</p></div>';
-  if(concordScales.length>0){
-    html+='<p style="font-size:13px;color:#444;margin-bottom:6px;">Le scale <strong>'+concordScales.map(function(s){return SLBL[s];}).join(", ")+'</strong> mostrano concordanza tra le fonti.</p>';
-  }
-  if(discrScales.length>0){
-    html+='<p style="font-size:13px;color:#444;margin-bottom:6px;">Le scale con <strong>discrepanze significative</strong> (differenza &ge;3 punti) sono: <strong>'+discrScales.map(function(s){return SLBL[s];}).join(", ")+'</strong>. Tali differenze possono essere interpretate alla luce dei diversi contesti di vita del minore e delle modalita con cui manifesta il proprio comportamento.</p>';
-  }
-  html+='</div>';
-
-  // Considerazioni conclusive
-  html+='<div class="rel-section"><h4>Considerazioni conclusive</h4>';
-  html+='<p style="font-size:13px;color:#444;line-height:1.75;margin-bottom:.5rem;">Nel complesso il profilo evidenzia:</p>';
-  html+='<ul style="font-size:13px;color:#444;margin:.25rem 0 .75rem 1.2rem;">';
-  if(areeCrit.length)html+="<li><strong>Criticita nell'area:</strong> "+areeCrit.map(function(s){return SLBL[s];}).join(", ")+"</li>";
-  if(areeBord.length)html+='<li><strong>Aree da monitorare:</strong> '+areeBord.map(function(s){return SLBL[s];}).join(", ")+'</li>';
-  var puntiForzaScales=scales.filter(function(s){return fontiDisp.every(function(f){return band(s,getV(f.e,s))==="normale"||band(s,getV(f.e,s))==="adeguato";});});
-  if(puntiForzaScales.length)html+="<li><strong>Risorse significative nell'area:</strong> "+puntiForzaScales.map(function(s){return SLBL[s];}).join(", ")+"</li>";
-  html+='</ul>';
-  if(discrScales.length){
-    html+='<p style="font-size:13px;color:#444;line-height:1.75;">Le eventuali discrepanze tra percezione del minore e osservazione degli adulti riguardano in particolare le scale '+discrScales.map(function(s){return SLBL[s];}).join(", ")+'. Tali differenze orientano verso una lettura contestuale e sistemica del funzionamento del minore.</p>';
-  }
-  html+='</div>';
-
-  // Suggerimenti pedagogici
-  html+='<div class="rel-section"><h4>Suggerimenti di intervento pedagogico</h4>';
-  html+='<p style="font-size:13px;color:#444;margin-bottom:.5rem;">Si ritiene opportuno orientare il lavoro educativo verso:</p>';
-  if(suggestAree.length){
-    suggestAree.forEach(function(s){
-      var a=areaMap[s];if(!a)return;
-      html+='<div style="padding:10px 12px;border-radius:8px;background:#f8f8f7;border-left:3px solid #1D9E75;margin-bottom:8px;">';
-      html+='<div style="font-size:13px;font-weight:600;margin-bottom:3px;">'+a.label+'</div>';
-      html+='<p style="font-size:12px;color:#555;line-height:1.6;">'+a.desc+'</p></div>';
-    });
-  }
-  html+='<div style="padding:10px 12px;border-radius:8px;background:#f8f8f7;border-left:3px solid #1D9E75;margin-bottom:8px;">';
-  html+='<div style="font-size:13px;font-weight:600;margin-bottom:3px;">Monitoraggio nel tempo</div>';
-  html+="<p style=\"font-size:12px;color:#555;line-height:1.6;\">Si suggerisce di prevedere una nuova somministrazione dello strumento al termine del ciclo di intervento educativo, per verificare l'evoluzione del profilo e l'efficacia degli interventi attivati.</p></div>";
-  html+='</div>';
-
-  // Nota finale
-  html+='<div class="rel-section" style="margin-bottom:0;"><h4>Nota conclusiva</h4>';
-  html+='<p style="font-size:12px;color:#888;padding:10px;background:#f8f8f7;border-radius:6px;line-height:1.65;">La presente relazione di sintesi integra valutazioni multi-informante e non sostituisce una valutazione psicologica condotta da professionisti abilitati. Lo SDQ e uno strumento di screening (Goodman, 1997) e non consente diagnosi. Si raccomanda la massima riservatezza nel trattamento dei dati personali del minore.</p></div>';
-  html+='</div>';
-  return html;
-}
-
-
-window.closeModal=function(){
-  document.getElementById("modal-wrap").style.display="none";
-  document.body.style.overflow="";
-  radarCharts.forEach(function(c){try{c.destroy();}catch(e){}});
-  radarCharts=[];
-  currentMinore=null;
-};
+window.closeModal=function(){document.getElementById("modal-wrap").style.display="none";document.body.style.overflow="";radarCharts.forEach(function(c){try{c.destroy();}catch(e){}});radarCharts=[];currentMinore=null;};
 window.closeModalBg=function(e){if(e.target===e.currentTarget)window.closeModal();};
+window.stampaDettaglio=function(soloTab){document.getElementById("modal-wrap").style.display="block";if(soloTab){document.querySelectorAll(".fonte-pane").forEach(function(p){p.dataset.printHidden=p.id!=="fp-"+soloTab?"1":"0";if(p.id!=="fp-"+soloTab)p.style.setProperty("display","none","important");});window.print();document.querySelectorAll(".fonte-pane").forEach(function(p){if(p.dataset.printHidden==="1")p.style.removeProperty("display");});}else{window.print();}};
 
-window.stampaDettaglio=function(soloTab){
-  // soloTab: undefined=tutto, oppure key specifica es "auto","edu","gen","report"
-  document.getElementById("modal-wrap").style.display="block";
-  // Inizializza radar report se necessario
-  var canvas=document.getElementById("radar-report");
-  if(canvas&&!canvas._chartDone&&currentMinore){
-    canvas._chartDone=true;
-    var fd=[];
-    if(currentMinore.auto)fd.push({e:currentMinore.auto,label:"Auto-report",color:"#1D9E75"});
-    if(currentMinore.edu)fd.push({e:currentMinore.edu,label:"Educatore",color:"#534AB7"});
-    if(currentMinore.gen)fd.push({e:currentMinore.gen,label:"Genitore",color:"#D85A30"});
-    var ds=fd.map(function(f){return{label:f.label,data:[f.e.scores.ES,f.e.scores.IP,f.e.scores.EC,f.e.scores.C,f.e.scores.PR],backgroundColor:f.color+"26",borderColor:f.color,borderWidth:2,pointBackgroundColor:f.color,pointRadius:4};});
-    try{var rc=new Chart(canvas,{type:"radar",data:{labels:["ES","IP","EC","C","PR"],datasets:ds},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:"bottom"}},scales:{r:{min:0,max:10}}}});radarCharts.push(rc);}catch(e2){}
-  }
-  if(soloTab){
-    // Nascondi tutti i pane tranne quello selezionato
-    document.querySelectorAll(".fonte-pane").forEach(function(p){
-      p.dataset.printHidden = p.id!=="fp-"+soloTab?"1":"0";
-      if(p.id!=="fp-"+soloTab) p.style.setProperty("display","none","important");
-    });
-    window.print();
-    // Ripristina
-    document.querySelectorAll(".fonte-pane").forEach(function(p){
-      if(p.dataset.printHidden==="1") p.style.removeProperty("display");
-    });
-  } else {
-    window.print();
-  }
-};
+async function deleteEntry(id){try{await db.collection("risposte").doc(id).delete();allEntries=allEntries.filter(function(e){return e.id!==id;});renderList();window.closeModal();}catch(e){alert("Errore nell'eliminazione.");}}
 
-async function deleteEntry(id){
-  try{
-    await db.collection("risposte").doc(id).delete();
-    allEntries=allEntries.filter(function(e){return e.id!==id;});
-    // If no more entries for this minore, offer to delete the pratica too
-    if(currentMinore){
-      var cod=currentMinore.codice;
-      var remaining=allEntries.filter(function(e){
-        var eCod=e.codice?String(parseInt(e.codice)||0).padStart(2,"0"):"";
-        return cod?eCod===cod:normalizeNome(e.nome)===normalizeNome(currentMinore.nome);
-      });
-      if(remaining.length===0 && cod){
-        var delPratica=confirm("Non ci sono altri questionari per questo minore. Vuoi eliminare anche la pratica #"+cod+"?");
-        if(delPratica){
-          var prat=pratiche.find(function(p){return String(parseInt(p.codice)||0).padStart(2,"0")===cod;});
-          if(prat){
-            await db.collection("pratiche").doc(prat.id).delete();
-            pratiche=pratiche.filter(function(p){return p.id!==prat.id;});
-          }
-        }
-      }
-    }
-    renderList();
-    window.closeModal();
-  }catch(e){alert("Errore nell'eliminazione.");}
-}
-
-window.nuovaPratica=function(){
-  document.getElementById("nuova-pratica-panel").style.display="block";
-  document.getElementById("np-result").style.display="none";
-  document.getElementById("np-nome").value="";
-  document.getElementById("np-nome").focus();
-};
-
-window.confermaNuovaPratica=async function(){
-  var nome=document.getElementById("np-nome").value.trim();
-  if(!nome){document.getElementById("np-nome").focus();return;}
-  try{
-    var snap=await db.collection("risposte").get();
-    var maxN=0;
-    snap.forEach(function(d){var n=parseInt(d.data().codice||"0");if(n>maxN)maxN=n;});
-    try{var snap2=await db.collection("pratiche").get();snap2.forEach(function(d){var n=parseInt(d.data().codice||"0");if(n>maxN)maxN=n;});}catch(e2){}
-    var newCodice=String(maxN+1).padStart(2,"0");
-    await db.collection("pratiche").add({codice:newCodice,nome:nome,creato:new Date(),creatoIl:new Date().toISOString().split("T")[0]});
-    document.getElementById("nuovo-codice-display").textContent="#"+newCodice;
-    document.getElementById("np-nome-display").textContent=nome;
-    document.getElementById("np-result").style.display="block";
-    document.getElementById("copy-btn").textContent="Copia codice";
-    window.lastNewCodice=newCodice;
-  }catch(e){alert("Errore: "+e.message);}
-};
-
-window.copiaCodicePratica=function(){
-  if(window.lastNewCodice){
-    navigator.clipboard.writeText(window.lastNewCodice).then(function(){
-      document.getElementById("copy-btn").textContent="Copiato!";
-      setTimeout(function(){document.getElementById("copy-btn").textContent="Copia codice";},2000);
-    }).catch(function(){prompt("Copia questo codice:",window.lastNewCodice);});
-  }
-};
-
-window.migrazioneCodiceMancante=async function(){
-  var result=document.getElementById("migr-result");
-  result.style.display="none";
-  var nameToCodice={};
-  pratiche.forEach(function(p){if(p.nome)nameToCodice[normalizeNome(p.nome)]=p.codice;});
-  var toUpdate=allEntries.filter(function(e){return!e.codice&&e.nome&&nameToCodice[normalizeNome(e.nome)];});
-  if(!toUpdate.length){result.textContent="Nessun questionario da aggiornare.";result.style.display="block";return;}
-  var updated=0;
-  for(var i=0;i<toUpdate.length;i++){
-    var e=toUpdate[i];
-    var cod=nameToCodice[normalizeNome(e.nome)];
-    try{
-      await db.collection("risposte").doc(e.id).update({codice:cod});
-      e.codice=cod;
-      updated++;
-    }catch(err){}
-  }
-  result.textContent="Aggiornati "+updated+" questionari.";
-  result.style.display="block";
-  renderList();
-};
-
-window.migrazioneCodiceMancante=async function(){
-  var result=document.getElementById("migr-result");
-  result.style.display="none";
-  var nameToCodice={};
-  pratiche.forEach(function(p){
-    if(p.nome) nameToCodice[normalizeNome(p.nome)]=p.codice;
-  });
-  var toUpdate=allEntries.filter(function(e){
-    return !e.codice && e.nome && nameToCodice[normalizeNome(e.nome)];
-  });
-  if(!toUpdate.length){
-    result.textContent="Nessun questionario da aggiornare.";
-    result.style.display="block";
-    return;
-  }
-  var updated=0;
-  for(var i=0;i<toUpdate.length;i++){
-    var e=toUpdate[i];
-    var cod=nameToCodice[normalizeNome(e.nome)];
-    try{
-      await db.collection("risposte").doc(e.id).update({codice:cod});
-      e.codice=cod;
-      updated++;
-    }catch(err){console.error(err);}
-  }
-  result.textContent="Aggiornati "+updated+" questionari. Ricarica la lista.";
-  result.style.display="block";
-  renderList();
-};
+window.nuovaPratica=function(){document.getElementById("nuova-pratica-panel").style.display="block";document.getElementById("np-result").style.display="none";document.getElementById("np-nome").value="";document.getElementById("np-nome").focus();};
+window.confermaNuovaPratica=async function(){var nome=document.getElementById("np-nome").value.trim();if(!nome){document.getElementById("np-nome").focus();return;}try{var snap=await db.collection("risposte").get();var maxN=0;snap.forEach(function(d){var n=parseInt(d.data().codice||"0");if(n>maxN)maxN=n;});try{var snap2=await db.collection("pratiche").get();snap2.forEach(function(d){var n=parseInt(d.data().codice||"0");if(n>maxN)maxN=n;});}catch(e2){}var newCodice=String(maxN+1).padStart(2,"0");await db.collection("pratiche").add({codice:newCodice,nome:nome,creato:new Date(),creatoIl:new Date().toISOString().split("T")[0]});document.getElementById("nuovo-codice-display").textContent="#"+newCodice;document.getElementById("np-nome-display").textContent=nome;document.getElementById("np-result").style.display="block";document.getElementById("copy-btn").textContent="Copia codice";window.lastNewCodice=newCodice;}catch(e){alert("Errore: "+e.message);}};
+window.copiaCodicePratica=function(){if(window.lastNewCodice){navigator.clipboard.writeText(window.lastNewCodice).then(function(){document.getElementById("copy-btn").textContent="Copiato!";setTimeout(function(){document.getElementById("copy-btn").textContent="Copia codice";},2000);}).catch(function(){prompt("Copia questo codice:",window.lastNewCodice);});}};
+window.migrazioneCodiceMancante=async function(){var result=document.getElementById("migr-result");result.style.display="none";var nameToCodice={};pratiche.forEach(function(p){if(p.nome)nameToCodice[normalizeNome(p.nome)]=p.codice;});var toUpdate=allEntries.filter(function(e){return!e.codice&&e.nome&&nameToCodice[normalizeNome(e.nome)];});if(!toUpdate.length){result.textContent="Nessun questionario da aggiornare.";result.style.display="block";return;}var updated=0;for(var i=0;i<toUpdate.length;i++){var e=toUpdate[i];var cod=nameToCodice[normalizeNome(e.nome)];try{await db.collection("risposte").doc(e.id).update({codice:cod});e.codice=cod;updated++;}catch(err){console.error(err);}}result.textContent="Aggiornati "+updated+" questionari. Ricarica la lista.";result.style.display="block";renderList();};
 
 var allMaslow=[];
+window.loadMaslow=async function(){var el=document.getElementById("maslow-list");el.innerHTML='<div class="loading-center"><div class="spinner"></div></div>';try{var snap=await db.collection("maslow").get();allMaslow=[];snap.forEach(function(d){allMaslow.push(Object.assign({id:d.id},d.data()));});allMaslow.sort(function(a,b){return(b.timestamp&&a.timestamp)?(b.timestamp.seconds||0)-(a.timestamp.seconds||0):0;});renderMaslow();}catch(e){el.innerHTML='<div class="empty">Errore nel caricamento.</div>';}};
+function renderMaslow(){var el=document.getElementById("maslow-list");if(!allMaslow.length){el.innerHTML='<div class="empty">Nessuna piramide compilata ancora.</div>';return;}var html="";allMaslow.forEach(function(m){html+='<div class="minore-card" onclick="openMaslow(\''+m.id+'\')"><div style="display:flex;justify-content:space-between;align-items:center;"><div><div style="font-size:15px;font-weight:600;">🔺 '+m.nome+'</div><div style="font-size:12px;color:#888;margin-top:2px;">'+m.data+'</div></div><span style="color:#ccc;font-size:20px;">&#8250;</span></div></div>';});el.innerHTML=html;}
 
-window.loadMaslow=async function(){
-  var el=document.getElementById("maslow-list");
-  el.innerHTML='<div class="loading-center"><div class="spinner"></div></div>';
-  try{
-    var snap=await db.collection("maslow").get();
-    allMaslow=[];
-    snap.forEach(function(d){allMaslow.push(Object.assign({id:d.id},d.data()));});
-    allMaslow.sort(function(a,b){return(b.timestamp&&a.timestamp)?(b.timestamp.seconds||0)-(a.timestamp.seconds||0):0;});
-    renderMaslow();
-  }catch(e){
-    el.innerHTML='<div class="empty">Errore nel caricamento.</div>';
-  }
-};
+window.openMaslow=function(id){var m=allMaslow.find(function(x){return x.id===id;});if(!m)return;var lv=m.livelli||{};var usedWords={};function parseWords(txt){return txt.replace(/[\r\n]+/g," ").split(/[,;\s]+/).map(function(w){return w.trim().toLowerCase();}).filter(function(w){return w.length>1;});}function cleanLevel(txt){var words=parseWords(txt);var unique=[];words.forEach(function(w){if(!usedWords[w]){usedWords[w]=true;unique.push(w);}});return unique.join(" ");}var t5=cleanLevel(lv.l1_fisiologici||""),t4=cleanLevel(lv.l2_sicurezza||""),t3=cleanLevel(lv.l3_appartenenza||""),t2=cleanLevel(lv.l4_stima||""),t1=cleanLevel(lv.l5_autorealizzazione||"");function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}function hw(y){return Math.max(10,(y-10)*0.52+10);}var ys=[10,90,180,280,390,510];function wrapText(text,maxChars){var words=text.split(/\s+/),lines=[],cur="";words.forEach(function(w){if(!w)return;if((cur+" "+w).trim().length<=maxChars){cur=(cur+" "+w).trim();}else{if(cur)lines.push(cur);cur=w;}});if(cur)lines.push(cur);return lines;}function textLines(text,cx,cy,maxChars,lineH,fill,fs,fw){var lines=wrapText(esc(text),maxChars);if(!lines.length)return"<text x='"+cx+"' y='"+cy+"' text-anchor='middle' fill='"+fill+"' font-size='"+fs+"' font-style='italic' opacity='.5' font-family='sans-serif'>non compilato</text>";var total=lines.length*lineH,startY=cy-total/2+lineH/2;return lines.map(function(l,i){return"<text x='"+cx+"' y='"+(startY+i*lineH)+"' text-anchor='middle' fill='"+fill+"' font-size='"+fs+"' font-weight='"+(fw||"normal")+"' font-family='sans-serif'>"+l+"</text>";}).join("");}function trap(i,fill,text,maxC,fsize){var y0=ys[i],y1=ys[i+1],w0=hw(y0),w1=hw(y1),pts=(280-w0)+","+y0+" "+(280+w0)+","+y0+" "+(280+w1)+","+y1+" "+(280-w1)+","+y1,cy=(y0+y1)/2,wMid=hw(cy)*2,chars=Math.floor(wMid/7.5);return"<polygon points='"+pts+"' fill='"+fill+"'/>"+textLines(text,280,cy,chars,16,"#1a1a1a",fsize||14,"bold")+"<line x1='"+(280-w1)+"' y1='"+y1+"' x2='"+(280+w1)+"' y2='"+y1+"' stroke='#fff' stroke-width='3'/>";}var svg="<svg viewBox='0 0 560 530' xmlns='http://www.w3.org/2000/svg' style='width:100%;display:block;margin:0 auto 1rem;font-family:Georgia,serif;'>";svg+=trap(0,"#F5E642",t1,12,12);svg+=trap(1,"#F0A030",t2,22,13);svg+=trap(2,"#E8607A",t3,32,13);svg+=trap(3,"#9BB8D4",t4,42,13);svg+=trap(4,"#9BA0D8",t5,54,14);svg+="</svg>";var levels=[{label:"Punta",color:"#4169A8",txt:t1},{label:"Quarto livello",color:"#5A8A3C",txt:t2},{label:"Terzo livello",color:"#D4A017",txt:t3},{label:"Secondo livello",color:"#C8621A",txt:t4},{label:"Base",color:"#A02020",txt:t5}];var detailHTML=levels.map(function(lv2){return"<div style='padding:10px 14px;border-radius:9px;border-left:4px solid "+lv2.color+";background:"+lv2.color+"18;margin-bottom:6px;'><div style='font-size:11px;font-weight:700;color:"+lv2.color+";text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px;'>"+lv2.label+"</div><p style='font-size:13px;color:#444;line-height:1.6;'>"+esc(lv2.txt||"")+(lv2.txt?"":"<em style='color:#bbb;'>Non compilato</em>")+"</p></div>";}).join("");document.getElementById("det-header").innerHTML="<div style='font-size:16px;font-weight:600;'>🔺 "+esc(m.nome)+"</div><div style='font-size:12px;color:#888;margin-top:2px;'>"+m.data+"</div>";document.getElementById("fonte-tabs-bar").innerHTML="";document.getElementById("fonte-panes").innerHTML="<div style='padding:.25rem 0;'>"+svg+detailHTML+"</div>";document.getElementById("delete-area").innerHTML="<button class='btn-danger' onclick='deleteMaslow(\""+id+"\")'>Elimina piramide</button>";document.getElementById("pbtn-auto").style.display="none";document.getElementById("pbtn-edu").style.display="none";document.getElementById("pbtn-gen").style.display="none";document.getElementById("pbtn-report").style.display="none";document.getElementById("modal-wrap").style.display="block";document.body.style.overflow="hidden";};
 
-function renderMaslow(){
-  var el=document.getElementById("maslow-list");
-  if(!allMaslow.length){el.innerHTML='<div class="empty">Nessuna piramide compilata ancora.</div>';return;}
-  var html="";
-  allMaslow.forEach(function(m){
-    html+='<div class="minore-card" onclick="openMaslow(\''+m.id+'\')">';
-    html+='<div style="display:flex;justify-content:space-between;align-items:center;">';
-    html+='<div><div style="font-size:15px;font-weight:600;">🔺 '+m.nome+'</div>';
-    html+='<div style="font-size:12px;color:#888;margin-top:2px;">'+m.data+'</div></div>';
-    html+='<span style="color:#ccc;font-size:20px;">&#8250;</span></div></div>';
-  });
-  el.innerHTML=html;
-}
+window.openPiramideCollettiva=function(){if(!allMaslow.length){alert("Nessuna piramide compilata ancora.");return;}var levelKeys=["l1_fisiologici","l2_sicurezza","l3_appartenenza","l4_stima","l5_autorealizzazione"];var levelData=levelKeys.map(function(k){var wordCount={};allMaslow.forEach(function(m){var txt=(m.livelli&&m.livelli[k])||"";var words=txt.replace(/[\r\n]+/g," ").split(/[,;\s]+/).map(function(w){return w.trim().toLowerCase();}).filter(function(w){return w.length>1;});words.forEach(function(w){wordCount[w]=(wordCount[w]||0)+1;});});return Object.entries(wordCount).sort(function(a,b){return b[1]-a[1]||a[0].localeCompare(b[0]);});});function hw(y){return Math.max(10,(y-10)*0.52+10);}var ys=[10,90,180,280,390,510],colors=["#F5E642","#F0A030","#E8607A","#9BB8D4","#9BA0D8"];function superscript(n){var sups={"0":"⁰","1":"¹","2":"²","3":"³","4":"⁴","5":"⁵","6":"⁶","7":"⁷","8":"⁸","9":"⁹"};return String(n).split("").map(function(c){return sups[c]||c;}).join("");}function buildBandText(entries,cx,cy,bandW,fill){if(!entries.length)return"<text x='"+cx+"' y='"+cy+"' text-anchor='middle' fill='"+fill+"' font-size='12' font-style='italic' opacity='.5' font-family='Georgia,serif'>nessuna risposta</text>";var tokens=entries.map(function(e){return e[1]>1?(e[0]+superscript(e[1])):e[0];});function visLen(s){return s.replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹]/g,"").length*7.2+s.replace(/[^⁰¹²³⁴⁵⁶⁷⁸⁹]/g,"").length*5;}var lines=[],curTokens=[];tokens.forEach(function(t){var test=curTokens.concat(t).join(" · ");if(visLen(test)<bandW-16){curTokens.push(t);}else{if(curTokens.length)lines.push(curTokens.join(" · "));curTokens=[t];}});if(curTokens.length)lines.push(curTokens.join(" · "));lines=lines.slice(0,4);var lineH=17,total=lines.length*lineH,startY=cy-total/2+lineH/2;return lines.map(function(l,i){return"<text x='"+cx+"' y='"+(startY+i*lineH)+"' text-anchor='middle' fill='"+fill+"' font-size='13' font-weight='bold' font-family='Georgia,serif'>"+l+"</text>";}).join("");}var svg="<svg viewBox='0 0 560 540' xmlns='http://www.w3.org/2000/svg' style='width:100%;display:block;margin:0 auto 1rem;'>";var pyramidOrder=[4,3,2,1,0];pyramidOrder.forEach(function(li,bandIdx){var y0=ys[bandIdx],y1=ys[bandIdx+1],w0=hw(y0),w1=hw(y1),pts=(280-w0)+","+y0+" "+(280+w0)+","+y0+" "+(280+w1)+","+y1+" "+(280-w1)+","+y1,cy=(y0+y1)/2,bandW=hw(cy)*2;svg+="<polygon points='"+pts+"' fill='"+colors[4-li]+"'/>";svg+=buildBandText(levelData[li],280,cy,bandW,"#1a1a1a");if(bandIdx<4)svg+="<line x1='"+(280-w1)+"' y1='"+y1+"' x2='"+(280+w1)+"' y2='"+y1+"' stroke='#fff' stroke-width='3'/>";});svg+="</svg>";var legend="<div style='margin-top:.5rem;padding:10px 14px;background:#f8f8f7;border-radius:9px;font-size:12px;color:#666;'><strong>"+allMaslow.length+(allMaslow.length>1?" piramidi compilate":" piramide compilata")+"</strong> &middot; Le parole scritte da piu ragazzi mostrano il numero in apice.</div>";document.getElementById("det-header").innerHTML="<div style='font-size:16px;font-weight:600;'>&#9650; Piramide collettiva — "+allMaslow.length+" ragazz"+(allMaslow.length===1?"o":"i")+"</div>";document.getElementById("fonte-tabs-bar").innerHTML="";document.getElementById("fonte-panes").innerHTML="<div style='padding:.25rem 0;'>"+svg+legend+"</div>";document.getElementById("delete-area").innerHTML="";["pbtn-auto","pbtn-edu","pbtn-gen","pbtn-report"].forEach(function(id){document.getElementById(id).style.display="none";});document.getElementById("modal-wrap").style.display="block";document.body.style.overflow="hidden";};
 
-window.openMaslow=function(id){
-  var m=allMaslow.find(function(x){return x.id===id;});
-  if(!m)return;
-  var lv=m.livelli||{};
+window.deleteMaslow=async function(id){if(!confirm("Eliminare questa piramide?"))return;try{await db.collection("maslow").doc(id).delete();allMaslow=allMaslow.filter(function(m){return m.id!==id;});renderMaslow();window.closeModal();}catch(e){alert("Errore.");}};
 
-  // Deduplicate words across levels: each word appears only in the LOWEST (most important) level
-  // Process bottom-up: l1 has priority, then l2, etc.
-  var usedWords={};
-  function parseWords(txt){
-    return txt.replace(/[\r\n]+/g," ").split(/[,;\s]+/)
-      .map(function(w){return w.trim().toLowerCase();})
-      .filter(function(w){return w.length>1;});
-  }
-  function cleanLevel(txt){
-    var words=parseWords(txt);
-    var unique=[];
-    words.forEach(function(w){if(!usedWords[w]){usedWords[w]=true;unique.push(w);}});
-    return unique.join(" ");
-  }
-  // Process bottom-up (l1 = base = highest priority)
-  var t5=cleanLevel(lv.l1_fisiologici||"");
-  var t4=cleanLevel(lv.l2_sicurezza||"");
-  var t3=cleanLevel(lv.l3_appartenenza||"");
-  var t2=cleanLevel(lv.l4_stima||"");
-  var t1=cleanLevel(lv.l5_autorealizzazione||"");
+window.changePin=function(){var old=document.getElementById("old-pin").value,nw=document.getElementById("new-pin").value,cf=document.getElementById("conf-pin").value,w=document.getElementById("pin-ch-warn"),ok=document.getElementById("pin-ch-ok");w.style.display="none";ok.style.display="none";if(old!==getPin()){w.textContent="PIN attuale errato.";w.style.display="block";return;}if(nw.length<4){w.textContent="Almeno 4 cifre.";w.style.display="block";return;}if(nw!==cf){w.textContent="I PIN non coincidono.";w.style.display="block";return;}localStorage.setItem("sdq_pin2",nw);document.getElementById("old-pin").value="";document.getElementById("new-pin").value="";document.getElementById("conf-pin").value="";ok.style.display="block";};
 
-  function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
-  function wrapText(text,maxChars){
-    // split into lines of maxChars
-    var words=text.split(/\s+/);
-    var lines=[],cur="";
-    words.forEach(function(w){
-      if(!w)return;
-      if((cur+" "+w).trim().length<=maxChars){cur=(cur+" "+w).trim();}
-      else{if(cur)lines.push(cur);cur=w;}
-    });
-    if(cur)lines.push(cur);
-    return lines;
-  }
-  function textLines(text,cx,cy,maxChars,lineH,fill,fs,fw){
-    var lines=wrapText(esc(text),maxChars);
-    if(!lines.length)return"<text x='"+cx+"' y='"+cy+"' text-anchor='middle' fill='"+fill+"' font-size='"+fs+"' font-style='italic' opacity='.5' font-family='sans-serif'>non compilato</text>";
-    var total=lines.length*lineH;
-    var startY=cy-total/2+lineH/2;
-    return lines.map(function(l,i){
-      return"<text x='"+cx+"' y='"+(startY+i*lineH)+"' text-anchor='middle' fill='"+fill+"' font-size='"+fs+"' font-weight='"+(fw||"normal")+"' font-family='sans-serif'>"+(l)+"</text>";
-    }).join("");
-  }
-
-  // Pyramid: tall bands, proportional like Maslow reference image
-  // Total height 520px. Band heights: L5=80, L4=90, L3=100, L2=110, L1=120
-  // Each band is a trapezoid, width grows as we go down
-  // Slope: 52px per side per 100px height
-  // Vertices computed from top:
-  // y0=10 (apex), each band bottom = y0 + cumulative heights
-  // half-width at y: (y - 10) * 0.52 + 10  (min 10 at apex)
-  function hw(y){return Math.max(10,(y-10)*0.52+10);}
-  var ys=[10,90,180,280,390,510];
-  function trap(i,fill,text,maxC,fsize){
-    var y0=ys[i],y1=ys[i+1];
-    var w0=hw(y0),w1=hw(y1);
-    var pts=(280-w0)+","+y0+" "+(280+w0)+","+y0+" "+(280+w1)+","+y1+" "+(280-w1)+","+y1;
-    var cy=(y0+y1)/2;
-    // available width at center of band
-    var wMid=hw(cy)*2;
-    var chars=Math.floor(wMid/7.5);
-    return "<polygon points='"+pts+"' fill='"+fill+"'/>"
-      +textLines(text,280,cy,chars,16,"#1a1a1a",fsize||14,"bold")
-      +"<line x1='"+(280-w1)+"' y1='"+y1+"' x2='"+(280+w1)+"' y2='"+y1+"' stroke='#fff' stroke-width='3'/>";
-  }
-
-  var svg="";
-  svg+="<svg viewBox='0 0 560 530' xmlns='http://www.w3.org/2000/svg' style='width:100%;display:block;margin:0 auto 1rem;font-family:Georgia,serif;'>";
-  // Bands top to bottom (punta → base)
-  svg+=trap(0,"#F5E642",t1,12,12);   // L5 giallo punta
-  svg+=trap(1,"#F0A030",t2,22,13);   // L4 arancione
-  svg+=trap(2,"#E8607A",t3,32,13);   // L3 rosa-rosso
-  svg+=trap(3,"#9BB8D4",t4,42,13);   // L2 azzurro
-  svg+=trap(4,"#9BA0D8",t5,54,14);   // L1 viola base
-  // Remove last divider line (at bottom)
-  svg+="</svg>";
-
-  // Level labels below
-  var levels=[
-    {key:"l5_autorealizzazione",label:"Punta",color:"#4169A8",txt:t1},
-    {key:"l4_stima",label:"Quarto livello",color:"#5A8A3C",txt:t2},
-    {key:"l3_appartenenza",label:"Terzo livello",color:"#D4A017",txt:t3},
-    {key:"l2_sicurezza",label:"Secondo livello",color:"#C8621A",txt:t4},
-    {key:"l1_fisiologici",label:"Base",color:"#A02020",txt:t5}
-  ];
-  var detailHTML=levels.map(function(lv2){
-    return "<div style='padding:10px 14px;border-radius:9px;border-left:4px solid "+lv2.color+";background:"+lv2.color+"18;margin-bottom:6px;'>"
-      +"<div style='font-size:11px;font-weight:700;color:"+lv2.color+";text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px;'>"+lv2.label+"</div>"
-      +"<p style='font-size:13px;color:#444;line-height:1.6;'>"+esc(lv2.txt||"")+(lv2.txt?"":"<em style='color:#bbb;'>Non compilato</em>")+"</p></div>";
-  }).join("");
-
-  document.getElementById("det-header").innerHTML="<div style='font-size:16px;font-weight:600;'>🔺 "+esc(m.nome)+"</div><div style='font-size:12px;color:#888;margin-top:2px;'>"+m.data+"</div>";
-  document.getElementById("fonte-tabs-bar").innerHTML="";
-  document.getElementById("fonte-panes").innerHTML="<div style='padding:.25rem 0;'>"+svg+detailHTML+"</div>";
-  document.getElementById("delete-area").innerHTML="<button class='btn-danger' onclick='deleteMaslow(\""+id+"\")'>Elimina piramide</button>";
-  document.getElementById("pbtn-auto").style.display="none";
-  document.getElementById("pbtn-edu").style.display="none";
-  document.getElementById("pbtn-gen").style.display="none";
-  document.getElementById("pbtn-report").style.display="none";
-  document.getElementById("modal-wrap").style.display="block";
-  document.body.style.overflow="hidden";
-};
-
-window.openPiramideCollettiva=function(){
-  if(!allMaslow.length){alert("Nessuna piramide compilata ancora.");return;}
-
-  // Aggregate all words per level, count occurrences (case-insensitive)
-  // Each level is independent: a word can appear in multiple levels if different kids wrote it there
-  var levelKeys=["l1_fisiologici","l2_sicurezza","l3_appartenenza","l4_stima","l5_autorealizzazione"];
-  var levelData=levelKeys.map(function(k){
-    var wordCount={};
-    allMaslow.forEach(function(m){
-      var txt=(m.livelli&&m.livelli[k])||"";
-      var words=txt.replace(/[\r\n]+/g," ").split(/[,;\s]+/).map(function(w){return w.trim().toLowerCase();}).filter(function(w){return w.length>1;});
-      words.forEach(function(w){wordCount[w]=(wordCount[w]||0)+1;});
-    });
-    return Object.entries(wordCount).sort(function(a,b){return b[1]-a[1]||a[0].localeCompare(b[0]);});
-  });
-
-  // Build SVG with collective pyramid
-  function hw(y){return Math.max(10,(y-10)*0.52+10);}
-  var ys=[10,90,180,280,390,510];
-  var colors=["#F5E642","#F0A030","#E8607A","#9BB8D4","#9BA0D8"];
-  var levelLabels=["Punta","Quarto livello","Terzo livello","Secondo livello","Base"];
-
-  function superscript(n){
-    var sups={"0":"⁰","1":"¹","2":"²","3":"³","4":"⁴","5":"⁵","6":"⁶","7":"⁷","8":"⁸","9":"⁹"};
-    return String(n).split("").map(function(c){return sups[c]||c;}).join("");
-  }
-
-  function buildBandText(entries,cx,cy,bandW,fill){
-    if(!entries.length)return"<text x='"+cx+"' y='"+cy+"' text-anchor='middle' fill='"+fill+"' font-size='12' font-style='italic' opacity='.5' font-family='Georgia,serif'>nessuna risposta</text>";
-    // Build tokens: word + superscript if count > 1
-    var tokens=entries.map(function(e){return e[1]>1?(e[0]+superscript(e[1])):e[0];});
-    // Estimate visual width: strip superscript chars for width calc, they're narrow
-    function visLen(s){return s.replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹]/g,"").length*7.2+s.replace(/[^⁰¹²³⁴⁵⁶⁷⁸⁹]/g,"").length*5;}
-    // Wrap into lines fitting bandW, using · as separator
-    var lines=[],curTokens=[];
-    tokens.forEach(function(t){
-      var test=curTokens.concat(t).join(" · ");
-      if(visLen(test)<bandW-16){curTokens.push(t);}
-      else{if(curTokens.length)lines.push(curTokens.join(" · "));curTokens=[t];}
-    });
-    if(curTokens.length)lines.push(curTokens.join(" · "));
-    // Max 4 lines
-    lines=lines.slice(0,4);
-    var lineH=17,total=lines.length*lineH;
-    var startY=cy-total/2+lineH/2;
-    return lines.map(function(l,i){
-      return"<text x='"+cx+"' y='"+(startY+i*lineH)+"' text-anchor='middle' fill='"+fill+"' font-size='13' font-weight='bold' font-family='Georgia,serif'>"+l+"</text>";
-    }).join("");
-  }
-
-  var svg="<svg viewBox='0 0 560 540' xmlns='http://www.w3.org/2000/svg' style='width:100%;display:block;margin:0 auto 1rem;'>";
-  // Draw bands from top (index 4=L5) to bottom (index 0=L1)
-  // Level order in pyramid: top=l5, bottom=l1
-  var pyramidOrder=[4,3,2,1,0]; // indices into levelData and colors arrays
-  pyramidOrder.forEach(function(li,bandIdx){
-    var y0=ys[bandIdx],y1=ys[bandIdx+1];
-    var w0=hw(y0),w1=hw(y1);
-    var pts=(280-w0)+","+y0+" "+(280+w0)+","+y0+" "+(280+w1)+","+y1+" "+(280-w1)+","+y1;
-    var cy=(y0+y1)/2;
-    var bandW=hw(cy)*2;
-    var textFill="#1a1a1a";
-    svg+="<polygon points='"+pts+"' fill='"+colors[4-li]+"'/>";
-    svg+=buildBandText(levelData[li],280,cy,bandW,textFill);
-    if(bandIdx<4)svg+="<line x1='"+(280-w1)+"' y1='"+y1+"' x2='"+(280+w1)+"' y2='"+y1+"' stroke='#fff' stroke-width='3'/>";
-  });
-  svg+="</svg>";
-
-  // Legend
-  var legend="<div style='margin-top:.5rem;padding:10px 14px;background:#f8f8f7;border-radius:9px;font-size:12px;color:#666;'>";
-  legend+="<strong>"+allMaslow.length+(allMaslow.length>1?" piramidi compilate":" piramide compilata")+"</strong> &middot; ";
-  legend+="Le parole scritte da piu ragazzi mostrano il numero in apice (es. famiglia&#178; = scritta da 2 ragazzi)";
-  legend+="</div>";
-
-  // Show in modal
-  document.getElementById("det-header").innerHTML="<div style='font-size:16px;font-weight:600;'>&#9650; Piramide collettiva — "+allMaslow.length+" ragazz"+(allMaslow.length===1?"o":"i")+"</div>";
-  document.getElementById("fonte-tabs-bar").innerHTML="";
-  document.getElementById("fonte-panes").innerHTML="<div style='padding:.25rem 0;'>"+svg+legend+"</div>";
-  document.getElementById("delete-area").innerHTML="";
-  document.getElementById("pbtn-auto").style.display="none";
-  document.getElementById("pbtn-edu").style.display="none";
-  document.getElementById("pbtn-gen").style.display="none";
-  document.getElementById("pbtn-report").style.display="none";
-  document.getElementById("modal-wrap").style.display="block";
-  document.body.style.overflow="hidden";
-};
-
-window.deleteMaslow=async function(id){
-  if(!confirm("Eliminare questa piramide?"))return;
-  try{
-    await db.collection("maslow").doc(id).delete();
-    allMaslow=allMaslow.filter(function(m){return m.id!==id;});
-    renderMaslow();
-    window.closeModal();
-  }catch(e){alert("Errore.");}
-};
-
-window.changePin=function(){
-  var old=document.getElementById("old-pin").value;
-  var nw=document.getElementById("new-pin").value;
-  var cf=document.getElementById("conf-pin").value;
-  var w=document.getElementById("pin-ch-warn");
-  var ok=document.getElementById("pin-ch-ok");
-  w.style.display="none";ok.style.display="none";
-  if(old!==getPin()){w.textContent="PIN attuale errato.";w.style.display="block";return;}
-  if(nw.length<4){w.textContent="Almeno 4 cifre.";w.style.display="block";return;}
-  if(nw!==cf){w.textContent="I PIN non coincidono.";w.style.display="block";return;}
-  localStorage.setItem("sdq_pin2",nw);
-  document.getElementById("old-pin").value="";
-  document.getElementById("new-pin").value="";
-  document.getElementById("conf-pin").value="";
-  ok.style.display="block";
-};
-
-// Init radar for report tab when clicked
-document.addEventListener("click",function(ev){
-  var btn=ev.target.closest(".fonte-tab");
-  if(btn&&btn.textContent.includes("Report sintesi")){
-    setTimeout(function(){
-      var canvas=document.getElementById("radar-report");
-      if(!canvas||canvas._chartInitialized)return;
-      canvas._chartInitialized=true;
-      if(!currentMinore)return;
-      var fontiDisp=[];
-      if(currentMinore.auto)fontiDisp.push({e:currentMinore.auto,label:"Auto-report",color:"#1D9E75"});
-      if(currentMinore.edu)fontiDisp.push({e:currentMinore.edu,label:"Educatore",color:"#534AB7"});
-      if(currentMinore.gen)fontiDisp.push({e:currentMinore.gen,label:"Genitore",color:"#D85A30"});
-      var datasets=fontiDisp.map(function(f){
-        return{label:f.label,data:[f.e.scores.ES,f.e.scores.IP,f.e.scores.EC,f.e.scores.C,f.e.scores.PR],backgroundColor:f.color+"26",borderColor:f.color,borderWidth:2,pointBackgroundColor:f.color,pointRadius:4};
-      });
-      var rc=new Chart(canvas,{type:"radar",data:{labels:["Sintomi Emotivi","Iperattivita","Prob. Condotta","Prob. Relazioni","Prosociale"],datasets:datasets},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:"bottom"}},scales:{r:{min:0,max:10,ticks:{stepSize:2,font:{size:10},color:"#aaa"}}}}});
-      radarCharts.push(rc);
-    },100);
-  }
-});
+document.addEventListener("click",function(ev){var btn=ev.target.closest(".fonte-tab");if(btn&&btn.textContent.includes("Report sintesi")){setTimeout(function(){var canvas=document.getElementById("radar-report");if(!canvas||canvas._chartInitialized)return;canvas._chartInitialized=true;if(!currentMinore)return;var fontiDisp=[];if(currentMinore.auto)fontiDisp.push({e:currentMinore.auto,label:"Auto-report",color:"#1D9E75"});if(currentMinore.edu)fontiDisp.push({e:currentMinore.edu,label:"Educatore",color:"#534AB7"});if(currentMinore.gen)fontiDisp.push({e:currentMinore.gen,label:"Genitore",color:"#D85A30"});var datasets=fontiDisp.map(function(f){return{label:f.label,data:[f.e.scores.ES,f.e.scores.IP,f.e.scores.EC,f.e.scores.C,f.e.scores.PR],backgroundColor:f.color+"26",borderColor:f.color,borderWidth:2,pointBackgroundColor:f.color,pointRadius:4};});var rc=new Chart(canvas,{type:"radar",data:{labels:["Sintomi Emotivi","Iperattivita","Prob. Condotta","Prob. Relazioni","Prosociale"],datasets:datasets},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:"bottom"}},scales:{r:{min:0,max:10,ticks:{stepSize:2,font:{size:10},color:"#aaa"}}}}});radarCharts.push(rc);},100);}});
 </script>
 </body>
-      var words=txt.replace(/[\r\n]+/g,",").split(/[,;]+/).map(function(w){return w.trim().toLowerCase();}).filter(function(w){return w.length>1;});
+</html>
