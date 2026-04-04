@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Autostima — Dashboard Educatori</title>
+<style>
+:root{
+  --green:#1D9E75; --green-dark:#0F6E56;
+  --mai:#f4a261; --avolte:#f9c74f; --spesso:#90be6d; --sempre:#43aa8b;
+  --mai-bg:#fff5ef; --avolte-bg:#fffbef; --spesso-bg:#f3faf0; --sempre-bg:#f0faf6;
+  --mai-txt:#c75b2c; --avolte-txt:#8a6500; --spesso-txt:#3d6b35; --sempre-txt:#0F6E56;
+  --bassa-bg:#fff5ef; --bassa-col:#c75b2c;
+  --media-bg:#fffbef; --media-col:#8a6500;
+  --buona-bg:#f0faf6; --buona-col:#0F6E56;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f5f3;color:#1a1a1a;font-size:15px;}
+
+/* ── LAYOUT ── */
+.container{max-width:960px;margin:0 auto;padding:1.5rem 1rem 5rem;}
+h1{font-size:20px;font-weight:700;margin-bottom:3px;}
+h2{font-size:15px;font-weight:700;margin-bottom:10px;}
+h3{font-size:13px;font-weight:700;color:#555;margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em;}
+
+/* ── TABS PRINCIPALI ── */
+.main-tabs{display:flex;gap:0;margin-bottom:1.5rem;border-bottom:2px solid #e8e8e6;flex-wrap:wrap;}
+.main-tab{padding:10px 22px;font-size:13px;font-weight:700;border:none;background:transparent;color:#888;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .15s;}
+.main-tab.act{color:var(--green);border-bottom-color:var(--green);}
+.main-pane{display:none;}
+.main-pane.act{display:block;}
+
+/* ── CARD BASE ── */
+.card{background:#fff;border-radius:12px;padding:1.25rem;margin-bottom:1rem;border:1px solid #e8e8e6;}
+.card-title{font-size:13px;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:.05em;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+
+/* ── LEGENDA ── */
+.legenda-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:1.25rem;}
+@media(max-width:640px){.legenda-grid{grid-template-columns:1fr;}}
+.lg-item{border-radius:10px;padding:14px 16px;border-left:4px solid;}
+.lg-bassa{background:var(--bassa-bg);border-color:var(--bassa-col);}
+.lg-media{background:var(--media-bg);border-color:var(--media-col);}
+.lg-buona{background:var(--buona-bg);border-color:var(--buona-col);}
+.lg-range{font-size:13px;font-weight:800;margin-bottom:5px;}
+.lg-bassa .lg-range{color:var(--bassa-col);}
+.lg-media .lg-range{color:var(--media-col);}
+.lg-buona .lg-range{color:var(--buona-col);}
+.lg-desc{font-size:12px;color:#555;line-height:1.65;}
+
+/* ── FILTRI ── */
+.filters{background:#fff;border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem;border:1px solid #e8e8e6;display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;}
+.f-group{display:flex;flex-direction:column;gap:4px;}
+.f-group label{font-size:11px;font-weight:700;color:#999;text-transform:uppercase;letter-spacing:.04em;}
+.filters input,.filters select{border:1px solid #d0d0ce;border-radius:8px;padding:8px 11px;font-size:13px;color:#1a1a1a;background:#fff;}
+.filters input:focus,.filters select:focus{outline:none;border-color:var(--green);}
+.btn{padding:8px 16px;font-size:13px;font-weight:600;border-radius:8px;border:none;cursor:pointer;}
+.btn-green{background:var(--green);color:#fff;}
+.btn-green:hover{background:var(--green-dark);}
+.btn-outline{background:#fff;color:#555;border:1px solid #d0d0ce;}
+.btn-outline:hover{background:#f5f5f3;}
+
+/* ── BADGE RISPOSTA ── */
+.badge-r{display:inline-block;padding:3px 9px;border-radius:99px;font-size:11px;font-weight:700;}
+.r-1{background:var(--mai-bg);color:var(--mai-txt);}
+.r-2{background:var(--avolte-bg);color:var(--avolte-txt);}
+.r-3{background:var(--spesso-bg);color:var(--spesso-txt);}
+.r-4{background:var(--sempre-bg);color:var(--sempre-txt);}
+
+/* ── BADGE FASCIA ── */
+.badge-f{display:inline-block;padding:4px 10px;border-radius:99px;font-size:12px;font-weight:700;}
+.f-bassa{background:var(--bassa-bg);color:var(--bassa-col);}
+.f-media{background:var(--media-bg);color:var(--media-col);}
+.f-buona{background:var(--buona-bg);color:var(--buona-col);}
+
+/* ── LISTA RAGAZZI ── */
+.ragazzo-card{background:#fff;border-radius:12px;padding:14px 18px;margin-bottom:10px;border:1px solid #e8e8e6;cursor:pointer;transition:border-color .15s,box-shadow .15s;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
+.ragazzo-card:hover{border-color:var(--green);box-shadow:0 2px 10px rgba(29,158,117,.1);}
+.rag-nome{font-size:15px;font-weight:700;}
+.rag-meta{font-size:12px;color:#888;margin-top:2px;}
+.rag-right{display:flex;align-items:center;gap:10px;}
+.rag-pt{font-size:20px;font-weight:800;color:var(--green);}
+.rag-pt span{font-size:11px;font-weight:400;color:#aaa;}
+.chevron{color:#ccc;font-size:20px;}
+
+/* ── SCHEDA INDIVIDUALE ── */
+.scheda{display:none;background:#fff;border-radius:12px;border:1px solid #e8e8e6;padding:1.25rem;margin-bottom:1rem;animation:fadeIn .25s ease;}
+.scheda.open{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+.scheda-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem;flex-wrap:wrap;gap:10px;}
+.scheda-nome{font-size:18px;font-weight:700;}
+.scheda-meta{font-size:12px;color:#888;margin-top:3px;}
+.close-btn{background:none;border:none;cursor:pointer;color:#bbb;font-size:22px;line-height:1;}
+.close-btn:hover{color:#555;}
+
+/* risultato totale nella scheda */
+.totale-box{display:flex;align-items:center;gap:16px;padding:14px 18px;border-radius:12px;margin-bottom:1rem;flex-wrap:wrap;}
+.tot-numero{font-size:36px;font-weight:900;line-height:1;}
+.tot-su{font-size:14px;color:#aaa;font-weight:400;}
+.tot-label{font-size:13px;font-weight:700;margin-top:4px;}
+.tot-desc{font-size:12px;color:#555;line-height:1.6;margin-top:6px;max-width:420px;}
+
+/* mini barra punteggio */
+.pt-bar-wrap{margin:12px 0 4px;}
+.pt-track{height:12px;background:linear-gradient(90deg,#f4a261 0%,#f9c74f 33%,#90be6d 66%,#43aa8b 100%);border-radius:99px;position:relative;}
+.pt-pin{position:absolute;top:50%;transform:translate(-50%,-50%);width:20px;height:20px;background:#fff;border:3px solid #333;border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,.2);transition:left .8s cubic-bezier(.17,.67,.45,1.3);}
+.pt-labels{display:flex;justify-content:space-between;font-size:10px;color:#aaa;font-weight:700;margin-top:4px;}
+
+/* aree */
+.aree-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:1rem;}
+@media(max-width:500px){.aree-grid{grid-template-columns:1fr;}}
+.area-box{background:#f8f8f6;border-radius:10px;padding:11px 14px;}
+.area-nm{font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:#aaa;margin-bottom:3px;}
+.area-sc{font-size:18px;font-weight:800;}
+.area-mx{font-size:10px;color:#aaa;font-weight:400;}
+.a-bar{background:#e8e8e6;border-radius:4px;height:5px;margin-top:5px;overflow:hidden;}
+.a-fill{height:5px;border-radius:4px;}
+
+/* tabella risposte individuale */
+.ris-table{width:100%;border-collapse:collapse;font-size:13px;}
+.ris-table th{text-align:left;padding:8px 10px;background:#f8f8f6;border:1px solid #e8e8e6;font-size:11px;color:#666;font-weight:700;}
+.ris-table td{padding:9px 10px;border:1px solid #f0f0ee;vertical-align:top;line-height:1.5;}
+.ris-table tr:nth-child(even) td{background:#fafaf8;}
+.perche-txt{font-size:12px;color:#555;font-style:italic;margin-top:3px;padding:5px 8px;background:#fdf9f5;border-radius:6px;border-left:2px solid #e8ddd0;}
+.perche-vuoto{font-size:11px;color:#ddd;}
+
+/* ── TAB 2: TOTALI PER DOMANDA ── */
+.domanda-block{background:#fff;border-radius:12px;border:1px solid #e8e8e6;margin-bottom:14px;overflow:hidden;}
+.domanda-head{padding:14px 18px;background:#f8f8f6;border-bottom:1px solid #e8e8e6;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;}
+.domanda-num{font-size:11px;font-weight:800;color:#999;text-transform:uppercase;letter-spacing:.05em;}
+.domanda-testo{font-size:14px;font-weight:700;color:#1a1a1a;margin-top:2px;}
+.domanda-body{padding:14px 18px;}
+
+/* barre opzioni */
+.opz-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.opz-lbl{min-width:70px;font-size:12px;font-weight:700;}
+.opz-track{flex:1;background:#eee;border-radius:4px;height:10px;overflow:hidden;}
+.opz-fill{height:10px;border-radius:4px;transition:width .6s;}
+.opz-count{min-width:24px;font-size:12px;font-weight:700;text-align:right;color:#555;}
+.opz-pct{min-width:36px;font-size:11px;color:#aaa;text-align:right;}
+
+/* perché sommati per domanda */
+.perche-pool{margin-top:12px;padding:12px 14px;background:#fdf9f5;border-radius:10px;border:1px solid #f0e8e0;}
+.perche-pool-title{font-size:11px;font-weight:800;color:#e07b39;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;}
+.perche-pool-item{font-size:12px;color:#555;padding:5px 0;border-bottom:1px solid #f0e8df;display:flex;gap:8px;align-items:flex-start;line-height:1.5;}
+.perche-pool-item:last-child{border-bottom:none;}
+.perche-chi{font-size:10px;font-weight:700;color:#bbb;min-width:60px;margin-top:1px;}
+.perche-risposta{margin-right:6px;}
+
+/* ── UTILS ── */
+.empty{text-align:center;padding:40px;color:#aaa;font-size:14px;}
+.loader{text-align:center;padding:30px;color:#888;font-size:14px;}
+.spinner{display:inline-block;width:16px;height:16px;border:2px solid var(--green);border-top-color:transparent;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:6px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.divider{height:1px;background:#f0f0ee;margin:12px 0;}
+.stat-mini{display:inline-block;background:#f0faf6;color:var(--green);font-size:11px;font-weight:700;padding:2px 8px;border-radius:99px;margin-left:6px;}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;flex-wrap:wrap;gap:10px;">
+    <div>
+      <h1>🪞 Dashboard Autostima — Educatori</h1>
+      <p style="font-size:13px;color:#888;margin-top:2px;">I punteggi e le motivazioni sono visibili solo in questa pagina</p>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+      <button class="btn btn-outline" onclick="caricaDati()">⟳ Aggiorna</button>
+      <a href="autostima-ragazzi.html" target="_blank"
+         style="padding:8px 16px;font-size:13px;font-weight:600;border-radius:8px;background:#e07b39;color:#fff;text-decoration:none;">
+        🔗 Form ragazzi
+      </a>
+    </div>
+  </div>
+
+  <!-- LEGENDA -->
+  <div class="card">
+    <div class="card-title">📋 Legenda dei risultati</div>
+    <div class="legenda-grid">
+      <div class="lg-item lg-bassa">
+        <div class="lg-range">Da 0 a 15 punti</div>
+        <div class="lg-desc">È necessario superare alcuni ostacoli. Avrete la possibilità di guadagnare altri punti lavorando su questo quaderno. La vita vi risulterà più semplice!</div>
+      </div>
+      <div class="lg-item lg-media">
+        <div class="lg-range">Da 16 a 25 punti</div>
+        <div class="lg-desc">Siete sulla buona strada. Dovete ancora perfezionare alcuni punti importanti.</div>
+      </div>
+      <div class="lg-item lg-buona">
+        <div class="lg-range">Da 26 a 36 punti</div>
+        <div class="lg-desc">La vostra autostima è già più «rispettabile»! Identificando gli aspetti da migliorare, troverete sempre più piacevole vivere in mezzo agli altri.</div>
+      </div>
+    </div>
+    <p style="font-size:11px;color:#aaa;">Range: 12 domande × 1–4 pt = 12–48 grezzo, convertito automaticamente in scala 0–36.</p>
+  </div>
+
+  <!-- FILTRI -->
+  <div class="filters">
+    <div class="f-group">
+      <label>Codice pratica</label>
+      <input type="text" id="f-codice" placeholder="Es. 01" style="text-transform:uppercase;width:110px;">
+    </div>
+    <div class="f-group">
+      <label>Dal</label>
+      <input type="date" id="f-dal">
+    </div>
+    <div class="f-group">
+      <label>Al</label>
+      <input type="date" id="f-al">
+    </div>
+    <div class="f-group">
+      <label>Fascia</label>
+      <select id="f-fascia" style="width:160px;">
+        <option value="">Tutte le fasce</option>
+        <option>Da 0 a 15 punti</option>
+        <option>Da 16 a 25 punti</option>
+        <option>Da 26 a 36 punti</option>
+      </select>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <button class="btn btn-green" onclick="applicaFiltri()">Applica</button>
+      <button class="btn btn-outline" onclick="resetFiltri()">Reset</button>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="main-tabs">
+    <button class="main-tab act" onclick="switchTab(this,'t-schede')">👤 Schede individuali</button>
+    <button class="main-tab" onclick="switchTab(this,'t-totali')">📊 Totali per domanda</button>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════
+       TAB 1 — SCHEDE INDIVIDUALI
+  ══════════════════════════════════════════════════ -->
+  <div id="t-schede" class="main-pane act">
+    <div id="schedeLoader" class="loader"><span class="spinner"></span>Caricamento...</div>
+    <div id="schedeEmpty" class="empty" style="display:none;">Nessun questionario trovato.</div>
+    <div id="schedeList"></div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════
+       TAB 2 — TOTALI PER DOMANDA
+  ══════════════════════════════════════════════════ -->
+  <div id="t-totali" class="main-pane">
+    <div id="totaliLoader" class="loader" style="display:none;"><span class="spinner"></span>Elaborazione...</div>
+    <div id="totaliEmpty" class="empty" style="display:none;">Nessun dato disponibile.</div>
+    <div id="totaliList"></div>
+  </div>
+
+</div><!-- /container -->
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, getDocs, query, orderBy }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const FB = {
+  apiKey:"AIzaSyBmsHeTkQMJVQyav3rF8VPMhLeIB45t3Io",
+  authDomain:"sdq-questionario.firebaseapp.com",
+  projectId:"sdq-questionario",
+  storageBucket:"sdq-questionario.firebasestorage.app",
+  messagingSenderId:"601788476480",
+  appId:"1:601788476480:web:766d7dd791fa44acbd83a5"
+};
+const app = initializeApp(FB);
+const db  = getFirestore(app);
+
+/* ── COSTANTI ── */
+const DOMANDE = [
+  {id:1,  testo:"Mi accetto come persona.",                                                       area:"accettazione"},
+  {id:2,  testo:"Ho fiducia in me stesso/a.",                                                     area:"accettazione"},
+  {id:3,  testo:"Mi so affermare di fronte agli altri.",                                          area:"assertivita"},
+  {id:4,  testo:"Sono benvoluto/a praticamente da tutti.",                                        area:"relazioni"},
+  {id:5,  testo:"Mi esprimo senza fatica all'interno di un gruppo.",                             area:"relazioni"},
+  {id:6,  testo:"Merito di essere felice.",                                                       area:"accettazione"},
+  {id:7,  testo:"Ritengo che la mia opinione sia importante quanto quella degli altri.",          area:"assertivita"},
+  {id:8,  testo:"Mi dico «Errare humanum est» quando mi capita di commettere un errore.",        area:"resilienza"},
+  {id:9,  testo:"Mi riesce facile ascoltare una critica giustificata che mi viene mossa.",       area:"resilienza"},
+  {id:10, testo:"Sono capace di dire a un adulto che trovo inaccettabile il suo comportamento.", area:"assertivita"},
+  {id:11, testo:"Quando una relazione si fa insostenibile, sono capace di interromperla.",       area:"assertivita"},
+  {id:12, testo:"Sono capace di dire no quando serve.",                                           area:"assertivita"}
+];
+
+const VAL_LABEL  = {1:"Mai", 2:"A volte", 3:"Spesso", 4:"Sempre"};
+const VAL_CLS    = {1:"r-1", 2:"r-2", 3:"r-3", 4:"r-4"};
+const VAL_COL    = {1:"#f4a261", 2:"#f9c74f", 3:"#90be6d", 4:"#43aa8b"};
+
+const AREE_LABEL = {accettazione:"Accettazione di sé", assertivita:"Assertività", relazioni:"Relazioni", resilienza:"Resilienza"};
+const AREE_MAX   = {accettazione:12, assertivita:20, relazioni:8, resilienza:8};
+const AREE_COL   = {accettazione:"#6aaa5e", assertivita:"#1D9E75", relazioni:"#5b8dd9", resilienza:"#e07b39"};
+
+const FASCE = [
+  {label:"Da 0 a 15 punti",  min:12, max:27, cls:"f-bassa", col:"#c75b2c", bg:"#fff5ef",
+   desc:"È necessario superare alcuni ostacoli. Avrete la possibilità di guadagnare altri punti lavorando su questo quaderno. La vita vi risulterà più semplice!"},
+  {label:"Da 16 a 25 punti", min:28, max:37, cls:"f-media", col:"#8a6500", bg:"#fffbef",
+   desc:"Siete sulla buona strada. Dovete ancora perfezionare alcuni punti importanti."},
+  {label:"Da 26 a 36 punti", min:38, max:48, cls:"f-buona", col:"#0F6E56", bg:"#f0faf6",
+   desc:"La vostra autostima è già più «rispettabile»! Identificando gli aspetti da migliorare, troverete sempre più piacevole vivere in mezzo agli altri."}
+];
+
+function getFascia(tot) {
+  return FASCE.find(f => tot >= f.min && tot <= f.max) || FASCE[FASCE.length-1];
+}
+// Converti punteggio grezzo 12-48 → scala originale 0-36
+function ptOrig(tot) {
+  return Math.round((tot - 12) / (48 - 12) * 36);
+}
+
+/* ── DATI ── */
+let allData = [], filtered = [];
+
+window.caricaDati = async function() {
+  document.getElementById('schedeLoader').style.display = 'block';
+  document.getElementById('schedeList').innerHTML = '';
+  document.getElementById('schedeEmpty').style.display = 'none';
+  try {
+    const snap = await getDocs(query(collection(db, "autostima"), orderBy("timestamp","desc")));
+    allData = snap.docs.map(d => ({id:d.id, ...d.data()}));
+    filtered = [...allData];
+    renderAll();
+  } catch(e) {
+    console.error(e);
+    document.getElementById('schedeLoader').textContent = 'Errore. Aggiorna la pagina.';
+  }
+};
+
+/* ── FILTRI ── */
+window.applicaFiltri = function() {
+  const cod   = document.getElementById('f-codice').value.trim().toUpperCase();
+  const dal   = document.getElementById('f-dal').value;
+  const al    = document.getElementById('f-al').value;
+  const fascia= document.getElementById('f-fascia').value;
+  filtered = allData.filter(r => {
+    if (cod    && !(r.codice||'').toUpperCase().includes(cod)) return false;
+    if (dal    && (r.data||'') < dal) return false;
+    if (al     && (r.data||'') > al)  return false;
+    if (fascia && r.livello !== fascia) return false;
+    return true;
+  });
+  renderAll();
+};
+
+window.resetFiltri = function() {
+  ['f-codice','f-dal','f-al'].forEach(id => document.getElementById(id).value='');
+  document.getElementById('f-fascia').value='';
+  filtered = [...allData];
+  renderAll();
+};
+
+/* ── SWITCH TAB ── */
+window.switchTab = function(btn, id) {
+  document.querySelectorAll('.main-tab').forEach(b => b.classList.remove('act'));
+  btn.classList.add('act');
+  document.querySelectorAll('.main-pane').forEach(p => p.classList.remove('act'));
+  document.getElementById(id).classList.add('act');
+  if (id === 't-totali') renderTotali();
+};
+
+/* ── RENDER ALL ── */
+function renderAll() {
+  renderSchede();
+  // totali si aggiornano quando si clicca il tab
+}
+
+/* ══════════════════════════════════════════════════
+   TAB 1 — SCHEDE INDIVIDUALI
+══════════════════════════════════════════════════ */
+function renderSchede() {
+  const loader = document.getElementById('schedeLoader');
+  const empty  = document.getElementById('schedeEmpty');
+  const list   = document.getElementById('schedeList');
+
+  loader.style.display = 'none';
+
+  // chiudi eventuali schede aperte
+  list.innerHTML = '';
+
+  if (!filtered.length) {
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  filtered.forEach((r, idx) => {
+    const f     = getFascia(r.totale || 0);
+    const pt    = ptOrig(r.totale || 0);
+    const nMot  = r.motivazioni ? Object.keys(r.motivazioni).filter(k => r.motivazioni[k]).length : 0;
+
+    // Card lista
+    const ragCard = document.createElement('div');
+    ragCard.className = 'ragazzo-card';
+    ragCard.id = `ragcard-${idx}`;
+    ragCard.innerHTML = `
+      <div>
+        <div class="rag-nome">${r.nome || 'Anonimo'}${r.codice ? ' <span style="background:#1a1a1a;color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;margin-left:4px;">#'+r.codice+'</span>' : ''}</div>
+        <div class="rag-meta">${r.data||'—'} &nbsp;·&nbsp; ${r.sesso||'—'} &nbsp;·&nbsp; nato/a: ${r.ddn||'—'} &nbsp;·&nbsp; <span style="color:#1D9E75;">${nMot} motivazion${nMot===1?'e':'i'}</span></div>
+      </div>
+      <div class="rag-right">
+        <div>
+          <div class="rag-pt">${pt}<span>/36</span></div>
+          <span class="badge-f ${f.cls}" style="font-size:10px;">${f.label}</span>
+        </div>
+        <div class="chevron" id="chev-${idx}">›</div>
+      </div>`;
+
+    // Scheda dettaglio (nascosta di default)
+    const scheda = document.createElement('div');
+    scheda.className = 'scheda';
+    scheda.id = `scheda-${idx}`;
+    scheda.innerHTML = buildScheda(r, f, pt);
+
+    // Toggle apertura
+    ragCard.addEventListener('click', () => {
+      const isOpen = scheda.classList.contains('open');
+      // chiudi tutte
+      document.querySelectorAll('.scheda.open').forEach(s => s.classList.remove('open'));
+      document.querySelectorAll('.chevron').forEach(c => c.textContent = '›');
+      if (!isOpen) {
+        scheda.classList.add('open');
+        document.getElementById(`chev-${idx}`).textContent = '˅';
+        setTimeout(() => {
+          scheda.scrollIntoView({behavior:'smooth', block:'nearest'});
+          // anima pin
+          const pin = scheda.querySelector('.pt-pin');
+          const pinPct = Math.max(2, Math.min(98, (r.totale-12)/(48-12)*100));
+          if (pin) setTimeout(() => pin.style.left = pinPct + '%', 200);
+        }, 50);
+      }
+    });
+
+    list.appendChild(ragCard);
+    list.appendChild(scheda);
+  });
+}
+
+function buildScheda(r, f, pt) {
+  const aree      = r.aree || {};
+  const risposte  = r.risposte || {};
+  const motivaz   = r.motivazioni || {};
+
+  /* ── AREE ── */
+  const areeHTML = Object.keys(AREE_MAX).map(k => {
+    const v = aree[k]||0, max = AREE_MAX[k];
+    const pct = Math.round(v/max*100);
+    return `<div class="area-box">
+      <div class="area-nm">${AREE_LABEL[k]}</div>
+      <div class="area-sc">${v}<span class="area-mx">/${max}</span></div>
+      <div class="a-bar"><div class="a-fill" style="width:${pct}%;background:${AREE_COL[k]};"></div></div>
+    </div>`;
+  }).join('');
+
+  /* ── RIGHE RISPOSTE ── */
+  const righe = DOMANDE.map(d => {
+    const k  = `q${d.id}`;
+    const v  = risposte[k];
+    const m  = motivaz[k];
+    if (v == null) return '';
+    return `<tr>
+      <td style="width:4%;text-align:center;color:#aaa;font-size:11px;font-weight:700;">${d.id}</td>
+      <td style="width:42%;font-size:13px;">${d.testo}</td>
+      <td style="width:14%;text-align:center;">
+        <span class="badge-r ${VAL_CLS[v]}">${VAL_LABEL[v]||v}</span>
+        <div style="text-align:center;font-size:11px;font-weight:800;color:#aaa;margin-top:2px;">${v} pt</div>
+      </td>
+      <td style="width:40%;">
+        ${m
+          ? `<div class="perche-txt">"${esc(m)}"</div>`
+          : `<span class="perche-vuoto">—</span>`}
+      </td>
+    </tr>`;
+  }).join('');
+
+  return `
+    <div class="scheda-header">
+      <div>
+        <div class="scheda-nome">${esc(r.nome||'Anonimo')}${r.codice?` <span style="background:#1a1a1a;color:#fff;font-size:11px;padding:2px 8px;border-radius:20px;">#${r.codice}</span>`:''}</div>
+        <div class="scheda-meta">Data: ${r.data||'—'} &nbsp;·&nbsp; Sesso: ${r.sesso||'—'} &nbsp;·&nbsp; Nato/a: ${r.ddn||'—'}</div>
+      </div>
+      <button class="close-btn" onclick="this.closest('.scheda').classList.remove('open');document.querySelectorAll('.chevron').forEach(c=>c.textContent='›')">✕</button>
+    </div>
+
+    <!-- RISULTATO TOTALE -->
+    <div class="totale-box" style="background:${f.bg};border-left:5px solid ${f.col};">
+      <div>
+        <div class="tot-numero" style="color:${f.col};">${pt}<span class="tot-su">/36</span></div>
+        <div class="tot-label"><span class="badge-f ${f.cls}">${f.label}</span></div>
+      </div>
+      <div style="flex:1;">
+        <div class="pt-bar-wrap">
+          <div class="pt-track">
+            <div class="pt-pin" style="left:0%"></div>
+          </div>
+          <div class="pt-labels"><span>0</span><span>15</span><span>25</span><span>36</span></div>
+        </div>
+        <div class="tot-desc">${f.desc}</div>
+      </div>
+    </div>
+
+    <!-- PUNTEGGI AREE -->
+    <h3>Punteggi per area</h3>
+    <div class="aree-grid">${areeHTML}</div>
+
+    <div class="divider"></div>
+
+    <!-- TABELLA RISPOSTE + PERCHÉ -->
+    <h3>Risposte e motivazioni</h3>
+    <table class="ris-table">
+      <thead>
+        <tr>
+          <th style="width:4%">#</th>
+          <th style="width:42%">Domanda</th>
+          <th style="width:14%;text-align:center;">Risposta</th>
+          <th style="width:40%">✏️ Perché? <span style="font-weight:400;color:#bbb;">(scritto dal ragazzo/a)</span></th>
+        </tr>
+      </thead>
+      <tbody>${righe}</tbody>
+    </table>`;
+}
+
+/* ══════════════════════════════════════════════════
+   TAB 2 — TOTALI PER DOMANDA + PERCHÉ SOMMATI
+══════════════════════════════════════════════════ */
+function renderTotali() {
+  const loader = document.getElementById('totaliLoader');
+  const empty  = document.getElementById('totaliEmpty');
+  const list   = document.getElementById('totaliList');
+
+  list.innerHTML = '';
+
+  if (!filtered.length) {
+    empty.style.display = 'block';
+    return;
+  }
+  empty.style.display = 'none';
+
+  const n = filtered.length;
+
+  DOMANDE.forEach(d => {
+    const qk = `q${d.id}`;
+
+    // conta risposte
+    const counts = {1:0, 2:0, 3:0, 4:0};
+    const perche  = []; // {nome, val, testo}
+
+    filtered.forEach(r => {
+      const v = (r.risposte||{})[qk];
+      if (v != null) counts[v]++;
+      const m = (r.motivazioni||{})[qk];
+      if (m && m.trim()) {
+        perche.push({
+          nome: r.nome || 'Anonimo',
+          val:  v,
+          testo: m.trim()
+        });
+      }
+    });
+
+    const totRis = Object.values(counts).reduce((a,b) => a+b, 0);
+    const media  = totRis
+      ? (Object.entries(counts).reduce((a,[v,c]) => a + Number(v)*c, 0) / totRis).toFixed(2)
+      : '—';
+
+    // barre opzioni
+    const barreHTML = [1,2,3,4].map(v => {
+      const pct = totRis ? Math.round(counts[v]/totRis*100) : 0;
+      return `<div class="opz-row">
+        <div class="opz-lbl"><span class="badge-r ${VAL_CLS[v]}">${VAL_LABEL[v]}</span></div>
+        <div class="opz-track"><div class="opz-fill" style="width:${pct}%;background:${VAL_COL[v]};"></div></div>
+        <div class="opz-count">${counts[v]}</div>
+        <div class="opz-pct">${pct}%</div>
+      </div>`;
+    }).join('');
+
+    // perché sommati
+    const percheHTML = perche.length
+      ? `<div class="perche-pool">
+          <div class="perche-pool-title">✏️ Motivazioni scritte (${perche.length})</div>
+          ${perche.map(p => `
+            <div class="perche-pool-item">
+              <div class="perche-chi">${esc(p.nome.split(' ')[0])}</div>
+              <div>
+                <span class="perche-risposta"><span class="badge-r ${VAL_CLS[p.val]}" style="font-size:10px;">${VAL_LABEL[p.val]}</span></span>
+                "${esc(p.testo)}"
+              </div>
+            </div>`).join('')}
+        </div>`
+      : `<div style="font-size:12px;color:#ddd;margin-top:10px;font-style:italic;">Nessuna motivazione scritta per questa domanda.</div>`;
+
+    const block = document.createElement('div');
+    block.className = 'domanda-block';
+    block.innerHTML = `
+      <div class="domanda-head">
+        <div>
+          <div class="domanda-num">Domanda ${d.id} — area: ${AREE_LABEL[d.area]}</div>
+          <div class="domanda-testo">${esc(d.testo)}</div>
+        </div>
+        <div style="text-align:right;">
+          <div style="font-size:20px;font-weight:800;color:#1D9E75;">${media}</div>
+          <div style="font-size:11px;color:#aaa;">media pt (su ${n})</div>
+        </div>
+      </div>
+      <div class="domanda-body">
+        ${barreHTML}
+        ${percheHTML}
+      </div>`;
+
+    list.appendChild(block);
+  });
+}
+
+/* ── UTILS ── */
+function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+/* ── AVVIO ── */
+caricaDati();
+</script>
+</body>
+</html>

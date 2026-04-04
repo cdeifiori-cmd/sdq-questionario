@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Autostima — Campo dei Fiori</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fdf6ee; --card:#ffffff;
+  --accent:#e07b39; --accent3:#6cba7f;
+  --text:#2d2d2d; --muted:#888; --border:#e8ddd0;
+  --radius:18px;
+  --mai:#f4a261; --avolte:#f9c74f; --spesso:#90be6d; --sempre:#43aa8b;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:60px;}
+
+/* ── HEADER ── */
+.header{background:linear-gradient(135deg,#e07b39 0%,#f4a261 100%);padding:36px 24px 30px;text-align:center;position:relative;overflow:hidden;}
+.header::before{content:'';position:absolute;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.08);top:-60px;right:-50px;}
+.header::after{content:'';position:absolute;width:130px;height:130px;border-radius:50%;background:rgba(255,255,255,.06);bottom:-40px;left:-30px;}
+.header-emoji{font-size:3rem;display:block;margin-bottom:8px;animation:bounce 2.2s ease-in-out infinite;position:relative;z-index:1;}
+@keyframes bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-7px);}}
+.header h1{font-family:'Caveat',cursive;font-size:2.2rem;color:#fff;line-height:1.2;text-shadow:0 2px 8px rgba(0,0,0,.12);position:relative;z-index:1;}
+.header p{color:rgba(255,255,255,.9);font-size:.95rem;margin-top:8px;font-weight:600;position:relative;z-index:1;}
+
+/* ── PROGRESS ── */
+.progress-wrap{background:#fff;padding:13px 20px;border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;display:flex;align-items:center;gap:14px;}
+.progress-bar-bg{flex:1;height:10px;background:#eee;border-radius:99px;overflow:hidden;}
+.progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent3));border-radius:99px;transition:width .4s ease;width:0%;}
+.progress-label{font-size:.82rem;font-weight:800;color:var(--muted);min-width:54px;text-align:right;}
+
+/* ── WRAP ── */
+.form-wrap{max-width:700px;margin:0 auto;padding:24px 16px;}
+
+/* ── INFO CARD ── */
+.info-card{background:var(--card);border-radius:var(--radius);box-shadow:0 4px 20px rgba(0,0,0,.07);padding:22px 20px;margin-bottom:20px;border:2px solid var(--border);}
+.info-card h2{font-family:'Caveat',cursive;font-size:1.5rem;color:var(--accent);margin-bottom:14px;}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(max-width:480px){.info-grid{grid-template-columns:1fr;}}
+.field{display:flex;flex-direction:column;gap:5px;}
+.field label{font-size:.75rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;}
+.field input,.field select{border:2px solid var(--border);border-radius:10px;padding:10px 13px;font-size:.95rem;font-family:'Nunito',sans-serif;background:#fff;color:var(--text);width:100%;transition:border-color .2s;}
+.field input:focus,.field select:focus{outline:none;border-color:var(--accent);}
+
+/* ── LEGENDA ── */
+.legend{display:flex;justify-content:center;gap:14px;flex-wrap:wrap;margin:4px 0 18px;}
+.legend-item{display:flex;align-items:center;gap:5px;font-size:.75rem;font-weight:700;color:#777;}
+.legend-dot{width:10px;height:10px;border-radius:50%;}
+
+/* ── Q-CARD ── */
+.q-card{
+  background:var(--card);border-radius:var(--radius);
+  box-shadow:0 4px 20px rgba(0,0,0,.07);
+  padding:22px 20px 20px;margin-bottom:18px;
+  border:2px solid transparent;
+  transition:border-color .3s,transform .2s,box-shadow .2s;
+  animation:fadeUp .4s ease both;
+}
+.q-card:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.11);}
+.q-card.answered-mai   {border-color:var(--mai)!important;}
+.q-card.answered-avolte{border-color:var(--avolte)!important;}
+.q-card.answered-spesso{border-color:var(--spesso)!important;}
+.q-card.answered-sempre{border-color:var(--sempre)!important;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+.q-card:nth-child(1){animation-delay:.04s} .q-card:nth-child(2){animation-delay:.08s}
+.q-card:nth-child(3){animation-delay:.12s} .q-card:nth-child(4){animation-delay:.16s}
+.q-card:nth-child(5){animation-delay:.20s} .q-card:nth-child(6){animation-delay:.24s}
+.q-card:nth-child(7){animation-delay:.28s} .q-card:nth-child(8){animation-delay:.32s}
+.q-card:nth-child(9){animation-delay:.36s} .q-card:nth-child(10){animation-delay:.40s}
+.q-card:nth-child(11){animation-delay:.44s} .q-card:nth-child(12){animation-delay:.48s}
+
+.q-num{font-size:.72rem;font-weight:800;color:var(--accent);letter-spacing:.07em;text-transform:uppercase;margin-bottom:6px;}
+.q-text{font-family:'Caveat',cursive;font-size:1.3rem;font-weight:700;color:var(--text);line-height:1.4;margin-bottom:16px;}
+
+/* ── OPZIONI ── */
+.options{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+@media(max-width:480px){.options{grid-template-columns:repeat(2,1fr);}}
+.opt-label{display:flex;flex-direction:column;align-items:center;cursor:pointer;}
+.opt-label input[type="radio"]{display:none;}
+.opt-btn{
+  width:100%;padding:11px 4px;border-radius:13px;border:2px solid #e8e8e8;background:#fafafa;
+  font-family:'Nunito',sans-serif;font-size:.85rem;font-weight:700;color:#666;
+  cursor:pointer;transition:all .2s;text-align:center;
+  display:flex;flex-direction:column;align-items:center;gap:4px;user-select:none;
+}
+.opt-btn .opt-emoji{font-size:1.4rem;}
+.opt-mai   .opt-btn{border-color:var(--mai);}
+.opt-avolte .opt-btn{border-color:var(--avolte);}
+.opt-spesso .opt-btn{border-color:var(--spesso);}
+.opt-sempre .opt-btn{border-color:var(--sempre);}
+.opt-label input:checked + .opt-btn{transform:scale(1.07);box-shadow:0 4px 16px rgba(0,0,0,.16);}
+.opt-mai   input:checked + .opt-btn{background:var(--mai);border-color:var(--mai);color:#fff;}
+.opt-avolte input:checked + .opt-btn{background:var(--avolte);border-color:#e6b83f;color:#555;}
+.opt-spesso input:checked + .opt-btn{background:var(--spesso);border-color:#7aad57;color:#fff;}
+.opt-sempre input:checked + .opt-btn{background:var(--sempre);border-color:#37967b;color:#fff;}
+
+/* ── CAMPO PERCHÉ ── */
+.perche-wrap{
+  max-height:0;opacity:0;overflow:hidden;
+  transition:max-height .38s ease,opacity .3s ease,margin-top .28s;
+  margin-top:0;
+}
+.perche-wrap.visible{max-height:180px;opacity:1;margin-top:16px;}
+
+.perche-header{
+  display:flex;align-items:center;gap:8px;
+  margin-bottom:8px;
+}
+.perche-tag{
+  font-family:'Caveat',cursive;font-size:1.1rem;font-weight:700;
+  color:var(--accent);
+}
+.perche-opt{
+  font-size:.78rem;font-weight:600;color:#bbb;font-style:italic;
+}
+
+.perche-input{
+  width:100%;border:2px solid var(--border);border-radius:13px;
+  padding:11px 14px;font-family:'Nunito',sans-serif;font-size:.92rem;
+  color:var(--text);background:#fdf9f5;resize:none;line-height:1.55;
+  transition:border-color .25s,box-shadow .25s;
+}
+.perche-input:focus{outline:none;box-shadow:0 0 0 3px rgba(224,123,57,.12);}
+.perche-input::placeholder{color:#ccc;font-style:italic;}
+
+/* colore bordo focus del perché in base alla risposta */
+.q-card.answered-mai    .perche-input:focus{border-color:var(--mai);box-shadow:0 0 0 3px rgba(244,162,97,.15);}
+.q-card.answered-avolte .perche-input:focus{border-color:var(--avolte);box-shadow:0 0 0 3px rgba(249,199,79,.15);}
+.q-card.answered-spesso .perche-input:focus{border-color:var(--spesso);box-shadow:0 0 0 3px rgba(144,190,109,.15);}
+.q-card.answered-sempre .perche-input:focus{border-color:var(--sempre);box-shadow:0 0 0 3px rgba(67,170,139,.15);}
+
+/* ── SUBMIT ── */
+.submit-area{text-align:center;margin-top:10px;}
+#submitBtn{
+  background:linear-gradient(135deg,#e07b39,#f4a261);color:#fff;border:none;
+  padding:16px 48px;border-radius:99px;font-family:'Nunito',sans-serif;
+  font-size:1.1rem;font-weight:800;cursor:pointer;
+  box-shadow:0 6px 20px rgba(224,123,57,.35);
+  transition:transform .2s,box-shadow .2s,opacity .2s;
+  opacity:.45;pointer-events:none;
+}
+#submitBtn.active{opacity:1;pointer-events:auto;}
+#submitBtn:hover.active{transform:translateY(-2px);box-shadow:0 10px 28px rgba(224,123,57,.4);}
+#submitBtn:active.active{transform:scale(.97);}
+.incomplete-msg{margin-top:10px;font-size:.88rem;color:var(--muted);font-weight:600;min-height:20px;}
+
+/* ── SCHERMATA GRAZIE ── */
+.thanks-screen{
+  display:none;max-width:700px;margin:0 auto;padding:48px 20px;
+  flex-direction:column;align-items:center;text-align:center;gap:18px;
+  animation:fadeUp .5s ease;
+}
+.thanks-screen.show{display:flex;}
+.thanks-circle{
+  width:90px;height:90px;border-radius:50%;
+  background:linear-gradient(135deg,#6cba7f,#43aa8b);
+  display:flex;align-items:center;justify-content:center;font-size:3rem;
+  box-shadow:0 8px 30px rgba(67,170,139,.3);
+}
+.thanks-title{font-family:'Caveat',cursive;font-size:2.4rem;color:var(--accent);font-weight:700;}
+.thanks-sub{font-size:1rem;color:#666;line-height:1.7;max-width:340px;font-weight:600;}
+.thanks-note{font-size:.85rem;color:#bbb;font-weight:600;}
+
+/* SPINNER */
+.spinner{display:inline-block;width:18px;height:18px;border:2px solid #fff;border-top-color:transparent;border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;margin-right:6px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <span class="header-emoji">🪞</span>
+  <h1>Qual è il tuo livello<br>di autostima?</h1>
+  <p>Rispondi con sincerità — non ci sono risposte giuste o sbagliate!</p>
+</div>
+
+<!-- PROGRESS BAR -->
+<div class="progress-wrap">
+  <div class="progress-bar-bg">
+    <div class="progress-bar-fill" id="progressFill"></div>
+  </div>
+  <div class="progress-label" id="progressLabel">0 / 12</div>
+</div>
+
+<!-- FORM -->
+<div class="form-wrap" id="formWrap">
+
+  <!-- DATI ANAGRAFICI -->
+  <div class="info-card">
+    <h2>👤 Prima di iniziare...</h2>
+    <div class="info-grid">
+      <div class="field">
+        <label>Nome e cognome</label>
+        <input type="text" id="f-nome" placeholder="Es. Mario Rossi" autocomplete="name">
+      </div>
+      <div class="field">
+        <label>Data di nascita</label>
+        <input type="date" id="f-ddn">
+      </div>
+      <div class="field">
+        <label>Sesso</label>
+        <select id="f-sesso">
+          <option value="">Preferisco non rispondere</option>
+          <option>Maschio</option>
+          <option>Femmina</option>
+          <option>Non binario</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Data di oggi</label>
+        <input type="date" id="f-data">
+      </div>
+    </div>
+    <div class="field" style="margin-top:12px;">
+      <label>Codice pratica (se te lo ha dato l'educatore)</label>
+      <input type="text" id="f-codice" placeholder="Es. 01" style="text-transform:uppercase;">
+    </div>
+  </div>
+
+  <!-- LEGENDA -->
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#f4a261"></div>Mai = 1 pt</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#f9c74f"></div>A volte = 2 pt</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#90be6d"></div>Spesso = 3 pt</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#43aa8b"></div>Sempre = 4 pt</div>
+  </div>
+
+  <!-- DOMANDE (generate da JS) -->
+  <div id="domande-wrap"></div>
+
+  <!-- SUBMIT -->
+  <div class="submit-area">
+    <button type="button" id="submitBtn" onclick="inviaRisposte()">
+      Invia le mie risposte 🚀
+    </button>
+    <div class="incomplete-msg" id="incompleteMsg">Rispondi a tutte le 12 domande per continuare</div>
+  </div>
+</div>
+
+<!-- SCHERMATA GRAZIE (nessun punteggio mostrato) -->
+<div class="thanks-screen" id="thanksScreen">
+  <div class="thanks-circle">✓</div>
+  <div class="thanks-title">Grazie! 🎉</div>
+  <div class="thanks-sub">
+    Le tue risposte sono state registrate correttamente.<br>
+    Il tuo educatore le vedrà nel dashboard e ne parlerà con te.
+  </div>
+  <div class="thanks-note">Puoi chiudere questa pagina.</div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const FB = {
+  apiKey:"AIzaSyBmsHeTkQMJVQyav3rF8VPMhLeIB45t3Io",
+  authDomain:"sdq-questionario.firebaseapp.com",
+  projectId:"sdq-questionario",
+  storageBucket:"sdq-questionario.firebasestorage.app",
+  messagingSenderId:"601788476480",
+  appId:"1:601788476480:web:766d7dd791fa44acbd83a5"
+};
+const app = initializeApp(FB);
+const db  = getFirestore(app);
+
+/* ── DATI ─────────────────────────────────────────────── */
+const DOMANDE = [
+  {id:1,  testo:"Mi accetto come persona.",                                                       area:"accettazione"},
+  {id:2,  testo:"Ho fiducia in me stesso/a.",                                                     area:"accettazione"},
+  {id:3,  testo:"Mi so affermare di fronte agli altri.",                                          area:"assertivita"},
+  {id:4,  testo:"Sono benvoluto/a praticamente da tutti.",                                        area:"relazioni"},
+  {id:5,  testo:"Mi esprimo senza fatica all'interno di un gruppo.",                             area:"relazioni"},
+  {id:6,  testo:"Merito di essere felice.",                                                       area:"accettazione"},
+  {id:7,  testo:"Ritengo che la mia opinione sia importante quanto quella degli altri.",          area:"assertivita"},
+  {id:8,  testo:"Mi dico «Errare humanum est» quando mi capita di commettere un errore.",        area:"resilienza"},
+  {id:9,  testo:"Mi riesce facile ascoltare una critica giustificata che mi viene mossa.",       area:"resilienza"},
+  {id:10, testo:"Sono capace di dire a un adulto che trovo inaccettabile il suo comportamento.", area:"assertivita"},
+  {id:11, testo:"Quando una relazione si fa insostenibile, sono capace di interromperla.",       area:"assertivita"},
+  {id:12, testo:"Sono capace di dire no quando serve.",                                           area:"assertivita"}
+];
+
+const OPZIONI = [
+  {val:1, label:"Mai",     emoji:"😔", cls:"opt-mai",    border:"answered-mai"},
+  {val:2, label:"A volte", emoji:"🤔", cls:"opt-avolte", border:"answered-avolte"},
+  {val:3, label:"Spesso",  emoji:"😊", cls:"opt-spesso", border:"answered-spesso"},
+  {val:4, label:"Sempre",  emoji:"😄", cls:"opt-sempre", border:"answered-sempre"}
+];
+
+// Placeholder dinamico in base alla risposta
+const PLACEHOLDER = {
+  1: "Raccontami... in quali momenti fai fatica con questo?",
+  2: "Cosa ti fa dire 'a volte sì e a volte no'?",
+  3: "In quali situazioni ti capita più spesso?",
+  4: "Cosa ti aiuta a sentirti così? 😊"
+};
+
+/* ── BUILD DOMANDE ────────────────────────────────────── */
+const wrap = document.getElementById('domande-wrap');
+
+DOMANDE.forEach((d, i) => {
+  /* card */
+  const card = document.createElement('div');
+  card.className = 'q-card';
+  card.id = `card-${i}`;
+
+  /* numero domanda */
+  const num = document.createElement('div');
+  num.className = 'q-num';
+  num.textContent = `Domanda ${d.id} di ${DOMANDE.length}`;
+
+  /* testo domanda */
+  const testo = document.createElement('div');
+  testo.className = 'q-text';
+  testo.textContent = d.testo;
+
+  /* opzioni */
+  const opts = document.createElement('div');
+  opts.className = 'options';
+
+  OPZIONI.forEach(opt => {
+    const lbl = document.createElement('label');
+    lbl.className = `opt-label ${opt.cls}`;
+
+    const inp = document.createElement('input');
+    inp.type  = 'radio';
+    inp.name  = `q${i}`;
+    inp.value = opt.val;
+
+    inp.addEventListener('change', () => {
+      // colore bordo card
+      OPZIONI.forEach(o => card.classList.remove(o.border));
+      card.classList.add(opt.border);
+      // mostra e aggiorna placeholder del Perché
+      percheWrap.classList.add('visible');
+      percheInput.placeholder = PLACEHOLDER[opt.val];
+      updateProgress();
+    });
+
+    const btn = document.createElement('div');
+    btn.className = 'opt-btn';
+    btn.innerHTML = `<span class="opt-emoji">${opt.emoji}</span>${opt.label}`;
+
+    lbl.appendChild(inp);
+    lbl.appendChild(btn);
+    opts.appendChild(lbl);
+  });
+
+  /* ── CAMPO PERCHÉ ── */
+  const percheWrap = document.createElement('div');
+  percheWrap.className = 'perche-wrap';
+
+  const percheHeader = document.createElement('div');
+  percheHeader.className = 'perche-header';
+  percheHeader.innerHTML =
+    `<span class="perche-tag">✏️ Perché?</span>
+     <span class="perche-opt">facoltativo — scrivi liberamente</span>`;
+
+  const percheInput = document.createElement('textarea');
+  percheInput.className  = 'perche-input';
+  percheInput.rows       = 2;
+  percheInput.dataset.qidx = String(i);
+  percheInput.placeholder = 'Scrivi qui la tua motivazione...';
+
+  percheWrap.appendChild(percheHeader);
+  percheWrap.appendChild(percheInput);
+
+  /* assembla card */
+  card.appendChild(num);
+  card.appendChild(testo);
+  card.appendChild(opts);
+  card.appendChild(percheWrap);
+  wrap.appendChild(card);
+});
+
+/* ── INIT ─────────────────────────────────────────────── */
+document.getElementById('f-data').value = new Date().toISOString().split('T')[0];
+document.getElementById('f-codice').addEventListener('input', function(){
+  this.value = this.value.toUpperCase();
+});
+
+/* ── PROGRESS ─────────────────────────────────────────── */
+function updateProgress() {
+  const total = DOMANDE.length;
+  let ok = 0;
+  for (let i = 0; i < total; i++) {
+    if (document.querySelector(`input[name="q${i}"]:checked`)) ok++;
+  }
+  document.getElementById('progressFill').style.width = (ok / total * 100) + '%';
+  document.getElementById('progressLabel').textContent = `${ok} / ${total}`;
+
+  const btn = document.getElementById('submitBtn');
+  const msg = document.getElementById('incompleteMsg');
+  if (ok === total) {
+    btn.classList.add('active');
+    msg.textContent = '';
+  } else {
+    btn.classList.remove('active');
+    const r = total - ok;
+    msg.textContent = `Mancano ancora ${r} domanda${r > 1 ? 'e' : ''}`;
+  }
+}
+
+/* ── SUBMIT ───────────────────────────────────────────── */
+window.inviaRisposte = async function() {
+  const btn = document.getElementById('submitBtn');
+
+  // raccolta dati
+  const risposte = {}, motivazioni = {};
+  let totale = 0;
+  const aree = {};
+
+  for (let i = 0; i < DOMANDE.length; i++) {
+    const sel = document.querySelector(`input[name="q${i}"]:checked`);
+    if (!sel) return; // non dovrebbe succedere (bottone disabilitato)
+    const v = parseInt(sel.value);
+    risposte[`q${DOMANDE[i].id}`] = v;
+    totale += v;
+    aree[DOMANDE[i].area] = (aree[DOMANDE[i].area] || 0) + v;
+
+    const ta = document.querySelector(`textarea[data-qidx="${i}"]`);
+    if (ta && ta.value.trim()) {
+      motivazioni[`q${DOMANDE[i].id}`] = ta.value.trim();
+    }
+  }
+
+  // livello (usato solo internamente per il salvataggio — NON mostrato al ragazzo)
+  const LIVELLI = [
+    {min:12, max:24, label:"Da 0 a 15 punti"},   // adattato al range reale 12-24
+    {min:25, max:35, label:"Da 16 a 25 punti"},
+    {min:36, max:48, label:"Da 26 a 36 punti"}
+  ];
+  // Range reale: 12 (tutte Mai) → 48 (tutte Sempre)
+  // Equivalenti scalati sul range 12-48 rispetto all'originale 0-36:
+  // Originale 0-15  → scalato 12-27
+  // Originale 16-25 → scalato 28-37
+  // Originale 26-36 → scalato 38-48
+  const LIVELLI_SCALED = [
+    {min:12, max:27, label:"Da 0 a 15 punti"},
+    {min:28, max:37, label:"Da 16 a 25 punti"},
+    {min:38, max:48, label:"Da 26 a 36 punti"}
+  ];
+  const livello = LIVELLI_SCALED.find(l => totale >= l.min && totale <= l.max)
+    || LIVELLI_SCALED[LIVELLI_SCALED.length - 1];
+
+  // Invio Firebase
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner"></span>Invio in corso...';
+
+  try {
+    await addDoc(collection(db, "autostima"), {
+      tipo:        "autostima",
+      nome:        document.getElementById('f-nome').value.trim(),
+      ddn:         document.getElementById('f-ddn').value,
+      sesso:       document.getElementById('f-sesso').value,
+      data:        document.getElementById('f-data').value,
+      codice:      document.getElementById('f-codice').value.trim() || null,
+      risposte,
+      motivazioni,
+      totale,
+      livello:     livello.label,
+      aree,
+      timestamp:   new Date().toISOString()
+    });
+  } catch(err) {
+    console.error('Firebase:', err);
+    // mostriamo comunque la schermata grazie
+  }
+
+  // Mostra SOLO schermata di ringraziamento — nessun punteggio
+  document.getElementById('formWrap').style.display = 'none';
+  const thanks = document.getElementById('thanksScreen');
+  thanks.classList.add('show');
+  thanks.scrollIntoView({ behavior: 'smooth' });
+};
+
+updateProgress();
+</script>
+</body>
+</html>
